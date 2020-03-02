@@ -1,0 +1,24 @@
+# 井号后面为注释，不纳入程序，双斜线表示换行 //
+
+
+# 大表位置//
+file_all=r"D:\WorkStation_2018\WorkStation_2018_08_Doctor_DynamicFC_Psychosis\Scales\8.30大表.xlsx"//
+
+# 基本信息所在列（列的位置序号-1）//
+column_basic1=[0,11,19,20,21,22,23,27,28,29,30]//
+column_basic2=['学历（年）','中国人利手量表']//
+column_hamd17=np.arange(104,126,1)//
+column_hama=np.arange(126,141,1)//
+column_yars=np.arange(141,153,1)//
+column_bprs=np.arange(153,177,1)//
+
+
+#下面为筛选的条件设置。列名：{条件1：纳入OR排除，精确匹配OR模糊匹配，条件2：纳入OR排除，精确匹配OR模糊匹配，......} //
+#注意：对于某一列的所有条件而言，暂时只支持一种筛选方法，要么全纳入，要么全排除//
+#事实上，一般情况下，纳入与排出不应该用在同一列//
+screening_dict={
+                '诊断':{1:['include','exact'],2:['include','exact'],3:['include','exact'],4:['include','exact']},
+                'Resting_quality':{'Y':['include','exact']},
+                '诊断备注':{'复扫':['exclude','fuzzy'],'糖尿病':['exclude','fuzzy'],'不能入组':['exclude','fuzzy'],'剔除':['exclude','fuzzy'],'癔症':['exclude','fuzzy'],'脑缺血':['exclude','fuzzy'],'产后':['exclude','fuzzy'],'术后':['exclude','fuzzy'],'出组':['exclude','fuzzy']},
+                '备注':{'复扫':['exclude','fuzzy']}
+                }
