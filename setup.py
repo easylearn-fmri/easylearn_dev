@@ -23,7 +23,7 @@ setup(
     author='Chao Li',
     author_email='lichao19870617@gmail.com',
     maintainer='Chao Li; Mengshi Dong; Shaoqiang Han; Lili Tang; Ning Yang; Peng Zhang',
-    maintainer_email='lichao19870617@gmail.com; dongmengshi1990@163.com; 867727390@qq.com; lilyseyo@gmail.com; 1157663200@qq.com; 1597403028@qq.com',
+    maintainer_email='lichao19870617@gmail.com',
     license='MIT License',
     packages=find_packages(),
     platforms=["all"],
