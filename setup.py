@@ -1,10 +1,10 @@
 #-*- coding:utf-8 -*-
 
 """
-Created on 2020/02/29
+Created on 2020/03/03
 ------
-@author: LI Chao
-Email: lichao19870617@gmail.com or lichao19870617@163.com
+@author: Chao Li; Mengshi Dong; Shaoqiang Han; Ning Yang; Peng Zhang; Lili Tang
+Email: lichao19870617@gmail.com; dongmengshi1990@163.com; 867727390@qq.com; 1157663200@qq.com; 1597403028@qq.com; lilyseyo@gmail.com
 """
 
 from setuptools import setup, find_packages
