@@ -14,7 +14,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='easylearn',
-    version='0.1.9.alpha',
+    version='0.1.10.alpha',
     description=(
         'This project is designed for machine learning in resting-state fMRI field'
     ),
@@ -22,12 +22,12 @@ setup(
     long_description_content_type="text/markdown",
     author='Chao Li',
     author_email='lichao19870617@gmail.com',
-    maintainer='Chao Li +',
-    maintainer_email='lichao19870617@gmail.com',
+    maintainer='Chao Li; Mengshi Dong; Shaoqiang Han; Ning Yang; Peng Zhang; Lili Tang',
+    maintainer_email='lichao19870617@gmail.com; dongmengshi1990@163.com; 867727390@qq.com; 1157663200@qq.com; 1597403028@qq.com; lilyseyo@gmail.com',
     license='MIT License',
     packages=find_packages(),
     platforms=["all"],
-    url='https://github.com/lichao312214129/lc_rsfmri_tools_python',
+    url='https://github.com/easylearn-fmri/',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'License :: OSI Approved :: MIT License',
