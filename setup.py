@@ -3,8 +3,8 @@
 """
 Created on 2020/03/03
 ------
-@author: Chao Li; Mengshi Dong; Shaoqiang Han; Ning Yang; Peng Zhang; Lili Tang
-Email: lichao19870617@gmail.com; dongmengshi1990@163.com; 867727390@qq.com; 1157663200@qq.com; 1597403028@qq.com; lilyseyo@gmail.com
+@author: Chao Li; Mengshi Dong; Shaoqiang Han; Lili Tang; Ning Yang; Peng Zhang
+Email: lichao19870617@gmail.com; dongmengshi1990@163.com; 867727390@qq.com; lilyseyo@gmail.com; 1157663200@qq.com; 1597403028@qq.com 
 """
 
 from setuptools import setup, find_packages
@@ -22,8 +22,8 @@ setup(
     long_description_content_type="text/markdown",
     author='Chao Li',
     author_email='lichao19870617@gmail.com',
-    maintainer='Chao Li; Mengshi Dong; Shaoqiang Han; Ning Yang; Peng Zhang; Lili Tang',
-    maintainer_email='lichao19870617@gmail.com; dongmengshi1990@163.com; 867727390@qq.com; 1157663200@qq.com; 1597403028@qq.com; lilyseyo@gmail.com',
+    maintainer='Chao Li; Mengshi Dong; Shaoqiang Han; Lili Tang; Ning Yang; Peng Zhang',
+    maintainer_email='lichao19870617@gmail.com; dongmengshi1990@163.com; 867727390@qq.com; lilyseyo@gmail.com; 1157663200@qq.com; 1597403028@qq.com',
     license='MIT License',
     packages=find_packages(),
     platforms=["all"],
