@@ -11,7 +11,7 @@ from zipfile import ZipFile
 from sklearn.model_selection import train_test_split
 import pickle
 import pandas as pd
-# from pytorch_scatter.torch_scatter import *
+import torch_scatter
 import torch.optim as optim
 
 def normalization(adjacency):
@@ -277,10 +277,10 @@ if __name__ == "__main__":
     adjacency = dataset.sparse_adjacency
     #归一化、引入自连接的拉普拉斯矩阵 
     normalize_adjacency = normalization(adjacency).to(DEVICE)
+    
+    # numpy to tensor
     #所有节点的特征标签 
     node_labels = tensor_from_numpy(dataset.node_labels, DEVICE)
-    #把特征标签转换为one-hot特征向量
-    node_features = F.one_hot(node_labels, node_labels.max().item() + 1).float()
     #每个节点对应哪个图
     graph_indicator = tensor_from_numpy(dataset.graph_indicator, DEVICE)
     #每个图的类别标签
@@ -293,13 +293,16 @@ if __name__ == "__main__":
     train_label = tensor_from_numpy(dataset.train_label, DEVICE)
     test_label = tensor_from_numpy(dataset.test_label, DEVICE)
     
+    #把特征标签转换为one-hot特征向量
+    node_features = F.one_hot(node_labels, node_labels.max().item() + 1).float()
+    
     # 超参数设置
     INPUT_DIM = node_features.size(1) #特征向量维度
     NUM_CLASSES = 2
-    EPOCHS = 200    # @param {type: "integer"}
-    HIDDEN_DIM =    32# @param {type: "integer"}
-    LEARNING_RATE = 0.01 # @param
-    WEIGHT_DECAY = 0.0001 # @param
+    EPOCHS = 5    # @param {type: "integer"}
+    HIDDEN_DIM =    32 # @param {type: "integer"}
+    LEARNING_RATE = 0.01  # @param
+    WEIGHT_DECAY = 0.0001  # @param
 
     # 模型初始化
     model_g = ModelA(INPUT_DIM, HIDDEN_DIM, NUM_CLASSES).to(DEVICE)
