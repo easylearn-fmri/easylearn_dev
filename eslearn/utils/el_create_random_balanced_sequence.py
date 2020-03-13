@@ -7,6 +7,7 @@ Email: lichao19870617@gmail.com
 """
 
 import numpy as np
+import time
 class CreateSequence(object):
     """
     This class is used to create random and balanced sequences for k stimulation
@@ -27,6 +28,9 @@ class CreateSequence(object):
         rt: int
         
             Repeat times for each category of stimulation.
+            
+        rand_seed: int
+            random seed
 
     return
     -----------
@@ -34,17 +38,19 @@ class CreateSequence(object):
             created random and balanced sequence
     """
 
-    def __init__(sel, data={1:np.arange(0, 60, 1), 2:np.arange(60, 90, 1), 3:np.arange(90, 120)}, s=5, rt=30):
+    def __init__(sel, data={1:np.arange(0, 60, 1), 2:np.arange(60, 90, 1), 3:np.arange(90, 120)}, s=5, rt=30, rand_seed=0):
         # Debug: 生成三个类别，1，2，3。第一个类别有60个不同的具体刺激，后两者分别有30个。
         sel.data = data 
         sel.s = s
         sel.rt = rt
+        sel.rand_seed = rand_seed 
         # ---------
         sel.category_of_created_stimutations = list(data.keys())
         sel.n = len(sel.category_of_created_stimutations) * sel.rt  # totle sequence length
         sel.key_choose_all = np.repeat(sel.category_of_created_stimutations, sel.rt, 0)
         sel.key_to_store = np.arange(-sel.s, 0, 1)  # 避免在循环中判断i>=sel.s, 节省时间。切记完成循环后删除前s个元素。
         sel.random_squence = np.zeros([sel.n + sel.s, ])  # 切记完成循环后删除前s个元素。
+        np.random.seed(sel.rand_seed)
         
     def main(sel):
         for i in np.arange(sel.s, sel.n + sel.s, 1):
@@ -80,13 +86,15 @@ class CreateSequence(object):
 
 
 if __name__ == "__main__":
-        sel = CreateSequence()
-        rand_sequ, category_of_created_stimutations = sel.main()
-        
-        print(f"Repeat times for each category of stimutation is {sel.rt}")
-        print(f"Stimutation category are {sel.category_of_created_stimutations}")
-        print("--"*20)
-        for i in np.unique(category_of_created_stimutations):
-            print(f"Number of created {i}th category = {np.sum(category_of_created_stimutations == i)} ")
+    st = time.time()
+    sel = CreateSequence()
+    rand_sequ, category_of_created_stimutations = sel.main()
+    et = time.time()
+    print(et - st)
+    print(f"Repeat times for each category of stimutation is {sel.rt}")
+    print(f"Stimutation category are {sel.category_of_created_stimutations}")
+    print("--"*20)
+    for i in np.unique(category_of_created_stimutations):
+        print(f"Number of created {i}th category = {np.sum(category_of_created_stimutations == i)} ")
         
         
