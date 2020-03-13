@@ -10,7 +10,7 @@ import numpy as np
 import time
 class CreateSequence(object):
     """
-    This class is used to create random and balanced sequences for k stimulation
+    This class is used to create random and balanced sequences for k stimulations
     This task must meet the following three conditions:
         1. There are no s continuous stimulus types.
         2. Each types of stimulation has the same number of stimulation.
