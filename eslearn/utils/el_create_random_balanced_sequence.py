@@ -38,7 +38,8 @@ class CreateSequence(object):
             created random and balanced sequence
     """
 
-    def __init__(sel, data={1:np.arange(0, 60, 1), 2:np.arange(60, 90, 1), 3:np.arange(90, 120)}, s=5, rt=30, rand_seed=0):
+    def __init__(sel, data={1:np.arange(0, 60, 1), 2:np.arange(60, 90, 1), 3:np.arange(90, 120), 4:np.arange(120, 200)}, 
+                 s=3, rt=50, rand_seed=0):
         # Debug: 生成三个类别，1，2，3。第一个类别有60个不同的具体刺激，后两者分别有30个。
         sel.data = data 
         sel.s = s
