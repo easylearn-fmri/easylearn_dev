@@ -54,7 +54,7 @@ class CreateSequence(object):
         
     def main(sel):
         for i in np.arange(sel.s, sel.n + sel.s, 1):
-            # 判断 第i:-1:sel.s个数是否连续
+            # 判断 np.arange(-1, -sel.s, -1)个数是否连续: 即n个数前面的sel.s - 1 个数是否相同，相同则第n个数不能再重复。
             # 否
             if len(np.unique(sel.key_to_store[np.arange(-1, -sel.s, -1)])) > 1:
                 id_selected = np.random.randint(len(sel.key_choose_all))
