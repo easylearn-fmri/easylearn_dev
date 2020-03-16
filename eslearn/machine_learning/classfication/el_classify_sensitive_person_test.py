@@ -161,4 +161,4 @@ if __name__ == '__main__':
                                             is_feature_selection=1)
 
 
-    # selftest.main_function()
+    selftest.main_function()

@@ -13,12 +13,14 @@ from sklearn.linear_model import LogisticRegression as lr
 from sklearn.linear_model import LassoCV
 from sklearn.model_selection import KFold, StratifiedKFold
 from sklearn.preprocessing import OneHotEncoder
+from sklearn import  preprocessing
 import os
 from sklearn.externals import joblib
 from sklearn.linear_model import lasso_path, enet_path
 
 from eslearn.feature_selection.el_rfe import rfeCV
 from eslearn.utils.lc_evaluation_model_performances import eval_performance
+from eslearn.utils.el_preprocessing import Preprocessing
 from eslearn.utils.lc_niiProcessor import NiiProcessor
 import eslearn.utils.el_preprocessing as elprep
 
@@ -97,32 +99,19 @@ class ClassifyFourKindOfPersonTrain():
         # load data
         feature_train, feature_validation, selftest.label_train, selftest.label_validation = selftest._load_data()
         
-        # Split data to training data, validation data and test data
-        # n_sub = len(label)
-        # np.random.seed(selftest.rand_seed)
-        # index = np.random.permutation(n_sub)                        
-        # index_train = index[: n_sub * 70 // 100]
-        # index_validation = index[n_sub * 70 // 100 : n_sub * 8 // 10]
-        # index_test = index[n_sub * 8//10:]
-        # feature_train = data[index_train, :]
-        # label_train = label[index_train, ]
-        # feature_validation = data[index_validation, :]
-        # selftest.label_validation = label[index_validation, ]   
-        # feature_test = data[index_test, :]
-        # label_test = label[index_test, ]   
-        # np.save(r'D:\workstation_b\YiFan\feature_train.npy', feature_train)
-        # np.save(r'D:\workstation_b\YiFan\label_train.npy', label_train)
-        # np.save(r'D:\workstation_b\YiFan\feature_validation.npy', feature_validation)
-        # np.save(r'D:\workstation_b\YiFan\label_validation.npy', selftest.label_validation)
-        # np.save(r'D:\workstation_b\YiFan\feature_test.npy', feature_test)
-        # np.save(r'D:\workstation_b\YiFan\label_test.npy', label_test)
-        
-        # Resample training dataset
-        # feature_train, selftest.label_train = selftest.re_sampling( feature_train, selftest.label_train)
+        # Onehot encoding
+        # catg_id = np.arange(0, np.shape(feature_train)[1])
+        # catg_id = np.delete(catg_id, 2)
+        # onehot = OneHotEncoder()
+        # onehot.fit(feature_train[:, catg_id])
+        # feature_train_cat = onehot.transform(feature_train[:, catg_id]).toarray()
+        # feature_validation_cat= onehot.transform(feature_validation[:, catg_id]).toarray()
+        # feature_train = np.hstack([feature_train[:,2].reshape(-1,1), feature_train_cat])
+        # feature_validation = np.hstack([feature_validation[:,2].reshape(-1,1), feature_validation_cat])
 
         # data_preprocess_in_group_level
-        feature_train = selftest.data_preprocess_in_subject_level(feature_train,)
-        feature_validation = selftest.data_preprocess_in_subject_level(feature_validation)    
+        # feature_train = selftest.data_preprocess_in_subject_level(feature_train,)
+        # feature_validation = selftest.data_preprocess_in_subject_level(feature_validation)    
 
         # Feature selection
         if selftest.is_feature_selection:
@@ -132,16 +121,13 @@ class ClassifyFourKindOfPersonTrain():
             with open(os.path.join(selftest.path_out, 'model_feature_selection.pkl'), 'wb') as f_fs:
                 joblib.dump(fs, f_fs)
                 
-        selected_fe = selftest.feature_selection_lasso(feature_train, selftest.label_train)
-        print(np.sum(selected_fe))
-        feature_train, feature_validation = feature_train[:, selected_fe], feature_validation[:, selected_fe]
-        
         # Train
         print('training and testing...\n')
         if selftest.is_feature_selection:
             model = selftest.training(feature_train, selftest.label_train)
         else:
-            model, w = selftest.rfeCV_training(feature_train, selftest.label_train)
+            model = selftest.training(feature_train, selftest.label_train)
+            # model, w = selftest.rfeCV_training(feature_train, selftest.label_train)
 
         # Save model
         with open(os.path.join(selftest.path_out, 'model_classification.pkl'), 'wb') as f_model:
@@ -176,8 +162,10 @@ class ClassifyFourKindOfPersonTrain():
         """
         Load data
         """
-        data_train = np.load(selftest.data_train_file)
-        data_validation = np.load(selftest.data_validation_file)
+        data_train = np.load(selftest.data_train_file)[:, np.array([0, 8, 13, 15])]
+        data_validation = np.load(selftest.data_validation_file)[:, np.array([0, 8, 13, 15])]
+        # data_train = np.load(selftest.data_train_file)
+        # data_validation = np.load(selftest.data_validation_file)
         label_train = np.load(selftest.label_train_file)
         label_validation = np.load(selftest.label_validation_file)
         return data_train, data_validation, label_train, label_validation
@@ -199,6 +187,7 @@ class ClassifyFourKindOfPersonTrain():
         This function is used to preprocess features in subject level.
         '''
         scaler = preprocessing.StandardScaler().fit(feature.T)
+        # scaler = preprocessing.MinMaxScaler().fit(feature.T)
         feature = scaler.transform(feature.T) .T
         return feature
     
@@ -229,15 +218,14 @@ class ClassifyFourKindOfPersonTrain():
         mask = fs.top_features_[:n_features_to_select]
         return feature_train, feature_validation, mask, n_features, fs
 
-    def rfeCV_training(selftest, train_X, train_y, step=0.2, num_fold_of_inner_rfeCV=5, n_jobs=-1):
+    def rfeCV_training(selftest, train_X, train_y, step=4, num_fold_of_inner_rfeCV=10, n_jobs=-1):
         model, weight = rfeCV(train_X, train_y, step, num_fold_of_inner_rfeCV, n_jobs)
         return model, weight
 
     def training(selftest, train_X, train_y):
         # Classfier is SVC
-        svc = lr()
-
-        # svc = svm.SVC(kernel='rbf', C=1, class_weight='balanced', max_iter=5000, random_state=0)
+        svc = lr(class_weight='balanced')
+        # svc = svm.SVC(kernel='linear', C=1, class_weight='balanced', random_state=0)
         svc.fit(train_X, train_y)
         return svc
 
@@ -277,7 +265,7 @@ if __name__ == '__main__':
                                              label_validation_file=r'D:\workstation_b\YiFan\label_validation.npy',
                                              path_out=path_out,
                                              is_feature_selection=0,
-                                             n_features_to_select=10)
+                                             n_features_to_select=4)
 
 
-    # selftest.main_function()
+    selftest.main_function()
