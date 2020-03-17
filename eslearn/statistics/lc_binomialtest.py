@@ -51,10 +51,10 @@ def lc_plot(prob, k, p, titlename):
 
 
 if __name__ ==  "__main__":
-    k = 38
-    p, sum_prob, prob, randk = lc_binomialtest(63, 39, 0.5, 0.5)
-    print(p)
-    lc_plot(prob, k, p, titlename = f'Drug naive\n (totle = 63\n True positive = 39)')
+    n = 165
+    k = np.int32(n * 0.73)
+    p, sum_prob, prob, randk = lc_binomialtest(n, k, 0.5, 0.5)
+    lc_plot(prob, k, p, titlename = f'Testing data\n (Sample size = {n}, Accuracy = {0.73})')
 
 
     # plt.subplots_adjust(left=None, bottom=None, right=None, top=None,
@@ -112,5 +112,5 @@ if __name__ ==  "__main__":
     # plt.subplot(2, 5, 10)
     # lc_plot(prob, k, p, titlename = f'8 mm (n = 33)')
     
-    # # plt.savefig(r'D:\stats_all.tif', dpi=600)
+    plt.savefig(r'D:\workstation_b\Fundation\stat_test.tif', dpi=1200, bbox_inches='tight')
     # plt.show()
