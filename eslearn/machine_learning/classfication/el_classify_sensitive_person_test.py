@@ -17,8 +17,7 @@ from eslearn.utils.lc_evaluation_model_performances import eval_performance
 
 class ClassifyFourKindOfPersonTest():
     """
-    This class is used to training classification model for 4 kind of person identification..
-    Muticlass classification.
+    This class is used to testing classification model for 2 kind of sensitive person identification.
 
     Parameters
     ----------

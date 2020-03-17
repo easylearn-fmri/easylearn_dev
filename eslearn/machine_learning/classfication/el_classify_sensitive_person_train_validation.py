@@ -27,8 +27,7 @@ import eslearn.utils.el_preprocessing as elprep
 
 class ClassifyFourKindOfPersonTrain():
     """
-    This class is used to training classification model for 2 kind of sensitive person identification.
-    The output model can be trained using given initial weights.
+    This class is used to training and validating classification model for 2 kind of sensitive person identification.
 
     Parameters
     ----------
@@ -46,18 +45,9 @@ class ClassifyFourKindOfPersonTrain():
 
     path_out : 
         Path to save results
-
-    data_preprocess_method: str
-        How to preprocess features 'StandardScaler' OR 'MinMaxScaler'.
-        
-    data_preprocess_level: str
-        Which level to preprocess features. 'group' or 'subject'
-        
+       
     is_feature_selection : bool
         if perfrome feature selection.
-
-    num_of_kfold: int
-        Number of the k in k-fold cross-validation
 
     is_showfig_finally: bool
         If show figure after all iteration finished.
