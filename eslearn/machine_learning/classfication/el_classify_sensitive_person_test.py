@@ -10,6 +10,8 @@ import numpy as np
 from sklearn import preprocessing
 import os
 from sklearn.externals import joblib
+
+from el_classify_sensitive_person_train_validation import ClassifyFourKindOfPersonTrain
 from eslearn.utils.lc_evaluation_model_performances import eval_performance
 
 
@@ -20,32 +22,17 @@ class ClassifyFourKindOfPersonTest():
 
     Parameters
     ----------
-    data_file: path str 
+    data_test_file: path str 
         Path of the dataset
+
+    label_test_file: path str 
+        Path of the label
 
     path_out : 
         Path to save results
 
-    data_preprocess_method: str
-        How to preprocess features 'StandardScaler' OR 'MinMaxScaler'.
-        
-    data_preprocess_level: str
-        Which level to preprocess features. 'group' or 'subject'
-        
-    is_dim_reduction : bool
-        If perfrome dimension reduction.
-
     is_feature_selection : bool
         if perfrome feature selection.
-
-    n_features_to_select: int
-        number of features to select
-
-    n_components: float from 0 to 1
-        If is_dim_reduction, then how many components to remain.
-
-    num_of_kfold: int
-        Number of the k in k-fold cross-validation
 
     is_showfig_finally: bool
         If show figure after all iteration finished.
@@ -60,8 +47,7 @@ class ClassifyFourKindOfPersonTest():
                  models_path=None,
                  path_out=None,
                  is_feature_selection=False,
-                 is_showfig_finally=True,
-                 rand_seed=666):
+                 is_showfig_finally=True):
 
          selftest.data_test_file = data_test_file
          selftest.label_test_file = label_test_file
@@ -69,7 +55,6 @@ class ClassifyFourKindOfPersonTest():
          selftest.models_path = models_path
          selftest.is_feature_selection = is_feature_selection
          selftest.is_showfig_finally = is_showfig_finally
-         selftest.rand_seed = rand_seed
 
 
     def main_function(selftest):
@@ -78,17 +63,18 @@ class ClassifyFourKindOfPersonTest():
         print('Training model and testing...\n')
 
         # load data and mask
+        mask_lassocv =  joblib.load(os.path.join(selftest.path_out, 'mask_selected_features_lassocv.pkl'))
         model_feature_selection = joblib.load(os.path.join(selftest.models_path, 'model_feature_selection.pkl'))
         model_classification = joblib.load(os.path.join(selftest.models_path, 'model_classification.pkl'))
-        feature_test, selftest.label_test = selftest._load_data()
-        
-        # data_preprocess_in_group_level
-        feature_test = selftest.data_preprocess_in_subject_level(feature_test)   
+        feature_test, selftest.label_test = selftest._load_data()  
+
+        # Age encoding
+        feature_test[:,2] = ClassifyFourKindOfPersonTrain().age_encodeing(feature_test[:,2])
 
         # Feature selection
         if selftest.is_feature_selection:   
-            feature_test = model_feature_selection.transform(feature_test)     
-
+            feature_test = feature_test[:, mask_lassocv != 0]
+            
         # Testting
         selftest.prediction, selftest.decision = selftest.testing(model_classification, feature_test)
 
@@ -113,15 +99,6 @@ class ClassifyFourKindOfPersonTest():
         label_test = np.load(selftest.label_test_file)
         return data_test,  label_test
 
-
-    def data_preprocess_in_subject_level(selftest, feature):
-        '''
-        This function is used to preprocess features in subject level.
-        '''
-        scaler = preprocessing.StandardScaler().fit(feature.T)
-        feature = scaler.transform(feature.T) .T
-        return feature
-
     def testing(selftest, model, test_X):
         predict = model.predict(test_X)
         decision = model.decision_function(test_X)
@@ -135,27 +112,28 @@ class ClassifyFourKindOfPersonTest():
         performances_to_save = pd.DataFrame(performances_to_save, columns=[['Accuracy','Sensitivity', 'Specificity', 'AUC']])
         de_pred_label_to_save = pd.DataFrame(de_pred_label_to_save, columns=[['Decision','Prediction', 'Sorted_Real_Label']])
         
-        performances_to_save.to_csv(os.path.join(selftest.path_out, 'Performances.txt'), index=False, header=True)
-        de_pred_label_to_save.to_csv(os.path.join(selftest.path_out, 'Decision_prediction_label.txt'), index=False, header=True)
+        performances_to_save.to_csv(os.path.join(selftest.path_out, 'test_Performances.txt'), index=False, header=True)
+        de_pred_label_to_save.to_csv(os.path.join(selftest.path_out, 'test_Decision_prediction_label.txt'), index=False, header=True)
         
     def save_fig(selftest):
         # Save ROC and Classification 2D figure
         acc, sens, spec, auc = eval_performance(selftest.label_test, selftest.prediction, selftest.decision, 
                                                 selftest.accuracy, selftest.sensitivity, selftest.specificity, selftest.AUC,
                                                 verbose=0, is_showfig=selftest.is_showfig_finally, is_savefig=1, 
-                                                out_name=os.path.join(selftest.path_out, 'Classification_performances.pdf'))
+                                                out_name=os.path.join(selftest.path_out, 'Classification_performances_test.pdf'),
+                                                legend1='Healthy', legend2='Unhealthy')
 
 #
 if __name__ == '__main__':
     # =============================================================================
     # All inputs
-    data_file = r'D:\workstation_b\YiFan\给黎超.xlsx'
-    path_out = r'D:\workstation_b\YiFan'
-    models_path = r'D:\workstation_b\YiFan'
+    data_file = r'D:\workstation_b\Fundation\给黎超.xlsx'
+    path_out = r'D:\workstation_b\Fundation'
+    models_path = r'D:\workstation_b\Fundation'
     # =============================================================================
     
-    selftest = ClassifyFourKindOfPersonTest(data_test_file=r'D:\workstation_b\YiFan\feature_test.npy',
-                                            label_test_file=r'D:\workstation_b\YiFan\label_test.npy',
+    selftest = ClassifyFourKindOfPersonTest(data_test_file=r'D:\workstation_b\Fundation\feature_test.npy',
+                                            label_test_file=r'D:\workstation_b\Fundation\label_test.npy',
                                             path_out=path_out,
                                             models_path=models_path,
                                             is_feature_selection=1)
