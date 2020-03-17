@@ -8,6 +8,7 @@ Created on 2020/03/16
 import os
 import numpy as np
 import pandas as pd
+import xlwt
 from sklearn import svm
 from sklearn.linear_model import LogisticRegression as lr
 from sklearn.linear_model import LassoCV, Lasso
@@ -99,7 +100,12 @@ class ClassifyFourKindOfPersonTrain():
         if selftest.is_feature_selection:       
             coef, mask_lassocv = selftest.feature_selection_lasso(feature_train, label_train)
             feature_train, feature_validation = feature_train[:, mask_lassocv], feature_validation[:, mask_lassocv]  
-        
+            var_important = pd.DataFrame(np.array(colname)[mask_lassocv])
+            var_important_coef = pd.concat([var_important, pd.DataFrame(coef[coef != 0])], axis=1)
+            var_important_coef.columns=['变量', '系数(lasso); 正系数为危险因素，负系数为保护因素']
+            var_important_coef.to_csv(os.path.join(selftest.path_out, 'important_variables.txt'), index=False)
+
+                
         # Onehot encoding
         # onehot = OneHotEncoder()
         # onehot.fit(feature_train)
@@ -157,7 +163,7 @@ class ClassifyFourKindOfPersonTrain():
         """
         data_all_file = r'D:\workstation_b\Fundation\给黎超.xlsx'
         data_all = pd.read_excel(data_all_file)
-        colname = data_all.columns
+        colname = np.array(data_all.columns)[np.arange(2,18)]
         data_train = np.load(selftest.data_train_file)
         data_validation = np.load(selftest.data_validation_file)
         label_train = np.load(selftest.label_train_file)
