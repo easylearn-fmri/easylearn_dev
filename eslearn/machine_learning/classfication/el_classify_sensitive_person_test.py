@@ -43,6 +43,7 @@ class ClassifyFourKindOfPersonTest():
     def __init__(selftest,
                  data_test_file=None,
                  label_test_file=None,
+                 data_train_file=None,
                  models_path=None,
                  path_out=None,
                  is_feature_selection=False,
@@ -50,6 +51,7 @@ class ClassifyFourKindOfPersonTest():
 
          selftest.data_test_file = data_test_file
          selftest.label_test_file = label_test_file
+         selftest.data_train_file = data_train_file
          selftest.path_out = path_out
          selftest.models_path = models_path
          selftest.is_feature_selection = is_feature_selection
@@ -65,10 +67,10 @@ class ClassifyFourKindOfPersonTest():
         mask_lassocv =  joblib.load(os.path.join(selftest.path_out, 'mask_selected_features_lassocv.pkl'))
         model_feature_selection = joblib.load(os.path.join(selftest.models_path, 'model_feature_selection.pkl'))
         model_classification = joblib.load(os.path.join(selftest.models_path, 'model_classification.pkl'))
-        feature_test, selftest.label_test = selftest._load_data()  
+        feature_test, selftest.label_test, feature_train = selftest._load_data()  
 
         # Age encoding
-        feature_test[:,2] = ClassifyFourKindOfPersonTrain().age_encodeing(feature_test[:,2])
+        feature_test[:,2] = ClassifyFourKindOfPersonTrain().age_encodeing(feature_train[:,2], feature_test[:,2])
 
         # Feature selection
         if selftest.is_feature_selection:   
@@ -96,7 +98,8 @@ class ClassifyFourKindOfPersonTest():
         """
         data_test = np.load(selftest.data_test_file)
         label_test = np.load(selftest.label_test_file)
-        return data_test,  label_test
+        data_train = np.load(selftest.data_train_file)
+        return data_test,  label_test, data_train
 
     def testing(selftest, model, test_X):
         predict = model.predict(test_X)
@@ -133,6 +136,7 @@ if __name__ == '__main__':
     
     selftest = ClassifyFourKindOfPersonTest(data_test_file=r'D:\workstation_b\Fundation\feature_test.npy',
                                             label_test_file=r'D:\workstation_b\Fundation\label_test.npy',
+                                            data_train_file=r'D:\workstation_b\Fundation\feature_train.npy',
                                             path_out=path_out,
                                             models_path=models_path,
                                             is_feature_selection=1)

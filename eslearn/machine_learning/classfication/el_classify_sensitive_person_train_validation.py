@@ -90,8 +90,8 @@ class ClassifyFourKindOfPersonTrain():
         # Check data
         
         # Age encoding
-        feature_train[:, 2] = selftest.age_encodeing(feature_train[:,2])
-        feature_validation[:, 2] = selftest.age_encodeing(feature_validation[:,2])
+        feature_train[:, 2] = selftest.age_encodeing(feature_train[:,2], feature_train[:,2])
+        feature_validation[:, 2] = selftest.age_encodeing(feature_train[:,2], feature_validation[:,2])
 
         # Data normalization: do not need, because all variables are discrete variables.
         
@@ -194,16 +194,16 @@ class ClassifyFourKindOfPersonTrain():
         mask = fs.top_features_[:n_features_to_select]
         return feature_train, feature_validation, mask, n_features, fs
     
-    def age_encodeing(selftest, age):
+    def age_encodeing(selftest, age_train, age_target):
         """
-        Encoding age to separate variable
+        Encoding age_target to separate variable
         """
-        sep = pd.DataFrame(age).describe()
-        age[age < sep.loc['25%'].values] = 0
-        age[(age >= sep.loc['25%'].values) & (age < sep.loc['50%'].values)] = 1
-        age[(age >= sep.loc['50%'].values) & (age < sep.loc['75%'].values)] = 2
-        age[age >= sep.loc['75%'].values] = 3 
-        return age
+        sep = pd.DataFrame(age_train).describe()
+        age_target[age_target < sep.loc['25%'].values] = 0
+        age_target[(age_target >= sep.loc['25%'].values) & (age_target < sep.loc['50%'].values)] = 1
+        age_target[(age_target >= sep.loc['50%'].values) & (age_target < sep.loc['75%'].values)] = 2
+        age_target[age_target >= sep.loc['75%'].values] = 3 
+        return age_target
     
     def rfeCV(selftest, train_x, train_y, step=1, cv=10, n_jobs=-1, permutation=0):
         """
