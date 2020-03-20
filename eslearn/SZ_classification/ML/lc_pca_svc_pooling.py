@@ -26,16 +26,46 @@ from Utils.lc_dimreduction import pca
 from Utils.lc_evaluation_model_performances import eval_performance
 
 class PCASVCPooling():
+    """
+    Parameters:
+    ----------
+        dataset_our_center_550 : path str
+            path of dataset 1
+
+        dataset_206: path str
+            path of dataset 2
+
+        dataset_COBRE: path str
+            path of dataset 3
+
+        dataset_UCAL: path str
+            path of dataset 4
+
+        is_dim_reduction： bool
+            if perform dimension reduction (PCA)
+
+        components: float
+            How many percentages of the cumulatively explained variance to be retained. This is used to select the top principal components.
+
+        cv: int
+            How many folds of the cross-validation.
+
+        out_name: str
+            The name of the output results.
+
+    Returns:
+    --------
+        Classification results, such as accuracy, sensitivity, specificity, AUC and figures that used to report.
+
+    """
     def __init__(sel,
                  dataset_our_center_550=r'D:\WorkStation_2018\SZ_classification\Data\ML_data_npy\dataset_550.npy',
                  dataset_206=r'D:\WorkStation_2018\SZ_classification\Data\ML_data_npy\dataset_206.npy',
                  dataset_COBRE=r'D:\WorkStation_2018\SZ_classification\Data\ML_data_npy\dataset_COBRE.npy',
                  dataset_UCAL=r'D:\WorkStation_2018\SZ_classification\Data\ML_data_npy\dataset_UCLA.npy',
-                 is_dim_reduction=1,
+                 is_dim_reduction=True,
                  components=0.95,
                  cv=5,
-                 show_results=1,
-                 show_roc=1,
                  out_name=None):
 
         sel.dataset_our_center_550 = dataset_our_center_550
@@ -46,8 +76,6 @@ class PCASVCPooling():
         sel.is_dim_reduction = is_dim_reduction
         sel.components = components
         sel.cv = cv
-        sel.show_results = show_results
-        sel.show_roc = show_roc
         sel.out_name =  out_name
 
     def main_function(sel):

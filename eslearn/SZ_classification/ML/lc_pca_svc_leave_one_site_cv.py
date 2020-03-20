@@ -28,21 +28,50 @@ from Utils.lc_evaluation_model_performances import eval_performance
 
 
 class SVCRFECV():
-    def __init__(sel,
-                 data_550_path=r'D:\WorkStation_2018\WorkStation_CNN_Schizo\Data\ML_data_npy\dataset_550.npy',
-                 data_train_path=r'D:\WorkStation_2018\WorkStation_CNN_Schizo\Data\ML_data_npy\dataset_206.npy',
-                 data_COBRE_path=r'D:\WorkStation_2018\WorkStation_CNN_Schizo\Data\ML_data_npy\dataset_COBRE.npy',
-                 data_UCAL_path=r'D:\WorkStation_2018\WorkStation_CNN_Schizo\Data\ML_data_npy\dataset_UCLA.npy',
-                 is_dim_reduction=1,
-                 components=0.95,
-                 cv=5,
-                 show_results=1,
-                 show_roc=1):
+    """
+    Parameters:
+    ----------
+        dataset_our_center_550 : path str
+            path of dataset 1
 
-        sel.data_550_path = data_550_path
-        sel.data_train_path = data_train_path
-        sel.data_COBRE_path = data_COBRE_path
-        sel.data_UCAL_path = data_UCAL_path
+        dataset_206: path str
+            path of dataset 2
+
+        dataset_COBRE: path str
+            path of dataset 3
+
+        dataset_UCAL: path str
+            path of dataset 4
+
+        is_dim_reduction： bool
+            if perform dimension reduction (PCA)
+
+        components: float
+            How many percentages of the cumulatively explained variance to be retained. This is used to select the top principal components.
+
+        cv: int
+            How many folds of the cross-validation.
+
+        out_name: str
+            The name of the output results.
+
+    Returns:
+    --------
+        Classification results, such as accuracy, sensitivity, specificity, AUC and figures that used to report.
+    """
+    def __init__(sel,
+                 dataset_our_center_550=r'D:\WorkStation_2018\WorkStation_CNN_Schizo\Data\ML_data_npy\dataset_550.npy',
+                 dataset_206=r'D:\WorkStation_2018\WorkStation_CNN_Schizo\Data\ML_data_npy\dataset_206.npy',
+                 data_COBRE=r'D:\WorkStation_2018\WorkStation_CNN_Schizo\Data\ML_data_npy\dataset_COBRE.npy',
+                 data_UCAL=r'D:\WorkStation_2018\WorkStation_CNN_Schizo\Data\ML_data_npy\dataset_UCLA.npy',
+                 is_dim_reduction=True,
+                 components=0.95,
+                 cv=5):
+
+        sel.dataset_our_center_550 = dataset_our_center_550
+        sel.dataset_206 = dataset_206
+        sel.data_COBRE = data_COBRE
+        sel.data_UCAL = data_UCAL
 
         sel.is_dim_reduction = is_dim_reduction
         sel.components = components
@@ -53,10 +82,10 @@ class SVCRFECV():
     def main_svc_rfe_cv(sel):
         print('Training model and testing...\n')
         # Load data
-        feature_550, label_550 = sel._load_data(sel.data_550_path)
-        feature_206, label_206 = sel._load_data(sel.data_train_path)
-        feature_COBRE, label_COBRE = sel._load_data(sel.data_COBRE_path)
-        feature_UCAL, label_UCAL = sel._load_data(sel.data_UCAL_path)
+        feature_550, label_550 = sel._load_data(sel.dataset_our_center_550)
+        feature_206, label_206 = sel._load_data(sel.dataset_206)
+        feature_COBRE, label_COBRE = sel._load_data(sel.data_COBRE)
+        feature_UCAL, label_UCAL = sel._load_data(sel.data_UCAL)
         feature_all = [feature_550, feature_206, feature_COBRE, feature_UCAL]
         label_all = [label_550, label_206, label_COBRE, label_UCAL]
 
@@ -174,7 +203,7 @@ if __name__ == '__main__':
     
     results = results.__dict__
     sel.save_results(results, r'D:\WorkStation_2018\WorkStation_CNN_Schizo\Data\ML_data_npy\results_leave_one_site_cv')
-    
+
     print(np.mean(sel.accuracy))
     print(np.std(sel.accuracy))
 

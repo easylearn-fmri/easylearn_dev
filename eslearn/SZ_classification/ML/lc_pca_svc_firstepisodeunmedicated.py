@@ -17,13 +17,33 @@ from eslearn.utils.lc_evaluation_model_performances import eval_performance
 
 
 class PCASVCPooling():
+    """
+    Parameters:
+    ----------
+        dataset_drugnaive_and_hc_from550 : path str
+            path of dataset 1
+
+        is_dim_reduction： bool
+            if perform dimension reduction (PCA)
+
+        components: float
+            How many percentages of the cumulatively explained variance to be retained. This is used to select the top principal components.
+
+        cv: int
+            How many folds of the cross-validation.
+
+        out_name: str
+            The name of the output results.
+
+    Returns:
+    --------
+        Classification results, such as accuracy, sensitivity, specificity, AUC and figures that used to report.
+    """
     def __init__(sel,
                  dataset_drugnaive_and_hc_from550 =r'D:\WorkStation_2018\SZ_classification\Data\ML_data_npy\dataset_unmedicated_and_firstepisode_550.npy',
-                 is_dim_reduction=1,
+                 is_dim_reduction=True,
                  components = 0.95,
                  cv=5,
-                 show_results=1,
-                 show_roc=1,
                  out_name=None):
         
         sel.dataset_drugnaive_and_hc_from550 =dataset_drugnaive_and_hc_from550 
@@ -174,7 +194,7 @@ if __name__=='__main__':
 
     results=sel.__dict__
     sel.save_results(results, r'D:\WorkStation_2018\SZ_classification\Data\ML_data_npy\results_unmedicated_and_firstepisode_550.npy')
-    
+
     print(np.mean(sel.accuracy))
     print(np.std(sel.accuracy))
 
