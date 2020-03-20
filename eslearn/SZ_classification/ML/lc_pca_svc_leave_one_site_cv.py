@@ -3,7 +3,6 @@
 Created on 2019/11/20
 This script is used to training a linear svc model using training dataset, 
 and test this model using test dataset with leave-one site cross-validation stratage.
-
 Classfier: Linear SVC
 Dimension reduction: PCA
 
@@ -175,15 +174,15 @@ if __name__ == '__main__':
     
     results = results.__dict__
     sel.save_results(results, r'D:\WorkStation_2018\WorkStation_CNN_Schizo\Data\ML_data_npy\results_leave_one_site_cv')
+    
+    print(np.mean(sel.accuracy))
+    print(np.std(sel.accuracy))
 
-    print(np.mean(results['accuracy']))
-    print(np.std(results['accuracy']))
+    print(np.mean(sel.sensitivity))
+    print(np.std(sel.sensitivity))
 
-    print(np.mean(results['sensitivity']))
-    print(np.std(results['sensitivity']))
-
-    print(np.mean(results['specificity']))
-    print(np.std(results['specificity']))
-
-    print(np.mean(results['AUC']))
-    print(np.std(results['AUC']))
+    print(np.mean(sel.specificity))
+    print(np.std(sel.specificity))
+    
+    print(np.mean(sel.AUC))
+    print(np.std(sel.AUC))

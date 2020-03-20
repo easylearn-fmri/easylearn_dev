@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 """
 Created on 2019/11/20
-This script is used to training a  linear svc model (with di) using a given training dataset, and validation this model using validation dataset.
-Finally, we test the model using test dataset.
-Dimension reduction: PCA
+This script is used to training a  linear svc model using training data,  
+and test this model using test data with k-fold cross validation-validation stratage.
 @author: LI Chao
 """
 import sys  
@@ -176,15 +175,17 @@ if __name__=='__main__':
     results=sel.__dict__
     sel.save_results(results, r'D:\WorkStation_2018\SZ_classification\Data\ML_data_npy\results_unmedicated_and_firstepisode_550.npy')
     
-    print(np.mean(results['accuracy']))
-    print(np.std(results['accuracy']))
+    print(np.mean(sel.accuracy))
+    print(np.std(sel.accuracy))
 
-    print(np.mean(results['sensitivity']))
-    print(np.std(results['sensitivity']))
+    print(np.mean(sel.sensitivity))
+    print(np.std(sel.sensitivity))
 
-    print(np.mean(results['specificity']))
-    print(np.std(results['specificity']))
-
+    print(np.mean(sel.specificity))
+    print(np.std(sel.specificity))
+    
+    print(np.mean(sel.AUC))
+    print(np.std(sel.AUC))
     
 
 

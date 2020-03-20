@@ -211,7 +211,7 @@ if __name__ == '__main__':
     sel=sel.main_function()
     sel.save_fig()
 
-    # sel.save_results(results, r'D:\WorkStation_2018\SZ_classification\Data\ML_data_npy\results_pooling.npy')
+    sel.save_results(results, r'D:\WorkStation_2018\SZ_classification\Data\ML_data_npy\results_pooling.npy')
     
     print(np.mean(sel.accuracy))
     print(np.std(sel.accuracy))
