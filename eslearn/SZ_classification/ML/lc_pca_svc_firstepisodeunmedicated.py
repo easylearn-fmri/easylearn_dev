@@ -22,6 +22,8 @@ class PCASVCPooling():
     ----------
         dataset_drugnaive_and_hc_from550 : path str
             path of dataset 1
+        NOTE: The first column of the dataset is subject unique index, the second is the diagnosis label(0/1),
+            the rest of columns are features.
 
         is_dim_reduction： bool
             if perform dimension reduction (PCA)

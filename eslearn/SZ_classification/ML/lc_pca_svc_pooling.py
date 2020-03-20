@@ -30,7 +30,9 @@ class PCASVCPooling():
     Parameters:
     ----------
         dataset_our_center_550 : path str
-            path of dataset 1
+            path of dataset 1. 
+            NOTE: The first column of the dataset is subject unique index, the second is the diagnosis label(0/1),
+            the rest of columns are features. The other dataset are the same as this dataset.
 
         dataset_206: path str
             path of dataset 2
