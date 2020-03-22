@@ -26,7 +26,7 @@ pip install -U easylearn
 
 # Development   
 At present, the project is in the development stage  
-** We hope you can join us! **
+We hope you can join us!
 
 # Supervisor
 ##### Yong He  
