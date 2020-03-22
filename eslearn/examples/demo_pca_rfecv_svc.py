@@ -4,15 +4,26 @@ Classifier: linear SVC
 Dimension reduction: PCA
 Feature selection: RFE
 """
+
 import numpy as np
 import eslearn.machine_learning.classfication.pca_rfe_svc_cv as pca_rfe_svc
 
 # =============================================================================
 # All inputs
-path_patients = r'D:\WorkStation_2018\Workstation_Old\WorkStation_2018-05_MVPA_insomnia_FCS\Degree\degree_gray_matter\Zdegree\Z_degree_patient\Weighted'  # .nii format
-path_HC = r'D:\WorkStation_2018\Workstation_Old\WorkStation_2018-05_MVPA_insomnia_FCS\Degree\degree_gray_matter\Zdegree\Z_degree_control\Weighted'  # .nii format
-path_mask = r'G:\Softer_DataProcessing\spm12\spm12\tpm\Reslice3_TPM_greaterThan0.2.nii'  # mask file for filter image
-path_out = r'D:\WorkStation_2018\Workstation_Old\WorkStation_2018-05_MVPA_insomnia_FCS\Degree\degree_gray_matter\Zdegree'  # directory for saving results
+path_patients = r'D:\WorkStation_2018\Workstation_Old\WorkStation_2018-05_MVPA_insomnia_FCS\Degree\degree_gray_matter\Zdegree\Z_degree_patient\Weighted'  # All patients' image files, .nii format
+path_HC = r'D:\WorkStation_2018\Workstation_Old\WorkStation_2018-05_MVPA_insomnia_FCS\Degree\degree_gray_matter\Zdegree\Z_degree_control\Weighted'  # All HCs' image files, .nii format
+path_mask = r'G:\Softer_DataProcessing\spm12\spm12\tpm\Reslice3_TPM_greaterThan0.2.nii'  # Mask file for filter image
+path_out = r'D:\WorkStation_2018\Workstation_Old\WorkStation_2018-05_MVPA_insomnia_FCS\Degree\degree_gray_matter\Zdegree'  # Directory for saving results
+data_preprocess_method='StandardScaler'
+data_preprocess_level='group'  # In which level to preprocess data 'subject' or 'group'
+num_of_fold_outer=5  # How many folds to perform cross validation
+is_dim_reduction=1  # Whether to perform dimension reduction, default is using PCA to reduce the dimension.
+components=0.95   # How many percentages of the cumulatively explained variance to be retained. This is used to select the top principal components.
+step=0.1  # RFE parameter: percentages or number of features removed each iteration.
+num_fold_of_inner_rfeCV=5  # RFE parameter:  how many folds to perform inner RFE loop.
+n_jobs=-1  # RFE parameter:  how many jobs (parallel works) to perform inner RFE loop.
+is_showfig_finally=True  # Whether show results figure finally.
+is_showfig_in_each_fold=False  # Whether show results in each fold.
 # =============================================================================
 
 clf = pca_rfe_svc.PcaRfeSvcCV(
@@ -20,16 +31,16 @@ clf = pca_rfe_svc.PcaRfeSvcCV(
         path_HC=path_HC,
         path_mask=path_mask,
         path_out=path_out,
-        data_preprocess_method='StandardScaler',
-        data_preprocess_level='subject',
-        num_of_fold_outer=5,  # How many folds to perform cross validation (Default: 5-fold cross validation)
-        is_dim_reduction=1,  # Default is using PCA to reduce the dimension.
-        components=0.95, 
-        step=0.1,
-        num_fold_of_inner_rfeCV=5,
-        n_jobs=-1,
-        is_showfig_finally=True,  # Whether show results figure finally.
-        is_showfig_in_each_fold=False  # Whether show results in each fold.
+        data_preprocess_method=data_preprocess_method,
+        data_preprocess_level=data_preprocess_level,
+        num_of_fold_outer=num_of_fold_outer, 
+        is_dim_reduction=is_dim_reduction,  
+        components=components, 
+        step=step,
+        num_fold_of_inner_rfeCV=num_fold_of_inner_rfeCV,
+        n_jobs=n_jobs,
+        is_showfig_finally=is_showfig_finally,  
+        is_showfig_in_each_fold=is_showfig_in_each_fold  
     )
 
 results = clf.main_function()

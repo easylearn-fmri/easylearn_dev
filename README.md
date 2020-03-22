@@ -1,8 +1,6 @@
 # easylearn   
 Easylearn is designed for machine learning in resting-state fMRI field.   
 
-This work is made available by a community of people, amongst which the INRIA Parietal Project Team and the scikit-learn folks, in particular P. Gervais, A. Abraham, V. Michel, A. Gramfort, G. Varoquaux, F. Pedregosa, B. Thirion, M. Eickenberg, C. F. Gorgolewski, D. Bzdok, L. Esteve and B. Cipollini.
-
 Our mission is to enable everyone who wants to apply machine learning to their research field to apply machine learning in the simplest way.  
 
 Our goal is to develop a graphical interface so that researchers who are not familiar with programming can easily apply machine learning to their fields.  
@@ -73,17 +71,27 @@ At present, the project is in the development stage
 # Demo
 The simplest demo is in the eslearn/examples.
 Below is a demo of training a model to classify insomnia patients using weighted degree as features.
-This demo use svc as classifier, pca as dimension reduction method and RFE as feature selection method.
+This demo use svc as classifier, pca as dimension reduction method and Recursive feature elimination (RFE) as feature selection method.
 ```
 import numpy as np
 import eslearn.machine_learning.classfication.pca_rfe_svc_cv as pca_rfe_svc
 
 # =============================================================================
 # All inputs
-path_patients = r'D:\WorkStation_2018\Workstation_Old\WorkStation_2018-05_MVPA_insomnia_FCS\Degree\degree_gray_matter\Zdegree\Z_degree_patient\Weighted'  # .nii format
-path_HC = r'D:\WorkStation_2018\Workstation_Old\WorkStation_2018-05_MVPA_insomnia_FCS\Degree\degree_gray_matter\Zdegree\Z_degree_control\Weighted'  # .nii format
-path_mask = r'G:\Softer_DataProcessing\spm12\spm12\tpm\Reslice3_TPM_greaterThan0.2.nii'  # mask file for filter image
-path_out = r'D:\WorkStation_2018\Workstation_Old\WorkStation_2018-05_MVPA_insomnia_FCS\Degree\degree_gray_matter\Zdegree'  # directory for saving results
+path_patients = r'D:\WorkStation_2018\Workstation_Old\WorkStation_2018-05_MVPA_insomnia_FCS\Degree\degree_gray_matter\Zdegree\Z_degree_patient\Weighted'  # All patients' image files, .nii format
+path_HC = r'D:\WorkStation_2018\Workstation_Old\WorkStation_2018-05_MVPA_insomnia_FCS\Degree\degree_gray_matter\Zdegree\Z_degree_control\Weighted'  # All HCs' image files, .nii format
+path_mask = r'G:\Softer_DataProcessing\spm12\spm12\tpm\Reslice3_TPM_greaterThan0.2.nii'  # Mask file for filter image
+path_out = r'D:\WorkStation_2018\Workstation_Old\WorkStation_2018-05_MVPA_insomnia_FCS\Degree\degree_gray_matter\Zdegree'  # Directory for saving results
+data_preprocess_method='StandardScaler'
+data_preprocess_level='group'  # In which level to preprocess data 'subject' or 'group'
+num_of_fold_outer=5  # How many folds to perform cross validation
+is_dim_reduction=1  # Whether to perform dimension reduction, default is using PCA to reduce the dimension.
+components=0.95   # How many percentages of the cumulatively explained variance to be retained. This is used to select the top principal components.
+step=0.1  # RFE parameter: percentages or number of features removed each iteration.
+num_fold_of_inner_rfeCV=5  # RFE parameter:  how many folds to perform inner RFE loop.
+n_jobs=-1  # RFE parameter:  how many jobs (parallel works) to perform inner RFE loop.
+is_showfig_finally=True  # Whether show results figure finally.
+is_showfig_in_each_fold=False  # Whether show results in each fold.
 # =============================================================================
 
 clf = pca_rfe_svc.PcaRfeSvcCV(
@@ -91,16 +99,16 @@ clf = pca_rfe_svc.PcaRfeSvcCV(
         path_HC=path_HC,
         path_mask=path_mask,
         path_out=path_out,
-        data_preprocess_method='StandardScaler',
-        data_preprocess_level='subject',
-        num_of_fold_outer=5,  # How many folds to perform cross validation (Default: 5-fold cross validation)
-        is_dim_reduction=1,  # Default is using PCA to reduce the dimension.
-        components=0.95, 
-        step=0.1,
-        num_fold_of_inner_rfeCV=5,
-        n_jobs=-1,
-        is_showfig_finally=True,  # Whether show results figure finally.
-        is_showfig_in_each_fold=False  # Whether show results in each fold.
+        data_preprocess_method=data_preprocess_method,
+        data_preprocess_level=data_preprocess_level,
+        num_of_fold_outer=num_of_fold_outer,  # How many folds to perform cross validation (Default: 5-fold cross validation)
+        is_dim_reduction=is_dim_reduction,  # Default is using PCA to reduce the dimension.
+        components=components, 
+        step=step,
+        num_fold_of_inner_rfeCV=num_fold_of_inner_rfeCV,
+        n_jobs=n_jobs,
+        is_showfig_finally=is_showfig_finally,  # Whether show results figure finally.
+        is_showfig_in_each_fold=is_showfig_in_each_fold  # Whether show results in each fold.
     )
 
 results = clf.main_function()
