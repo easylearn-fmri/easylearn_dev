@@ -28,21 +28,21 @@ pip install -U easylearn
 At present, the project is in the development stage  
 We hope you can join us!
 
-# Supervisor
+# Supervisor   
+##### Ke Xu
+>kexu@vip.sina.com  
+>The First Affiliated Hospital, China Medical University. 
 ##### Yong He  
 >yong.he@bnu.edu.cn  
 >1 National Key Laboratory of Cognitive Neuroscience and Learning, Beijing Normal University, Beijing 100875, China  
 >2 Beijing Key Laboratory of Brain Imaging and Connectomics, Beijing Normal University, Beijing 100875, China  
->3 IDG/McGovern Institute for Brain Research, Beijing Normal University, Beijing 100875, China    
-##### Ke Xu
->kexu@vip.sina.com  
->The First Affiliated Hospital, China Medical University. 
+>3 IDG/McGovern Institute for Brain Research, Beijing Normal University, Beijing 100875, China 
 ##### Tang Yanqing  
 >yanqingtang@163.com  
 >The First Affiliated Hospital, China Medical University.        
 ##### Fei Wang  
 >fei.wang@yale.edu  
->The First Affiliated Hospital, China Medical University. 
+>The First Affiliated Hospital, China Medical University.   
 
 # Maintainer    
 ##### Chao Li; 

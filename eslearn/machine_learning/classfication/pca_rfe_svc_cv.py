@@ -146,7 +146,8 @@ class PcaRfeSvcCV():
                 feature_train, label_train)
 
             # data_preprocess
-            feature_train, feature_test = elprep.Preprocessing().data_preprocess(feature_train, feature_test, self.data_preprocess_method, self.data_preprocess_level)
+            prep = elprep.Preprocessing(self.data_preprocess_method, self.data_preprocess_level)
+            feature_train, feature_test = prep.data_preprocess(feature_train, feature_test)
 
             # dimension reduction using univariate feature selection
             # feature_train, feature_test, mask_selected = self.dimReduction_filter(
