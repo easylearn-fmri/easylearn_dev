@@ -1056,10 +1056,11 @@ body .markdown-body
 .codehilite .il{color:#009999}
 .codehilite .gc{color:#999;background-color:#EAF2F5}
 </style><title>README</title></head><body><article class="markdown-body"><h1 id="easylearn">easylearn<a class="headerlink" href="#easylearn" title="Permanent link"></a></h1>
-<p>Easylearn is designed for machine learning in resting-state fMRI field.   </p>
-<p>Our mission is to enable everyone who wants to apply machine learning to their research field to apply machine learning in the simplest way.  </p>
-<p>Our goal is to develop a graphical interface so that researchers who are not familiar with programming can easily apply machine learning to their fields.  </p>
+<p>Easylearn is designed for machine learning in resting-state fMRI field. <br />
+- Our mission is to enable everyone who wants to apply machine learning to their research field to apply machine learning in the simplest way.<br />
+- Our goal is to develop a graphical interface so that researchers who are not familiar with programming can easily apply machine learning to their fields.  </p>
 <h1 id="core-dependencies">Core Dependencies<a class="headerlink" href="#core-dependencies" title="Permanent link"></a></h1>
+<p>The follows will be automatically install if you use &ldquo;pip install -U easylearn&rdquo; command    </p>
 <ul>
 <li>sklearn</li>
 <li>numpy</li>
@@ -1141,10 +1142,11 @@ South China Normal University </p>
 Shenzhen University        </p>
 </blockquote>
 <h1 id="demo">Demo<a class="headerlink" href="#demo" title="Permanent link"></a></h1>
-<p>The simplest demo is in the eslearn/examples.
-Below is a demo of training a model to classify insomnia patients using weighted degree as features.
-This demo use svc as classifier, pca as dimension reduction method and Recursive feature elimination (RFE) as feature selection method.
-<div class="codehilite"><pre>import numpy as np
+<p>The simplest demo is in the eslearn/examples.<br />
+Below is a demo of training a model to classify insomnia patients using weighted functional connectivity strength as features (You can easily use other voxel-wise metrics as features, such as ReHo, ALFF).
+This demo use svc as classifier, Principal Component Analysis (PCA) as dimension reduction method and Recursive feature elimination (RFE) as feature selection method (inner cross-validation).
+In each fold, this program will uper-sampling the training dataset to balance the cases with +1 labels and 0 labels.</p>
+<p><div class="codehilite"><pre>import numpy as np
 import eslearn.machine_learning.classfication.pca_rfe_svc_cv as pca_rfe_svc
 
 # =============================================================================
@@ -1187,13 +1189,23 @@ results = results.__dict__
 
 print(f&quot;mean accuracy = {np.mean(results[&#39;accuracy&#39;])}&quot;)
 print(f&quot;std of accuracy = {np.std(results[&#39;accuracy&#39;])}&quot;)
-
 print(f&quot;mean sensitivity = {np.mean(results[&#39;sensitivity&#39;])}&quot;)
 print(f&quot;std of sensitivity = {np.std(results[&#39;sensitivity&#39;])}&quot;)
-
 print(f&quot;mean specificity = {np.mean(results[&#39;specificity&#39;])}&quot;)
 print(f&quot;std of specificity = {np.std(results[&#39;specificity&#39;])}&quot;)
-
 print(f&quot;mean AUC = {np.mean(results[&#39;AUC&#39;])}&quot;)
 print(f&quot;std of AUC = {np.std(results[&#39;AUC&#39;])}&quot;)
-</pre></div></p></article></body></html>
+</pre></div>
+<br> <br />
+When the program runs successfully, some results file will be generated under the results folder (path_out), as follows:</p>
+<h4 id="classification-performances"><center>Classification performances</center><a class="headerlink" href="#classification-performances" title="Permanent link"></a></h4>
+<p><img alt="Classification performances" src="///D://My_Codes/easylearn-fmri/img/results.png" /><br />
+<br> <br /></p>
+<h4 id="classification-performances-text-each-row-are-results-of-one-fold-of-the-5-fold-cross-validation"><center>Classification performances (text, each row are results of one fold of the 5-fold cross-validation)</center><a class="headerlink" href="#classification-performances-text-each-row-are-results-of-one-fold-of-the-5-fold-cross-validation" title="Permanent link"></a></h4>
+<p><center> <img alt="wei" src="///D://My_Codes/easylearn-fmri/img/perf.png" />  </center>
+<br> <br /></p>
+<h4 id="classfication-weights-top-1-brainnet-viewer"><center>Classfication weights (top 1%, BrainNet Viewer) </center><a class="headerlink" href="#classfication-weights-top-1-brainnet-viewer" title="Permanent link"></a></h4>
+<p><center> <img alt="Top classfication weights" src="///D://My_Codes/easylearn-fmri/img/wei.jpg" /> </center><br />
+<br> <br /></p>
+<h4 id="predicted-decision-predicted-label-and-real-label"><center>Predicted decision, predicted label and real label</center><a class="headerlink" href="#predicted-decision-predicted-label-and-real-label" title="Permanent link"></a></h4>
+<p><center> <img alt="Predicted decision, predicted label and real label" src="///D://My_Codes/easylearn-fmri/img/dec_label.png" />  </center></p></article></body></html>

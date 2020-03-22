@@ -1,11 +1,11 @@
 # easylearn   
 Easylearn is designed for machine learning in resting-state fMRI field.   
+- Our mission is to enable everyone who wants to apply machine learning to their research field to apply machine learning in the simplest way.  
+- Our goal is to develop a graphical interface so that researchers who are not familiar with programming can easily apply machine learning to their fields.  
 
-Our mission is to enable everyone who wants to apply machine learning to their research field to apply machine learning in the simplest way.  
+# Core Dependencies 
+The follows will be automatically install if you use "pip install -U easylearn" command    
 
-Our goal is to develop a graphical interface so that researchers who are not familiar with programming can easily apply machine learning to their fields.  
-
-# Core Dependencies  
 - sklearn
 - numpy
 - pandas
@@ -69,9 +69,11 @@ We hope you can join us!
 
 
 # Demo
-The simplest demo is in the eslearn/examples.
-Below is a demo of training a model to classify insomnia patients using weighted degree as features.
-This demo use svc as classifier, pca as dimension reduction method and Recursive feature elimination (RFE) as feature selection method.
+The simplest demo is in the eslearn/examples.  
+Below is a demo of training a model to classify insomnia patients using weighted functional connectivity strength as features (You can easily use other voxel-wise metrics as features, such as ReHo, ALFF).
+This demo use svc as classifier, Principal Component Analysis (PCA) as dimension reduction method and Recursive feature elimination (RFE) as feature selection method (inner cross-validation).
+In each fold, this program will uper-sampling the training dataset to balance the cases with +1 labels and 0 labels.
+
 ```
 import numpy as np
 import eslearn.machine_learning.classfication.pca_rfe_svc_cv as pca_rfe_svc
@@ -116,13 +118,24 @@ results = results.__dict__
 
 print(f"mean accuracy = {np.mean(results['accuracy'])}")
 print(f"std of accuracy = {np.std(results['accuracy'])}")
-
 print(f"mean sensitivity = {np.mean(results['sensitivity'])}")
 print(f"std of sensitivity = {np.std(results['sensitivity'])}")
-
 print(f"mean specificity = {np.mean(results['specificity'])}")
 print(f"std of specificity = {np.std(results['specificity'])}")
-
 print(f"mean AUC = {np.mean(results['AUC'])}")
 print(f"std of AUC = {np.std(results['AUC'])}")
 ```
+<br> <br />
+When the program runs successfully, some results file will be generated under the results folder (path_out), as follows:
+#### <center>Classification performances</center>
+![Classification performances](./img/results.png)  
+<br> <br />
+#### <center>Classification performances (text, each row are results of one fold of the 5-fold cross-validation)</center>
+<center> ![wei](./img/perf.png)  </center>
+<br> <br />
+#### <center>Classfication weights (top 1%, BrainNet Viewer) </center>
+<center> ![Top classfication weights](./img/wei.jpg) </center>  
+<br> <br />
+#### <center>Predicted decision, predicted label and real label</center>
+<center> ![Predicted decision, predicted label and real label](./img/dec_label.png)  </center>
+
