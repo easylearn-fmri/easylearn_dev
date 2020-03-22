@@ -131,11 +131,11 @@ When the program runs successfully, some results file will be generated under th
 ![Classification performances](./img/results.png)  
 <br> <br />
 #### <center>Classification performances (text, each row are results of one fold of the 5-fold cross-validation)</center>
-<center> ![wei](./img/perf.png)  </center>
+![wei](./img/perf.png)  
 <br> <br />
 #### <center>Classfication weights (top 1%, BrainNet Viewer) </center>
-<center> ![Top classfication weights](./img/wei.jpg) </center>  
+![Top classfication weights](./img/wei.jpg) 
 <br> <br />
 #### <center>Predicted decision, predicted label and real label</center>
-<center> ![Predicted decision, predicted label and real label](./img/dec_label.png)  </center>
+![Predicted decision, predicted label and real label](./img/dec_label.png)  
 
