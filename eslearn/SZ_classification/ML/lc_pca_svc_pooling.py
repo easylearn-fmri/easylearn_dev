@@ -112,8 +112,9 @@ class PCASVCPooling():
         # Unique ID
         uid_our_center_550 = np.int32(dataset_our_center_550[:, 0])
         uid_206 = np.int32(dataset_206[:, 0])
-        uid_all = np.concatenate([uid_our_center_550, uid_206, np.ones(
-            len(label_UCAL, )) + np.nan, np.ones(len(label_COBRE, )) + np.nan], axis=0)
+        uid_all = np.concatenate([uid_our_center_550, uid_206, 
+                                  np.zeros(len(label_UCAL, )) -1, 
+                                  np.zeros(len(label_COBRE, )) -1], axis=0)
         uid_all = np.int32(uid_all)
 
         # KFold Cross Validation
@@ -205,6 +206,9 @@ class PCASVCPooling():
         '''
         scaler = preprocessing.StandardScaler().fit(data.T)
         z_data = scaler.transform(data.T) .T
+        # scaler = preprocessing.StandardScaler().fit(data)
+        # z_data = scaler.transform(data)
+
         return z_data
 
     def dimReduction(sel, train_X, test_X, pca_n_component):
@@ -238,9 +242,9 @@ class PCASVCPooling():
 if __name__ == '__main__':
     sel=PCASVCPooling(out_name=r'D:\WorkStation_2018\SZ_classification\Figure\Classification_performances_pooling.pdf')
     
-    sel=sel.main_function()
+    results=sel.main_function()
     sel.save_fig()
-
+    results=results.__dict__
     sel.save_results(results, r'D:\WorkStation_2018\SZ_classification\Data\ML_data_npy\results_pooling.npy')
     
     print(np.mean(sel.accuracy))

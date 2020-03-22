@@ -2,14 +2,13 @@
 """
 This script is used to perform post-hoc analysis and visualization: 
 the classification performance of subsets (only for Schizophrenia Spectrum: SZ and Schizophreniform).
-Unless otherwise specified, all results are for Schizophrenia Spectrum.
+Unless otherwise specified, all results  are for Schizophrenia Spectrum.
 """
 
 #%%
 import sys
 sys.path.append(r'D:\My_Codes\LC_Machine_Learning\lc_rsfmri_tools\lc_rsfmri_tools_python')
 sys.path.append(r'D:\My_Codes\easylearn\eslearn\statistics')
-
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -19,14 +18,13 @@ import pickle
 
 from lc_binomialtest import binomial_test
 
-plt.rcParams['savefig.dpi'] = 1200
-
 #%% Inputs
 scale_550_file = r'D:\WorkStation_2018\SZ_classification\Scale\10-24大表.xlsx'
 scale_206_file = r'D:\WorkStation_2018\SZ_classification\Scale\北大精分人口学及其它资料\SZ_NC_108_100-WF.csv'
 scale_206_drug_file = r'D:\WorkStation_2018\SZ_classification\Scale\北大精分人口学及其它资料\SZ_109_drug.xlsx'
-classification_results_file = r'D:\WorkStation_2018\SZ_classification\Data\ML_data_npy\results.npy'
-
+classification_results_pooling_file = r'D:\WorkStation_2018\SZ_classification\Data\ML_data_npy\results_pooling.npy'
+classification_results_results_leave_one_site_cv_file = r'D:\WorkStation_2018\SZ_classification\Data\ML_data_npy\results_leave_one_site_cv.npy'
+classification_results_feu_file = r'D:\WorkStation_2018\SZ_classification\Data\ML_data_npy\results_unmedicated_and_firstepisode_550.npy'
 is_plot = 1
 is_savefig = 1
 
@@ -34,25 +32,32 @@ is_savefig = 1
 scale_550 = pd.read_excel(scale_550_file)
 scale_206 = pd.read_csv(scale_206_file)
 scale_206_drug = pd.read_excel(scale_206_drug_file)
-results = pd.DataFrame(np.load(classification_results_file))
 
-scale_206['ID'] = scale_206['ID'].str.replace('NC','1')
-scale_206['ID'] = scale_206['ID'].str.replace('SZ','2')
+results_pooling = np.load(classification_results_pooling_file, allow_pickle=True)
+results_leave_one_site_cv = np.load(classification_results_results_leave_one_site_cv_file, allow_pickle=True)
+results_feu = np.load(classification_results_feu_file, allow_pickle=True)
+
+results_special = results_pooling['special_result']
+results_special = pd.DataFrame(results_special)
+results_special.iloc[:, 0] = np.int32(results_special.iloc[:, 0])
+
+scale_206['ID'] = scale_206['ID'].str.replace('NC','10')
+scale_206['ID'] = scale_206['ID'].str.replace('SZ','20')
 scale_206['ID'] = np.int32(scale_206['ID'])
 scale_550['folder'] = np.int32(scale_550['folder'])
 
-scale_206_drug['P0001'] = scale_206_drug['P0001'].str.replace('NC','1')
-scale_206_drug['P0001'] = scale_206_drug['P0001'].str.replace('SZ','2')
+scale_206_drug['P0001'] = scale_206_drug['P0001'].str.replace('NC','10')
+scale_206_drug['P0001'] = scale_206_drug['P0001'].str.replace('SZ','20')
 scale_206_drug['P0001'] = np.int32(scale_206_drug['P0001'])
 
 # Filter subjects that have .mat files
-scale_550_selected = pd.merge(results, scale_550, left_on=0, right_on='folder', how='inner')
-scale_206_selected = pd.merge(results, scale_206, left_on=0, right_on='ID', how='inner')
+scale_550_selected = pd.merge(results_special, scale_550, left_on=0, right_on='folder', how='inner')
+scale_206_selected = pd.merge(results_special, scale_206, left_on=0, right_on='ID', how='inner')
 scale_206_selected = pd.merge(scale_206_selected, scale_206_drug, left_on=0, right_on='P0001', how='inner')
 
 #%% ---------------------------------Calculate performance for Schizophrenia Spectrum sub-groups-------------------------------
 ## Step 1: Dataset1
-duration = 18
+duration = 18  # Upper limit of first episode
 
 data_firstepisodeSZ_550 = scale_550_selected[(scale_550_selected['诊断']==3) & (scale_550_selected['首发'] == 1) & (scale_550_selected['病程月'] <= duration) & (scale_550_selected['病程月'] >= 6)]
 data_notfirstepisodeSZ_550 = scale_550_selected[(scale_550_selected['诊断']==3) & ((scale_550_selected['首发'] == 0) | (scale_550_selected['病程月'] > duration))]  # Including the persistent patients
@@ -68,28 +73,28 @@ data_young_onset_age_550 = scale_550_selected[scale_550_selected['诊断']==3].l
 data_old_onset_age_550 = scale_550_selected[scale_550_selected['诊断']==3].loc[ind_old_onsetage_550]
 
 data_medicated_550 = scale_550_selected[(scale_550_selected['诊断']==3) & (scale_550_selected['用药'] == 1)]
-data_unmedicated_550 = scale_550_selected[(scale_550_selected['诊断']==3) & (scale_550_selected['用药'] == 0) ]
+data_feu_550 = scale_550_selected[(scale_550_selected['诊断']==3) & (scale_550_selected['用药'] == 0) ]
 
 # Frist episode and nerver medicated
-data_unmedicated_schizophreniform_550 = scale_550_selected[(scale_550_selected['诊断']==3) & 
+data_feu_schizophreniform_550 = scale_550_selected[(scale_550_selected['诊断']==3) & 
                                             (scale_550_selected['病程月'] < 6) & 
                                             (scale_550_selected['用药'] == 0)]
 
-data_unmedicated_SZ_550 = scale_550_selected[(scale_550_selected['诊断']==3) & 
+data_feu_SZ_550 = scale_550_selected[(scale_550_selected['诊断']==3) & 
                                             (scale_550_selected['病程月'] >= 6) & 
                                             (scale_550_selected['用药'] == 0)]
 
-data_firstepisode_unmedicated_SZ_550 = scale_550_selected[(scale_550_selected['诊断']==3) & 
+data_firstepisode_feu_SZ_550 = scale_550_selected[(scale_550_selected['诊断']==3) & 
                                             (scale_550_selected['首发'] == 1) &
                                             (scale_550_selected['病程月'] <= duration) & 
                                             (scale_550_selected['病程月'] >= 6) & 
                                             (scale_550_selected['用药'] == 0)]
 
-data_chronic_unmedicated_SZ_550 = scale_550_selected[(scale_550_selected['诊断']==3) & 
+data_chronic_feu_SZ_550 = scale_550_selected[(scale_550_selected['诊断']==3) & 
                                             (scale_550_selected['病程月'] > duration) & 
                                             (scale_550_selected['用药'] == 0)]
 
-# data_unmedicated_550['folder'].to_csv(r'D:\WorkStation_2018\WorkStation_CNN_Schizo\Scale\unmedicated_63.txt', index=False)
+# data_feu_550['folder'].to_csv(r'D:\WorkStation_2018\WorkStation_CNN_Schizo\Scale\feu_63.txt', index=False)
 
 ## Calculating Accuracy
 acc_firstepisodeSZ_550 = np.sum(data_firstepisodeSZ_550[1]-data_firstepisodeSZ_550[3]==0)/len(data_firstepisodeSZ_550)
@@ -104,13 +109,11 @@ acc_old_onsetage_550 = np.sum(data_old_onset_age_550[1]-data_old_onset_age_550[3
 
 
 acc_medicated_550 = np.sum(data_medicated_550[1]-data_medicated_550[3]==0)/len(data_medicated_550)
-acc_unmedicated_550 = np.sum(data_unmedicated_550[1]-data_unmedicated_550[3]==0)/len(data_unmedicated_550)
-acc_unmedicated_schizophreniform_550 = np.sum(data_unmedicated_schizophreniform_550[1]-data_unmedicated_schizophreniform_550[3]==0) / len(data_unmedicated_schizophreniform_550)
-acc_unmedicated_SZ_550 = np.sum(data_unmedicated_SZ_550[1]-data_unmedicated_SZ_550[3]==0) / len(data_unmedicated_SZ_550)
-acc_firstepisode_unmedicated_SZ_550 = np.sum(data_firstepisode_unmedicated_SZ_550[1]-data_firstepisode_unmedicated_SZ_550[3]==0) / len(data_firstepisode_unmedicated_SZ_550)
-acc_chronic_unmedicated_SZ_550 = np.sum(data_chronic_unmedicated_SZ_550[1]-data_chronic_unmedicated_SZ_550[3]==0) / len(data_chronic_unmedicated_SZ_550)
-
-# acc_unmedicated_and_firstepisode_550 = np.sum(data_firstepisode_unmedicated_SZ_550[1]-data_firstepisode_unmedicated_SZ_550[3]==0) / len(data_firstepisode_unmedicated_SZ_550)
+acc_feu_550 = np.sum(data_feu_550[1]-data_feu_550[3]==0)/len(data_feu_550)
+acc_feu_schizophreniform_550 = np.sum(data_feu_schizophreniform_550[1]-data_feu_schizophreniform_550[3]==0) / len(data_feu_schizophreniform_550)
+acc_feu_SZ_550 = np.sum(data_feu_SZ_550[1]-data_feu_SZ_550[3]==0) / len(data_feu_SZ_550)
+acc_firstepisode_feu_SZ_550 = np.sum(data_firstepisode_feu_SZ_550[1]-data_firstepisode_feu_SZ_550[3]==0) / len(data_firstepisode_feu_SZ_550)
+acc_chronic_feu_SZ_550 = np.sum(data_chronic_feu_SZ_550[1]-data_chronic_feu_SZ_550[3]==0) / len(data_chronic_feu_SZ_550)
 
 print(f'Accuracy of firstepisode in dataset550 = {acc_firstepisodeSZ_550}')
 print(f'Accuracy of none-firstepisode in dataset550 = {acc_notfirstepisodeSZ_550}')
@@ -122,10 +125,10 @@ print(f'Accuracy of longduration in dataset550 = {acc_longduration_550}')
 print(f'Accuracy of young onsetage of 550 = {acc_young_onsetage_550}')
 print(f'Accuracy of old onsetage of 550 = {acc_old_onsetage_550}')
 
-print(f'Accuracy of unmedicated in dataset550 = {acc_unmedicated_550}')
+print(f'Accuracy of feu in dataset550 = {acc_feu_550}')
 print(f'Accuracy of medicated in dataset550 = {acc_medicated_550}')
 
-print(f'Accuracy of firstepisode unmedicated SZ in dataset550 = {acc_firstepisode_unmedicated_SZ_550}')
+print(f'Accuracy of firstepisode feu SZ in dataset550 = {acc_firstepisode_feu_SZ_550}')
 print('-'*50)
 
 # Step 2: Dataset 2
@@ -178,74 +181,52 @@ print(f'Accuracy of drugmore of 206 = {acc_drugmore_206}')
 
 #%% -------------------------------------Visualization-----------------------------------------------
 if is_plot:
-    # Load all resluts
-    with open(r'D:\WorkStation_2018\SZ_classification\Data\ML_data_npy\results_pooling', 'rb') as f1:
-        results_pooling = pickle.load(f1)
     accuracy_pooling = results_pooling['accuracy']
     sensitivity_pooling = results_pooling['sensitivity']
     specificity_pooling = results_pooling['specificity']
     AUC_pooling = results_pooling['AUC']
     performances_pooling = [accuracy_pooling, sensitivity_pooling, specificity_pooling, AUC_pooling]
     performances_pooling = pd.DataFrame(performances_pooling)
-    # performances_pooling.to_csv(r'D:\WorkStation_2018\SZ_classification\Data\ML_data_npy\performances_pooling.txt', index=False, header=False)
 
-    with open(r'D:\WorkStation_2018\SZ_classification\Data\ML_data_npy\results_leave_one_site_cv', 'rb') as f2:
-        results_leave_one_site_cv = pickle.load(f2)
     accuracy_leave_one_site_cv = results_leave_one_site_cv['accuracy']
     sensitivity_leave_one_site_cv = results_leave_one_site_cv['sensitivity']
     specificity_leave_one_site_cv = results_leave_one_site_cv['specificity']
     AUC_leave_one_site_cv = results_leave_one_site_cv['AUC']
     performances_leave_one_site_cv = [accuracy_leave_one_site_cv, sensitivity_leave_one_site_cv, specificity_leave_one_site_cv, AUC_leave_one_site_cv]
     performances_leave_one_site_cv = pd.DataFrame(performances_leave_one_site_cv)
-    # performances_leave_one_site_cv.to_csv(r'D:\WorkStation_2018\SZ_classification\Data\ML_data_npy\performances_leave_one_site_cv.txt', index=False, header=False)
 
-    with open(r'D:\WorkStation_2018\SZ_classification\Data\ML_data_npy\results_unmedicated_and_firstepisode_550.npy', 'rb') as f3:
-        results_unmedicated = pickle.load(f3)
-    accuracy_unmedicated = results_unmedicated['accuracy']
-    sensitivity_unmedicated = results_unmedicated['sensitivity']
-    specificity_unmedicated = results_unmedicated['specificity']
-    AUC_unmedicated = results_unmedicated['AUC']
-    performances_unmedicated = [accuracy_unmedicated, sensitivity_unmedicated, specificity_unmedicated, AUC_unmedicated]
-    performances_unmedicated = pd.DataFrame(performances_unmedicated)
-    # performances_unmedicated.to_csv(r'D:\WorkStation_2018\SZ_classification\Data\ML_data_npy\performances_unmedicated.txt', index=False, header=False)
-
-    # performances_pooling_file = r'D:\WorkStation_2018\WorkStation_CNN_Schizo\Data\ML_data_npy\performances_pooling.txt';
-    # performances_leave_one_site_cv_file = r'D:\WorkStation_2018\WorkStation_CNN_Schizo\Data\ML_data_npy\performances_leave_one_site_cv.txt';
-    # performances_unmedicated_file = r'D:\WorkStation_2018\WorkStation_CNN_Schizo\Data\ML_data_npy\performances_unmedicated.txt';
-
+    accuracy_feu = results_feu['accuracy']
+    sensitivity_feu = results_feu['sensitivity']
+    specificity_feu = results_feu['specificity']
+    AUC_feu = results_feu['AUC']
+    performances_feu = [accuracy_feu, sensitivity_feu, specificity_feu, AUC_feu]
+    performances_feu = pd.DataFrame(performances_feu)
+    
     # Save weights to .mat file for visulazation using MATLAB.
     import scipy.io as io
-
     weight_pooling_1d = np.mean(np.squeeze(np.array(results_pooling['coef'])), axis=0)
     weight_leave_one_out_cv_1d = np.mean(np.squeeze(np.array(results_leave_one_site_cv['coef'])), axis=0)
-    weight_unmedicated_1d = np.mean(np.squeeze(np.array(results_unmedicated['coef'])), axis=0)
-
+    weight_feu_1d = np.mean(np.squeeze(np.array(results_feu['coef'])), axis=0)
     mask = np.triu(np.ones([246, 246]), 1) == 1
-
     weight_pooling = np.zeros([246, 246])
     weight_leave_one_out_cv = np.zeros([246, 246])
-    weight_unmedicated = np.zeros([246, 246])
-
+    weight_feu = np.zeros([246, 246])
     weight_pooling[mask] = weight_pooling_1d
     weight_leave_one_out_cv[mask] = weight_leave_one_out_cv_1d
-    weight_unmedicated[mask] = weight_unmedicated_1d
-
     weight_pooling = weight_pooling + weight_pooling.T;
     weight_leave_one_out_cv = weight_leave_one_out_cv + weight_leave_one_out_cv.T
-    weight_unmedicated = weight_unmedicated + weight_unmedicated.T
-
+    weight_feu = weight_feu + weight_feu.T
     io.savemat(r'D:\WorkStation_2018\SZ_classification\Figure\weights.mat',
-               {'weight_pooling': weight_pooling,
+                {'weight_pooling': weight_pooling,
                 'weight_leave_one_out_cv': weight_leave_one_out_cv,
-                'weight_unmedicated': weight_unmedicated})
-
+                'weight_feu': weight_feu})
 
 
     # Bar: performances in the whole Dataset.
     import seaborn as sns
     plt.figure(figsize=(20,20))
-    all_mean = np.concatenate([np.mean(performances_pooling.values,1), np.mean(performances_leave_one_site_cv.values,1), np.mean(performances_unmedicated.values,1)])
-    error = np.concatenate([np.std(performances_pooling.values, 1), np.std(performances_leave_one_site_cv.values, 1), np.std(performances_unmedicated.values, 1)])
+    all_mean = np.concatenate([np.mean(performances_pooling.values,1), np.mean(performances_leave_one_site_cv.values,1), np.mean(performances_feu.values,1)])
+    error = np.concatenate([np.std(performances_pooling.values, 1), np.std(performances_leave_one_site_cv.values, 1), np.std(performances_feu.values, 1)])
 
     plt.subplot(2, 1, 1)
     color = ['darkturquoise'] * 4 +  ['paleturquoise'] * 4 + ['lightblue'] * 4
@@ -269,17 +250,17 @@ if is_plot:
     barcont_550 = [acc_firstepisodeSZ_550, acc_notfirstepisodeSZ_550,
             acc_schizophreniform_550, acc_shortduration_550, acc_longduration_550, 
             acc_young_onsetage_550, acc_old_onsetage_550, 
-            acc_medicated_550, acc_unmedicated_550, acc_unmedicated_schizophreniform_550, 
-            acc_unmedicated_SZ_550, acc_firstepisode_unmedicated_SZ_550, acc_chronic_unmedicated_SZ_550]
+            acc_medicated_550, acc_feu_550, acc_feu_schizophreniform_550, 
+            acc_feu_SZ_550, acc_firstepisode_feu_SZ_550, acc_chronic_feu_SZ_550]
     label_550 = ['First episode SZ', 'Recurrent SZ', 'Schizophreniform', 'Short duration SZ', 'Long duration SZ',
                 'Young onset age SSD','Elder onset age SSD', 
-                'Medicated SSD', 'Unmedicated SSD', 
-                'Unmedicated schizophreniform', 'Unmedicated SZ', 'First episode unmedicated SZ', 'Recurrent unmedicated SZ']
+                'Medicated SSD', 'first episode unmedicated SSD', 
+                'first episode unmedicated schizophreniform', 'first episode unmedicated SZ', 'First episode first episode unmedicated SZ', 'Recurrent first episode unmedicated SZ']
     samplesize_550 = [data_firstepisodeSZ_550.shape[0], data_notfirstepisodeSZ_550.shape[0],
             data_schizophreniform_550.shape[0], data_shortdurationSZ_550.shape[0], data_longdurationSZ_550.shape[0], 
             data_young_onset_age_550.shape[0], data_old_onset_age_550.shape[0], 
-            data_medicated_550.shape[0], data_unmedicated_550.shape[0], data_unmedicated_schizophreniform_550.shape[0], 
-            data_unmedicated_SZ_550.shape[0], data_firstepisode_unmedicated_SZ_550.shape[0], data_chronic_unmedicated_SZ_550.shape[0]]
+            data_medicated_550.shape[0], data_feu_550.shape[0], data_feu_schizophreniform_550.shape[0], 
+            data_feu_SZ_550.shape[0], data_firstepisode_feu_SZ_550.shape[0], data_chronic_feu_SZ_550.shape[0]]
         
     # Bar: Dataset 2
     barcont_206 = [acc_firstepisode_206, acc_notfirstepisode_206,
@@ -330,7 +311,7 @@ if is_plot:
             plt.text(x+0.01, y-0.3, '%.2f' % x,fontsize=15)
 
     #%% Save to PDF format
-    if is_savefig:
+    if is_savefig & is_plot:
         plt.tight_layout()
         plt.subplots_adjust(left=0.25, wspace = 0.5, hspace = 0.5)  # wspace 左右
         pdf = PdfPages(r'D:\WorkStation_2018\SZ_classification\Figure\Classification_performances_all_v2.pdf')

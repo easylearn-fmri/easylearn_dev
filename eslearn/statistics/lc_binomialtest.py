@@ -51,7 +51,7 @@ def lc_plot(prob, k, p, titlename):
 
 
 if __name__ ==  "__main__":
-    n = 88
+    n = 44
     acc = 0.69
     k = np.int32(n * acc)
     print(k)

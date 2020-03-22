@@ -42,19 +42,16 @@ class PCASVCPooling():
         Classification results, such as accuracy, sensitivity, specificity, AUC and figures that used to report.
     """
     def __init__(sel,
-                 dataset_drugnaive_and_hc_from550 =r'D:\WorkStation_2018\SZ_classification\Data\ML_data_npy\dataset_unmedicated_and_firstepisode_550.npy',
+                 dataset_drugnaive_and_hc_from550 =r'D:\WorkStation_2018\SZ_classification\Data\ML_data_npy\dataset_firstepisode_and_unmedicated_550.npy',
                  is_dim_reduction=True,
                  components = 0.95,
                  cv=5,
                  out_name=None):
         
         sel.dataset_drugnaive_and_hc_from550 =dataset_drugnaive_and_hc_from550 
-
         sel.is_dim_reduction=is_dim_reduction
         sel.components = components
         sel.cv=cv
-        sel.show_results=show_results
-        sel.show_roc=show_roc
         sel.out_name = out_name
 
 
@@ -101,7 +98,7 @@ class PCASVCPooling():
             sel.label_test_all = np.int16(np.append(sel.label_test_all, label_test))
 
             # resampling training data
-            feature_train, label_train = sel.re_sampling(feature_train, label_train)
+            # feature_train, label_train = sel.re_sampling(feature_train, label_train)
 
             # normalization
             feature_train = sel.normalization(feature_train)

@@ -35,8 +35,8 @@ selected_diagnosis['group'][selected_diagnosis['group']==2] = 0
 
 allmat_plus_label = pd.concat([selected_diagnosis, allmat],axis=1)
 
-allmat_plus_label['ID'] = allmat_plus_label['ID'].str.replace('NC','0');
-allmat_plus_label['ID'] = allmat_plus_label['ID'].str.replace('SZ','1');
+allmat_plus_label['ID'] = allmat_plus_label['ID'].str.replace('NC','10');
+allmat_plus_label['ID'] = allmat_plus_label['ID'].str.replace('SZ','20');
 allmat_plus_label['ID'] = np.int32(allmat_plus_label['ID'])
 np.save(r'D:\WorkStation_2018\SZ_classification\Data\ML_data_npy\dataset_206.npy',allmat_plus_label)
 
