@@ -127,7 +127,7 @@ print(f"std of AUC = {np.std(results['AUC'])}")
 ```
 <br> <br />
 When the program runs successfully, some results file will be generated under the results folder (path_out), as follows:
-#### <center>Classification performances</center>
+#### <center> Classification performances </center>
 ![Classification performances](./img/results.png)  
 <br> <br />
 #### <center>Classification performances (text, each row are results of one fold of the 5-fold cross-validation)</center>
