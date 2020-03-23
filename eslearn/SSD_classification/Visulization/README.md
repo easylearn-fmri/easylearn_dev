@@ -1,0 +1,3 @@
+<font >**lc_visualizing_performances.py**</font> is used to visualizing performances, including group level and sub-group level.  
+<font >**lc_plot_all_weights_cohen_tvalues_cohen.m**</font> is used to visualizing all classfication weights, cohen'd values and t values.  
+<font >**lc_plot_average_diff_and_weights.m**</font> is used to visualizing avarage classfication weights, cohen'd values and t values.  
