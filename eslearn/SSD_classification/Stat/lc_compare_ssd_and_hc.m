@@ -42,7 +42,7 @@ contrast_unmedicated = [0 0 -1 1];
 
 %% GLM
 STATS.thresh = 3;
-STATS.alpha = 0.005; % two-tailed
+STATS.alpha = 0.005; % Equal to two-tailed 0.01.
 STATS.N = 246;
 STATS.size = 'extent';
 GLM.perms = 1000;
