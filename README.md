@@ -126,7 +126,7 @@ print(f"mean AUC = {np.mean(results['AUC'])}")
 print(f"std of AUC = {np.std(results['AUC'])}")
 ```
 <br> <br />
-When the program runs successfully, some results file will be generated under the results folder (path_out), as follows:
+If the program runs successfully, some results file will be generated under the results folder (path_out), as follows:
 #### <center> Classification performances </center>
 ![Classification performances](./img/results.png)  
 <br> <br />
