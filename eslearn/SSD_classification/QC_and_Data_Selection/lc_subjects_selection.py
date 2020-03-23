@@ -3,7 +3,7 @@
 This script is used to select the subjects with good quality (mean FD, percentages of greater FD, rigid motion).
 Then matching SZ and HC based on the age, sex and headmotion.
 Note that: these 1322 subjects are already selected by rigid motion criteria: one voxel.
-All selected subjects's ID will save to D:\WorkStation_2018\WorkStation_CNN_Schizo\Scale\selected_sub.xlsx
+All selected subjects's ID will save to D:/WorkStation_2018/WorkStation_CNN_Schizo/Scale/selected_sub.xlsx
 """
 import sys
 sys.path.append(r'D:\My_Codes\LC_Machine_Learning\lc_rsfmri_tools\lc_rsfmri_tools_python\Statistics')

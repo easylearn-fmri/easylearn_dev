@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 
 # Inputs
-headmotionfile = r'D:\WorkStation_2018\WorkStation_CNN_Schizo\Scale\Â§¥Âä®ÂèÇÊï∞_1322.xlsx'
+headmotionfile = r'D:\WorkStation_2018\WorkStation_CNN_Schizo\Scale\10-24¥Û±Ì.xlsx'
 uidfile = r'D:\WorkStation_2018\WorkStation_CNN_Schizo\Scale\ID_1322.txt'
 
 # Load
