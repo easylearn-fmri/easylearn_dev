@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>941</width>
+    <height>728</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>easyLearn</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>20</y>
+      <width>861</width>
+      <height>621</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QStackedWidget" name="stackedWidget_workingdir">
+       <widget class="QWidget" name="stackedWidget_workingdirPage1" native="true">
+        <widget class="QGroupBox" name="WholeGroupBox">
+         <property name="geometry">
+          <rect>
+           <x>5</x>
+           <y>90</y>
+           <width>841</width>
+           <height>401</height>
+          </rect>
+         </property>
+         <property name="title">
+          <string>Inputs</string>
+         </property>
+         <widget class="QGroupBox" name="groupBox_files">
+          <property name="geometry">
+           <rect>
+            <x>580</x>
+            <y>30</y>
+            <width>241</width>
+            <height>351</height>
+           </rect>
+          </property>
+          <property name="title">
+           <string>Files</string>
+          </property>
+          <widget class="QListView" name="listView_files">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>30</y>
+             <width>201</width>
+             <height>261</height>
+            </rect>
+           </property>
+           <property name="sizeAdjustPolicy">
+            <enum>QAbstractScrollArea::AdjustToContents</enum>
+           </property>
+          </widget>
+          <widget class="QWidget" name="layoutWidget_2">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>300</y>
+             <width>201</width>
+             <height>30</height>
+            </rect>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <item>
+             <widget class="QPushButton" name="pushButton_addfiles">
+              <property name="toolTipDuration">
+               <number>-5</number>
+              </property>
+              <property name="whatsThis">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;push the button then close program&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>Add</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_removefiles">
+              <property name="text">
+               <string>Remove</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_clearfiles">
+              <property name="text">
+               <string>Clear</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+         <widget class="QGroupBox" name="groupBox_modality">
+          <property name="geometry">
+           <rect>
+            <x>290</x>
+            <y>30</y>
+            <width>241</width>
+            <height>351</height>
+           </rect>
+          </property>
+          <property name="title">
+           <string>Modalities</string>
+          </property>
+          <widget class="QListView" name="listView_modalities">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>30</y>
+             <width>201</width>
+             <height>261</height>
+            </rect>
+           </property>
+           <property name="sizeAdjustPolicy">
+            <enum>QAbstractScrollArea::AdjustToContents</enum>
+           </property>
+          </widget>
+          <widget class="QWidget" name="layoutWidget">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>300</y>
+             <width>201</width>
+             <height>30</height>
+            </rect>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <widget class="QPushButton" name="pushButton_addmodalities">
+              <property name="toolTipDuration">
+               <number>-5</number>
+              </property>
+              <property name="whatsThis">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;push the button then close program&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>Add</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_removemodalites">
+              <property name="text">
+               <string>Remove</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_clearmodalities">
+              <property name="text">
+               <string>Clear</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+         <widget class="QGroupBox" name="groupBox_group">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>30</y>
+            <width>241</width>
+            <height>351</height>
+           </rect>
+          </property>
+          <property name="title">
+           <string>Groups</string>
+          </property>
+          <widget class="QListView" name="listView_groups">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>30</y>
+             <width>201</width>
+             <height>261</height>
+            </rect>
+           </property>
+           <property name="sizeAdjustPolicy">
+            <enum>QAbstractScrollArea::AdjustToContents</enum>
+           </property>
+          </widget>
+          <widget class="QWidget" name="layoutWidget">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>300</y>
+             <width>201</width>
+             <height>30</height>
+            </rect>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <widget class="QPushButton" name="pushButton_addgroups">
+              <property name="toolTipDuration">
+               <number>-5</number>
+              </property>
+              <property name="whatsThis">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;push the button then close program&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>Add</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_removegroups">
+              <property name="text">
+               <string>Remove</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_cleargroups">
+              <property name="text">
+               <string>Clear</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </widget>
+        <widget class="QLabel" name="label">
+         <property name="geometry">
+          <rect>
+           <x>5</x>
+           <y>15</y>
+           <width>136</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Working Directory</string>
+         </property>
+        </widget>
+        <widget class="QWidget" name="">
+         <property name="geometry">
+          <rect>
+           <x>5</x>
+           <y>39</y>
+           <width>791</width>
+           <height>30</height>
+          </rect>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <item>
+           <widget class="QLineEdit" name="lineEdit_workingdir"/>
+          </item>
+          <item>
+           <widget class="QPushButton" name="browser_workingdir">
+            <property name="text">
+             <string>Browser</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>941</width>
+     <height>26</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+ </widget>
+ <tabstops>
+  <tabstop>lineEdit_workingdir</tabstop>
+  <tabstop>listView_groups</tabstop>
+  <tabstop>pushButton_addgroups</tabstop>
+  <tabstop>pushButton_cleargroups</tabstop>
+  <tabstop>listView_modalities</tabstop>
+  <tabstop>pushButton_addmodalities</tabstop>
+  <tabstop>pushButton_removemodalites</tabstop>
+  <tabstop>pushButton_clearmodalities</tabstop>
+  <tabstop>pushButton_addfiles</tabstop>
+  <tabstop>pushButton_removefiles</tabstop>
+  <tabstop>pushButton_clearfiles</tabstop>
+  <tabstop>listView_files</tabstop>
+  <tabstop>pushButton_removegroups</tabstop>
+  <tabstop>browser_workingdir</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+ <slots>
+  <slot>stest()</slot>
+ </slots>
+</ui>
