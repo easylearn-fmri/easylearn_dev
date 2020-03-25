@@ -51,7 +51,6 @@ class MainCode(QMainWindow, Ui_MainWindow):
         except AttributeError:
             print("easylearn did not start\n")
 
-
     def openUrl(self):
         import webbrowser
         print("Going to web...")
