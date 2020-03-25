@@ -73,7 +73,7 @@ The simplest demo is in the eslearn/examples.
 Below is a demo of training a model to classify insomnia patients using weighted functional connectivity strength as features (You can easily use other voxel-wise metrics as features, such as ReHo, ALFF).
 This demo use svc as classifier, Principal Component Analysis (PCA) as dimension reduction method and Recursive feature elimination (RFE) as feature selection method (inner cross-validation).
 In each fold, this program will upper-resampling the training dataset to balance the cases with +1 labels and 0 labels.
-
+***
 ```
 import numpy as np
 import eslearn.machine_learning.classfication.pca_rfe_svc_cv as pca_rfe_svc
@@ -95,7 +95,7 @@ n_jobs=-1  # RFE parameter:  how many jobs (parallel works) to perform inner RFE
 is_showfig_finally=True  # Whether show results figure finally.
 is_showfig_in_each_fold=False  # Whether show results in each fold.
 # =============================================================================
-
+***
 clf = pca_rfe_svc.PcaRfeSvcCV(
         path_patients=path_patients,
         path_HC=path_HC,
