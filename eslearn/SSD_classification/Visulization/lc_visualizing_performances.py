@@ -26,7 +26,7 @@ classification_results_pooling_file = r'D:\WorkStation_2018\SZ_classification\Da
 classification_results_results_leave_one_site_cv_file = r'D:\WorkStation_2018\SZ_classification\Data\ML_data_npy\results_leave_one_site_cv.npy'
 classification_results_feu_file = r'D:\WorkStation_2018\SZ_classification\Data\ML_data_npy\results_unmedicated_and_firstepisode_550.npy'
 is_plot = 1
-is_savefig = 1
+is_savefig = 0
 
 #%% Load and proprocess
 scale_550 = pd.read_excel(scale_550_file)
@@ -59,8 +59,8 @@ scale_206_selected = pd.merge(scale_206_selected, scale_206_drug, left_on=0, rig
 ## Step 1: Dataset1
 duration = 18  # Upper limit of first episode
 
-data_firstepisodeSZ_550 = scale_550_selected[(scale_550_selected['诊断']==3) & (scale_550_selected['首发'] == 1) & (scale_550_selected['病程月'] <= duration) & (scale_550_selected['病程月'] >= 6)]
-data_notfirstepisodeSZ_550 = scale_550_selected[(scale_550_selected['诊断']==3) & ((scale_550_selected['首发'] == 0) | (scale_550_selected['病程月'] > duration))]  # Including the persistent patients
+data_firstepisode_SZ_550 = scale_550_selected[(scale_550_selected['诊断']==3) & (scale_550_selected['首发'] == 1) & (scale_550_selected['病程月'] <= duration) & (scale_550_selected['病程月'] >= 6)]
+data_not_firstepisode_SZ_550 = scale_550_selected[(scale_550_selected['诊断']==3) & ((scale_550_selected['首发'] == 0) | (scale_550_selected['病程月'] > duration))]  # Including the persistent patients
 
 data_schizophreniform_550 = scale_550_selected[(scale_550_selected['诊断']==3) & (scale_550_selected['病程月'] < 6)]
 data_shortdurationSZ_550 = scale_550_selected[(scale_550_selected['诊断']==3) & (scale_550_selected['病程月'] <= duration) & (scale_550_selected['病程月'] >= 6)]
@@ -72,33 +72,33 @@ ind_old_onsetage_550 = onsetage_all_550.index[onsetage_all_550.values > np.media
 data_young_onset_age_550 = scale_550_selected[scale_550_selected['诊断']==3].loc[ind_young_onsetage_550]
 data_old_onset_age_550 = scale_550_selected[scale_550_selected['诊断']==3].loc[ind_old_onsetage_550]
 
-data_medicated_550 = scale_550_selected[(scale_550_selected['诊断']==3) & (scale_550_selected['用药'] == 1)]
-data_feu_550 = scale_550_selected[(scale_550_selected['诊断']==3) & (scale_550_selected['用药'] == 0) ]
+data_medicated_SSD_550 = scale_550_selected[(scale_550_selected['诊断']==3) & (scale_550_selected['用药'] == 1)]
+data_unmedicated_SSD_550 = scale_550_selected[(scale_550_selected['诊断']==3) & (scale_550_selected['用药'] == 0) ]
 
 # Frist episode and nerver medicated
-data_feu_schizophreniform_550 = scale_550_selected[(scale_550_selected['诊断']==3) & 
+data_unmedicated_schizophreniform_550 = scale_550_selected[(scale_550_selected['诊断']==3) & 
                                             (scale_550_selected['病程月'] < 6) & 
                                             (scale_550_selected['用药'] == 0)]
 
-data_feu_SZ_550 = scale_550_selected[(scale_550_selected['诊断']==3) & 
+data_unmedicated_SZ_550 = scale_550_selected[(scale_550_selected['诊断']==3) & 
                                             (scale_550_selected['病程月'] >= 6) & 
                                             (scale_550_selected['用药'] == 0)]
 
-data_firstepisode_feu_SZ_550 = scale_550_selected[(scale_550_selected['诊断']==3) & 
+data_firstepisode_unmedicated_SZ_550 = scale_550_selected[(scale_550_selected['诊断']==3) & 
                                             (scale_550_selected['首发'] == 1) &
                                             (scale_550_selected['病程月'] <= duration) & 
                                             (scale_550_selected['病程月'] >= 6) & 
                                             (scale_550_selected['用药'] == 0)]
 
-data_chronic_feu_SZ_550 = scale_550_selected[(scale_550_selected['诊断']==3) & 
+data_chronic_unmedicated_SZ_550 = scale_550_selected[(scale_550_selected['诊断']==3) & 
                                             (scale_550_selected['病程月'] > duration) & 
                                             (scale_550_selected['用药'] == 0)]
 
-# data_feu_550['folder'].to_csv(r'D:\WorkStation_2018\WorkStation_CNN_Schizo\Scale\feu_63.txt', index=False)
+# data_unmedicated_SSD_550['folder'].to_csv(r'D:\WorkStation_2018\WorkStation_CNN_Schizo\Scale\feu_63.txt', index=False)
 
 ## Calculating Accuracy
-acc_firstepisodeSZ_550 = np.sum(data_firstepisodeSZ_550[1]-data_firstepisodeSZ_550[3]==0)/len(data_firstepisodeSZ_550)
-acc_notfirstepisodeSZ_550 = np.sum(data_notfirstepisodeSZ_550[1]-data_notfirstepisodeSZ_550[3]==0)/len(data_notfirstepisodeSZ_550)
+acc_firstepisode_SZ_550 = np.sum(data_firstepisode_SZ_550[1]-data_firstepisode_SZ_550[3]==0)/len(data_firstepisode_SZ_550)
+acc_not_firstepisode_SZ_550 = np.sum(data_not_firstepisode_SZ_550[1]-data_not_firstepisode_SZ_550[3]==0)/len(data_not_firstepisode_SZ_550)
 
 acc_schizophreniform_550 = np.sum(data_schizophreniform_550[1]-data_schizophreniform_550[3]==0)/len(data_schizophreniform_550)
 acc_shortduration_550 = np.sum(data_shortdurationSZ_550[1]-data_shortdurationSZ_550[3]==0)/len(data_shortdurationSZ_550)
@@ -107,16 +107,16 @@ acc_longduration_550 = np.sum(data_longdurationSZ_550[1]-data_longdurationSZ_550
 acc_young_onsetage_550 = np.sum(data_young_onset_age_550[1]-data_young_onset_age_550[3]==0)/len(data_young_onset_age_550)
 acc_old_onsetage_550 = np.sum(data_old_onset_age_550[1]-data_old_onset_age_550[3]==0)/len(data_old_onset_age_550)
 
+acc_medicated_SSD_550 = np.sum(data_medicated_SSD_550[1]-data_medicated_SSD_550[3]==0)/len(data_medicated_SSD_550)
+acc_ummedicated_SSD_550 = np.sum(data_unmedicated_SSD_550[1]-data_unmedicated_SSD_550[3]==0)/len(data_unmedicated_SSD_550)
 
-acc_medicated_550 = np.sum(data_medicated_550[1]-data_medicated_550[3]==0)/len(data_medicated_550)
-acc_feu_550 = np.sum(data_feu_550[1]-data_feu_550[3]==0)/len(data_feu_550)
-acc_feu_schizophreniform_550 = np.sum(data_feu_schizophreniform_550[1]-data_feu_schizophreniform_550[3]==0) / len(data_feu_schizophreniform_550)
-acc_feu_SZ_550 = np.sum(data_feu_SZ_550[1]-data_feu_SZ_550[3]==0) / len(data_feu_SZ_550)
-acc_firstepisode_feu_SZ_550 = np.sum(data_firstepisode_feu_SZ_550[1]-data_firstepisode_feu_SZ_550[3]==0) / len(data_firstepisode_feu_SZ_550)
-acc_chronic_feu_SZ_550 = np.sum(data_chronic_feu_SZ_550[1]-data_chronic_feu_SZ_550[3]==0) / len(data_chronic_feu_SZ_550)
+acc_unmedicated_schizophreniform_550 = np.sum(data_unmedicated_schizophreniform_550[1]-data_unmedicated_schizophreniform_550[3]==0) / len(data_unmedicated_schizophreniform_550)
+acc_unmedicated_SZ_550 = np.sum(data_unmedicated_SZ_550[1]-data_unmedicated_SZ_550[3]==0) / len(data_unmedicated_SZ_550)
+acc_firstepisode_unmedicated_SZ_550 = np.sum(data_firstepisode_unmedicated_SZ_550[1]-data_firstepisode_unmedicated_SZ_550[3]==0) / len(data_firstepisode_unmedicated_SZ_550)
+acc_chronic_unmedicated_SZ_550 = np.sum(data_chronic_unmedicated_SZ_550[1]-data_chronic_unmedicated_SZ_550[3]==0) / len(data_chronic_unmedicated_SZ_550)
 
-print(f'Accuracy of firstepisode in dataset550 = {acc_firstepisodeSZ_550}')
-print(f'Accuracy of none-firstepisode in dataset550 = {acc_notfirstepisodeSZ_550}')
+print(f'Accuracy of firstepisode in dataset550 = {acc_firstepisode_SZ_550}')
+print(f'Accuracy of none-firstepisode in dataset550 = {acc_not_firstepisode_SZ_550}')
 
 print(f'Accuracy of schizophreniform in dataset550 = {acc_schizophreniform_550}')
 print(f'Accuracy of shortduration in dataset550 = {acc_shortduration_550}')
@@ -125,10 +125,10 @@ print(f'Accuracy of longduration in dataset550 = {acc_longduration_550}')
 print(f'Accuracy of young onsetage of 550 = {acc_young_onsetage_550}')
 print(f'Accuracy of old onsetage of 550 = {acc_old_onsetage_550}')
 
-print(f'Accuracy of feu in dataset550 = {acc_feu_550}')
-print(f'Accuracy of medicated in dataset550 = {acc_medicated_550}')
+print(f'Accuracy of medicated SSD in dataset550 = {acc_medicated_SSD_550}')
+print(f'Accuracy of ummedicated_SSD in dataset550 = {acc_ummedicated_SSD_550}')
 
-print(f'Accuracy of firstepisode feu SZ in dataset550 = {acc_firstepisode_feu_SZ_550}')
+print(f'Accuracy of firstepisode unmedicated SZ in dataset550 = {acc_firstepisode_unmedicated_SZ_550}')
 print('-'*50)
 
 # Step 2: Dataset 2
@@ -247,20 +247,20 @@ if is_plot:
                    
     # Bar: Dataset 1
     plt.subplot(2,1,2)
-    barcont_550 = [acc_firstepisodeSZ_550, acc_notfirstepisodeSZ_550,
+    barcont_550 = [acc_firstepisode_SZ_550, acc_not_firstepisode_SZ_550,
             acc_schizophreniform_550, acc_shortduration_550, acc_longduration_550, 
             acc_young_onsetage_550, acc_old_onsetage_550, 
-            acc_medicated_550, acc_feu_550, acc_feu_schizophreniform_550, 
-            acc_feu_SZ_550, acc_firstepisode_feu_SZ_550, acc_chronic_feu_SZ_550]
+            acc_medicated_SSD_550, acc_ummedicated_SSD_550, acc_unmedicated_schizophreniform_550, 
+            acc_unmedicated_SZ_550, acc_firstepisode_unmedicated_SZ_550, acc_chronic_unmedicated_SZ_550]
     label_550 = ['First episode SZ', 'Recurrent SZ', 'Schizophreniform', 'Short duration SZ', 'Long duration SZ',
                 'Young onset age SSD','Elder onset age SSD', 
-                'Medicated SSD', 'first episode unmedicated SSD', 
-                'first episode unmedicated schizophreniform', 'first episode unmedicated SZ', 'First episode first episode unmedicated SZ', 'Recurrent first episode unmedicated SZ']
-    samplesize_550 = [data_firstepisodeSZ_550.shape[0], data_notfirstepisodeSZ_550.shape[0],
+                'Medicated SSD', 'Unmedicated SSD', 
+                'Unmedicated schizophreniform', 'Unmedicated SZ', 'First episode unmedicated SZ', 'Recurrent unmedicated SZ']
+    samplesize_550 = [data_firstepisode_SZ_550.shape[0], data_not_firstepisode_SZ_550.shape[0],
             data_schizophreniform_550.shape[0], data_shortdurationSZ_550.shape[0], data_longdurationSZ_550.shape[0], 
             data_young_onset_age_550.shape[0], data_old_onset_age_550.shape[0], 
-            data_medicated_550.shape[0], data_feu_550.shape[0], data_feu_schizophreniform_550.shape[0], 
-            data_feu_SZ_550.shape[0], data_firstepisode_feu_SZ_550.shape[0], data_chronic_feu_SZ_550.shape[0]]
+            data_medicated_SSD_550.shape[0], data_unmedicated_SSD_550.shape[0], data_unmedicated_schizophreniform_550.shape[0], 
+            data_unmedicated_SZ_550.shape[0], data_firstepisode_unmedicated_SZ_550.shape[0], data_chronic_unmedicated_SZ_550.shape[0]]
         
     # Bar: Dataset 2
     barcont_206 = [acc_firstepisode_206, acc_notfirstepisode_206,
