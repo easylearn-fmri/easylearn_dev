@@ -22,7 +22,7 @@ from PyQt5.QtWidgets import QApplication,QWidget,QVBoxLayout,QListView,QMessageB
 from easylearn_main_gui import Ui_MainWindow
 
 
-class easylearn_main(QMainWindow, Ui_MainWindow):
+class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
     """This class is used to display the main GUI of the easylearn.
     """
     def __init__(self):
@@ -186,6 +186,7 @@ class easylearn_main(QMainWindow, Ui_MainWindow):
             event.accept()
         else:
             event.ignore()
+            self.set_appearance()
 
     def closeEvent_button(self, event):
         """This function is called when quit button is clicked.
@@ -211,10 +212,11 @@ class easylearn_main(QMainWindow, Ui_MainWindow):
         if reply == QMessageBox.Yes:
             QCoreApplication.quit()
         else:
-            pass
+            # Make appearance back
+            self.set_appearance()
 
 if __name__=='__main__':
     app=QApplication(sys.argv)
-    md=easylearn_main()
+    md=EasylearnMainGUI()
     md.show()
     sys.exit(app.exec_())

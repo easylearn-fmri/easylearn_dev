@@ -1,6 +1,7 @@
 import sys
 import os
-from PyQt5.QtWidgets import QApplication,QMainWindow,QFileDialog
+import json
+from PyQt5.QtWidgets import QApplication,QMainWindow, QFileDialog
 from PyQt5.QtWidgets import *
 from PyQt5 import *
 from PyQt5.QtGui import QIcon
@@ -8,7 +9,8 @@ import sys
 from PyQt5.QtWidgets import QApplication,QWidget,QVBoxLayout,QListView,QMessageBox
 from PyQt5.QtCore import QStringListModel
 
-from easyLearn_gui_data_loading import Ui_MainWindow
+from easylearn_data_loading_gui import Ui_MainWindow
+from easylearn_main_run import EasylearnMainGUI
 
 class MainCode_easylearn(QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -19,14 +21,16 @@ class MainCode_easylearn(QMainWindow, Ui_MainWindow):
         # set appearance
         self.set_appearance()
 
-        # initiating listView
+        # initiating
+        self.configuration = ""
         self.slm = QStringListModel()
         self.qList = []
         self.current_list = []  # Initializing current list
         self.selected_file = ""
 
         # connections
-        self.browser_workingdir.clicked.connect(self.select_workingdir)
+        self.actionChoose_configuration_file.triggered.connect(self.load_configuration)
+        self.actionSave_configuration.triggered.connect(self.save_configuration)
         self.pushButton_removegroups.clicked.connect(self.remove_selected_file)
         self.pushButton_cleargroups.clicked.connect(self.clear_all_selection)
         self.listView_groups.doubleClicked.connect(self.remove_selected_file)
@@ -38,26 +42,45 @@ class MainCode_easylearn(QMainWindow, Ui_MainWindow):
     def set_appearance(self):
         """Set dart style appearance
         """
-        qss_string_all_pushbutton = """
-        QPushButton{color: rgb(200,200,200); border: 2px solid rgb(100,100,100); border-radius:10}
+        qss_string_all = """
+        QPushButton{color: rgb(200,200,200); border: 2px solid rgb(100,100,100); border-radius:9}
         QPushButton:hover {background-color: black; color: white; font-size:20px; font-weight: bold}
-        #MainWindow{background-color: rgb(50, 50, 50)}                               
+        #MainWindow{background-color: rgb(50, 50, 50)}    
+        QListView{background-color:rgb(200,200,200); color:black; border: 2px solid rgb(100,100,100); border-radius:15; font-size:20px}  
+        QFrame{color:white; font-weight: bold}                    
         """
-        qss_string_run_pushbutton = """
-        QPushButton{background-color:rgb(100,200,100); color:white; border: 2px solid rgb(100,100,100); border-radius:15}        
-        QPushButton:hover {background-color:green; color:white; border: 2px solid rgb(100,100,100); border-radius:15; font-weight: bold}                   
+        # qss_string_label = """
+        # color:rgb(200,200,200); font-weight: bold;     
+        # """
+        self.setStyleSheet(qss_string_all)
+    
+    def load_configuration(self):
+        """Load configuration
         """
-        qss_string_quit_pushbutton = """
-        QPushButton{background-color:rgb(200,100,100); color:white; border: 2px solid rgb(100,100,100); border-radius:15}   
-        QPushButton:hover {background-color:red; color:white; border: 2px solid rgb(100,100,100); border-radius:15; font-weight: bold}                        
+        print("Load configuration")
+        self.configuration_file, filetype = QFileDialog.getOpenFileName(self,  
+                                "Select configuration file",  
+                                os.getcwd(), "All Files (*);;Text Files (*.txt)") 
+
+        print(self.configuration_file)
+        if self.configuration_file != "":
+            with open(self.configuration_file, 'r') as config:
+                self.configuration = config.read()
+                print(self.configuration)
+
+            self.configuration = json.loads(self.configuration)
+            self.configuration["data_dim"] = 1000
+
+
+    def save_configuration(self):
+        """Save configuration
         """
-        qss_string_textbrowser = """
-        background-color:rgb(200,200,200); color:black; border: 2px solid rgb(100,100,100); border-radius:15; font-size:20px
-        """
-        self.setStyleSheet(qss_string_all_pushbutton)
-        # self.run.setStyleSheet(qss_string_run_pushbutton)
-        # self.quit.setStyleSheet(qss_string_quit_pushbutton)
-        # self.textBrowser.setStyleSheet(qss_string_textbrowser)
+        print("Save configuration")
+        if self.configuration != "":
+            self.configuration = json.dumps(self.configuration)
+            with open(self.configuration_file, 'w') as config:
+                config.write(self.configuration)
+
 
     def select_workingdir(self):
         """
@@ -111,6 +134,31 @@ class MainCode_easylearn(QMainWindow, Ui_MainWindow):
         self.selected_file = ""
         self.slm.setStringList(self.qList)  # 设置模型列表视图，加载数据列表
         self.listView_groups.setModel(self.slm)  #设置列表视图的模型
+
+    def closeEvent(self, event):
+        """This function is called when exit icon of the window is clicked.
+
+        This function make sure the program quit safely.
+        """
+        # Set qss to make sure the QMessageBox can be seen
+        qss_string_message = """
+        QPushButton{color: black; border: 2px solid rgb(100,100,100); border-radius:9}
+        QPushButton:hover {background-color: black; color: white; font-size:20px; font-weight: bold}
+        #MainWindow{background-color: rgb(50, 50, 50)}    
+        QListView{background-color:rgb(200,200,200); color:black; border: 2px solid rgb(100,100,100); border-radius:15; font-size:20px}  
+        QFrame{color:black; font-weight: bold}                    
+        """  
+        # """
+        self.setStyleSheet(qss_string_message)
+
+        reply = QMessageBox.question(self, 'Quit',"Are you sure to quit?",
+                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+
+        if reply == QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
+            self.set_appearance()  # Make appearance back
 
 
 if __name__=='__main__':
