@@ -11,6 +11,7 @@ Main GUI of the easylearn
 import sys
 import os
 import time
+import json
 from PyQt5.QtWidgets import QApplication,QMainWindow,QFileDialog
 from PyQt5.QtWidgets import *
 from PyQt5 import *
@@ -52,7 +53,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
 
         # Connecting to functions
         self.choose_working_directory.triggered.connect(self.select_workingdir_fun)
-        self.create_file.triggered.connect(self.create_file_fun)
+        self.create_file.triggered.connect(self.initialize_configuration_fun)
         self.data_loading.clicked.connect(self.data_loading_fun)
         self.feature_engineering.clicked.connect(self.feature_engineering_fun)
         self.machine_learning.clicked.connect(self.machine_learning_fun)
@@ -99,7 +100,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
             self.working_directory = QFileDialog.getExistingDirectory(self, "Select a working_directory", self.working_directory) 
             self.textBrowser.setText("Current working directory is " + self.working_directory + "\n")
 
-    def create_file_fun(self):
+    def initialize_configuration_fun(self):
         """Create file to save settings
 
         This function will add the configuration_file to self
@@ -107,7 +108,10 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         time_name = time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime()) 
         if self.working_directory != "":
             self.configuration_file = os.path.join(self.working_directory, str(time_name) + ".txt")
-            with open(self.configuration_file, 'w') as setting_file:
+            with open(self.configuration_file, 'w') as configuration_file:
+                config={'groups':{'group_1':['mod1','mod2'],'group_2':['mod1','mod2']}}
+                config = json.dumps(config)
+                configuration_file.write(config)
                 self.textBrowser.setText("Configuration file is " + self.configuration_file)
         else:
             self.textBrowser.setText("Please choosing a working directory first(press 'Project initialization' at the top left corner or using shortcut keys 'Alt+I')\n")
