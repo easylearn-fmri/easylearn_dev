@@ -6,20 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>416</width>
-    <height>612</height>
+    <width>447</width>
+    <height>686</height>
    </rect>
   </property>
   <property name="sizePolicy">
    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-    <horstretch>100</horstretch>
-    <verstretch>100</verstretch>
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
    </sizepolicy>
   </property>
   <property name="minimumSize">
    <size>
-    <width>350</width>
-    <height>450</height>
+    <width>300</width>
+    <height>300</height>
    </size>
   </property>
   <property name="maximumSize">
@@ -43,7 +43,7 @@
    </property>
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
-     <layout class="QGridLayout" name="gridLayout_all_ptb" columnstretch="100,0">
+     <layout class="QGridLayout" name="gridLayout_all_ptb" columnstretch="100,0,0">
       <property name="sizeConstraint">
        <enum>QLayout::SetNoConstraint</enum>
       </property>
@@ -62,19 +62,16 @@
       <property name="spacing">
        <number>10</number>
       </property>
-      <item row="3" column="0" colspan="2">
-       <widget class="QPushButton" name="data_input">
+      <item row="6" column="0" colspan="2">
+       <widget class="QPushButton" name="machine_learning">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
         <property name="text">
-         <string>Data input</string>
+         <string>Machine Learning</string>
         </property>
         <property name="iconSize">
          <size>
@@ -84,8 +81,8 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="0" colspan="2">
-       <widget class="QPushButton" name="feature_selection">
+      <item row="7" column="0" colspan="2">
+       <widget class="QPushButton" name="model_evaluation">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -93,17 +90,11 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>Feature selection</string>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>30</width>
-          <height>30</height>
-         </size>
+         <string>Model Evaluation</string>
         </property>
        </widget>
       </item>
-      <item row="9" column="0" colspan="2">
+      <item row="8" column="0" colspan="2">
        <widget class="QPushButton" name="statistical_analysis">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -122,35 +113,19 @@
         </property>
        </widget>
       </item>
-      <item row="6" column="0" colspan="2">
-       <widget class="QPushButton" name="model_choosing">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>Model choosing</string>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>30</width>
-          <height>30</height>
-         </size>
-        </property>
-       </widget>
-      </item>
       <item row="4" column="0" colspan="2">
-       <widget class="QPushButton" name="feature_reduction">
+       <widget class="QPushButton" name="data_loading">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
         <property name="text">
-         <string>Feature reduction</string>
+         <string>Data Loading</string>
         </property>
         <property name="iconSize">
          <size>
@@ -160,29 +135,10 @@
         </property>
        </widget>
       </item>
-      <item row="8" column="0" colspan="2">
-       <widget class="QPushButton" name="model_training">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>Model training</string>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>30</width>
-          <height>30</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-      <item row="10" column="0" colspan="2">
+      <item row="11" column="0" colspan="2">
        <layout class="QHBoxLayout" name="save_load">
         <item>
-         <widget class="QPushButton" name="save_workflow">
+         <widget class="QPushButton" name="quit">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>0</horstretch>
@@ -190,18 +146,25 @@
            </sizepolicy>
           </property>
           <property name="text">
-           <string> Save workflow</string>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>30</width>
-            <height>30</height>
-           </size>
+           <string>Quit</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="load_workflow">
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="run">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>0</horstretch>
@@ -209,7 +172,7 @@
            </sizepolicy>
           </property>
           <property name="text">
-           <string>Load workflow</string>
+           <string>Run</string>
           </property>
           <property name="iconSize">
            <size>
@@ -221,6 +184,57 @@
         </item>
        </layout>
       </item>
+      <item row="5" column="0" colspan="2">
+       <widget class="QPushButton" name="feature_engineering">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Feature Engineering</string>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>30</width>
+          <height>30</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="0" colspan="2">
+       <widget class="QTextBrowser" name="textBrowser">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>10000000</width>
+          <height>100</height>
+         </size>
+        </property>
+        <property name="midLineWidth">
+         <number>30</number>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" rowspan="2" colspan="2">
+       <widget class="QLabel" name="logal">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>100</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
      </layout>
     </item>
    </layout>
@@ -231,25 +245,45 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>416</width>
+     <width>447</width>
      <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menueasylearn">
     <property name="title">
-     <string>File(&amp;F)</string>
+     <string>Project initialization(&amp;I)</string>
     </property>
     <addaction name="separator"/>
-    <addaction name="actionCreate"/>
+    <addaction name="choose_working_directory"/>
+    <addaction name="create_file"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp_H">
+    <property name="title">
+     <string>Help(&amp;H)</string>
+    </property>
    </widget>
    <addaction name="menueasylearn"/>
+   <addaction name="menuHelp_H"/>
   </widget>
-  <action name="actionCreate">
+  <action name="current_working_directory">
    <property name="text">
-    <string>Create</string>
+    <string>Current working directory</string>
+   </property>
+  </action>
+  <action name="choose_working_directory">
+   <property name="text">
+    <string>Choose working directory</string>
+   </property>
+  </action>
+  <action name="create_file">
+   <property name="text">
+    <string>Create configuration file</string>
    </property>
   </action>
  </widget>
  <resources/>
  <connections/>
+ <slots>
+  <slot>smy_quit()</slot>
+ </slots>
 </ui>

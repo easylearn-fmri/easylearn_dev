@@ -8,13 +8,16 @@ import sys
 from PyQt5.QtWidgets import QApplication,QWidget,QVBoxLayout,QListView,QMessageBox
 from PyQt5.QtCore import QStringListModel
 
-from easyLearn_gui import Ui_MainWindow
+from easyLearn_gui_data_loading import Ui_MainWindow
 
 class MainCode_easylearn(QMainWindow, Ui_MainWindow):
     def __init__(self):
         QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
+
+        # set appearance
+        self.set_appearance()
 
         # initiating listView
         self.slm = QStringListModel()
@@ -29,9 +32,33 @@ class MainCode_easylearn(QMainWindow, Ui_MainWindow):
         self.listView_groups.doubleClicked.connect(self.remove_selected_file)
         self.listView_groups.clicked.connect(self.identify_selected_file)
         self.pushButton_addgroups.clicked.connect(self.select_file)
-        self.setWindowTitle('easylearn')
-        self.setWindowIcon(QIcon('D:/My_Codes/LC_Machine_Learning/lc_rsfmri_tools/lc_rsfmri_tools_python/gui_test/bitbug_favicon.ico')) 
-        
+        self.setWindowTitle('Data Loading')
+        self.setWindowIcon(QIcon('./easylearn.jpg')) 
+    
+    def set_appearance(self):
+        """Set dart style appearance
+        """
+        qss_string_all_pushbutton = """
+        QPushButton{color: rgb(200,200,200); border: 2px solid rgb(100,100,100); border-radius:10}
+        QPushButton:hover {background-color: black; color: white; font-size:20px; font-weight: bold}
+        #MainWindow{background-color: rgb(50, 50, 50)}                               
+        """
+        qss_string_run_pushbutton = """
+        QPushButton{background-color:rgb(100,200,100); color:white; border: 2px solid rgb(100,100,100); border-radius:15}        
+        QPushButton:hover {background-color:green; color:white; border: 2px solid rgb(100,100,100); border-radius:15; font-weight: bold}                   
+        """
+        qss_string_quit_pushbutton = """
+        QPushButton{background-color:rgb(200,100,100); color:white; border: 2px solid rgb(100,100,100); border-radius:15}   
+        QPushButton:hover {background-color:red; color:white; border: 2px solid rgb(100,100,100); border-radius:15; font-weight: bold}                        
+        """
+        qss_string_textbrowser = """
+        background-color:rgb(200,200,200); color:black; border: 2px solid rgb(100,100,100); border-radius:15; font-size:20px
+        """
+        self.setStyleSheet(qss_string_all_pushbutton)
+        # self.run.setStyleSheet(qss_string_run_pushbutton)
+        # self.quit.setStyleSheet(qss_string_quit_pushbutton)
+        # self.textBrowser.setStyleSheet(qss_string_textbrowser)
+
     def select_workingdir(self):
         """
         This function is used to select the working directory
