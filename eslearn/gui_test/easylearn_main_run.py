@@ -12,15 +12,17 @@ import sys
 import os
 import time
 import json
+from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtWidgets import QApplication,QMainWindow,QFileDialog
 from PyQt5.QtWidgets import *
 from PyQt5 import *
 from PyQt5.QtGui import QIcon, QPixmap, QPalette
-from PyQt5.QtCore import QCoreApplication
+from PyQt5.QtCore import *
 from PyQt5.QtWidgets import QApplication,QWidget,QVBoxLayout,QListView,QMessageBox
 # from PyQt5.QtCore import QStringListModel
 
 from easylearn_main_gui import Ui_MainWindow
+from easylearn_data_loading_run import EasylearnDataLoadingRun
 
 
 class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
@@ -34,8 +36,8 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         self.textBrowser.setText("Hi~, I'm easylearn. I hope I can help you finish this project successfully\n")
 
         # Set appearance
-        self.set_appearance()
-        style = '''
+        self.set_run_appearance()
+        logal_style = '''
             #logal{
                 background-color: black;
                 border: 5px solid white;
@@ -45,7 +47,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
                 #logal:hover {
                 border-radius: 0px;}
         '''
-        self.logal.setStyleSheet(style)
+        self.logal.setStyleSheet(logal_style)
         self.setWindowTitle('EASYLEARN')
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("./easylearn.jpg"))
@@ -64,8 +66,8 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         self.quit.clicked.connect(self.closeEvent_button)
 
     
-    def set_appearance(self):
-        """Set dart style appearance
+    def set_run_appearance(self):
+        """Set dart style appearance.
         """
         qss_string_all_pushbutton = """
         QPushButton{color: rgb(200,200,200); border: 2px solid rgb(100,100,100); border-radius:10}
@@ -88,6 +90,24 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         self.quit.setStyleSheet(qss_string_quit_pushbutton)
         self.textBrowser.setStyleSheet(qss_string_textbrowser)
 
+    def set_quite_appearance(self):
+        """Set appearance when quit program.
+
+        This make the quit message can be seen clearly.
+        """
+        qss_string_qmessage = """
+        QPushButton:hover {background-color: white; color: black}
+
+        QPushButton{color:white; border: 2px solid rgb(100,100,100); border-radius:5}
+
+        #formLayoutWidget_2{color:white; border: 2px solid rgb(100,100,100); border-radius:9}
+
+        #MainWindow{background-color: rgb(50, 50, 50)}
+
+        QMessageBox{background-color: gray; color: white}                       
+        """
+        self.setStyleSheet(qss_string_qmessage)
+
     def select_workingdir_fun(self):
         """
         This function is used to select the working working_directory
@@ -105,16 +125,18 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
 
         This function will add the configuration_file to self
         """
-        time_name = time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime()) 
+        configuration_file_name, ok = QInputDialog.getText(self, "Initialize configuration", "Please name the configuration file:", QLineEdit.Normal, "configuration_file.json")
         if self.working_directory != "":
-            self.configuration_file = os.path.join(self.working_directory, str(time_name) + ".txt")
+            self.configuration_file = os.path.join(self.working_directory, configuration_file_name)
             with open(self.configuration_file, 'w') as configuration_file:
                 config={'groups':{'group_1':['mod1','mod2'],'group_2':['mod1','mod2']}}
                 config = json.dumps(config)
                 configuration_file.write(config)
                 self.textBrowser.setText("Configuration file is " + self.configuration_file)
         else:
-            self.textBrowser.setText("Please choosing a working directory first(press 'Project initialization' at the top left corner or using shortcut keys 'Alt+I')\n")
+            self.set_quite_appearance()
+            QMessageBox.warning( self, 'Warning', 'Configuration in configuration file is not valid JSON')
+            self.set_run_appearance()
 
     def data_loading_fun(self):
         """This function is called when data_loading button is clicked.
@@ -122,6 +144,8 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         Then, this function will process the data loading.
         """
         print('data_loading_fun')
+        self.data_loading = EasylearnDataLoadingRun()
+        self.data_loading.show()
 
     def feature_engineering_fun(self):
         """This function is called when feature_engineering button is clicked.
@@ -171,18 +195,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         This function make sure the program quit safely.
         """
         # Set qss to make sure the QMessageBox can be seen
-        qss_string_qmessage = """
-        QPushButton:hover {background-color: white; color: black}
-
-        QPushButton{color:white; border: 2px solid rgb(100,100,100); border-radius:5}
-
-        #formLayoutWidget_2{color:white; border: 2px solid rgb(100,100,100); border-radius:9}
-
-        #MainWindow{background-color: rgb(50, 50, 50)}
-
-        QMessageBox{background-color: gray; color: white}                       
-        """
-        self.setStyleSheet(qss_string_qmessage)
+        self.set_quite_appearance()
         reply = QMessageBox.question(self, 'Quit',"Are you sure to quit?",
                                      QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
 
@@ -190,7 +203,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
             event.accept()
         else:
             event.ignore()
-            self.set_appearance()
+            self.set_run_appearance()
 
     def closeEvent_button(self, event):
         """This function is called when quit button is clicked.
@@ -198,18 +211,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         This function make sure the program quit safely.
         """
         # Set qss to make sure the QMessageBox can be seen
-        qss_string_qmessage = """
-        QPushButton:hover {background-color: white; color: black}
-
-        QPushButton{color:white; border: 2px solid rgb(100,100,100); border-radius:5}
-
-        #formLayoutWidget_2{color:white; border: 2px solid rgb(100,100,100); border-radius:9}
-
-        #MainWindow{background-color: rgb(50, 50, 50)}
-
-        QMessageBox{background-color: gray; color: white}                       
-        """
-        self.setStyleSheet(qss_string_qmessage)
+        self.set_quite_appearance()
         reply = QMessageBox.question(self, 'Quit',"Are you sure to quit?",
                                      QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
 
@@ -217,7 +219,8 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
             QCoreApplication.quit()
         else:
             # Make appearance back
-            self.set_appearance()
+            self.set_run_appearance()
+
 
 if __name__=='__main__':
     app=QApplication(sys.argv)

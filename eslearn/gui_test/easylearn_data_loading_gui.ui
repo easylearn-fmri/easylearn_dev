@@ -275,7 +275,7 @@
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionChoose_configuration_file">
    <property name="text">
-    <string>Choose configuration</string>
+    <string>Load configuration</string>
    </property>
   </action>
   <action name="actionSave_configuration">

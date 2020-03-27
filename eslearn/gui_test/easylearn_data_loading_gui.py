@@ -137,6 +137,6 @@ class Ui_MainWindow(object):
         self.label_group.setText(_translate("MainWindow", "Groups"))
         self.menuConfiguration_file.setTitle(_translate("MainWindow", "Configuration file(&F)"))
         self.menuHelp_H.setTitle(_translate("MainWindow", "Help(&H)"))
-        self.actionChoose_configuration_file.setText(_translate("MainWindow", "Choose configuration"))
+        self.actionChoose_configuration_file.setText(_translate("MainWindow", "Load configuration"))
         self.actionSave_configuration.setText(_translate("MainWindow", "Save configuration"))
 

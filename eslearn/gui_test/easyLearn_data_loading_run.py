@@ -10,19 +10,21 @@ from PyQt5.QtWidgets import QApplication,QWidget,QVBoxLayout,QListView,QMessageB
 from PyQt5.QtCore import QStringListModel
 
 from easylearn_data_loading_gui import Ui_MainWindow
-from easylearn_main_run import EasylearnMainGUI
 
-class MainCode_easylearn(QMainWindow, Ui_MainWindow):
+
+class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
     def __init__(self):
         QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
 
         # set appearance
-        self.set_appearance()
+        self.set_run_appearance()
 
         # initiating
+        self.configuration_file = ""
         self.configuration = ""
+        # self.configuration = configuration
         self.slm = QStringListModel()
         self.qList = []
         self.current_list = []  # Initializing current list
@@ -39,7 +41,7 @@ class MainCode_easylearn(QMainWindow, Ui_MainWindow):
         self.setWindowTitle('Data Loading')
         self.setWindowIcon(QIcon('./easylearn.jpg')) 
     
-    def set_appearance(self):
+    def set_run_appearance(self):
         """Set dart style appearance
         """
         qss_string_all = """
@@ -54,33 +56,64 @@ class MainCode_easylearn(QMainWindow, Ui_MainWindow):
         # """
         self.setStyleSheet(qss_string_all)
     
+    def set_quite_appearance(self):
+        """This function is set appearance when quit program.
+
+        This function make sure quit message can be see clearly.
+        """
+        qss_string_message = """
+        QPushButton{color: black; border: 2px solid rgb(100,100,100); border-radius:9}
+        QPushButton:hover {background-color: black; color: white; font-size:20px; font-weight: bold}
+        #MainWindow{background-color: rgb(50, 50, 50)}    
+        QListView{background-color:rgb(200,200,200); color:black; border: 2px solid rgb(100,100,100); border-radius:15; font-size:20px}  
+        QFrame{color:black; font-weight: bold}                    
+        """  
+        # """
+        self.setStyleSheet(qss_string_message)
+
     def load_configuration(self):
         """Load configuration
         """
-        print("Load configuration")
-        self.configuration_file, filetype = QFileDialog.getOpenFileName(self,  
-                                "Select configuration file",  
-                                os.getcwd(), "All Files (*);;Text Files (*.txt)") 
+        if self.configuration_file == "":
+            self.configuration_file, filetype = QFileDialog.getOpenFileName(self,  
+                                    "Select configuration file",  
+                                    os.getcwd(), "All Files (*);;Text Files (*.txt)") 
+        else:
+            self.set_quite_appearance()
+            QMessageBox.warning( self, 'Warning', f"Configuration was given!: {self.configuration_file}")
+            self.set_run_appearance()
 
-        print(self.configuration_file)
-        if self.configuration_file != "":
+        # Read configuration
+        if self.configuration_file != "":  
             with open(self.configuration_file, 'r') as config:
                 self.configuration = config.read()
-                print(self.configuration)
 
-            self.configuration = json.loads(self.configuration)
-            self.configuration["data_dim"] = 1000
-
+            # Check the configuration is valid JSON, then transform the configuration to dict
+            # If the configuration is not valid JSON, then give configuration and configuration_file to ""
+            try:
+                self.configuration = json.loads(self.configuration)
+            except json.decoder.JSONDecodeError:
+                self.configuration_file = ""
+                self.configuration = ""
+                self.set_quite_appearance()
+                QMessageBox.warning( self, 'Warning', 'Configuration in configuration file is not valid JSON')
+                self.set_run_appearance()
+        else:
+            self.set_quite_appearance()
+            QMessageBox.warning( self, 'Warning', 'Configuration file was not selected')
+            self.set_run_appearance()
 
     def save_configuration(self):
         """Save configuration
         """
-        print("Save configuration")
         if self.configuration != "":
             self.configuration = json.dumps(self.configuration)
             with open(self.configuration_file, 'w') as config:
                 config.write(self.configuration)
-
+        else:
+            self.set_quite_appearance()
+            QMessageBox.warning( self, 'Warning', 'Configuration is empty, please choose a configuration file first (press button at top left corner)!')
+            self.set_run_appearance()
 
     def select_workingdir(self):
         """
@@ -141,15 +174,7 @@ class MainCode_easylearn(QMainWindow, Ui_MainWindow):
         This function make sure the program quit safely.
         """
         # Set qss to make sure the QMessageBox can be seen
-        qss_string_message = """
-        QPushButton{color: black; border: 2px solid rgb(100,100,100); border-radius:9}
-        QPushButton:hover {background-color: black; color: white; font-size:20px; font-weight: bold}
-        #MainWindow{background-color: rgb(50, 50, 50)}    
-        QListView{background-color:rgb(200,200,200); color:black; border: 2px solid rgb(100,100,100); border-radius:15; font-size:20px}  
-        QFrame{color:black; font-weight: bold}                    
-        """  
-        # """
-        self.setStyleSheet(qss_string_message)
+        self.set_quite_appearance()
 
         reply = QMessageBox.question(self, 'Quit',"Are you sure to quit?",
                                      QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
@@ -158,11 +183,11 @@ class MainCode_easylearn(QMainWindow, Ui_MainWindow):
             event.accept()
         else:
             event.ignore()
-            self.set_appearance()  # Make appearance back
+            self.set_run_appearance()  # Make appearance back
 
 
 if __name__=='__main__':
     app=QApplication(sys.argv)
-    md=MainCode_easylearn()
+    md=EasylearnDataLoadingRun()
     md.show()
     sys.exit(app.exec_())
