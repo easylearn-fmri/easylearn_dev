@@ -24,20 +24,42 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         # initiating
         self.configuration_file = ""
         self.configuration = ""
-        # self.configuration = configuration
-        self.slm = QStringListModel()
-        self.qList = []
-        self.current_list = []  # Initializing current list
-        self.selected_file = ""
+        self.group_count = 0
+        self.modality_count = 0
+
+        # initialize list_view for groups, modalities and files
+        self.slm_group = QStringListModel()
+        self.selected_groups = []
+        self.current_list_group = []  
+        self.slm_modality = QStringListModel()
+        self.selected_modalities = []
+        self.current_list_modality = [] 
+        self.slm_file = QStringListModel()
+        self.selected_files = []
+        self.current_list_file = {}
 
         # connections
         self.actionChoose_configuration_file.triggered.connect(self.load_configuration)
         self.actionSave_configuration.triggered.connect(self.save_configuration)
-        self.pushButton_removegroups.clicked.connect(self.remove_selected_file)
-        self.pushButton_cleargroups.clicked.connect(self.clear_all_selection)
-        self.listView_groups.doubleClicked.connect(self.remove_selected_file)
-        self.listView_groups.clicked.connect(self.identify_selected_file)
-        self.pushButton_addgroups.clicked.connect(self.select_file)
+
+        self.listView_groups.clicked.connect(self.identify_selected_group)
+        self.pushButton_addgroups.clicked.connect(self.add_groups)
+        self.listView_groups.doubleClicked.connect(self.remove_selected_group)
+        self.pushButton_removegroups.clicked.connect(self.remove_selected_group)
+        self.pushButton_cleargroups.clicked.connect(self.clear_all_group)
+
+        self.listView_modalities.clicked.connect(self.identify_selected_modality)
+        self.pushButton_addmodalities.clicked.connect(self.add_modalities)
+        self.listView_modalities.doubleClicked.connect(self.remove_selected_modality)
+        self.pushButton_removemodalites.clicked.connect(self.remove_selected_modality)
+        self.pushButton_clearmodalities.clicked.connect(self.clear_all_modality)
+
+        self.listView_files.clicked.connect(self.identify_selected_file)
+        self.pushButton_addfiles.clicked.connect(self.add_files)
+        self.listView_files.doubleClicked.connect(self.remove_selected_file)
+        self.pushButton_removefiles.clicked.connect(self.remove_selected_file)
+        self.pushButton_clearfiles.clicked.connect(self.clear_all_file)
+
         self.setWindowTitle('Data Loading')
         self.setWindowIcon(QIcon('./easylearn.jpg')) 
     
@@ -48,13 +70,15 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         QPushButton{color: rgb(200,200,200); border: 2px solid rgb(100,100,100); border-radius:9}
         QPushButton:hover {background-color: black; color: white; font-size:20px; font-weight: bold}
         #MainWindow{background-color: rgb(50, 50, 50)}    
-        QListView{background-color:rgb(200,200,200); color:black; border: 2px solid rgb(100,100,100); border-radius:15; font-size:20px}  
-        QFrame{color:white; font-weight: bold}                    
+        QListView{background-color:rgb(200,200,200); color:black; font-size:15px; border: 2px solid rgb(100,100,100); border-radius:15} 
+        QListView::item:selected {font-weight:bold; background-color:white; color:black}   
         """
-        # qss_string_label = """
-        # color:rgb(200,200,200); font-weight: bold;     
-        # """
+        
+
         self.setStyleSheet(qss_string_all)
+        self.label_group.setStyleSheet("color:white; font-weight: bold")   
+        self.label_modalities.setStyleSheet("color:white; font-weight: bold")   
+        self.label_file.setStyleSheet("color:white; font-weight: bold")    
     
     def set_quite_appearance(self):
         """This function is set appearance when quit program.
@@ -65,11 +89,13 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         QPushButton{color: black; border: 2px solid rgb(100,100,100); border-radius:9}
         QPushButton:hover {background-color: black; color: white; font-size:20px; font-weight: bold}
         #MainWindow{background-color: rgb(50, 50, 50)}    
-        QListView{background-color:rgb(200,200,200); color:black; border: 2px solid rgb(100,100,100); border-radius:15; font-size:20px}  
-        QFrame{color:black; font-weight: bold}                    
+        QListView{background-color:rgb(200,200,200); color:black; font-size:15px; border: 2px solid rgb(100,100,100); border-radius:15}                   
         """  
         # """
         self.setStyleSheet(qss_string_message)
+        self.label_group.setStyleSheet("color:white; font-weight: bold")   
+        self.label_modalities.setStyleSheet("color:white; font-weight: bold")   
+        self.label_file.setStyleSheet("color:white; font-weight: bold") 
 
     def load_configuration(self):
         """Load configuration
@@ -84,9 +110,12 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
             self.set_run_appearance()
 
         # Read configuration
-        if self.configuration_file != "":  
+        if self.configuration_file != "": 
+        # TODO: 解决中文编码的问题 
             with open(self.configuration_file, 'r') as config:
                 self.configuration = config.read()
+
+            print(self.configuration)
 
             # Check the configuration is valid JSON, then transform the configuration to dict
             # If the configuration is not valid JSON, then give configuration and configuration_file to ""
@@ -107,12 +136,13 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         """Save configuration
         """
         if self.configuration != "":
+            self.configuration["data_loading"] = self.current_list_file
             self.configuration = json.dumps(self.configuration)
             with open(self.configuration_file, 'w') as config:
                 config.write(self.configuration)
         else:
             self.set_quite_appearance()
-            QMessageBox.warning( self, 'Warning', 'Configuration is empty, please choose a configuration file first (press button at top left corner)!')
+            QMessageBox.warning( self, 'Warning', 'Please choose a configuration file first (press button at top left corner)!')
             self.set_run_appearance()
 
     def select_workingdir(self):
@@ -133,40 +163,206 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         self.lineEdit_workingdir.setText(self.directory)
 
         try:
-            self.qList = os.listdir(self.directory)
-            self.current_list = self.qList  # Every time selecting directory, the current list will be initiated once.
-            self.slm.setStringList(self.qList)  
+            self.selected_files = os.listdir(self.directory)
+            self.current_list_file = self.selected_files  # Every time selecting directory, the current list will be initiated once.
+            self.slm.setStringList(self.selected_files)  
             self.listView_groups.setModel(self.slm) 
         except FileNotFoundError:
             self.lineEdit_workingdir.setText("You need to choose a working directory")
 
-    def select_file(self):
-        pass
+    def add_groups(self):
+        """Add a group
+        """
+        
+        self.group_name = "group" + str(self.group_count)
+        self.group_name, ok = QInputDialog.getText(self, "Initialize configuration", "Please name the configuration file:", QLineEdit.Normal, self.group_name)
+        self.current_list_group.append(self.group_name)
+        self.slm_group.setStringList(self.current_list_group)  
+        self.listView_groups.setModel(self.slm_group)
+        self.set_run_appearance()
+        self.group_count += 1
 
-    def identify_selected_file(self, QModelIndex):
-        self.selected_file = self.current_list[QModelIndex.row()]
+    
+    def add_modalities(self):
+        """Add a group
+        """
+        self.modality_name = "modality" + str(self.modality_count)
+        self.modality_name, ok = QInputDialog.getText(self, "Initialize configuration", "Please name the configuration file:", QLineEdit.Normal, self.modality_name)
+        self.current_list_modality.append(self.modality_name)
+        self.slm_modality.setStringList(self.current_list_modality)  
+        self.listView_modalities.setModel(self.slm_modality)
+        self.modality_count += 1
 
+    def add_files(self):
+        """Add files for a modality of a group.
+        """
+        # Try if selected self.selected_group and self.selected_modality
+        try:
+            self.selected_group
+            self.selected_modality
+        except AttributeError:
+            is_selected_group_and_modality = False
+        else:
+            is_selected_group_and_modality = True
+
+        if is_selected_group_and_modality:
+            self.selected_files, filetype = QFileDialog.getOpenFileNames(self,  
+                                    "Select files",  os.getcwd(), 
+                                    "All Files (*);;PDF Files (*.pdf);;Text Files (*.txt)")
+            
+            # If self.current_list_file do not has the self.selected_group key, then create a empty item (dict) for the key.
+            # So that the self.current_list_file[self.selected_group] can be add (item) modalitie.
+            if (self.selected_group not in list(self.current_list_file.keys())):
+                self.current_list_file[self.selected_group] = {}
+
+            # If self.current_list_file[self.selected_group] do not has the self.selected_modality key, then create a empty item (list) for the key.
+            # So that the self.current_list_file[self.selected_group][self.selected_modality] can be used to append.
+            if (self.selected_modality not in list(self.current_list_file[self.selected_group].keys())):
+                self.current_list_file[self.selected_group][self.selected_modality] = []
+
+            print(self.selected_files)
+            self.current_list_file[self.selected_group][self.selected_modality].extend(self.selected_files)
+            print(self.current_list_file)
+            self.display()
+        else:
+            self.set_quite_appearance()
+            QMessageBox.warning( self, 'Warning', 'Please select group and modality first!')
+            self.set_run_appearance()       
+
+    def display(self):
+        """
+        Display files of the current modality of the current group
+        """
+        try:
+            self.slm_file.setStringList(self.current_list_file[self.selected_group][self.selected_modality])  
+            self.listView_files.setModel(self.slm_file)
+        except KeyError:
+            self.slm_file.setStringList([])  
+            self.listView_files.setModel(self.slm_file)
+
+    def identify_selected_group(self, index):
+        """Identify the selected file in the list_view_groups and display the files
+        """
+        self.selected_group = self.current_list_group[index.row()]
+        print(self.selected_group)
+        self.display()
+
+    def identify_selected_modality(self, index):
+        """Identify the selected file in the list_view_modalities and display the files
+        """
+        self.selected_modality = self.current_list_modality[index.row()]
+        print(self.selected_modality)
+        self.display()
+
+    def identify_selected_file(self, index):
+        """Identify the selected file in the list_view_files
+        """
+        self.selected_file = self.current_list_file[self.selected_group][self.selected_modality][index.row()]
+        print(self.selected_file)
+
+    def remove_selected_group(self):
+        """
+        This function is used to remove selected group
+        """
+        if self.current_list_group != []:
+            self.set_quite_appearance()
+            reply = QMessageBox.question(self, "QListView", "Remove this group: " + self.selected_group + "?",
+                                         QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+            if reply == QMessageBox.Yes:     
+                self.current_list_group = list(set(self.current_list_group) - set([self.selected_group]))  # Note. the second item in set is list
+                self.slm_group.setStringList(self.current_list_group)  
+                self.listView_groups.setModel(self.slm_group)
+            self.set_run_appearance()
+
+        else:
+            self.set_quite_appearance()
+            QMessageBox.warning( self, 'Warning', 'No group selected!')
+            self.set_run_appearance()
+
+    def remove_selected_modality(self):
+        """
+        This function is used to remove selected modality
+        """
+        if self.current_list_modality != []:
+            self.set_quite_appearance()
+            reply = QMessageBox.question(self, "QListView", "Remove this modality: " + self.selected_modality + "?",
+                                         QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+            if reply == QMessageBox.Yes:     
+                self.current_list_modality = list(set(self.current_list_modality) - set([self.selected_modality]))  # Note. the second item in set is list
+                self.slm_modality.setStringList(self.current_list_modality)  
+                self.listView_modalities.setModel(self.slm_modality)
+            self.set_run_appearance()
+
+        else:
+            self.set_quite_appearance()
+            QMessageBox.warning( self, 'Warning', 'No modality selected!')
+            self.set_run_appearance()
+    
     def remove_selected_file(self):
         """
         This function is used to remove selected file
         """
-        if self.current_list != []:
-            QMessageBox.information(self, "QListView", "Remove this file: " + self.selected_file)
-            self.current_list = list(set(self.current_list) - set([self.selected_file]))  # Note. the second item in set is list
-            self.slm.setStringList(self.current_list)  
-            self.listView_groups.setModel(self.slm)
+        # Try if selected self.selected_group and self.selected_modality
+        try:
+            self.selected_group
+            self.selected_modality
+        except AttributeError:
+            is_selected_group_and_modality = False
         else:
-            print(f'No file selected\n') 
+            is_selected_group_and_modality = True
 
-    def clear_all_selection(self):
+        if is_selected_group_and_modality & (self.current_list_file != {}):  
+            if self.current_list_file[self.selected_group][self.selected_modality] != []:
+                self.set_quite_appearance()
+                reply = QMessageBox.question(self, "QListView", "Remove this file: " + self.selected_file + "?",
+                                             QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+                if reply == QMessageBox.Yes:     
+                    self.current_list_file[self.selected_group][self.selected_modality] = list(set(self.current_list_file[self.selected_group][self.selected_modality]) - set([self.selected_file]))
+                    self.slm_file.setStringList(self.current_list_file[self.selected_group][self.selected_modality])  
+                    self.listView_files.setModel(self.slm_file)
+                self.set_run_appearance()
+    
+            else:
+                self.set_quite_appearance()
+                QMessageBox.warning( self, 'Warning', 'No file selected!')
+                self.set_run_appearance() 
+
+    def clear_all_group(self):
         """
         Remove all selections
         """
-        self.current_list = []  # Re-initiating the current_list
-        self.qList = []
-        self.selected_file = ""
-        self.slm.setStringList(self.qList)  # 设置模型列表视图，加载数据列表
-        self.listView_groups.setModel(self.slm)  #设置列表视图的模型
+        self.current_list_group = []
+        self.selected_groups = []
+        self.slm_group.setStringList(self.selected_groups) 
+        self.listView_groups.setModel(self.slm_group)  
+    
+    def clear_all_modality(self):
+        """
+        Remove all selections
+        """
+        self.current_list_modality = []
+        self.selected_modalities = []
+        self.slm_modality.setStringList(self.selected_modalities)  
+        self.listView_modalities.setModel(self.slm_modality) 
+
+    def clear_all_file(self):
+        """
+        Remove all selections
+        """
+        # Try if selected self.selected_group and self.selected_modality
+        try:
+            self.selected_group
+            self.selected_modality
+        except AttributeError:
+            is_selected_group_and_modality = False
+        else:
+            is_selected_group_and_modality = True
+            
+        if is_selected_group_and_modality & (self.current_list_file != {}):  
+            self.current_list_file[self.selected_group][self.selected_modality] = []
+            self.selected_files = []
+            self.slm_file.setStringList(self.selected_files)  
+            self.listView_files.setModel(self.slm_file)  
 
     def closeEvent(self, event):
         """This function is called when exit icon of the window is clicked.

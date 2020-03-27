@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1037</width>
-    <height>484</height>
+    <height>568</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -55,8 +55,8 @@
          <widget class="QPushButton" name="pushButton_addgroups">
           <property name="minimumSize">
            <size>
-            <width>0</width>
-            <height>0</height>
+            <width>20</width>
+            <height>40</height>
            </size>
           </property>
           <property name="toolTipDuration">
@@ -74,8 +74,8 @@
          <widget class="QPushButton" name="pushButton_removegroups">
           <property name="minimumSize">
            <size>
-            <width>0</width>
-            <height>0</height>
+            <width>20</width>
+            <height>40</height>
            </size>
           </property>
           <property name="text">
@@ -87,8 +87,8 @@
          <widget class="QPushButton" name="pushButton_cleargroups">
           <property name="minimumSize">
            <size>
-            <width>0</width>
-            <height>0</height>
+            <width>20</width>
+            <height>40</height>
            </size>
           </property>
           <property name="text">
@@ -102,6 +102,12 @@
        <layout class="QHBoxLayout" name="modality_btn">
         <item>
          <widget class="QPushButton" name="pushButton_addmodalities">
+          <property name="minimumSize">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
           <property name="toolTipDuration">
            <number>-5</number>
           </property>
@@ -115,6 +121,12 @@
         </item>
         <item>
          <widget class="QPushButton" name="pushButton_removemodalites">
+          <property name="minimumSize">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
           <property name="text">
            <string>Remove</string>
           </property>
@@ -122,6 +134,12 @@
         </item>
         <item>
          <widget class="QPushButton" name="pushButton_clearmodalities">
+          <property name="minimumSize">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
           <property name="text">
            <string>Clear</string>
           </property>
@@ -178,6 +196,12 @@
        <layout class="QHBoxLayout" name="file_btn">
         <item>
          <widget class="QPushButton" name="pushButton_addfiles">
+          <property name="minimumSize">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
           <property name="baseSize">
            <size>
             <width>10</width>
@@ -197,6 +221,12 @@
         </item>
         <item>
          <widget class="QPushButton" name="pushButton_removefiles">
+          <property name="minimumSize">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
           <property name="baseSize">
            <size>
             <width>10</width>
@@ -210,6 +240,12 @@
         </item>
         <item>
          <widget class="QPushButton" name="pushButton_clearfiles">
+          <property name="minimumSize">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
           <property name="baseSize">
            <size>
             <width>10</width>
@@ -268,6 +304,8 @@
     <property name="title">
      <string>Help(&amp;H)</string>
     </property>
+    <addaction name="actionWeb"/>
+    <addaction name="actionPDF"/>
    </widget>
    <addaction name="menuConfiguration_file"/>
    <addaction name="menuHelp_H"/>
@@ -281,6 +319,16 @@
   <action name="actionSave_configuration">
    <property name="text">
     <string>Save configuration</string>
+   </property>
+  </action>
+  <action name="actionWeb">
+   <property name="text">
+    <string>Web</string>
+   </property>
+  </action>
+  <action name="actionPDF">
+   <property name="text">
+    <string>PDF</string>
    </property>
   </action>
  </widget>

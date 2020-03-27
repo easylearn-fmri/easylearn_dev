@@ -70,9 +70,11 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         """Set dart style appearance.
         """
         qss_string_all_pushbutton = """
+        #MainWindow{background-color: rgb(50, 50, 50)}
         QPushButton{color: rgb(200,200,200); border: 2px solid rgb(100,100,100); border-radius:10}
         QPushButton:hover {background-color: black; color: white; font-size:20px; font-weight: bold}
-        #MainWindow{background-color: rgb(50, 50, 50)}                               
+        QPushButton#run{background-color:rgb(100,200,100); color:white; border: 2px solid rgb(100,100,100); border-radius:15} 
+                                       
         """
         qss_string_run_pushbutton = """
         QPushButton{background-color:rgb(100,200,100); color:white; border: 2px solid rgb(100,100,100); border-radius:15}        
@@ -129,7 +131,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         if self.working_directory != "":
             self.configuration_file = os.path.join(self.working_directory, configuration_file_name)
             with open(self.configuration_file, 'w') as configuration_file:
-                config={'groups':{'group_1':['mod1','mod2'],'group_2':['mod1','mod2']}}
+                config={"data_loading": {}, "features_engineering": {}, "machine_learning": {}, "model_evaluation": {}, "statistical_analysis": {}}
                 config = json.dumps(config)
                 configuration_file.write(config)
                 self.textBrowser.setText("Configuration file is " + self.configuration_file)
