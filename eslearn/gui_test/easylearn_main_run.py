@@ -37,20 +37,20 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
 
         # Set appearance
         self.set_run_appearance()
-        logal_style = '''
-            #logal{
+        logo_style = '''
+            #logo{
                 background-color: black;
                 border: 5px solid white;
                 border-radius: 50px;
-                border-image: url('./easylearn1.jpg');
+                border-image: url('../logo/easylearn.jpg');
                 }
-                #logal:hover {
+                #logo:hover {
                 border-radius: 0px;}
         '''
-        self.logal.setStyleSheet(logal_style)
+        self.logo.setStyleSheet(logo_style)
         self.setWindowTitle('EASYLEARN')
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("./easylearn.jpg"))
+        icon.addPixmap(QtGui.QPixmap("../logo/easylearn.jpg"))
         self.setWindowIcon(icon)
 
         # Connecting to functions

@@ -43,7 +43,7 @@
    </property>
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
-     <layout class="QGridLayout" name="gridLayout_all_ptb" columnstretch="100,0,0">
+     <layout class="QGridLayout" name="gridLayout_all_ptb" columnstretch="100,0">
       <property name="sizeConstraint">
        <enum>QLayout::SetNoConstraint</enum>
       </property>
@@ -223,7 +223,7 @@
        </widget>
       </item>
       <item row="0" column="0" rowspan="2" colspan="2">
-       <widget class="QLabel" name="logal">
+       <widget class="QLabel" name="logo">
         <property name="minimumSize">
          <size>
           <width>0</width>
