@@ -27,7 +27,6 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
 
         # initiating
         self.group_dict = {}
-        self.modality_dict_item = {"file":[], "mask": [], "target":[], "covariances": []}
         self.selected_group = None
         self.selected_modality = None
         self.selected_file = None
@@ -362,10 +361,6 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         """
         Display files of the selected modality of the selected group
         """
-        print(self.selected_group)
-        print(self.selected_modality)
-        print(self.group_dict[self.selected_group])
-
         if (bool(self.selected_group) & bool(self.selected_modality)):
             if ((self.selected_modality in list(self.group_dict[self.selected_group].keys()))):
                 self.slm_file.setStringList(self.group_dict[self.selected_group][self.selected_modality]["file"])  

@@ -306,24 +306,40 @@
       </item>
      </layout>
     </item>
+    <item row="1" column="0">
+     <spacer name="verticalSpacer_2">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeType">
+       <enum>QSizePolicy::Fixed</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
     <item row="2" column="0">
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_file_covariance">
+       <layout class="QVBoxLayout" name="verticalLayout_file_mask">
         <item>
-         <widget class="QLabel" name="label_covariance">
+         <widget class="QLabel" name="label_mask">
           <property name="text">
-           <string>Convariances</string>
+           <string>Mask</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEdit_cov"/>
+         <widget class="QLineEdit" name="lineEdit_mask"/>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="file_btn_4">
+         <layout class="QHBoxLayout" name="file_btn_2">
           <item>
-           <widget class="QPushButton" name="pushButton_chooseCovariance">
+           <widget class="QPushButton" name="pushButton_chooseMask">
             <property name="minimumSize">
              <size>
               <width>20</width>
@@ -348,7 +364,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_clearCovriance">
+           <widget class="QPushButton" name="pushButton_clearMask">
             <property name="minimumSize">
              <size>
               <width>20</width>
@@ -465,21 +481,21 @@
        </spacer>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_file_mask">
+       <layout class="QVBoxLayout" name="verticalLayout_file_covariance">
         <item>
-         <widget class="QLabel" name="label_mask">
+         <widget class="QLabel" name="label_covariance">
           <property name="text">
-           <string>Mask</string>
+           <string>Convariances</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEdit_mask"/>
+         <widget class="QLineEdit" name="lineEdit_cov"/>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="file_btn_2">
+         <layout class="QHBoxLayout" name="file_btn_4">
           <item>
-           <widget class="QPushButton" name="pushButton_chooseMask">
+           <widget class="QPushButton" name="pushButton_chooseCovariance">
             <property name="minimumSize">
              <size>
               <width>20</width>
@@ -504,7 +520,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_clearMask">
+           <widget class="QPushButton" name="pushButton_clearCovriance">
             <property name="minimumSize">
              <size>
               <width>20</width>
@@ -527,22 +543,6 @@
        </layout>
       </item>
      </layout>
-    </item>
-    <item row="1" column="0">
-     <spacer name="verticalSpacer_2">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-      <property name="sizeType">
-       <enum>QSizePolicy::Fixed</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
     </item>
    </layout>
   </widget>
