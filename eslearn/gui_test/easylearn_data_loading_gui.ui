@@ -334,7 +334,14 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEdit_mask"/>
+         <widget class="QLineEdit" name="lineEdit_mask">
+          <property name="minimumSize">
+           <size>
+            <width>30</width>
+            <height>30</height>
+           </size>
+          </property>
+         </widget>
         </item>
         <item>
          <layout class="QHBoxLayout" name="file_btn_2">
@@ -412,7 +419,14 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEdit_target"/>
+         <widget class="QLineEdit" name="lineEdit_target">
+          <property name="minimumSize">
+           <size>
+            <width>30</width>
+            <height>30</height>
+           </size>
+          </property>
+         </widget>
         </item>
         <item>
          <layout class="QHBoxLayout" name="file_btn_3">
@@ -490,7 +504,14 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEdit_cov"/>
+         <widget class="QLineEdit" name="lineEdit_cov">
+          <property name="minimumSize">
+           <size>
+            <width>30</width>
+            <height>30</height>
+           </size>
+          </property>
+         </widget>
         </item>
         <item>
          <layout class="QHBoxLayout" name="file_btn_4">

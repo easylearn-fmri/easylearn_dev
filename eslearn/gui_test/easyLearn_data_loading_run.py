@@ -17,16 +17,20 @@ from easylearn_data_loading_gui import Ui_MainWindow
 
 
 class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
-    def __init__(self):
+    def __init__(self, working_directory=None):
         QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
 
+        # Set working_directory
+        self.working_directory = working_directory
+        if self.working_directory:
+            os.chdir(self.working_directory)
         # set appearance
         self.set_run_appearance()
 
         # initiating
-        self.group_dict = {}
+        self.data_loading = {}
         self.selected_group = None
         self.selected_modality = None
         self.selected_file = None
@@ -102,34 +106,40 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         self.label_file.setStyleSheet("color:white; font-weight: bold") 
 
     def load_configuration(self):
-        """Load configuration
+        """Load configuration, and display groups
         """
-        if self.configuration_file == "":
-            self.configuration_file, filetype = QFileDialog.getOpenFileName(self,  
-                                    "Select configuration file",  
-                                    os.getcwd(), "All Files (*);;Text Files (*.txt)") 
-        else:
-            self.set_quite_appearance()
-            QMessageBox.warning( self, 'Warning', f"Configuration was given!: {self.configuration_file}")
-            self.set_run_appearance()
+        self.configuration_file, filetype = QFileDialog.getOpenFileName(self,  
+                                "Select configuration file",  
+                                os.getcwd(), "Text Files (*.json);;All Files (*);;") 
 
-        # Read configuration
+        # Read configuration_file if already selected
         if self.configuration_file != "": 
         # TODO: 解决中文编码的问题 
-            with open(self.configuration_file, 'r') as config:
+            with open(self.configuration_file, 'r', encoding='utf-8') as config:
                 self.configuration = config.read()
-
-            print(self.configuration)
-
             # Check the configuration is valid JSON, then transform the configuration to dict
             # If the configuration is not valid JSON, then give configuration and configuration_file to ""
             try:
                 self.configuration = json.loads(self.configuration)
+                # If already exists data_loading configuration
+                if self.data_loading != {}:
+                    self.set_quite_appearance()
+                    reply = QMessageBox.question(self, "Data loading configuration already exists", 
+                                                "The data_loading configuration is already exists, do you want to rewrite it with the  loaded configuration?",
+                                                 QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+                    self.set_run_appearance()
+                    if reply == QMessageBox.Yes:  
+                        self.data_loading = self.configuration["data_loading"]
+                else:
+                    self.data_loading = self.configuration["data_loading"]
+
+                self.display_groups()
+                self.display_modalities()
+                self.display_files()
             except json.decoder.JSONDecodeError:
-                self.configuration_file = ""
-                self.configuration = ""
                 self.set_quite_appearance()
-                QMessageBox.warning( self, 'Warning', 'Configuration in configuration file is not valid JSON')
+                QMessageBox.warning( self, 'Warning', f'{self.configuration_file} is not valid JSON')
+                self.configuration_file = ""
                 self.set_run_appearance()
         else:
             self.set_quite_appearance()
@@ -139,11 +149,11 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
     def save_configuration(self):
         """Save configuration
         """
-        if self.configuration != "":
-            self.configuration["data_loading"] = self.group_dict
-            self.configuration = json.dumps(self.configuration)
-            with open(self.configuration_file, 'w') as config:
-                config.write(self.configuration)
+        if self.configuration_file != "":
+            self.configuration["data_loading"] = self.data_loading
+            with open(self.configuration_file, 'w', encoding="utf-8") as config:    
+                # Set ensure_ascii=False to save Chinese correctly.
+                config.write(json.dumps(self.configuration, ensure_ascii=False))
         else:
             self.set_quite_appearance()
             QMessageBox.warning( self, 'Warning', 'Please choose a configuration file first (press button at top left corner)!')
@@ -181,14 +191,14 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         self.set_quite_appearance()
         self.group_name, ok = QInputDialog.getText(self, "Add group", "Please name the group:", QLineEdit.Normal, "group_")  
         self.set_run_appearance()
-        if self.group_name not in self.group_dict.keys():
-            self.group_dict[self.group_name] = {}
+        if self.group_name not in self.data_loading.keys():
+            self.data_loading[self.group_name] = {}
         self.display_groups()
 
     def identify_selected_group(self, index):
         """Identify the selected file in the list_view_groups and display_files the files
         """
-        self.selected_group = list(self.group_dict.keys())[index.row()]
+        self.selected_group = list(self.data_loading.keys())[index.row()]
         self.display_modalities()
         self.display_files()
    
@@ -196,7 +206,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         """
         This function is used to remove selected group
         
-        If exist selected self.selected_group and self.selected_group is in list(self.group_dict.keys),
+        If exist selected self.selected_group and self.selected_group is in list(self.data_loading.keys),
         then remove.
         """
 
@@ -207,7 +217,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
             self.set_run_appearance()
             if reply == QMessageBox.Yes:  
                 # Remove selected group
-                del self.group_dict[self.selected_group]
+                del self.data_loading[self.selected_group]
                 self.selected_group = None
                 self.display_groups()
                 self.display_modalities()
@@ -221,7 +231,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         """
         Remove all selections
         """
-        self.group_dict = {}
+        self.data_loading = {}
         self.selected_group = False
         self.display_groups() 
         self.display_modalities()
@@ -235,8 +245,8 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
             self.set_quite_appearance()
             mod_name, ok = QInputDialog.getText(self, "Add modality", "Please name the modality:", QLineEdit.Normal, "modality_")
             self.set_run_appearance()
-            if not (mod_name in self.group_dict[self.selected_group].keys()):  # avoid clear exist modalites
-                self.group_dict[self.selected_group][mod_name] = {"file":[], "mask": [], "target":[], "covariances": []}  #  must copy the dict, otherwise all modalities are the same.
+            if not (mod_name in self.data_loading[self.selected_group].keys()):  # avoid clear exist modalites
+                self.data_loading[self.selected_group][mod_name] = {"file":[], "mask": [], "target":[], "covariances": []}  #  must copy the dict, otherwise all modalities are the same.
             self.display_modalities()
         else:
             self.set_quite_appearance()
@@ -246,7 +256,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
     def identify_selected_modality(self, index):
         """Identify the selected modality
         """
-        self.selected_modality = list(self.group_dict[self.selected_group].keys())[index.row()]
+        self.selected_modality = list(self.data_loading[self.selected_group].keys())[index.row()]
         self.display_files()
 
     def remove_selected_modality(self):
@@ -257,7 +267,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         namely the selected modality is selected from other groups).
         """    
         if (bool(self.selected_modality) & bool(self.selected_group) & 
-            (self.selected_modality in list(self.group_dict[self.selected_group]))):
+            (self.selected_modality in list(self.data_loading[self.selected_group]))):
             self.set_quite_appearance()
             message = "Remove this modality: " + self.selected_modality + " of " + self.selected_group + "?"
             self.set_run_appearance()
@@ -265,7 +275,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
                                          QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
             if reply == QMessageBox.Yes:     
                 # Remove selected modality for selected group
-                del self.group_dict[self.selected_group][self.selected_modality]
+                del self.data_loading[self.selected_group][self.selected_modality]
                 self.selected_modality = None
                 self.display_modalities()
                 self.display_files()
@@ -279,7 +289,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         Remove all modalities for selected group
         """
         if self.selected_group:
-            self.group_dict[self.selected_group] = {}
+            self.data_loading[self.selected_group] = {}
             self.selected_modality = None
             self.display_modalities()  
             self.display_files()
@@ -295,9 +305,10 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         if (bool(self.selected_group) & bool(self.selected_modality)):
             self.loaded_files, filetype = QFileDialog.getOpenFileNames(self,  
                                     "Select files",  os.getcwd(), 
-                                    "All Files (*);;PDF Files (*.pdf);;Text Files (*.txt)")
+                                    "Nifti Files (*.nii);;Matlab Files (*.mat);;Excel Files (*.xlsx);;Excel Files (*.xls);;Text Files (*.txt);;All Files (*)"
+        )
             
-            self.group_dict[self.selected_group][self.selected_modality]["file"].extend(self.loaded_files)
+            self.data_loading[self.selected_group][self.selected_modality]["file"].extend(self.loaded_files)
             self.display_files()
         else:
             self.set_quite_appearance()
@@ -307,7 +318,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
     def identify_selected_file(self, index):
         """Identify the selected file in the list_view_files
         """
-        self.selected_file = self.group_dict[self.selected_group][self.selected_modality]["file"][index.row()]
+        self.selected_file = self.data_loading[self.selected_group][self.selected_modality]["file"][index.row()]
     
     def remove_selected_file(self):
         """
@@ -319,7 +330,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
                                          QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
             self.set_run_appearance()
             if reply == QMessageBox.Yes:     
-                self.group_dict[self.selected_group][self.selected_modality]["file"] = list(set(self.group_dict[self.selected_group][self.selected_modality]["file"]) - set([self.selected_file]))
+                self.data_loading[self.selected_group][self.selected_modality]["file"] = list(set(self.data_loading[self.selected_group][self.selected_modality]["file"]) - set([self.selected_file]))
                 self.selected_file = None
                 self.display_files()
         else:
@@ -334,7 +345,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         print(self.selected_group)
         print(self.selected_modality)
         if (bool(self.selected_group) & bool(self.selected_modality)):  
-            self.group_dict[self.selected_group][self.selected_modality]["file"] = []
+            self.data_loading[self.selected_group][self.selected_modality]["file"] = []
             self.selected_file = None
             self.display_files() 
     #%% -----------------------------------------------------------------
@@ -343,7 +354,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         """
         Display groups' name in the list view
         """
-        self.slm_group.setStringList(self.group_dict.keys())  
+        self.slm_group.setStringList(self.data_loading.keys())  
         self.listView_groups.setModel(self.slm_group)
     
     def display_modalities(self):
@@ -351,7 +362,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         Display modalities' name in the list view
         """
         if bool(self.selected_group):
-            self.slm_modality.setStringList(self.group_dict[self.selected_group].keys())  
+            self.slm_modality.setStringList(self.data_loading[self.selected_group].keys())  
             self.listView_modalities.setModel(self.slm_modality)
         else:
             self.slm_modality.setStringList([])  
@@ -362,8 +373,10 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         Display files of the selected modality of the selected group
         """
         if (bool(self.selected_group) & bool(self.selected_modality)):
-            if ((self.selected_modality in list(self.group_dict[self.selected_group].keys()))):
-                self.slm_file.setStringList(self.group_dict[self.selected_group][self.selected_modality]["file"])  
+            if ((self.selected_modality in list(self.data_loading[self.selected_group].keys()))):
+                # Add numpy  to file name
+                file_to_display = [str(i+1) + ":  "+ file_name for (i, file_name) in enumerate(self.data_loading[self.selected_group][self.selected_modality]["file"])]
+                self.slm_file.setStringList(file_to_display)  
                 self.listView_files.setModel(self.slm_file)
             else:
                 self.slm_file.setStringList([])  

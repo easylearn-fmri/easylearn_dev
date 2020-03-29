@@ -255,7 +255,8 @@
     </property>
     <addaction name="separator"/>
     <addaction name="choose_working_directory"/>
-    <addaction name="create_file"/>
+    <addaction name="create_configuration_file"/>
+    <addaction name="choose_configuration_file"/>
    </widget>
    <widget class="QMenu" name="menuHelp_H">
     <property name="title">
@@ -275,9 +276,14 @@
     <string>Choose working directory</string>
    </property>
   </action>
-  <action name="create_file">
+  <action name="create_configuration_file">
    <property name="text">
     <string>Create configuration file</string>
+   </property>
+  </action>
+  <action name="choose_configuration_file">
+   <property name="text">
+    <string>Load configuration file</string>
    </property>
   </action>
  </widget>
