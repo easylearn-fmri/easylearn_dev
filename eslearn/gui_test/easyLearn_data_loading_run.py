@@ -31,11 +31,10 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
 
         # initiating
         self.data_loading = {}
+        self.configuration_file = ""
         self.selected_group = None
         self.selected_modality = None
         self.selected_file = None
-        self.configuration_file = ""
-        self.configuration = ""
 
         # initialize list_view for groups, modalities and files
         self.slm_group = QStringListModel()
@@ -121,21 +120,32 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
             # If the configuration is not valid JSON, then give configuration and configuration_file to ""
             try:
                 self.configuration = json.loads(self.configuration)
-                # If already exists data_loading configuration
-                if self.data_loading != {}:
-                    self.set_quite_appearance()
-                    reply = QMessageBox.question(self, "Data loading configuration already exists", 
-                                                "The data_loading configuration is already exists, do you want to rewrite it with the  loaded configuration?",
-                                                 QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-                    self.set_run_appearance()
-                    if reply == QMessageBox.Yes:  
-                        self.data_loading = self.configuration["data_loading"]
+                # If already exists self.data_loading
+                if (self.data_loading != {}):
+                    # If the loaded self.configuration["data_loading"] is not empty
+                    # Then ask if rewrite self.data_loading with self.configuration["data_loading"]
+                    if (list(self.configuration["data_loading"].keys()) != []):
+                        self.set_quite_appearance()
+                        reply = QMessageBox.question(self, "Data loading configuration already exists", 
+                                                    "The data_loading configuration is already exists, do you want to rewrite it with the  loaded configuration?",
+                                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+                        self.set_run_appearance()
+                        if reply == QMessageBox.Yes:  
+                            self.data_loading = self.configuration["data_loading"]
+                            # Because rewrite self.data_loading, we need to re-initialize the follows.
+                            self.selected_group = None
+                            self.selected_modality = None
+                            self.selected_file = None
+                    # If the loaded self.configuration["data_loading"] is empty
+                     # Then assign self.configuration["data_loading"] with self.data_loading
+                    elif (list(self.configuration["data_loading"].keys()) == []):
+                        self.configuration["data_loading"] = self.data_loading
                 else:
                     self.data_loading = self.configuration["data_loading"]
-
                 self.display_groups()
                 self.display_modalities()
                 self.display_files()
+
             except json.decoder.JSONDecodeError:
                 self.set_quite_appearance()
                 QMessageBox.warning( self, 'Warning', f'{self.configuration_file} is not valid JSON')

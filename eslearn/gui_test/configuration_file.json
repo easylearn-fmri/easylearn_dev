@@ -1,1 +1,1 @@
-{"data_loading": {"group_0": {"modality_0": {"file": ["D:/My_Codes/easylearn-fmri/eslearn/gui_test/生成结果.xlsx"], "mask": [], "target": [], "covariances": []}}}, "features_engineering": {}, "machine_learning": {}, "model_evaluation": {}, "statistical_analysis": {}}
+{"data_loading": {"group_0": {"modality_0": {"file": [], "mask": [], "target": [], "covariances": []}}}, "features_engineering": {}, "machine_learning": {}, "model_evaluation": {}, "statistical_analysis": {}}
