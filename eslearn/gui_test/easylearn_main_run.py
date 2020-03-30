@@ -19,6 +19,7 @@ from PyQt5.QtCore import *
 
 from easylearn_main_gui import Ui_MainWindow
 from easylearn_data_loading_run import EasylearnDataLoadingRun
+from easylearn_logger import easylearn_logger
 
 
 class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
@@ -115,7 +116,6 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         if self.working_directory != "":
             os.chdir(self.working_directory)
 
-
     def initialize_configuration_fun(self):
         """Create file to save settings
 
@@ -128,7 +128,8 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
                 config = {"data_loading": {}, "features_engineering": {}, "machine_learning": {}, "model_evaluation": {}, "statistical_analysis": {}}
                 config = json.dumps(config)
                 configuration_file.write(config)
-                self.textBrowser.setText("Configuration file is " + self.configuration_file)
+                config_message = "Configuration file is " + self.configuration_file
+                self.textBrowser.setText(config_message)
         else:
             self.set_quite_appearance()
             QMessageBox.warning( self, 'Warning', f'Please choose a working directory first! (press button at the top left corner)')

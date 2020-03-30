@@ -5,6 +5,7 @@ MIT License
 import sys
 import os
 import json
+import cgitb
 from PyQt5.QtWidgets import QApplication,QMainWindow, QFileDialog
 from PyQt5.QtWidgets import *
 from PyQt5 import *
@@ -14,7 +15,6 @@ from PyQt5.QtWidgets import QApplication,QWidget,QVBoxLayout,QListView,QMessageB
 from PyQt5.QtCore import QStringListModel
 
 from easylearn_data_loading_gui import Ui_MainWindow
-
 
 class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
     def __init__(self, working_directory=None):
@@ -26,6 +26,9 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         self.working_directory = working_directory
         if self.working_directory:
             os.chdir(self.working_directory)
+            cgitb.enable(format="text", display=1, logdir=os.path.join(self.working_directory, "log_data_loading"))
+        else:
+            cgitb.enable(display=1, logdir=None)   
         # set appearance
         self.set_run_appearance()
 
@@ -69,7 +72,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
     def set_run_appearance(self):
         """Set dart style appearance
         """
-        qss_string_all = """
+        qss_string_run = """
         QPushButton{color: rgb(200,200,200); border: 2px solid rgb(100,100,100); border-radius:0}
         QPushButton:hover {background-color: black; color: white; font-size:20px; font-weight: bold}
         #MainWindow{background-color: rgb(50, 50, 50)}    
@@ -79,7 +82,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         QListView::item:selected:active {background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E0FFFF, stop: 1 #888dd9)}
         QLineEdit{background-color:rgb(200,200,200); color:black; font-size:15px; border: 0px solid rgb(100,100,100); border-radius:0}
         """
-        self.setStyleSheet(qss_string_all)
+        self.setStyleSheet(qss_string_run)
         self.label_group.setStyleSheet("color:white; font-weight: bold")   
         self.label_modalities.setStyleSheet("color:white; font-weight: bold")   
         self.label_file.setStyleSheet("color:white; font-weight: bold")  
@@ -92,18 +95,26 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
 
         This function make sure quit message can be see clearly.
         """
-        qss_string_message = """
-        QPushButton{color: black; border: 2px solid rgb(100,100,100); border-radius:0}
+        qss_string_quit = """
+        QPushButton{color: rgb(200,200,200); border: 2px solid rgb(100,100,100); border-radius:0}
         QPushButton:hover {background-color: black; color: white; font-size:20px; font-weight: bold}
         #MainWindow{background-color: rgb(50, 50, 50)}    
-        QListView{background-color:rgb(200,200,200); color:black; font-size:15px; border: 2px solid rgb(100,100,100); border-radius:0}                   
+        QListView{background-color:rgb(200,200,200); color:black; font-size:15px; border: 0px solid rgb(100,100,100); border-radius:0} 
+        QListView::item:selected {font-weight:bold; font-size:15; color:black; border: 1px solid black}
+        QListView::item:selected:!active {background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #ABAFE5, stop: 1 #8588B2)}
+        QListView::item:selected:active {background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E0FFFF, stop: 1 #888dd9)}
+        QLineEdit{background-color:rgb(200,200,200); color:black; font-size:15px; border: 0px solid rgb(100,100,100); border-radius:0} 
+        QMessageBox{background-color:gray; color:black; font-size:20px}                
         """  
         # """
-        self.setStyleSheet(qss_string_message)
+        self.setStyleSheet(qss_string_quit)
         self.label_group.setStyleSheet("color:white; font-weight: bold")   
         self.label_modalities.setStyleSheet("color:white; font-weight: bold")   
-        self.label_file.setStyleSheet("color:white; font-weight: bold") 
-
+        self.label_file.setStyleSheet("color:white; font-weight: bold")  
+        self.label_mask.setStyleSheet("color:white; font-weight: bold")   
+        self.label_target.setStyleSheet("color:white; font-weight: bold")   
+        self.label_covariance.setStyleSheet("color:white; font-weight: bold") 
+    
     def load_configuration(self):
         """Load configuration, and display groups
         """

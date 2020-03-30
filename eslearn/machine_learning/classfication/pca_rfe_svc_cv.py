@@ -142,8 +142,7 @@ class PcaRfeSvcCV():
             self.label_test_all = np.int16(np.append(self.label_test_all, label_test))
 
             # Resampling training data
-            feature_train, label_train = self.re_sampling(
-                feature_train, label_train)
+            feature_train, label_train = self.re_sampling(feature_train, label_train)
 
             # data_preprocess
             prep = elprep.Preprocessing(self.data_preprocess_method, self.data_preprocess_level)
