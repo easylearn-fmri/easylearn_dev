@@ -63,27 +63,22 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         #MainWindow{background-color: rgb(50, 50, 50)}
         QPushButton{color: rgb(200,200,200); border: 2px solid rgb(100,100,100); border-radius:10}
         QPushButton:hover {background-color: black; color: white; font-size:20px; font-weight: bold}
-        QPushButton#run{background-color:rgb(100,200,100); color:white; border: 2px solid rgb(100,100,100); border-radius:15}                              
-        """
-        qss_string_run_pushbutton = """
-        QPushButton{background-color:rgb(100,200,100); color:white; border: 2px solid rgb(100,100,100); border-radius:15}        
-        QPushButton:hover {background-color:green; color:white; border: 2px solid rgb(100,100,100); border-radius:15; font-weight: bold}                   
-        """
-        qss_string_quit_pushbutton = """
-        QPushButton{background-color:rgb(200,100,100); color:white; border: 2px solid rgb(100,100,100); border-radius:15}   
-        QPushButton:hover {background-color:red; color:white; border: 2px solid rgb(100,100,100); border-radius:15; font-weight: bold}                        
+        QPushButton#run{background-color:rgb(100,200,100); color:white; border: 2px solid rgb(100,100,100); border-radius:15}     
+        QPushButton#run:hover {background-color:green; color:white; border: 2px solid rgb(100,100,100); border-radius:15; font-weight: bold}  
+        QPushButton#quit{background-color:rgb(200,100,100); color:white; border: 2px solid rgb(100,100,100); border-radius:15}  
+        QPushButton#quit:hover {background-color:red; color:white; border: 2px solid rgb(100,100,100); border-radius:15; font-weight: bold}                             
         """
         qss_string_textbrowser = """
         background-color:rgb(200,200,200); color:black; border: 2px solid rgb(100,100,100); border-radius:15; font-size:20px
         """
         self.logo.setStyleSheet(qss_logo)
         self.setWindowTitle('EASYLEARN')
+
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("../logo/easylearn.jpg"))
         self.setWindowIcon(icon)
+
         self.setStyleSheet(qss_string_all_pushbutton)
-        self.run.setStyleSheet(qss_string_run_pushbutton)
-        self.quit.setStyleSheet(qss_string_quit_pushbutton)
         self.textBrowser.setStyleSheet(qss_string_textbrowser)
 
     def set_quite_appearance(self):
