@@ -3,6 +3,7 @@ def data_preprocess(sel, feature_train, feature_test, data_preprocess_method, da
         This function is used to preprocess features
         Method 1: preprocess data in group level, one feature by one feature.
         Method 2: preprocess data in subject level.
+        Method 5:
         '''
         # Method 1: Group level preprocessing.
         if data_preprocess_level == 'group':
