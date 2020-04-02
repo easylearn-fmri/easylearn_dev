@@ -254,7 +254,7 @@
      <string>Project initialization(&amp;I)</string>
     </property>
     <addaction name="separator"/>
-    <addaction name="choose_working_directory"/>
+    <addaction name="select_working_directory"/>
     <addaction name="create_configuration_file"/>
     <addaction name="choose_configuration_file"/>
    </widget>
@@ -285,9 +285,9 @@
     <string>Current working directory</string>
    </property>
   </action>
-  <action name="choose_working_directory">
+  <action name="select_working_directory">
    <property name="text">
-    <string>Choose working directory</string>
+    <string>Select working directory</string>
    </property>
   </action>
   <action name="create_configuration_file">

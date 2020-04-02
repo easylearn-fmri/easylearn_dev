@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>953</width>
+    <width>1093</width>
     <height>845</height>
    </rect>
   </property>
@@ -325,28 +325,28 @@
     <item row="2" column="0">
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_file_mask">
-        <item>
+       <layout class="QGridLayout" name="gridLayout_3">
+        <item row="1" column="0">
+         <widget class="QLineEdit" name="lineEdit_mask">
+          <property name="minimumSize">
+           <size>
+            <width>30</width>
+            <height>40</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
          <widget class="QLabel" name="label_mask">
           <property name="text">
            <string>Mask</string>
           </property>
          </widget>
         </item>
-        <item>
-         <widget class="QLineEdit" name="lineEdit_mask">
-          <property name="minimumSize">
-           <size>
-            <width>30</width>
-            <height>30</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-        <item>
+        <item row="2" column="0">
          <layout class="QHBoxLayout" name="file_btn_2">
           <item>
-           <widget class="QPushButton" name="pushButton_chooseMask">
+           <widget class="QPushButton" name="pushButton_selectMask">
             <property name="minimumSize">
              <size>
               <width>20</width>
@@ -366,7 +366,7 @@
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;push the button then close program&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
-             <string>Choose</string>
+             <string>Select mask</string>
             </property>
            </widget>
           </item>
@@ -385,11 +385,21 @@
              </size>
             </property>
             <property name="text">
-             <string>Clear</string>
+             <string>Clear mask</string>
             </property>
            </widget>
           </item>
          </layout>
+        </item>
+        <item row="1" column="1">
+         <widget class="QPushButton" name="pushButton_mask">
+          <property name="styleSheet">
+           <string notr="true">gridline-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.5, stop:0 rgba(255, 255, 255, 255), stop:0.1 rgba(255, 255, 255, 255), stop:0.2 rgba(255, 176, 176, 167), stop:0.3 rgba(255, 151, 151, 92), stop:0.4 rgba(255, 125, 125, 51), stop:0.5 rgba(255, 76, 76, 205), stop:0.52 rgba(255, 76, 76, 205), stop:0.6 rgba(255, 180, 180, 84), stop:1 rgba(255, 255, 255, 0));</string>
+          </property>
+          <property name="text">
+           <string>OK</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
@@ -410,28 +420,18 @@
        </spacer>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_file_target">
-        <item>
+       <layout class="QGridLayout" name="gridLayout_4">
+        <item row="0" column="0">
          <widget class="QLabel" name="label_target">
           <property name="text">
            <string>Targets</string>
           </property>
          </widget>
         </item>
-        <item>
-         <widget class="QLineEdit" name="lineEdit_target">
-          <property name="minimumSize">
-           <size>
-            <width>30</width>
-            <height>30</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-        <item>
+        <item row="3" column="0">
          <layout class="QHBoxLayout" name="file_btn_3">
           <item>
-           <widget class="QPushButton" name="pushButton_chooseTarget">
+           <widget class="QPushButton" name="pushButton_selectTarget">
             <property name="minimumSize">
              <size>
               <width>20</width>
@@ -451,7 +451,7 @@
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;push the button then close program&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
-             <string>Choose</string>
+             <string>Select targets</string>
             </property>
            </widget>
           </item>
@@ -470,11 +470,28 @@
              </size>
             </property>
             <property name="text">
-             <string>Clear</string>
+             <string>Clear targets</string>
             </property>
            </widget>
           </item>
          </layout>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLineEdit" name="lineEdit_target">
+          <property name="minimumSize">
+           <size>
+            <width>30</width>
+            <height>40</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QPushButton" name="pushButton_target">
+          <property name="text">
+           <string>Ok</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
@@ -495,28 +512,18 @@
        </spacer>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_file_covariance">
-        <item>
+       <layout class="QGridLayout" name="gridLayout_5">
+        <item row="0" column="0">
          <widget class="QLabel" name="label_covariance">
           <property name="text">
-           <string>Convariances</string>
+           <string>Covariates</string>
           </property>
          </widget>
         </item>
-        <item>
-         <widget class="QLineEdit" name="lineEdit_cov">
-          <property name="minimumSize">
-           <size>
-            <width>30</width>
-            <height>30</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-        <item>
+        <item row="3" column="0">
          <layout class="QHBoxLayout" name="file_btn_4">
           <item>
-           <widget class="QPushButton" name="pushButton_chooseCovariance">
+           <widget class="QPushButton" name="pushButton_selectCovariance">
             <property name="minimumSize">
              <size>
               <width>20</width>
@@ -536,7 +543,7 @@
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;push the button then close program&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
-             <string>Choose</string>
+             <string>Select covariates</string>
             </property>
            </widget>
           </item>
@@ -555,11 +562,28 @@
              </size>
             </property>
             <property name="text">
-             <string>Clear</string>
+             <string>Clear covariates</string>
             </property>
            </widget>
           </item>
          </layout>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLineEdit" name="lineEdit_covariates">
+          <property name="minimumSize">
+           <size>
+            <width>30</width>
+            <height>40</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QPushButton" name="pushButton_covariate">
+          <property name="text">
+           <string>Ok</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
@@ -572,7 +596,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>953</width>
+     <width>1093</width>
      <height>26</height>
     </rect>
    </property>

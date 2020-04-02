@@ -62,9 +62,11 @@ QCheckBox
     margin-bottom: 2px;
 }
 
+
 QCheckBox:disabled
 {
     color: #76797C;
+    color: red;
 }
 
 QCheckBox::indicator,

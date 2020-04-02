@@ -38,7 +38,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         self.set_run_appearance()
 
         # Connecting to functions
-        self.choose_working_directory.triggered.connect(self.select_workingdir_fun)
+        self.select_working_directory.triggered.connect(self.select_workingdir_fun)
         self.create_configuration_file.triggered.connect(self.initialize_configuration_fun)
         self.choose_configuration_file.triggered.connect(self.load_configuration_fun)
         self.data_loading.clicked.connect(self.data_loading_fun)

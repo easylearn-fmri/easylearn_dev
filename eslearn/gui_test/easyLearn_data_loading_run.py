@@ -12,7 +12,8 @@ from PyQt5 import *
 from PyQt5.QtGui import QIcon
 import sys
 from PyQt5.QtWidgets import QApplication,QWidget,QVBoxLayout,QListView,QMessageBox
-from PyQt5.QtCore import QStringListModel
+from PyQt5.QtCore import*
+from eslearn.stylesheets. PyQt5_stylesheets import PyQt5_stylesheets
 
 from easylearn_data_loading_gui import Ui_MainWindow
 
@@ -64,8 +65,23 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         self.pushButton_removefiles.clicked.connect(self.remove_selected_file)
         self.pushButton_clearfiles.clicked.connect(self.clear_all_file)
 
+        # mask_target_covariates
+        self.single_slot_dict = {"Select mask": [self.lineEdit_mask, "mask"], "Clear mask": [self.lineEdit_mask, "mask"], 
+                            "Select targets": [self.lineEdit_target, "target"], "Clear targets": [self.lineEdit_target, "target"], 
+                            "Select covariates": [self.lineEdit_covariates, "covariate"], "Clear covariates": [self.lineEdit_covariates, "covariate"]}
+        self.pushButton_selectMask.clicked.connect(self.input_mask_target_covariates)
+        self.pushButton_selectTarget.clicked.connect(self.input_mask_target_covariates)
+        self.pushButton_selectCovariance.clicked.connect(self.input_mask_target_covariates)
+        self.pushButton_clearMask.clicked.connect(self.clear_mask_target_covariates)
+        self.pushButton_clearTarget.clicked.connect(self.clear_mask_target_covariates)
+        self.pushButton_clearCovriance.clicked.connect(self.clear_mask_target_covariates)
+        self.pushButton_mask.clicked.connect(self.check_box_mask)
+        self.pushButton_target.clicked.connect(self.check_box_target)
+        self.pushButton_covariate.clicked.connect(self.check_box_covariate)
+
         # Skins
-        self.skins = ["Dark", "Black", "DarkOrange", "Gray", "Blue", "Navy", "Classic", "Light"]
+        self.skins = {"Dark": "style_Dark", "Black": "style_black", "DarkOrange": "style_DarkOrange", 
+                    "Gray": "style_gray", "Blue": "style_blue", "Navy": "style_navy", "Classic": "style_Classic"}
         self.actionDark.triggered.connect(self.set_run_appearance)
         self.actionBlack.triggered.connect(self.set_run_appearance)
         self.actionDarkOrange.triggered.connect(self.set_run_appearance)
@@ -77,37 +93,28 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
 
         # set appearance
         self.set_run_appearance()
-    
+
     def set_run_appearance(self):
-        """Set dart style appearance
+        """Set style_sheets
         """
         qss_special = """QPushButton:hover
         {
-            font-weight: bold; font-size: 20px;
-        }      
+            font-weight: bold; font-size: 15px;
+        } 
+
         """
         self.setWindowTitle('Data Loading')
         self.setWindowIcon(QIcon('../logo/easylearn.jpg')) 
 
         sender = self.sender()
         if sender:
-            if (sender.text() in self.skins):
-                print(sender.text())
-                with open("../stylesheets/" + sender.text() + ".qss") as f:
-                    style_sheets = f.read()
-                    style_sheets = style_sheets + qss_special
-                    self.setStyleSheet(style_sheets)
+            if (sender.text() in list(self.skins.keys())):
+                self.setStyleSheet(PyQt5_stylesheets.load_stylesheet_pyqt5(style=self.skins[sender.text()]))
             else:
-                with open("../stylesheets/Dark.qss") as f:
-                    style_sheets = f.read()
-                    style_sheets = style_sheets + qss_special
-                    self.setStyleSheet(style_sheets)
+                self.setStyleSheet(PyQt5_stylesheets.load_stylesheet_pyqt5(style="style_Dark"))
         else:
-            with open("../stylesheets/Dark.qss") as f:
-                style_sheets = f.read()
-                style_sheets = style_sheets + qss_special
-                self.setStyleSheet(style_sheets)
-    
+            self.setStyleSheet(PyQt5_stylesheets.load_stylesheet_pyqt5(style="style_Dark"))
+
     def load_configuration(self):
         """Load configuration, and display groups
         """
@@ -253,7 +260,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
 
             mod_name, ok = QInputDialog.getText(self, "Add modality", "Please name the modality:", QLineEdit.Normal, "modality_")
             if not (mod_name in self.data_loading[self.selected_group].keys()):  # avoid clear exist modalites
-                self.data_loading[self.selected_group][mod_name] = {"file":[], "mask": [], "target":[], "covariances": []}  #  must copy the dict, otherwise all modalities are the same.
+                self.data_loading[self.selected_group][mod_name] = {"file":[], "mask": [], "target":[], "covariates": []}  #  must copy the dict, otherwise all modalities are the same.
             self.display_modalities()
         else:
 
@@ -309,7 +316,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
             self.loaded_files, filetype = QFileDialog.getOpenFileNames(self,  
                                     "Select files",  os.getcwd(), 
                                     "Nifti Files (*.nii);;Matlab Files (*.mat);;Excel Files (*.xlsx);;Excel Files (*.xls);;Text Files (*.txt);;All Files (*)"
-        )
+            )
             
             self.data_loading[self.selected_group][self.selected_modality]["file"].extend(self.loaded_files)
             self.display_files()
@@ -385,7 +392,43 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
             self.slm_file.setStringList([])  
             self.listView_files.setModel(self.slm_file)
     
+    def input_mask_target_covariates(self):
+        """Can input or select file
+        """
+        if (bool(self.selected_group) & bool(self.selected_modality)):
+            loaded_file, filetype = QFileDialog.getOpenFileName(self,  
+                                    "Select files",  os.getcwd(), 
+                                    "Text Files (*.txt);;Excel Files (*.xlsx);;Excel Files (*.xls);;Nifti Files (*.nii);;Matlab Files (*.mat);;All Files (*)"
+            )
 
+            if loaded_file != "":
+                modality_key = self.single_slot_dict[self.sender().text()][1]
+                self.single_slot_dict[self.sender().text()][0].setText(loaded_file)
+                self.data_loading[self.selected_group][self.selected_modality][modality_key] = self.single_slot_dict[self.sender().text()][0].text()
+        else:
+            QMessageBox.warning( self, 'Warning', 'Please select group and modality first!')   
+    
+    def check_box_mask(self, state):
+        if (bool(self.selected_group) & bool(self.selected_modality)):
+            self.data_loading[self.selected_group][self.selected_modality]["mask"] = self.lineEdit_mask.text()
+        else:
+            QMessageBox.warning( self, 'Warning', 'Please select group and modality first!') 
+
+    def check_box_target(self, state):
+        if (bool(self.selected_group) & bool(self.selected_modality)):
+                self.data_loading[self.selected_group][self.selected_modality]["target"] = self.lineEdit_target.text()
+        else:
+            QMessageBox.warning( self, 'Warning', 'Please select group and modality first!') 
+
+    def check_box_covariate(self, state):
+        if (bool(self.selected_group) & bool(self.selected_modality)):
+                self.data_loading[self.selected_group][self.selected_modality]["covariate"] = self.lineEdit_covariates.text()
+        else:
+            QMessageBox.warning( self, 'Warning', 'Please select group and modality first!') 
+
+
+    def clear_mask_target_covariates(self):
+        self.single_slot_dict[self.sender().text()][0].setText("")
 
     def closeEvent(self, event):
         """This function is called when exit icon of the window is clicked.
