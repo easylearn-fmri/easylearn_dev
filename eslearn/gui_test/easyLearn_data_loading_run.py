@@ -1,4 +1,4 @@
-mp"""The GUI of the data loading module of easylearn
+"""The GUI of the data loading module of easylearn
 @author: lichao19870617@gmail.com
 MIT License
 """
