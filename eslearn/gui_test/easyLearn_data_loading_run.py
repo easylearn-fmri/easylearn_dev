@@ -29,9 +29,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
             cgitb.enable(format="text", display=1, logdir=os.path.join(self.working_directory, "log_data_loading"))
         else:
             cgitb.enable(display=1, logdir=None)   
-        # set appearance
-        self.set_run_appearance()
-
+        
         # initiating
         self.data_loading = {}
         self.configuration_file = ""
@@ -66,54 +64,49 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         self.pushButton_removefiles.clicked.connect(self.remove_selected_file)
         self.pushButton_clearfiles.clicked.connect(self.clear_all_file)
 
-        self.setWindowTitle('Data Loading')
-        self.setWindowIcon(QIcon('../logo/easylearn.jpg')) 
+        # Skins
+        self.skins = ["Dark", "Black", "DarkOrange", "Gray", "Blue", "Navy", "Classic", "Light"]
+        self.actionDark.triggered.connect(self.set_run_appearance)
+        self.actionBlack.triggered.connect(self.set_run_appearance)
+        self.actionDarkOrange.triggered.connect(self.set_run_appearance)
+        self.actionGray.triggered.connect(self.set_run_appearance)
+        self.actionBlue.triggered.connect(self.set_run_appearance)
+        self.actionNavy.triggered.connect(self.set_run_appearance)
+        self.actionClassic.triggered.connect(self.set_run_appearance)
+        self.actionLight.triggered.connect(self.set_run_appearance)
+
+        # set appearance
+        self.set_run_appearance()
     
     def set_run_appearance(self):
         """Set dart style appearance
         """
-        qss_string_run = """
-        QPushButton{color: rgb(200,200,200); border: 2px solid rgb(100,100,100); border-radius:0}
-        QPushButton:hover {background-color: black; color: white; font-size:20px; font-weight: bold}
-        #MainWindow{background-color: rgb(50, 50, 50)}    
-        QListView{background-color:rgb(200,200,200); color:black; font-size:15px; border: 0px solid rgb(100,100,100); border-radius:0} 
-        QListView::item:selected {font-weight:bold; font-size:15; color:black; border: 1px solid black}
-        QListView::item:selected:!active {background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #ABAFE5, stop: 1 #8588B2)}
-        QListView::item:selected:active {background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E0FFFF, stop: 1 #888dd9)}
-        QLineEdit{background-color:rgb(200,200,200); color:black; font-size:15px; border: 0px solid rgb(100,100,100); border-radius:0}
+        qss_special = """QPushButton:hover
+        {
+            font-weight: bold; font-size: 20px;
+        }      
         """
-        self.setStyleSheet(qss_string_run)
-        self.label_group.setStyleSheet("color:white; font-weight: bold")   
-        self.label_modalities.setStyleSheet("color:white; font-weight: bold")   
-        self.label_file.setStyleSheet("color:white; font-weight: bold")  
-        self.label_mask.setStyleSheet("color:white; font-weight: bold")   
-        self.label_target.setStyleSheet("color:white; font-weight: bold")   
-        self.label_covariance.setStyleSheet("color:white; font-weight: bold")  
-    
-    def set_quite_appearance(self):
-        """This function is set appearance when quit program.
+        self.setWindowTitle('Data Loading')
+        self.setWindowIcon(QIcon('../logo/easylearn.jpg')) 
 
-        This function make sure quit message can be see clearly.
-        """
-        qss_string_quit = """
-        QPushButton{color: rgb(200,200,200); border: 2px solid rgb(100,100,100); border-radius:0}
-        QPushButton:hover {background-color: black; color: white; font-size:20px; font-weight: bold}
-        #MainWindow{background-color: rgb(50, 50, 50)}    
-        QListView{background-color:rgb(200,200,200); color:black; font-size:15px; border: 0px solid rgb(100,100,100); border-radius:0} 
-        QListView::item:selected {font-weight:bold; font-size:15; color:black; border: 1px solid black}
-        QListView::item:selected:!active {background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #ABAFE5, stop: 1 #8588B2)}
-        QListView::item:selected:active {background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E0FFFF, stop: 1 #888dd9)}
-        QLineEdit{background-color:rgb(200,200,200); color:black; font-size:15px; border: 0px solid rgb(100,100,100); border-radius:0} 
-        QMessageBox{background-color:gray; color:black; font-size:20px}                
-        """  
-        # """
-        self.setStyleSheet(qss_string_quit)
-        self.label_group.setStyleSheet("color:white; font-weight: bold")   
-        self.label_modalities.setStyleSheet("color:white; font-weight: bold")   
-        self.label_file.setStyleSheet("color:white; font-weight: bold")  
-        self.label_mask.setStyleSheet("color:white; font-weight: bold")   
-        self.label_target.setStyleSheet("color:white; font-weight: bold")   
-        self.label_covariance.setStyleSheet("color:white; font-weight: bold") 
+        sender = self.sender()
+        if sender:
+            if (sender.text() in self.skins):
+                print(sender.text())
+                with open("../stylesheets/" + sender.text() + ".qss") as f:
+                    style_sheets = f.read()
+                    style_sheets = style_sheets + qss_special
+                    self.setStyleSheet(style_sheets)
+            else:
+                with open("../stylesheets/Dark.qss") as f:
+                    style_sheets = f.read()
+                    style_sheets = style_sheets + qss_special
+                    self.setStyleSheet(style_sheets)
+        else:
+            with open("../stylesheets/Dark.qss") as f:
+                style_sheets = f.read()
+                style_sheets = style_sheets + qss_special
+                self.setStyleSheet(style_sheets)
     
     def load_configuration(self):
         """Load configuration, and display groups
@@ -136,11 +129,11 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
                     # If the loaded self.configuration["data_loading"] is not empty
                     # Then ask if rewrite self.data_loading with self.configuration["data_loading"]
                     if (list(self.configuration["data_loading"].keys()) != []):
-                        self.set_quite_appearance()
+            
                         reply = QMessageBox.question(self, "Data loading configuration already exists", 
                                                     "The data_loading configuration is already exists, do you want to rewrite it with the  loaded configuration?",
                                                      QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-                        self.set_run_appearance()
+           
                         if reply == QMessageBox.Yes:  
                             self.data_loading = self.configuration["data_loading"]
                             # Because rewrite self.data_loading, we need to re-initialize the follows.
@@ -158,14 +151,13 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
                 self.display_files()
 
             except json.decoder.JSONDecodeError:
-                self.set_quite_appearance()
+    
                 QMessageBox.warning( self, 'Warning', f'{self.configuration_file} is not valid JSON')
                 self.configuration_file = ""
-                self.set_run_appearance()
+   
         else:
-            self.set_quite_appearance()
+
             QMessageBox.warning( self, 'Warning', 'Configuration file was not selected')
-            self.set_run_appearance()
 
     def save_configuration(self):
         """Save configuration
@@ -176,9 +168,8 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
                 # Set ensure_ascii=False to save Chinese correctly.
                 config.write(json.dumps(self.configuration, ensure_ascii=False))
         else:
-            self.set_quite_appearance()
+
             QMessageBox.warning( self, 'Warning', 'Please choose a configuration file first (press button at top left corner)!')
-            self.set_run_appearance()
 
     def select_workingdir(self):
         """
@@ -209,9 +200,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
     def add_group(self):
         """Add a group
         """
-        self.set_quite_appearance()
-        self.group_name, ok = QInputDialog.getText(self, "Add group", "Please name the group:", QLineEdit.Normal, "group_")  
-        self.set_run_appearance()
+        self.group_name, ok = QInputDialog.getText(self, "Add group", "Please name the group:", QLineEdit.Normal, "group_") 
         if self.group_name not in self.data_loading.keys():
             self.data_loading[self.group_name] = {}
         self.display_groups()
@@ -232,10 +221,9 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         """
 
         if bool(self.selected_group):
-            self.set_quite_appearance()
+
             reply = QMessageBox.question(self, "QListView", "Remove this group: " + self.selected_group + "?",
                                          QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-            self.set_run_appearance()
             if reply == QMessageBox.Yes:  
                 # Remove selected group
                 del self.data_loading[self.selected_group]
@@ -244,9 +232,8 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
                 self.display_modalities()
                 self.display_files()
         else:
-            self.set_quite_appearance()
+
             QMessageBox.warning( self, 'Warning', 'No group selected!')
-            self.set_run_appearance()
 
     def clear_all_group(self):
         """
@@ -263,16 +250,14 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         """Add a modality for a selected group
         """
         if self.selected_group:
-            self.set_quite_appearance()
+
             mod_name, ok = QInputDialog.getText(self, "Add modality", "Please name the modality:", QLineEdit.Normal, "modality_")
-            self.set_run_appearance()
             if not (mod_name in self.data_loading[self.selected_group].keys()):  # avoid clear exist modalites
                 self.data_loading[self.selected_group][mod_name] = {"file":[], "mask": [], "target":[], "covariances": []}  #  must copy the dict, otherwise all modalities are the same.
             self.display_modalities()
         else:
-            self.set_quite_appearance()
+
             QMessageBox.warning( self, 'Warning', 'Please choose group first!')
-            self.set_run_appearance()
 
     def identify_selected_modality(self, index):
         """Identify the selected modality
@@ -286,24 +271,23 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         If selected self.selected_group and self.selected_modality, and
         the selected modality is in the selected group (some cases, you may selected a group that not contains the selected modality
         namely the selected modality is selected from other groups).
-        """    
-        if (bool(self.selected_modality) & bool(self.selected_group) & 
-            (self.selected_modality in list(self.data_loading[self.selected_group]))):
-            self.set_quite_appearance()
-            message = "Remove this modality: " + self.selected_modality + " of " + self.selected_group + "?"
-            self.set_run_appearance()
-            reply = QMessageBox.question(self, "QListView", message,
-                                         QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-            if reply == QMessageBox.Yes:     
-                # Remove selected modality for selected group
-                del self.data_loading[self.selected_group][self.selected_modality]
-                self.selected_modality = None
-                self.display_modalities()
-                self.display_files()
+        """  
+        if (bool(self.selected_modality) & bool(self.selected_group)):
+            print(list(self.data_loading[self.selected_group]))
+            if (self.selected_modality in list(self.data_loading[self.selected_group])):
+                message = "Remove this modality: " + self.selected_modality + " of " + self.selected_group + "?"
+                reply = QMessageBox.question(self, "QListView", message,
+                                             QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+                if reply == QMessageBox.Yes:     
+                    # Remove selected modality for selected group
+                    del self.data_loading[self.selected_group][self.selected_modality]
+                    self.selected_modality = None
+                    self.display_modalities()
+                    self.display_files()
+            else:
+                QMessageBox.warning( self, 'Warning', f'{list(self.data_loading[self.selected_group])} has no {self.selected_modality}')
         else:
-            self.set_quite_appearance()
             QMessageBox.warning( self, 'Warning', 'No group or modality selected!')
-            self.set_run_appearance()
 
     def clear_all_modality(self):
         """
@@ -315,9 +299,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
             self.display_modalities()  
             self.display_files()
         else:
-            self.set_quite_appearance()
             QMessageBox.warning( self, 'Warning', 'No group selected!')
-            self.set_run_appearance()
     #%% -----------------------------------------------------------------
 
     def add_files(self):
@@ -332,9 +314,8 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
             self.data_loading[self.selected_group][self.selected_modality]["file"].extend(self.loaded_files)
             self.display_files()
         else:
-            self.set_quite_appearance()
-            QMessageBox.warning( self, 'Warning', 'Please select group and modality first!')
-            self.set_run_appearance()       
+
+            QMessageBox.warning( self, 'Warning', 'Please select group and modality first!')       
     
     def identify_selected_file(self, index):
         """Identify the selected file in the list_view_files
@@ -346,18 +327,16 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         This function is used to remove selected file for selected modality of selected group
         """
         if (bool(self.selected_group) & bool(self.selected_modality) & bool(self.selected_file)):  
-            self.set_quite_appearance()
+
             reply = QMessageBox.question(self, "QListView", "Remove this file: " + self.selected_file + "?",
                                          QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-            self.set_run_appearance()
             if reply == QMessageBox.Yes:     
                 self.data_loading[self.selected_group][self.selected_modality]["file"] = list(set(self.data_loading[self.selected_group][self.selected_modality]["file"]) - set([self.selected_file]))
                 self.selected_file = None
                 self.display_files()
         else:
-            self.set_quite_appearance()
-            QMessageBox.warning( self, 'Warning', 'No group or modality or file selected!')
-            self.set_run_appearance() 
+
+            QMessageBox.warning( self, 'Warning', 'No group or modality or file selected!') 
 
     def clear_all_file(self):
         """
@@ -414,15 +393,13 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         This function make sure the program quit safely.
         """
         # Set qss to make sure the QMessageBox can be seen
-        self.set_quite_appearance()
         reply = QMessageBox.question(self, 'Quit',"Are you sure to quit?",
                                      QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
 
         if reply == QMessageBox.Yes:
             event.accept()
         else:
-            event.ignore()
-            self.set_run_appearance()  # Make appearance back
+            event.ignore() 
 
 
 if __name__=='__main__':

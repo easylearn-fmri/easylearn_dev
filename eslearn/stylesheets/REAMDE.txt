@@ -1,0 +1,2 @@
+All styles are copy from RedFalsh /PyQt5_stylesheets https://github.com/RedFalsh/PyQt5_stylesheets.git
+We thanks RedFalsh /PyQt5_stylesheets 

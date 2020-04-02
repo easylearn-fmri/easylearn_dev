@@ -16,6 +16,8 @@ from PyQt5.QtWidgets import *
 from PyQt5 import *
 from PyQt5.QtGui import QIcon, QPixmap, QPalette
 from PyQt5.QtCore import *
+import qdarkstyle
+import PyQt5_stylesheets
 
 from easylearn_main_gui import Ui_MainWindow
 from easylearn_data_loading_run import EasylearnDataLoadingRun
@@ -44,32 +46,56 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         self.machine_learning.clicked.connect(self.machine_learning_fun)
         self.model_evaluation.clicked.connect(self.model_evaluation_fun)
         self.statistical_analysis.clicked.connect(self.statistical_analysis_fun)
-        # self.save_workflow.clicked.connect(self.save_workflow_fun)
         self.run.clicked.connect(self.run_fun)
         self.quit.clicked.connect(self.closeEvent_button)
+
+        # Skins
+        self.skins = ["Dark", "Black", "DarkOrange", "Gray", "Blue", "Navy", "Classic", "Light"]
+        self.actionDark.triggered.connect(self.set_run_appearance)
+        self.actionBlack.triggered.connect(self.set_run_appearance)
+        self.actionDarkOrange.triggered.connect(self.set_run_appearance)
+        self.actionGray.triggered.connect(self.set_run_appearance)
+        self.actionBlue.triggered.connect(self.set_run_appearance)
+        self.actionNavy.triggered.connect(self.set_run_appearance)
+        self.actionClassic.triggered.connect(self.set_run_appearance)
+        self.actionLight.triggered.connect(self.set_run_appearance)
 
     
     def set_run_appearance(self):
         """Set a appearance for easylearn (title, logo, skin, etc).
         """
         qss_logo = """#logo{background-color: black;
-                border: 5px solid white;
-                border-radius: 50px;
+                border: 0px solid white;
+                border-radius: 20px;
                 border-image: url('../logo/easylearn.jpg');
                 }
                 #logo:hover {border-radius: 0px;}
         """
-        qss_string_all_pushbutton = """
-        #MainWindow{background-color: rgb(50, 50, 50)}
-        QPushButton{color: rgb(200,200,200); border: 2px solid rgb(100,100,100); border-radius:10}
-        QPushButton:hover {background-color: black; color: white; font-size:20px; font-weight: bold}
-        QPushButton#run{background-color:rgb(100,200,100); color:white; border: 2px solid rgb(100,100,100); border-radius:15}     
-        QPushButton#run:hover {background-color:green; color:white; border: 2px solid rgb(100,100,100); border-radius:15; font-weight: bold}  
-        QPushButton#quit{background-color:rgb(200,100,100); color:white; border: 2px solid rgb(100,100,100); border-radius:15}  
-        QPushButton#quit:hover {background-color:red; color:white; border: 2px solid rgb(100,100,100); border-radius:15; font-weight: bold}                             
-        """
-        qss_string_textbrowser = """
-        background-color:rgb(200,200,200); color:black; border: 2px solid rgb(100,100,100); border-radius:15; font-size:20px
+
+        qss_special = """QPushButton:hover
+        {
+            font-weight: bold; font-size: 20px;
+        }     
+
+        QPushButton#run
+        {
+             border-radius:30px; border: 1px dashed green;
+        }     
+
+        QPushButton#run:hover 
+        {
+            font-weight: bold; border-radius:20px; border: 2px solid green;
+        }  
+
+        QPushButton#quit
+        { 
+            border-radius:30px; border: 1px dashed red;
+        }  
+
+        QPushButton#quit:hover 
+        {
+            font-weight: bold; border-radius:20px; border: 2px solid red;
+        }  
         """
         self.logo.setStyleSheet(qss_logo)
         self.setWindowTitle('EASYLEARN')
@@ -78,22 +104,32 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         icon.addPixmap(QtGui.QPixmap("../logo/easylearn.jpg"))
         self.setWindowIcon(icon)
 
-        self.setStyleSheet(qss_string_all_pushbutton)
-        self.textBrowser.setStyleSheet(qss_string_textbrowser)
+        sender = self.sender()
+        if sender:
+            if (sender.text() in self.skins):
+                with open("../stylesheets/" + sender.text() + ".qss") as f:
+                    style_sheets = f.read()
+                    style_sheets = style_sheets + qss_special
+                    self.setStyleSheet(style_sheets)
+            else:
+                with open("../stylesheets/Dark.qss") as f:
+                    style_sheets = f.read()
+                    style_sheets = style_sheets + qss_special
+                    self.setStyleSheet(style_sheets)
+        else:
+            with open("../stylesheets/Dark.qss") as f:
+                style_sheets = f.read()
+                style_sheets = style_sheets + qss_special
+                self.setStyleSheet(style_sheets)
 
-    def set_quite_appearance(self):
-        """Set appearance when quit program.
-
-        This make the quit message can be seen clearly.
-        """
-        qss_string_qmessage = """
-        QPushButton:hover {background-color: white; color: black}
-        QPushButton{color:white; border: 2px solid rgb(100,100,100); border-radius:5}
-        #formLayoutWidget_2{color:white; border: 2px solid rgb(100,100,100); border-radius:9}
-        #MainWindow{background-color: rgb(50, 50, 50)}
-        QMessageBox{background-color: gray; color: white}                       
-        """
-        self.setStyleSheet(qss_string_qmessage)
+        # Run Icon
+        self.run.setIcon(QIcon("../logo/run.png"));
+        self.run.setIconSize(QPixmap("../logo/run.png").size());
+        self.run.resize(QPixmap("../logo/run.png").size());
+        # Close Icon
+        self.quit.setIcon(QIcon("../logo/close.png"));
+        self.quit.setIconSize(QPixmap("../logo/close.png").size());
+        self.quit.resize(QPixmap("../logo/close.png").size());
 
     def select_workingdir_fun(self):
         """
@@ -126,9 +162,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
                 config_message = "Configuration file is " + self.configuration_file
                 self.textBrowser.setText(config_message)
         else:
-            self.set_quite_appearance()
             QMessageBox.warning( self, 'Warning', f'Please choose a working directory first! (press button at the top left corner)')
-            self.set_run_appearance()
 
     def load_configuration_fun(self):
         """Load configuration
@@ -148,14 +182,12 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
                 self.configuration = json.loads(self.configuration)
                 self.textBrowser.setText("Configuration file is " + self.configuration_file)
             except json.decoder.JSONDecodeError:
-                self.set_quite_appearance()
+    
                 QMessageBox.warning( self, 'Warning', f'{self.configuration_file} is not valid JSON')
                 self.configuration_file = ""
-                self.set_run_appearance()
         else:
-            self.set_quite_appearance()
+
             QMessageBox.warning( self, 'Warning', 'Configuration file was not selected')
-            self.set_run_appearance()
 
     def data_loading_fun(self):
         """This function is called when data_loading button is clicked.
@@ -214,7 +246,6 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         This function make sure the program quit safely.
         """
         # Set qss to make sure the QMessageBox can be seen
-        self.set_quite_appearance()
         reply = QMessageBox.question(self, 'Quit',"Are you sure to quit?",
                                      QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
 
@@ -222,7 +253,6 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
             event.accept()
         else:
             event.ignore()
-            self.set_run_appearance()
 
     def closeEvent_button(self, event):
         """This function is called when quit button is clicked.
@@ -230,15 +260,11 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         This function make sure the program quit safely.
         """
         # Set qss to make sure the QMessageBox can be seen
-        self.set_quite_appearance()
         reply = QMessageBox.question(self, 'Quit',"Are you sure to quit?",
                                      QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
 
         if reply == QMessageBox.Yes:
             QCoreApplication.quit()
-        else:
-            # Make appearance back
-            self.set_run_appearance()
 
 
 if __name__=='__main__':
