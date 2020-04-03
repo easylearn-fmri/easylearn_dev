@@ -1,5 +1,7 @@
 """The GUI of the data loading module of easylearn
-@author: lichao19870617@gmail.com
+@Author: Li Chao, Dong Mengshi
+@Email:lichao19870617@gmail.com, dongmengshi1990@163.com
+
 MIT License
 """
 import sys
