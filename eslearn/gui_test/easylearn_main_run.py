@@ -9,6 +9,7 @@ Main GUI of the easylearn
 
 
 import sys
+sys.path.append('E:/easylearn/')
 import os
 import time
 import json
@@ -17,7 +18,6 @@ from PyQt5 import *
 from PyQt5.QtGui import QIcon, QPixmap, QPalette
 from PyQt5.QtCore import *
 import qdarkstyle
-import PyQt5_stylesheets
 
 from easylearn_main_gui import Ui_MainWindow
 from easylearn_data_loading_run import EasylearnDataLoadingRun
@@ -65,7 +65,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         """Set a appearance for easylearn (title, logo, skin, etc).
         """
         qss_logo = """#logo{background-color: black;
-                border: 0px solid white;
+                border: 2px solid white;
                 border-radius: 20px;
                 border-image: url('../logo/easylearn.jpg');
                 }
