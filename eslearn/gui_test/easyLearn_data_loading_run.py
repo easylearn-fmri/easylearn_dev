@@ -5,6 +5,7 @@ Wechat: 13596648206
 MIT License
 """
 import sys
+sys.path.append(r'E:\easylearn\eslearn\stylesheets\PyQt5_stylesheets')
 import os
 import json
 import cgitb
@@ -15,7 +16,7 @@ from PyQt5.QtGui import QIcon
 import sys
 from PyQt5.QtWidgets import QApplication,QWidget,QVBoxLayout,QListView,QMessageBox
 from PyQt5.QtCore import*
-from eslearn.stylesheets. PyQt5_stylesheets import PyQt5_stylesheets
+import PyQt5_stylesheets
 
 from easylearn_data_loading_gui import Ui_MainWindow
 
