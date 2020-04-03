@@ -1,5 +1,5 @@
 git remote -v  # 查看关联情况
-git remote delete update_stream git@github.com:easylearn-fmri/easylearn.git  # 关联
+git remote add upstream git@github.com:easylearn-fmri/easylearn.git  # 关联
 git remote -v  # 查看关联情况
 
 git fetch upstream  # 获取源代码
