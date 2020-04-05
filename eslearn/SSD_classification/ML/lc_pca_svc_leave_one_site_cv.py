@@ -11,8 +11,6 @@ Email: lichao19870617@gmail.com
 """
 
 import sys
-sys.path.append(r'D:\My_Codes\LC_Machine_Learning\lc_rsfmri_tools\lc_rsfmri_tools_python')
-# sys.path.append(r'D:\My_Codes\LC_Machine_Learning\lc_rsfmri_tools\lc_rsfmri_tools_python\Utils')
 import numpy as np
 from sklearn import svm
 from sklearn import preprocessing
@@ -23,8 +21,9 @@ from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
 import matplotlib.pyplot as plt
 
-import Utils.lc_dimreduction as dimreduction
-from Utils.lc_evaluation_model_performances import eval_performance
+import eslearn.utils.el_preprocessing as elprep
+import eslearn.utils.lc_dimreduction as dimreduction
+from eslearn.utils.lc_evaluation_model_performances import eval_performance
 
 
 class SVCRFECV():
@@ -62,24 +61,22 @@ class SVCRFECV():
         Classification results, such as accuracy, sensitivity, specificity, AUC and figures that used to report.
     """
     def __init__(sel,
-                 dataset_our_center_550=r'D:\WorkStation_2018\WorkStation_CNN_Schizo\Data\ML_data_npy\dataset_550.npy',
-                 dataset_206=r'D:\WorkStation_2018\WorkStation_CNN_Schizo\Data\ML_data_npy\dataset_206.npy',
-                 data_COBRE=r'D:\WorkStation_2018\WorkStation_CNN_Schizo\Data\ML_data_npy\dataset_COBRE.npy',
-                 data_UCAL=r'D:\WorkStation_2018\WorkStation_CNN_Schizo\Data\ML_data_npy\dataset_UCLA.npy',
+                 dataset_our_center_550=r'D:\WorkStation_2018\SZ_classification\Data\ML_data_npy\dataset_550.npy',
+                 dataset_206=r'D:\WorkStation_2018\SZ_classification\Data\ML_data_npy\dataset_206.npy',
+                 dataset_COBRE=r'D:\WorkStation_2018\SZ_classification\Data\ML_data_npy\dataset_COBRE.npy',
+                 dataset_UCAL=r'D:\WorkStation_2018\SZ_classification\Data\ML_data_npy\dataset_UCLA.npy',
                  is_dim_reduction=True,
                  components=0.95,
                  cv=5):
 
         sel.dataset_our_center_550 = dataset_our_center_550
         sel.dataset_206 = dataset_206
-        sel.data_COBRE = data_COBRE
-        sel.data_UCAL = data_UCAL
+        sel.data_COBRE = dataset_COBRE
+        sel.data_UCAL = dataset_UCAL
 
         sel.is_dim_reduction = is_dim_reduction
         sel.components = components
         sel.cv = cv
-        sel.show_results = show_results
-        sel.show_roc = show_roc
 
     def main_svc_rfe_cv(sel):
         print('Training model and testing...\n')
@@ -94,6 +91,7 @@ class SVCRFECV():
         # Leave one site CV
         n_site = len(label_all)
         name = ['550','206','COBRE','UCLA']
+        sel.label_test_all = np.array([], dtype=np.int16)
         sel.decision = np.array([], dtype=np.int16)
         sel.prediction = np.array([], dtype=np.int16)
         sel.accuracy = np.array([], dtype=np.float16)
@@ -106,16 +104,15 @@ class SVCRFECV():
             print(f'{i+1}/{n_site}: test dataset is {name[i]}...')
             feature_train, label_train = feature_all.copy(), label_all.copy()
             feature_test, label_test = feature_train.pop(i), label_train.pop(i)
+            sel.label_test_all = np.int16(np.append(sel.label_test_all, label_test))
             feature_train = np.concatenate(feature_train, axis=0)
             label_train = np.concatenate(label_train, axis=0)
 
             # Resampling training data
-            feature_train, label_train = sel.re_sampling(
-                feature_train, label_train)
-
+            # feature_train, label_train = sel.re_sampling(feature_train, label_train)
             # Normalization
-            feature_train = sel.normalization(feature_train)
-            feature_test = sel.normalization(feature_test)
+            prep = elprep.Preprocessing(data_preprocess_method='StandardScaler', data_preprocess_level='subject')
+            feature_train, feature_test = prep.data_preprocess(feature_train, feature_test)
 
             # Dimension reduction
             if sel.is_dim_reduction:
@@ -138,7 +135,9 @@ class SVCRFECV():
             sel.decision = np.append(sel.decision, np.array(dec))
             
             # Evaluating classification performances
-            acc, sens, spec, auc = eval_performance(label_test, pred, dec, 0)
+            acc, sens, spec, auc = eval_performance(label_test, pred, dec, 
+                accuracy_kfold=None, sensitivity_kfold=None, specificity_kfold=None, AUC_kfold=None,
+                 verbose=1, is_showfig=0)
             sel.accuracy = np.append(sel.accuracy, acc)
             sel.sensitivity = np.append(sel.sensitivity, sens)
             sel.specificity = np.append(sel.specificity, spec)
@@ -165,15 +164,6 @@ class SVCRFECV():
         print(sorted(Counter(label_resampled).items()))
         return feature_resampled, label_resampled
 
-    def normalization(sel, data):
-        '''
-        Because of our normalization level is on subject, 
-        we should transpose the data matrix on python(but not on matlab)
-        '''
-        scaler = preprocessing.StandardScaler().fit(data.T)
-        z_data = scaler.transform(data.T) .T
-        return z_data
-
     def dimReduction(sel, train_X, test_X, pca_n_component):
         train_X, trained_pca = dimreduction.pca(train_X, pca_n_component)
         test_X = trained_pca.transform(test_X)
@@ -197,14 +187,21 @@ class SVCRFECV():
         with open(name, 'wb') as f:
             pickle.dump(data, f)
 
-
+    def save_fig(sel, out_name):
+        # Save ROC and Classification 2D figure
+        acc, sens, spec, auc = eval_performance(sel.label_test_all, sel.prediction, sel.decision, 
+                                                sel.accuracy, sel.sensitivity, sel.specificity, sel.AUC,
+                                                verbose=0, is_showfig=1, legend1='HC', legend2='SSD', is_savefig=1, 
+                                                out_name=out_name)
 #
 if __name__ == '__main__':
     sel = SVCRFECV()
     results = sel.main_svc_rfe_cv()
+
+    sel.save_fig(r'D:\WorkStation_2018\SZ_classification\Data\ML_data_npy\performances_leave_one_site_cv.pdf')
     
     results = results.__dict__
-    sel.save_results(results, r'D:\WorkStation_2018\WorkStation_CNN_Schizo\Data\ML_data_npy\results_leave_one_site_cv')
+    sel.save_results(results, r'D:\WorkStation_2018\SZ_classification\Data\ML_data_npy\results_leave_one_site_cv.npy')
 
     print(np.mean(sel.accuracy))
     print(np.std(sel.accuracy))

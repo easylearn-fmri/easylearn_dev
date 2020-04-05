@@ -13,17 +13,14 @@ Dimension reduction: PCA
 Email: lichao19870617@gmail.com
 """
 import sys
-sys.path.append(r'D:\My_Codes\lc_rsfmri_tools_python')
-sys.path.append(r'D:\My_Codes\easylearn\eslearn\feature_selection')
-
 import numpy as np
 from sklearn import svm
 from sklearn.model_selection import KFold
 from sklearn import preprocessing
 
-from el_rfe import rfeCV
-from Utils.lc_dimreduction import pca
-from Utils.lc_evaluation_model_performances import eval_performance
+import eslearn.utils.el_preprocessing as elprep
+import eslearn.utils.lc_dimreduction as dimreduction
+from eslearn.utils.lc_evaluation_model_performances import eval_performance
 
 class PCASVCPooling():
     """
@@ -67,8 +64,7 @@ class PCASVCPooling():
                  dataset_UCAL=r'D:\WorkStation_2018\SZ_classification\Data\ML_data_npy\dataset_UCLA.npy',
                  is_dim_reduction=True,
                  components=0.95,
-                 cv=5,
-                 out_name=None):
+                 cv=5):
 
         sel.dataset_our_center_550 = dataset_our_center_550
         sel.dataset_206 = dataset_206
@@ -78,7 +74,6 @@ class PCASVCPooling():
         sel.is_dim_reduction = is_dim_reduction
         sel.components = components
         sel.cv = cv
-        sel.out_name =  out_name
 
     def main_function(sel):
         """
@@ -140,11 +135,11 @@ class PCASVCPooling():
             sel.label_test_all = np.int16(np.append(sel.label_test_all, label_test))
 
             # resampling training data
-            feature_train, label_train = sel.re_sampling(feature_train, label_train)
+            # feature_train, label_train = sel.re_sampling(feature_train, label_train)
 
             # normalization
-            feature_train = sel.normalization(feature_train)
-            feature_test = sel.normalization(feature_test)
+            prep = elprep.Preprocessing(data_preprocess_method='StandardScaler', data_preprocess_level='subject')
+            feature_train, feature_test = prep.data_preprocess(feature_train, feature_test)
 
             # dimension reduction
             if sel.is_dim_reduction:
@@ -180,7 +175,6 @@ class PCASVCPooling():
             sel.sensitivity = np.append(sel.sensitivity, sens)
             sel.specificity = np.append(sel.specificity, spec)
             sel.AUC = np.append(sel.AUC, auc)
-            print(f'performances = {acc, sens, spec,auc}')
 
         uid_all_sorted = np.int32(uid_all[test_index])
         sel.special_result = np.concatenate(
@@ -199,20 +193,8 @@ class PCASVCPooling():
         print(sorted(Counter(label_resampled).items()))
         return feature_resampled, label_resampled
 
-    def normalization(sel, data):
-        '''
-        Because of our normalization level is on subject, 
-        we should transpose the data matrix on python(but not on matlab)
-        '''
-        scaler = preprocessing.StandardScaler().fit(data.T)
-        z_data = scaler.transform(data.T) .T
-        # scaler = preprocessing.StandardScaler().fit(data)
-        # z_data = scaler.transform(data)
-
-        return z_data
-
     def dimReduction(sel, train_X, test_X, pca_n_component):
-        train_X, trained_pca = pca(train_X, pca_n_component)
+        train_X, trained_pca = dimreduction.pca(train_X, pca_n_component)
         test_X = trained_pca.transform(test_X)
         return train_X, test_X, trained_pca
 
@@ -232,18 +214,18 @@ class PCASVCPooling():
         with open(name, 'wb') as f:
             pickle.dump(data, f)
             
-    def save_fig(sel):
+    def save_fig(sel, out_name):
         # Save ROC and Classification 2D figure
         acc, sens, spec, auc = eval_performance(sel.label_test_all, sel.prediction, sel.decision, 
                                                 sel.accuracy, sel.sensitivity, sel.specificity, sel.AUC,
                                                 verbose=0, is_showfig=1, legend1='HC', legend2='SZ', is_savefig=1, 
-                                                out_name=sel.out_name)
+                                                out_name=out_name)
 #
 if __name__ == '__main__':
-    sel=PCASVCPooling(out_name=r'D:\WorkStation_2018\SZ_classification\Figure\Classification_performances_pooling.pdf')
+    sel=PCASVCPooling()
     
     results=sel.main_function()
-    sel.save_fig()
+    sel.save_fig(out_name=r'D:\WorkStation_2018\SZ_classification\Figure\Classification_performances_pooling.pdf')
     results=results.__dict__
     sel.save_results(results, r'D:\WorkStation_2018\SZ_classification\Data\ML_data_npy\results_pooling.npy')
     

@@ -10,14 +10,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-plt.rcParams['savefig.dpi'] = 600 #图片像素
-# plt.rcParams['figure.dpi'] = 600 #分辨率
-
-n =  140
-k = 119
-p1 = 0.5
-p2 = 0.5
-
 def lc_binomialtest(n, k, p1, p2):
     sum_prob = 0
     prob = []
@@ -51,8 +43,8 @@ def lc_plot(prob, k, p, titlename):
 
 
 if __name__ ==  "__main__":
-    n = 44
-    acc = 0.69
+    n = 88
+    acc = 0.71
     k = np.int32(n * acc)
     print(k)
     p, sum_prob, prob, randk = lc_binomialtest(n, k, 0.5, 0.5)

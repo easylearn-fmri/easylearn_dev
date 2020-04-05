@@ -26,7 +26,7 @@ classification_results_pooling_file = r'D:\WorkStation_2018\SZ_classification\Da
 classification_results_results_leave_one_site_cv_file = r'D:\WorkStation_2018\SZ_classification\Data\ML_data_npy\results_leave_one_site_cv.npy'
 classification_results_feu_file = r'D:\WorkStation_2018\SZ_classification\Data\ML_data_npy\results_unmedicated_and_firstepisode_550.npy'
 is_plot = 1
-is_savefig = 0
+is_savefig = 1
 
 #%% Load and proprocess
 scale_550 = pd.read_excel(scale_550_file)
@@ -55,9 +55,15 @@ scale_550_selected = pd.merge(results_special, scale_550, left_on=0, right_on='f
 scale_206_selected = pd.merge(results_special, scale_206, left_on=0, right_on='ID', how='inner')
 scale_206_selected = pd.merge(scale_206_selected, scale_206_drug, left_on=0, right_on='P0001', how='inner')
 
-#%% ---------------------------------Calculate performance for Schizophrenia Spectrum sub-groups-------------------------------
+#%% ---------------------------------Calculate performance for Schizophrenia Spectrum subgroups-------------------------------
 ## Step 1: Dataset1
-duration = 18  # Upper limit of first episode
+duration = 18  # Upper limit of first episode: 
+""" reference:
+1. Kane JM, Robinson DG, Schooler NR, et al. Comprehensive versus usual
+community care for first-episode psychosis: 2-year outcomes from the NIMH
+RAISE early treatment program. Am J Psychiatry. 2016;173(4):362-372. doi:10.1176/appi.ajp.2015.15050632.
+2. Cognitive Impairment in Never-Medicated Individuals on the Schizophrenia Spectrum. doi:10.1001/jamapsychiatry.2020.0001"
+"""
 
 data_firstepisode_SZ_550 = scale_550_selected[(scale_550_selected['诊断']==3) & (scale_550_selected['首发'] == 1) & (scale_550_selected['病程月'] <= duration) & (scale_550_selected['病程月'] >= 6)]
 data_not_firstepisode_SZ_550 = scale_550_selected[(scale_550_selected['诊断']==3) & ((scale_550_selected['首发'] == 0) | (scale_550_selected['病程月'] > duration))]  # Including the persistent patients
@@ -244,6 +250,10 @@ if is_plot:
     plt.fill_between(np.linspace(-0.4,3.4), 0.95, 1.08, color='darkturquoise')
     plt.fill_between(np.linspace(3.6, 7.4), 0.95, 1.08, color='paleturquoise')
     plt.fill_between(np.linspace(7.6, 11.4), 0.95, 1.08, color='lightblue')
+    ax=plt.gca()
+    ax.spines['bottom'].set_linewidth(2)
+    ax.spines['left'].set_linewidth(2)
+
                    
     # Bar: Dataset 1
     plt.subplot(2,1,2)
@@ -289,7 +299,7 @@ if is_plot:
     
     plt.tick_params(labelsize=20)
     plt.yticks(np.arange(0,len(barcont_all)), label_all, fontsize=20, rotation=0)
-    plt.title('Accuracy of each sub-group of schizophrenia spectrum disorder\nin Dataset 1 and Dateset 2', fontsize=25, fontweight='bold')
+    plt.title('Accuracy of each subgroup of SSD in dataset 1 and dateset 2', fontsize=25, fontweight='bold')
 
     x_major_locator=MultipleLocator(0.1)
     ax = plt.gca()
@@ -314,7 +324,9 @@ if is_plot:
     if is_savefig & is_plot:
         plt.tight_layout()
         plt.subplots_adjust(left=0.25, wspace = 0.5, hspace = 0.5)  # wspace 左右
-        pdf = PdfPages(r'D:\WorkStation_2018\SZ_classification\Figure\Classification_performances_all_v2.pdf')
+        pdf = PdfPages(r'D:\WorkStation_2018\SZ_classification\Figure\Classification_performances_all_cutoff' + str(duration) + '.pdf')
         pdf.savefig()
         pdf.close()
     plt.show()
+
+print(np.mean(a), np.std(a))
