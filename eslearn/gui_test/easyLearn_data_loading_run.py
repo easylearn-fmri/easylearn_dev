@@ -157,7 +157,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
                 else:
                     self.data_loading = self.configuration["data_loading"]
                 self.display_groups()
-                self.display_modalities()
+                self.display_modality()
                 self.display_files()
 
             except json.decoder.JSONDecodeError:
@@ -211,16 +211,20 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         """Add a group
         """
         self.group_name, ok = QInputDialog.getText(self, "Add group", "Please name the group:", QLineEdit.Normal, "group_") 
-        if self.group_name not in self.data_loading.keys():
-            self.data_loading[self.group_name] = {}
+        if self.group_name != "":
+            if self.group_name not in self.data_loading.keys():
+                self.data_loading[self.group_name] = {}
         self.display_groups()
 
     def identify_selected_group(self, index):
         """Identify the selected file in the list_view_groups and display_files the files
         """
         self.selected_group = list(self.data_loading.keys())[index.row()]
-        self.display_modalities()
+        self.display_modality()
         self.display_files()
+        self.display_mask()
+        self.selected_modality = None
+        self.selected_file = None
    
     def remove_selected_group(self):
         """
@@ -231,7 +235,6 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         """
 
         if bool(self.selected_group):
-
             reply = QMessageBox.question(self, "QListView", "Remove this group: " + self.selected_group + "?",
                                          QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
             if reply == QMessageBox.Yes:  
@@ -239,7 +242,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
                 del self.data_loading[self.selected_group]
                 self.selected_group = None
                 self.display_groups()
-                self.display_modalities()
+                self.display_modality()
                 self.display_files()
         else:
 
@@ -252,7 +255,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         self.data_loading = {}
         self.selected_group = False
         self.display_groups() 
-        self.display_modalities()
+        self.display_modality()
         self.display_files()
     #%% -----------------------------------------------------------------
 
@@ -263,8 +266,8 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
 
             mod_name, ok = QInputDialog.getText(self, "Add modality", "Please name the modality:", QLineEdit.Normal, "modality_")
             if not (mod_name in self.data_loading[self.selected_group].keys()):  # avoid clear exist modalites
-                self.data_loading[self.selected_group][mod_name] = {"file":[], "mask": [], "target":[], "covariates": []}  #  must copy the dict, otherwise all modalities are the same.
-            self.display_modalities()
+                self.data_loading[self.selected_group][mod_name] = {"file":[], "mask": "", "target":[], "covariates": []}  #  must copy the dict, otherwise all modalities are the same.
+            self.display_modality()
         else:
 
             QMessageBox.warning( self, 'Warning', 'Please choose group first!')
@@ -274,6 +277,8 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         """
         self.selected_modality = list(self.data_loading[self.selected_group].keys())[index.row()]
         self.display_files()
+        self.display_mask()
+        self.selected_file = None
 
     def remove_selected_modality(self):
         """This function is used to remove selected modality
@@ -292,7 +297,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
                     # Remove selected modality for selected group
                     del self.data_loading[self.selected_group][self.selected_modality]
                     self.selected_modality = None
-                    self.display_modalities()
+                    self.display_modality()
                     self.display_files()
             else:
                 QMessageBox.warning( self, 'Warning', f'{list(self.data_loading[self.selected_group])} has no {self.selected_modality}')
@@ -306,7 +311,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         if self.selected_group:
             self.data_loading[self.selected_group] = {}
             self.selected_modality = None
-            self.display_modalities()  
+            self.display_modality()  
             self.display_files()
         else:
             QMessageBox.warning( self, 'Warning', 'No group selected!')
@@ -367,7 +372,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         self.slm_group.setStringList(self.data_loading.keys())  
         self.listView_groups.setModel(self.slm_group)
     
-    def display_modalities(self):
+    def display_modality(self):
         """
         Display modalities' name in the list view
         """
@@ -407,10 +412,19 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
             if loaded_file != "":
                 modality_key = self.single_slot_dict[self.sender().text()][1]
                 self.single_slot_dict[self.sender().text()][0].setText(loaded_file)
-                self.data_loading[self.selected_group][self.selected_modality][modality_key] = self.single_slot_dict[self.sender().text()][0].text()
+                self.data_loading[self.selected_group][self.selected_modality][modality_key] = loaded_file
         else:
             QMessageBox.warning( self, 'Warning', 'Please select group and modality first!')   
     
+    def display_mask(self):
+        if (bool(self.selected_group) & bool(self.selected_modality)):
+            if self.data_loading[self.selected_group][self.selected_modality]["mask"] != "":
+                self.lineEdit_mask.setText(self.data_loading[self.selected_group][self.selected_modality]["mask"])
+            else:
+                self.lineEdit_mask.setText("")
+        else:
+            self.lineEdit_mask.setText("")
+
     def check_box_mask(self, state):
         if (bool(self.selected_group) & bool(self.selected_modality)):
             self.data_loading[self.selected_group][self.selected_modality]["mask"] = self.lineEdit_mask.text()
