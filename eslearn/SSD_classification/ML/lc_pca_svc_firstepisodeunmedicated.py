@@ -183,7 +183,7 @@ if __name__=='__main__':
     # sel.save_fig(out_name=r'D:\WorkStation_2018\SZ_classification\Figure\Classification_performances_unmedicated.pdf')
 
     results=sel.__dict__
-    # sel.save_results(results, r'D:\WorkStation_2018\SZ_classification\Data\ML_data_npy\results_unmedicated_and_firstepisode_550.npy')
+    sel.save_results(results, r'D:\WorkStation_2018\SZ_classification\Data\ML_data_npy\results_unmedicated_and_firstepisode_550.npy')
 
     print(np.mean(sel.accuracy))
     print(np.std(sel.accuracy))

@@ -38,11 +38,8 @@ def eval_performance(label_real=None, label_predict=None, decision=None,
     report = report.split('\n')
     specificity = report[2].strip().split(' ')
     sensitivity = report[3].strip().split(' ')
-    specificity = float(
-        [spe for spe in specificity if spe != ''][2])
-    sensitivity = float(
-        [sen for sen in sensitivity if sen != ''][2])
-
+    specificity = float([spe for spe in specificity if spe != ''][2]) 
+    sensitivity = float([sen for sen in sensitivity if sen != ''][2])
     # confusion_matrix matrix
 #    confusion_matrix = confusion_matrix(label_real, label_predict)
 

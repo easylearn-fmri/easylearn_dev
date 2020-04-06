@@ -271,7 +271,20 @@ if is_plot:
             data_young_onset_age_550.shape[0], data_old_onset_age_550.shape[0], 
             data_medicated_SSD_550.shape[0], data_unmedicated_SSD_550.shape[0], data_unmedicated_schizophreniform_550.shape[0], 
             data_unmedicated_SZ_550.shape[0], data_firstepisode_unmedicated_SZ_550.shape[0], data_chronic_unmedicated_SZ_550.shape[0]]
-        
+  
+    mean_550 = [0, 0, 0, 
+                    data_shortdurationSZ_550['病程月'].mean(), data_longdurationSZ_550['病程月'].mean(), 
+                    data_young_onset_age_550['Age_of_first_episode'].mean(), data_old_onset_age_550['Age_of_first_episode'].mean(), 
+                     0, 0, 0, 
+                    0, 0, 0]
+
+    std_550 = [0, 0, 0, 
+                    data_shortdurationSZ_550['病程月'].std(), data_longdurationSZ_550['病程月'].std(), 
+                    data_young_onset_age_550['Age_of_first_episode'].std(), data_old_onset_age_550['Age_of_first_episode'].std(), 
+                     0, 0, 0, 
+                    0, 0, 0] 
+
+
     # Bar: Dataset 2
     barcont_206 = [acc_firstepisode_206, acc_notfirstepisode_206,
             acc_shortduration_206, acc_longduration_206, 
@@ -283,11 +296,22 @@ if is_plot:
     samplesize_206 = [data_firstepisode_206.shape[0], data_notfirstepisode_206.shape[0],
             data_shortduration_206.shape[0], data_longduration_206.shape[0], 
             data_young_onsetage_206.shape[0], data_old_onsetage_206.shape[0],
-            data_drugless_206.shape[0], data_drugmore_206.shape[0]]       
+            data_drugless_206.shape[0], data_drugmore_206.shape[0]]     
 
+    mean_206 = [0, 0,
+            data_shortduration_206['duration'].mean(), data_longduration_206['duration'].mean(), 
+            data_young_onsetage_206['onsetage'].mean(), data_old_onsetage_206['onsetage'].mean(),
+            data_drugless_206['CPZ_eq'].mean(), data_drugmore_206['CPZ_eq'].mean()] 
+    
+    std_206 = [0, 0,
+            data_shortduration_206['duration'].std(), data_longduration_206['duration'].std(), 
+            data_young_onsetage_206['onsetage'].std(), data_old_onsetage_206['onsetage'].std(),
+            data_drugless_206['CPZ_eq'].std(), data_drugmore_206['CPZ_eq'].std()] 
     ## Plot
     barcont_all = barcont_206 + barcont_550
     label_all = label_206 + label_550 
+    mean_all = mean_206 + mean_550
+    std_all = std_206 + std_550
     samplesize_all = samplesize_206 + samplesize_550
     color_206 = ['lightblue' for i in range(len(label_206))] 
     color_550 = ['darkturquoise' for i in range(len(label_550))]
@@ -299,19 +323,21 @@ if is_plot:
     
     plt.tick_params(labelsize=20)
     plt.yticks(np.arange(0,len(barcont_all)), label_all, fontsize=20, rotation=0)
-    plt.title('Accuracy of each subgroup of SSD in dataset 1 and dateset 2', fontsize=25, fontweight='bold')
+    plt.title('Sensitivity of each subgroup of SSD in dataset 1 and dateset 2', fontsize=25, fontweight='bold')
 
     x_major_locator=MultipleLocator(0.1)
     ax = plt.gca()
     ax.xaxis.set_major_locator(x_major_locator)
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
-    plt.xlabel('Accuracy', fontsize=25)
+    plt.xlabel('Sensitivity', fontsize=25) 
     plt.grid(axis='x')
     xticks = ax.get_xticks()
     yticks = ax.get_yticks()
-    for i, (y, x, n) in enumerate(zip(yticks, barcont_all, samplesize_all)):
+    for i, (y, x, n, m, s) in enumerate(zip(yticks, barcont_all, samplesize_all, mean_all, std_all)):
         p, _, _, _ = binomial_test(n, np.int(n * x), 0.5, 0.5)
+        
+        if m: plt.text(0.101, y-0.3, f'mean={m:.1f}({s:.1f})', fontsize=15)
         plt.text(0.31, y-0.3, 'N = %.0f' % n, fontsize=15)
         if np.isin(i, (20, 19, 18, 17, 16)):
             plt.text(0.41, y-0.3, 'P = %.3f' % p, fontsize=16, color='k', fontweight='bold')
@@ -328,5 +354,3 @@ if is_plot:
         pdf.savefig()
         pdf.close()
     plt.show()
-
-print(np.mean(a), np.std(a))
