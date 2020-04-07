@@ -3,6 +3,11 @@ Easylearn is designed for machine learning in resting-state fMRI field.
 - Our mission is to enable everyone who wants to apply machine learning to their research field to apply machine learning in the simplest way.  
 - Our goal is to develop a graphical interface so that researchers who are not familiar with programming can easily apply machine learning to their fields.  
 
+#### <center> Main Interface </center>
+![Main Window](./img/GUI_main.png)  
+#### <center> Data loading Interface </center>
+![Data loading](./img/GUI_main.png)  
+
 # Core Dependencies 
 The follows will be automatically install if you use "pip install -U easylearn" command    
 

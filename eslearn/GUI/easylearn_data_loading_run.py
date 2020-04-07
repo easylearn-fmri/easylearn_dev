@@ -70,17 +70,17 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
 
         # mask_target_covariates
         self.single_slot_dict = {"Select mask": [self.lineEdit_mask, "mask"], "Clear mask": [self.lineEdit_mask, "mask"], 
-                            "Select targets": [self.lineEdit_target, "target"], "Clear targets": [self.lineEdit_target, "target"], 
-                            "Select covariates": [self.lineEdit_covariates, "covariate"], "Clear covariates": [self.lineEdit_covariates, "covariate"]}
-        self.pushButton_selectMask.clicked.connect(self.input_mask_target_covariates)
-        self.pushButton_selectTarget.clicked.connect(self.input_mask_target_covariates)
-        self.pushButton_selectCovariance.clicked.connect(self.input_mask_target_covariates)
+                            "Select targets": [self.lineEdit_target, "targets"], "Clear targets": [self.lineEdit_target, "targets"], 
+                            "Select covariates": [self.lineEdit_covariates, "covariates"], "Clear covariates": [self.lineEdit_covariates, "covariates"]}
+        self.pushButton_selectMask.clicked.connect(self.input_mask_target_covariate)
+        self.pushButton_selectTarget.clicked.connect(self.input_mask_target_covariate)
+        self.pushButton_selectCovariance.clicked.connect(self.input_mask_target_covariate)
         self.pushButton_clearMask.clicked.connect(self.clear_mask_target_covariates)
         self.pushButton_clearTarget.clicked.connect(self.clear_mask_target_covariates)
         self.pushButton_clearCovriance.clicked.connect(self.clear_mask_target_covariates)
-        self.pushButton_mask.clicked.connect(self.check_box_mask)
-        self.pushButton_target.clicked.connect(self.check_box_target)
-        self.pushButton_covariate.clicked.connect(self.check_box_covariate)
+        self.pushButton_mask.clicked.connect(self.confirm_box_mask)
+        self.pushButton_target.clicked.connect(self.confirm_box_target)
+        self.pushButton_covariate.clicked.connect(self.confirm_box_covariate)
 
         # Skins
         self.skins = {"Dark": "style_Dark", "Black": "style_black", "DarkOrange": "style_DarkOrange", 
@@ -210,11 +210,12 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
     def add_group(self):
         """Add a group
         """
-        self.group_name, ok = QInputDialog.getText(self, "Add group", "Please name the group:", QLineEdit.Normal, "group_") 
-        if self.group_name != "":
-            if self.group_name not in self.data_loading.keys():
-                self.data_loading[self.group_name] = {}
+        group_name, ok = QInputDialog.getText(self, "Add group", "Please name the group:", QLineEdit.Normal, "group_") 
+        if group_name != "":
+            if group_name not in self.data_loading.keys():
+                self.data_loading[group_name] = {}
         self.display_groups()
+        self.selected_group = None
 
     def identify_selected_group(self, index):
         """Identify the selected file in the list_view_groups and display_files the files
@@ -222,7 +223,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         self.selected_group = list(self.data_loading.keys())[index.row()]
         self.display_modality()
         self.display_files()
-        self.display_mask()
+        self.display_mask_target_covariate()
         self.selected_modality = None
         self.selected_file = None
    
@@ -263,11 +264,12 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         """Add a modality for a selected group
         """
         if self.selected_group:
-
             mod_name, ok = QInputDialog.getText(self, "Add modality", "Please name the modality:", QLineEdit.Normal, "modality_")
-            if not (mod_name in self.data_loading[self.selected_group].keys()):  # avoid clear exist modalites
-                self.data_loading[self.selected_group][mod_name] = {"file":[], "mask": "", "target":[], "covariates": []}  #  must copy the dict, otherwise all modalities are the same.
+            if mod_name != "":
+                if (mod_name not in self.data_loading[self.selected_group].keys()):  # avoid clear exist modalites
+                    self.data_loading[self.selected_group][mod_name] = {"file":[], "mask": "", "targets":[], "covariates": []}  #  must copy the dict, otherwise all modalities are the same.
             self.display_modality()
+            self.selected_modality = None
         else:
 
             QMessageBox.warning( self, 'Warning', 'Please choose group first!')
@@ -277,7 +279,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         """
         self.selected_modality = list(self.data_loading[self.selected_group].keys())[index.row()]
         self.display_files()
-        self.display_mask()
+        self.display_mask_target_covariate()
         self.selected_file = None
 
     def remove_selected_modality(self):
@@ -328,6 +330,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
             
             self.data_loading[self.selected_group][self.selected_modality]["file"].extend(self.loaded_files)
             self.display_files()
+            self.selected_file = None
         else:
 
             QMessageBox.warning( self, 'Warning', 'Please select group and modality first!')       
@@ -400,12 +403,12 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
             self.slm_file.setStringList([])  
             self.listView_files.setModel(self.slm_file)
     
-    def input_mask_target_covariates(self):
+    def input_mask_target_covariate(self):
         """Can input or select file
         """
         if (bool(self.selected_group) & bool(self.selected_modality)):
             loaded_file, filetype = QFileDialog.getOpenFileName(self,  
-                                    "Select files",  os.getcwd(), 
+                                    "Select file",  os.getcwd(), 
                                     "Text Files (*.txt);;Excel Files (*.xlsx);;Excel Files (*.xls);;Nifti Files (*.nii);;Matlab Files (*.mat);;All Files (*)"
             )
 
@@ -416,33 +419,51 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         else:
             QMessageBox.warning( self, 'Warning', 'Please select group and modality first!')   
     
-    def display_mask(self):
+    def display_mask_target_covariate(self):
         if (bool(self.selected_group) & bool(self.selected_modality)):
-            if self.data_loading[self.selected_group][self.selected_modality]["mask"] != "":
-                self.lineEdit_mask.setText(self.data_loading[self.selected_group][self.selected_modality]["mask"])
-            else:
-                self.lineEdit_mask.setText("")
+            if (self.selected_modality in list(self.data_loading[self.selected_group].keys())):
+                if self.data_loading[self.selected_group][self.selected_modality]["mask"] != "":
+                    self.lineEdit_mask.setText(self.data_loading[self.selected_group][self.selected_modality]["mask"])
+                else:
+                    self.lineEdit_mask.setText("")
+
+                if self.data_loading[self.selected_group][self.selected_modality]["targets"] != []:
+                    self.lineEdit_target.setText(self.data_loading[self.selected_group][self.selected_modality]["targets"])
+                else:
+                    self.lineEdit_target.setText("")
+
+                if self.data_loading[self.selected_group][self.selected_modality]["covariates"] != []:
+                    self.lineEdit_covariates.setText(self.data_loading[self.selected_group][self.selected_modality]["covariates"])
+                else:
+                    self.lineEdit_covariates.setText("")
         else:
             self.lineEdit_mask.setText("")
+            self.lineEdit_target.setText("")
+            self.lineEdit_covariates.setText("")
 
-    def check_box_mask(self, state):
+    def confirm_box_mask(self, state):
+        """When users input mask by their hands, they should click this pushbutton to confirm the inputs.
+        """
         if (bool(self.selected_group) & bool(self.selected_modality)):
             self.data_loading[self.selected_group][self.selected_modality]["mask"] = self.lineEdit_mask.text()
         else:
             QMessageBox.warning( self, 'Warning', 'Please select group and modality first!') 
 
-    def check_box_target(self, state):
+    def confirm_box_target(self, state):
+        """When users input mask by their hands, they should click this pushbutton to confirm the inputs.
+        """
         if (bool(self.selected_group) & bool(self.selected_modality)):
-                self.data_loading[self.selected_group][self.selected_modality]["target"] = self.lineEdit_target.text()
+                self.data_loading[self.selected_group][self.selected_modality]["targets"] = self.lineEdit_target.text()
         else:
             QMessageBox.warning( self, 'Warning', 'Please select group and modality first!') 
 
-    def check_box_covariate(self, state):
+    def confirm_box_covariate(self, state):
+        """When users input mask by their hands, they should click this pushbutton to confirm the inputs.
+        """
         if (bool(self.selected_group) & bool(self.selected_modality)):
                 self.data_loading[self.selected_group][self.selected_modality]["covariate"] = self.lineEdit_covariates.text()
         else:
             QMessageBox.warning( self, 'Warning', 'Please select group and modality first!') 
-
 
     def clear_mask_target_covariates(self):
         self.single_slot_dict[self.sender().text()][0].setText("")
