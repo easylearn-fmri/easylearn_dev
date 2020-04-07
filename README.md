@@ -1,4 +1,3 @@
-# utf-8 -*-
 # easylearn   
 Easylearn is designed for machine learning in resting-state fMRI field.   
 - Our mission is to enable everyone who wants to apply machine learning to their research field to apply machine learning in the simplest way.  
