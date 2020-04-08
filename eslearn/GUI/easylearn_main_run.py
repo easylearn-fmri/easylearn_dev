@@ -60,6 +60,8 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         self.actionClassic.triggered.connect(self.set_run_appearance)
         self.actionLight.triggered.connect(self.set_run_appearance)
 
+        # self.showFullscreen()
+
     
     def set_run_appearance(self):
         """Set a appearance for easylearn (title, logo, skin, etc).
@@ -153,8 +155,8 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
 
         This function will add the configuration_file to self
         """
-        configuration_file_name, ok = QInputDialog.getText(self, "Initialize configuration", "Please name the configuration file:", QLineEdit.Normal, "configuration_file.json")
         if self.working_directory != "":
+            configuration_file_name, ok = QInputDialog.getText(self, "Initialize configuration", "Please name the configuration file:", QLineEdit.Normal, "configuration_file.json")
             self.configuration_file = os.path.join(self.working_directory, configuration_file_name)
             with open(self.configuration_file, 'w') as configuration_file:
                 config = {"data_loading": {}, "features_engineering": {}, "machine_learning": {}, "model_evaluation": {}, "statistical_analysis": {}}

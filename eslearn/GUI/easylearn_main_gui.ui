@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>447</width>
-    <height>686</height>
+    <width>439</width>
+    <height>703</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -40,6 +40,12 @@
      <horstretch>0</horstretch>
      <verstretch>100</verstretch>
     </sizepolicy>
+   </property>
+   <property name="acceptDrops">
+    <bool>false</bool>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
    </property>
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
@@ -81,8 +87,8 @@
         </property>
        </widget>
       </item>
-      <item row="7" column="0" colspan="2">
-       <widget class="QPushButton" name="model_evaluation">
+      <item row="5" column="0" colspan="2">
+       <widget class="QPushButton" name="feature_engineering">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -90,7 +96,13 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>Model Evaluation</string>
+         <string>Feature Engineering</string>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>30</width>
+          <height>30</height>
+         </size>
         </property>
        </widget>
       </item>
@@ -113,25 +125,16 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="0" colspan="2">
-       <widget class="QPushButton" name="data_loading">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
+      <item row="0" column="0" rowspan="2" colspan="2">
+       <widget class="QLabel" name="logo">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>100</height>
+         </size>
         </property>
         <property name="text">
-         <string>Data Loading</string>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>30</width>
-          <height>30</height>
-         </size>
+         <string/>
         </property>
        </widget>
       </item>
@@ -184,8 +187,8 @@
         </item>
        </layout>
       </item>
-      <item row="5" column="0" colspan="2">
-       <widget class="QPushButton" name="feature_engineering">
+      <item row="7" column="0" colspan="2">
+       <widget class="QPushButton" name="model_evaluation">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -193,13 +196,7 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>Feature Engineering</string>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>30</width>
-          <height>30</height>
-         </size>
+         <string>Model Evaluation</string>
         </property>
        </widget>
       </item>
@@ -222,20 +219,36 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="0" rowspan="2" colspan="2">
-       <widget class="QLabel" name="logo">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>100</height>
-         </size>
+      <item row="4" column="0" colspan="2">
+       <widget class="QPushButton" name="data_loading">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
         </property>
         <property name="text">
-         <string/>
+         <string>Data Loading</string>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>30</width>
+          <height>30</height>
+         </size>
         </property>
        </widget>
       </item>
      </layout>
+    </item>
+    <item row="1" column="0">
+     <widget class="QProgressBar" name="progressBar">
+      <property name="value">
+       <number>0</number>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -245,7 +258,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>447</width>
+     <width>439</width>
      <height>26</height>
     </rect>
    </property>

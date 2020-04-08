@@ -107,7 +107,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
 
         """
         self.setWindowTitle('Data Loading')
-        self.setWindowIcon(QIcon('../logo/logo-top.jpg'))
+        self.setWindowIcon(QIcon('../logo/logo-upper.jpg'))
 
         sender = self.sender()
         if sender:
