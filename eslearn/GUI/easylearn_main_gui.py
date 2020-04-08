@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'D:\My_Codes\easylearn-fmri\eslearn\gui_test\easylearn_main_gui.ui'
+# Form implementation generated from reading ui file 'D:\My_Codes\easylearn-fmri\eslearn\GUI\easylearn_main_gui.ui'
 #
 # Created by: PyQt5 UI code generator 5.11.3
 #
@@ -176,7 +176,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.machine_learning.setText(_translate("MainWindow", "Machine Learning"))
         self.model_evaluation.setText(_translate("MainWindow", "Model Evaluation"))
-        self.statistical_analysis.setText(_translate("MainWindow", "Statistical analysis"))
+        self.statistical_analysis.setText(_translate("MainWindow", "Statistical Analysis"))
         self.data_loading.setText(_translate("MainWindow", "Data Loading"))
         self.quit.setText(_translate("MainWindow", "Quit"))
         self.run.setText(_translate("MainWindow", "Run"))
