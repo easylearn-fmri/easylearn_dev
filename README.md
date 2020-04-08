@@ -61,10 +61,12 @@ University, Shenyang, Liaoning, PR China.
 # Primary maintainer  
 ##### Chao Li 
 >lichao19870617@gmail.com   
->The First Affiliated Hospital, China Medical University.      
+>Brain Function Research Section, The First Affiliated Hospital of China Medical
+University, Shenyang, Liaoning, PR China.        
 ##### Mengshi Dong  
 >dongmengshi1990@163.com  
->The First Affiliated Hospital, China Medical University.    
+>Department of Radiology, The First Affiliated Hospital of China Medical University,
+Shenyang, Liaoning, PR China.    
 # Co-maintainer  
 ##### Shaoqiang Han
 >867727390@qq.com  
