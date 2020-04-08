@@ -36,7 +36,7 @@ We hope you can join us!
 > Wechat: 13591648206  
 
 # Supervisor   
-##### Tang Yanqing  
+##### Yanqing Tang  
 >yanqingtang@163.com  
 >1 Brain Function Research Section, The First Affiliated Hospital of China Medical
 University, Shenyang, Liaoning, PR China.  
