@@ -67,7 +67,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         qss_logo = """#logo{background-color: black;
                 border: 2px solid white;
                 border-radius: 20px;
-                border-image: url('../logo/logo-down.jpg');
+                border-image: url('../logo/logo-lower.jpg');
                 }
                 #logo:hover {border-radius: 0px;}
         """
@@ -102,7 +102,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
 
         # icon = QtGui.QIcon()
         # icon.addPixmap(QtGui.QPixmap("../logo/logo-dms-small.png"))
-        self.setWindowIcon(QIcon('../logo/logo-top.jpg'))
+        self.setWindowIcon(QIcon('../logo/logo-upper.jpg'))
         # self.setWindowIcon(icon)
 
         sender = self.sender()

@@ -1,9 +1,9 @@
-# easylearn   
-Easylearn is designed for machine learning in resting-state fMRI field.   
-- Our mission is to enable everyone who wants to apply machine learning to their research field to apply machine learning in the simplest way.  
-- Our goal is to develop a graphical interface so that researchers who are not familiar with programming can easily apply machine learning to their fields.  
+# <img src="./eslearn/logo/logo-lower.jpg" width = "200" height = "60" div align=left />  <font size=10>Make machine learning easy!</font>   
+Easylearn is designed for machine learning mainly in resting-state fMRI, radiomics field and other fields (such as EEG). Easylearn is built on top of scikit-learn, pytorch and other packages. Easylearn can assist doctors and researchers who have limited coding experience to easily realize machine learning, e.g., (MR/CT/PET/EEG)imaging-marker- or other biomarker-based disease diagnosis and prediction, treatment response prediction, 
+disease subtyping, dimensional decoding for transdiagnostic psychiatric diseases or other diseases, disease mechanism exploration and etc.  
 
-#### <center> Main Interface </center>
+We focus on machine learning rather than data preprocessing. Many software, such as SPM, DPABI, GRETNA, FSL, Freesufer, nipy, nipype, nibabel, fmriprep and etc, can be used for data preprocessing.
+#### Main Interface
 ![Main Window](./img/GUI_main.png)  
 #### <center> Data loading Interface </center>
 ![Data loading](./img/GUI_data_loading.png)  
@@ -31,31 +31,41 @@ pip install -U easylearn
 
 # Development   
 At present, the project is in the development stage  
-We hope you can join us!
+We hope you can join us!  
+> Email: lichao19870617@gmail.com  
+> Wechat: 13591648206  
 
 # Supervisor   
+##### Tang Yanqing  
+>yanqingtang@163.com  
+>1 Brain Function Research Section, The First Affiliated Hospital of China Medical
+University, Shenyang, Liaoning, PR China.  
+>2 Department of Psychiatry, The First Affiliated Hospital of China Medical University,
+Shenyang, Liaoning, PR China.      
 ##### Ke Xu
 >kexu@vip.sina.com  
->The First Affiliated Hospital, China Medical University. 
+>1 Brain Function Research Section, The First Affiliated Hospital of China Medical
+University, Shenyang, Liaoning, PR China.  
+>2 Department of Radiology, The First Affiliated Hospital of China Medical University,
+Shenyang, Liaoning, PR China.  
 ##### Yong He  
 >yong.he@bnu.edu.cn  
 >1 National Key Laboratory of Cognitive Neuroscience and Learning, Beijing Normal University, Beijing 100875, China  
 >2 Beijing Key Laboratory of Brain Imaging and Connectomics, Beijing Normal University, Beijing 100875, China  
 >3 IDG/McGovern Institute for Brain Research, Beijing Normal University, Beijing 100875, China 
-##### Tang Yanqing  
->yanqingtang@163.com  
->The First Affiliated Hospital, China Medical University.        
 ##### Fei Wang  
 >fei.wang@yale.edu  
->The First Affiliated Hospital, China Medical University.   
+>1 Brain Function Research Section, The First Affiliated Hospital of China Medical
+University, Shenyang, Liaoning, PR China.  
 
-# Maintainer    
-##### Chao Li; 
+# Primary maintainer  
+##### Chao Li 
 >lichao19870617@gmail.com   
 >The First Affiliated Hospital, China Medical University.      
 ##### Mengshi Dong  
 >dongmengshi1990@163.com  
 >The First Affiliated Hospital, China Medical University.    
+# Co-maintainer  
 ##### Shaoqiang Han
 >867727390@qq.com  
 >The First Affiliated Hospital of ZhengZhou University
@@ -71,7 +81,6 @@ We hope you can join us!
 ##### Weixiang Liu  
 >wxliu@szu.edu.cn  
 >Shenzhen University        
-
 
 # Demo
 The simplest demo is in the eslearn/examples.  
