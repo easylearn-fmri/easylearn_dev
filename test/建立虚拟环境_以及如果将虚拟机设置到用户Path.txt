@@ -1,0 +1,16 @@
+# 建立虚拟环境
+virtualenv virtualenv_eslearn
+virtualenv -p F:\Python3.6.5_V2\python.exe virtualenv_eslearn
+
+
+#Powershell设置User的环境变量
+<!-- $old_path = $env:Path -->
+$old_path = [environment]::GetEnvironmentvariable("Path", "User")
+$new_path_virtual = ";D:\My_Codes\virtualenv_eslearn\Scripts"
+$new_path_real = "; F:\Python3.6.5_V2\Scripts; F:\Python3.6.5_V2"
+
+## set virtual path
+[environment]::SetEnvironmentvariable("Path", $new_path_virtual, "User")
+
+## set original Python3 path
+[environment]::SetEnvironmentvariable("Path", $new_path_real, "User")
