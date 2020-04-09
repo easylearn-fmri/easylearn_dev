@@ -5,7 +5,7 @@ Wechat: 13591648206
 MIT License
 """
 import sys
-sys.path.append(r'E:\easylearn\eslearn\stylesheets\PyQt5_stylesheets')
+sys.path.append('../stylesheets/PyQt5_stylesheets')
 import os
 import json
 import cgitb

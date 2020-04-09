@@ -118,7 +118,6 @@ data_all_reduced = data_all_reduced(:,1:loc_cutoff_cum_ex);
 
 % save to csv
 data_to_csv = cat(2, subjid, data_all_reduced, label);
-data_to_csv = cat(1, data_to_csv, data_to_csv);
 csvwrite(fullfile(output_dir, 'cluster_tmp.csv'), data_to_csv);
 
 % Run HYDRA
