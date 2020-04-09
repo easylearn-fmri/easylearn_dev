@@ -85,6 +85,9 @@ Shenyang, Liaoning, PR China.
 ##### Weixiang Liu  
 >wxliu@szu.edu.cn  
 >Shenzhen University        
+##### +
+>Co-Contributors will increase dynamically.    
+
 
 # Demo
 The simplest demo is in the eslearn/examples.  
