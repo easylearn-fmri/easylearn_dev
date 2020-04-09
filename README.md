@@ -30,6 +30,7 @@ pip install -U easylearn
 ```
 
 # Development   
+一个人走得很快，一群人走得更远！  
 At present, the project is in the development stage. We hope you can join us!   
 Any contributions you make will be appreciated and announced.     
 # <img src="./img/easylearn-flow-chart.jpg" width = "1000" height = "1200" div align=left />
