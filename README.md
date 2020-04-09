@@ -30,8 +30,9 @@ pip install -U easylearn
 ```
 
 # Development   
-At present, the project is in the development stage  
-We hope you can join us!  
+At present, the project is in the development stage. We hope you can join us!   
+Any contributions you make will be appreciated and announced.     
+# <img src="./img/easylearn-flow-chart.jpg" width = "1000" height = "1200" div align=left />
 > Email: lichao19870617@gmail.com  
 > Wechat: 13591648206  
 
