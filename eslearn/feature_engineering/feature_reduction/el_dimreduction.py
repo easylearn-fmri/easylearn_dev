@@ -3,7 +3,10 @@
 Created on Wed Jul  4 13:57:15 2018
 dimension reduction
 current only pca
-@author: lenovo
+@author: Li Chao
+Email:lichao19870617@gmail.com
+GitHub account name lichao312214129
+Brain Function Research Section, The First Affiliated Hospital of China Medical University, Shenyang, Liaoning, PR China. 
 """
 from sklearn.decomposition import PCA
 
