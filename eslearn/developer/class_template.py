@@ -50,7 +50,7 @@ class Preprocessing():
                 features in training dataset
             feature_test: numpy.ndarray
                 features in test dataset
-        return
+        Returns
         ------
             preprocessed training features and test features.
         '''
