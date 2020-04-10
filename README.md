@@ -7,7 +7,6 @@ We focus on machine learning rather than data preprocessing. Many software, such
 ![Main Window](./img/GUI_main.png)  
 #### <center> Data loading Interface </center>
 ![Data loading](./img/GUI_data_loading.png)  
-
 # Core Dependencies 
 The follows will be automatically install if you use "pip install -U easylearn" command    
 
@@ -37,6 +36,20 @@ Any contributions you make will be appreciated and announced.
 > Email: lichao19870617@gmail.com  
 > Wechat: 13591648206  
 
+# Originator
+##### Ke Xu
+>kexu@vip.sina.com  
+>1 Brain Function Research Section, The First Affiliated Hospital of China Medical
+University, Shenyang, Liaoning, PR China.  
+>2 Department of Radiology, The First Affiliated Hospital of China Medical University,
+##### Chao Li
+>lichao19870617@gmail.com
+>1 Brain Function Research Section, The First Affiliated Hospital of China Medical
+University, Shenyang, Liaoning, PR China.  
+##### Mengshi Dong
+>dongmengshi1990@163.com  
+>Department of Radiology, The First Affiliated Hospital of China Medical University,
+Shenyang, Liaoning, PR China.   
 # Supervisor   
 ##### Yanqing Tang  
 >yanqingtang@163.com  
@@ -60,16 +73,19 @@ Shenyang, Liaoning, PR China.
 >1 Brain Function Research Section, The First Affiliated Hospital of China Medical
 University, Shenyang, Liaoning, PR China.  
 
-# Primary maintainer  
-##### Chao Li 
+#Maintainer  
+##### Chao Li (owner)  
 >lichao19870617@gmail.com   
 >Brain Function Research Section, The First Affiliated Hospital of China Medical
 University, Shenyang, Liaoning, PR China.        
 ##### Mengshi Dong  
 >dongmengshi1990@163.com  
 >Department of Radiology, The First Affiliated Hospital of China Medical University,
-Shenyang, Liaoning, PR China.    
-# Co-maintainer  
+Shenyang, Liaoning, PR China.  
+##### + 
+> If someone makes a very important contribution in later project development, the maintainer list will be added.   
+
+# Contributors  
 ##### Shaoqiang Han
 >867727390@qq.com  
 >The First Affiliated Hospital of ZhengZhou University
