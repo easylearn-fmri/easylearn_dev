@@ -1,9 +1,21 @@
+# -*- coding: utf-8 -*-
 """The GUI of the data loading module of easylearn
-@Author: Li Chao, Dong Mengshi
-@Email:lichao19870617@gmail.com, dongmengshi1990@163.com
-Wechat: 13591648206
-MIT License
+
+Created on Wed Jul  4 13:57:15 2018
+@author: Li Chao
+Email:lichao19870617@gmail.com
+GitHub account name: lichao312214129
+Institution (company): Brain Function Research Section, The First Affiliated Hospital of China Medical University, Shenyang, Liaoning, PR China. 
+
+@author: Dong Mengshi
+Email:dongmengshi1990@163.com
+GitHub account name: dongmengshi
+Institution (company): Department of radiology, The First Affiliated Hospital of China Medical University, Shenyang, Liaoning, PR China. 
+
+License: MIT
 """
+
+
 import sys
 sys.path.append('../stylesheets/PyQt5_stylesheets')
 import os
@@ -19,6 +31,7 @@ from PyQt5.QtCore import*
 import PyQt5_stylesheets
 
 from easylearn_data_loading_gui import Ui_MainWindow
+
 
 class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
     def __init__(self, working_directory=None):
