@@ -29,6 +29,9 @@ class Preprocessing():
             how to preprocess the features, 'StandardScaler' or 'MinMaxScaler'
         data_preprocess_level: string
             which level to preprocess features, 'subject' or 'group'
+    Attibutes:
+    ----------
+        None
     '''
 
     def __init__(self, data_preprocess_method='StandardScaler', data_preprocess_level='subject'):
