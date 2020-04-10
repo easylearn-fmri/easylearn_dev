@@ -37,21 +37,31 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
 
         # intial
         
-        # connect items signal to slot
-        self.pushButton_preprocessing.clicked.connect(self.on_pushButton_preprocessing_clicked)
-        self.pushButton_dimreduction.clicked.connect(self.on_pushButton_dimreduction_clicked)
-        self.pushButton_selection.clicked.connect(self.on_pushButton_selection_clicked)
-        self.pushButton_unbalance_treatment.clicked.connect(self.on_pushButton_unbalance_treatment_clicked)
+        # connect main items signal to slot
+        self.items_stackedwedge_dict = {"Preprocessing": 0, "Dimension reduction": 1, "Feature selection": 2, "Unbalance treatment": 3, "None": 4}
+        self.pushButton_preprocessing.clicked.connect(self.on_pushButton_items_clicked)
+        self.pushButton_dimreduction.clicked.connect(self.on_pushButton_items_clicked)
+        self.pushButton_selection.clicked.connect(self.on_pushButton_items_clicked)
+        self.pushButton_unbalance_treatment.clicked.connect(self.on_pushButton_items_clicked)
         # connect preprocessing setting signal to slot
-        self.radioButton_scaling.clicked.connect(self.on_radioButton_scaling_clicked)
-        self.radioButton_zscore.clicked.connect(self.on_radioButton_not_scaling_clicked)
-        self.radioButton_demean.clicked.connect(self.on_radioButton_not_scaling_clicked)
+        self.preprocessing_stackedwedge_dict = {"Z-score normalization": 0, "Scaling": 1, "De-mean": 2, "None": 3}
+        self.radioButton_scaling.clicked.connect(self.on_preprocessing_detail_stackedwedge_clicked)
+        self.radioButton_zscore.clicked.connect(self.on_preprocessing_detail_stackedwedge_clicked)
+        self.radioButton_demean.clicked.connect(self.on_preprocessing_detail_stackedwedge_clicked)
         # connect dimreduction setting signal to slot
-        self.dimreduction_radioButton_dict = {"PCA": 0, "ICA": 1, "LDA": 2, "LLE": 3}
-        self.radioButton_pca.clicked.connect(self.on_radioButton_dimreduction__clicked)
-        self.radioButton_ica.clicked.connect(self.on_radioButton_dimreduction__clicked)
-        self.radioButton_lda.clicked.connect(self.on_radioButton_dimreduction__clicked)
-        self.radioButton_lle.clicked.connect(self.on_radioButton_dimreduction__clicked)
+        self.dimreduction_stackedwedge_dict = {"PCA": 0, "ICA": 1, "LDA": 2, "LLE": 3, "None": 4}
+        self.radioButton_pca.clicked.connect(self.on_dimreduction_stackedwedge_clicked)
+        self.radioButton_ica.clicked.connect(self.on_dimreduction_stackedwedge_clicked)
+        self.radioButton_lda.clicked.connect(self.on_dimreduction_stackedwedge_clicked)
+        self.radioButton_lle.clicked.connect(self.on_dimreduction_stackedwedge_clicked)
+        self.radioButton_none.clicked.connect(self.on_dimreduction_stackedwedge_clicked)
+        # connect feature selection setting signal to slot
+        self.feature_selection_stackedwedge_dict = {"Variance threshold": 0, "Correlation": 1, "Distance correlation": 2, "F-Score": 3, "Mutual information (classification)": 4}
+        self.radioButton_variance_threshold.clicked.connect(self.on_feature_selection_stackedwedge_clicked)
+        self.radioButton_correlation.clicked.connect(self.on_feature_selection_stackedwedge_clicked)
+        self.radioButton_distancecorrelation.clicked.connect(self.on_feature_selection_stackedwedge_clicked)
+        self.radioButton_fscore.clicked.connect(self.on_feature_selection_stackedwedge_clicked)
+        self.radioButton_mutualinfo_cls.clicked.connect(self.on_feature_selection_stackedwedge_clicked)
 
         # set appearance
         self.set_run_appearance()
@@ -65,7 +75,7 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
         } 
 
         """
-        self.setWindowTitle('Data Loading')
+        self.setWindowTitle('Feature Engineering')
         self.setWindowIcon(QIcon('../logo/logo-upper.jpg'))
 
         sender = self.sender()
@@ -78,37 +88,44 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
             self.setStyleSheet(PyQt5_stylesheets.load_stylesheet_pyqt5(style="style_Dark"))
 
         # Make the stackedWidg to default at the begining
-        self.stackedWidget_items.setCurrentIndex(0)
+        self.stackedWidget_items.setCurrentIndex(4)
         self.on_radioButton_not_scaling_clicked()
 
-    def on_pushButton_preprocessing_clicked(self):
-        print("preprocessing")
-        self.stackedWidget_items.setCurrentIndex(0)
-
-
-    def on_pushButton_dimreduction_clicked(self):
-        print("dimreduction")
-        self.stackedWidget_items.setCurrentIndex(1)
-
-
-    def on_pushButton_selection_clicked(self):
-        print("selection")
-        self.stackedWidget_items.setCurrentIndex(3)
-
-    def on_pushButton_unbalance_treatment_clicked(self):
-        print("deal with unbalance")
-        self.stackedWidget_items.setCurrentIndex(4)
-
-    def on_radioButton_scaling_clicked(self):
-        self.stackedWidget_preprocessing_methods.setCurrentIndex(0)
-        print("scaling")
+    def on_pushButton_items_clicked(self):
+        print(self.sender().text())
+        self.stackedWidget_items.setCurrentIndex(self.items_stackedwedge_dict[self.sender().text()])
+ 
+    def on_preprocessing_detail_stackedwedge_clicked(self):
+        print(self.sender().text())
+        if self.sender().text():
+            self.stackedWidget_preprocessing_methods.setCurrentIndex(self.preprocessing_stackedwedge_dict[self.sender().text()])
+        else:
+            self.stackedWidget_preprocessing_methods.setCurrentIndex(-1)
 
     def on_radioButton_not_scaling_clicked(self):
         self.stackedWidget_preprocessing_methods.setCurrentIndex(1)
 
     #%% radioButtons of dimreduction
-    def on_radioButton_dimreduction__clicked(self):
-        self.stackedWidget_dimreduction.setCurrentIndex(self.dimreduction_radioButton_dict[self.sender().text()])
+    def on_dimreduction_stackedwedge_clicked(self):
+        self.stackedWidget_dimreduction.setCurrentIndex(self.dimreduction_stackedwedge_dict[self.sender().text()])
+
+    def on_feature_selection_stackedwedge_clicked(self):
+        self.groupBox_feature_selection_input.setTitle(self.sender().text())
+        self.stackedWidget_feature_selection.setCurrentIndex(self.feature_selection_stackedwedge_dict[self.sender().text()])
+
+    def closeEvent(self, event):
+        """This function is called when exit icon of the window is clicked.
+
+        This function make sure the program quit safely.
+        """
+        # Set qss to make sure the QMessageBox can be seen
+        reply = QMessageBox.question(self, 'Quit',"Are you sure to quit?",
+                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+
+        if reply == QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore() 
 
 
 if __name__ == "__main__":
