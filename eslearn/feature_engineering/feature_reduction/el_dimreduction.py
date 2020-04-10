@@ -21,7 +21,7 @@ def pca_apply(train_x, test_x, pca_n_component):
             features in the training dataset
         test_x : numpy.ndarray
             features in the test dataset
-        pca_n_component : float, range = (0, 1]
+        pca_n_component : float, range = (0, 1] | int
             how many percentages of the cumulatively explained variance to be retained. This is used to select the top principal components.
     return
     ------
