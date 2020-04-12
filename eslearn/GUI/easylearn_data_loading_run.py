@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """The GUI of the data loading module of easylearn
 
-Created on Wed Jul  4 13:57:15 2018
+Created on 2020/04
 @author: Li Chao
 Email:lichao19870617@gmail.com
 GitHub account name: lichao312214129

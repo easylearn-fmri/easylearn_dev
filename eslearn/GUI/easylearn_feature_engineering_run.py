@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """The GUI of the feature_engineering module of easylearn
 
-Created on Wed Jul  4 13:57:15 2018
-@author: Li Chao
+Created on 2020/04/12
+@author: Li Chao 黎超
 Email:lichao19870617@gmail.com
 GitHub account name: lichao312214129
 Institution (company): Brain Function Research Section, The First Affiliated Hospital of China Medical University, Shenyang, Liaoning, PR China. 
@@ -14,6 +14,7 @@ License: MIT
 import sys
 sys.path.append('../stylesheets/PyQt5_stylesheets')
 import os
+import numpy as np
 import json
 import cgitb
 from PyQt5.QtWidgets import QApplication,QMainWindow, QFileDialog
@@ -35,23 +36,27 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
 
+        # Initialization
+        self.feature_engineering = {"feature_preprocessing": {}, "dimreduction": {}, "feature_selection": {}, "unbalance_treatment": {}}
+        self.configuration_file = ""
+
+        # Set appearance
+        self.set_run_appearance()
+
         # Debug
         cgitb.enable(display=1, logdir=None)  
 
-        # intial
-        
-        # connect main items signal to slot: switche to corresponding stackedWidget
-        self.items_stackedwedge_dict = {"Preprocessing": 0, "Dimension reduction": 1, "Feature selection": 2, "Unbalance treatment": 3, "None": 4}
-        self.pushButton_preprocessing.clicked.connect(self.on_pushButton_items_clicked)
-        self.pushButton_dimreduction.clicked.connect(self.on_pushButton_items_clicked)
-        self.pushButton_selection.clicked.connect(self.on_pushButton_items_clicked)
-        self.pushButton_unbalance_treatment.clicked.connect(self.on_pushButton_items_clicked)
+        # Connect configuration functions
+        self.actionLoad_configuration.triggered.connect(self.load_configuration)
+        self.actionSave_configuration.triggered.connect(self.save_configuration)
+
         # connect preprocessing setting signal to slot: switche to corresponding stackedWidget
         self.preprocessing_stackedwedge_dict = {"Z-score normalization": 0, "Scaling": 1, "De-mean": 2, "None": 3}
-        self.radioButton_scaling.clicked.connect(self.on_preprocessing_detail_stackedwedge_clicked)
         self.radioButton_zscore.clicked.connect(self.on_preprocessing_detail_stackedwedge_clicked)
+        self.radioButton_scaling.clicked.connect(self.on_preprocessing_detail_stackedwedge_clicked)
         self.radioButton_demean.clicked.connect(self.on_preprocessing_detail_stackedwedge_clicked)
         self.radioButton_none_methods.clicked.connect(self.on_preprocessing_detail_stackedwedge_clicked)
+        
         # connect dimreduction setting signal to slot: switche to corresponding stackedWidget
         self.dimreduction_stackedwedge_dict = {"Principal component analysis": 0, "Independent component analysis": 1, "Latent Dirichlet Allocation": 2, " Non-negative matrix factorization": 3, "None": 4}
         self.radioButton_pca.clicked.connect(self.on_dimreduction_stackedwedge_clicked)
@@ -59,11 +64,15 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
         self.radioButton_lda.clicked.connect(self.on_dimreduction_stackedwedge_clicked)
         self.radioButton_nmf.clicked.connect(self.on_dimreduction_stackedwedge_clicked)
         self.radioButton_none.clicked.connect(self.on_dimreduction_stackedwedge_clicked)
+        
         # connect feature selection setting signal to slot: switche to corresponding stackedWidget
-        self.feature_selection_stackedwedge_dict = {"Variance threshold": 0, "Correlation": 1, "Distance correlation": 2, "F-Score": 3, 
-        "Mutual information (classification)": 4, "Mutual information (regression)": 5, "ReliefF": 6, "ANOVA": 7, 
-        "RFE": 8, 
-        "L1 regularization (Lasso)": 9, "L2 regularization (Ridge regression)": 10, "L1 + L2 regularization (Elastic net regression)": 11}
+        self.feature_selection_stackedwedge_dict = {
+            "Variance threshold": 0, "Correlation": 1, "Distance correlation": 2, "F-Score (classification)": 3, 
+            "Mutual information (classification)": 4, "Mutual information (regression)": 5, "ReliefF": 6, "ANOVA/Ttest2 (classification)": 7, 
+            "RFE": 8, 
+            "L1 regularization (Lasso)": 9, "L1 + L2 regularization (Elastic net regression)": 10, 
+            "None": 11
+        }
         self.radioButton_variance_threshold.clicked.connect(self.on_feature_selection_stackedwedge_clicked)
         self.radioButton_correlation.clicked.connect(self.on_feature_selection_stackedwedge_clicked)
         self.radioButton_distancecorrelation.clicked.connect(self.on_feature_selection_stackedwedge_clicked)
@@ -74,11 +83,19 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
         self.radioButton_anova.clicked.connect(self.on_feature_selection_stackedwedge_clicked)
         self.radioButton_rfe.clicked.connect(self.on_feature_selection_stackedwedge_clicked)
         self.radioButton_l1.clicked.connect(self.on_feature_selection_stackedwedge_clicked)
-        self.radioButton_l2.clicked.connect(self.on_feature_selection_stackedwedge_clicked)
         self.radioButton_elasticnet.clicked.connect(self.on_feature_selection_stackedwedge_clicked)
+        self.radioButton_featureselection_none.clicked.connect(self.on_feature_selection_stackedwedge_clicked)
 
-        # set appearance
-        self.set_run_appearance()
+        # Skins
+        self.skins = {"Dark": "style_Dark", "Black": "style_black", "DarkOrange": "style_DarkOrange", 
+                    "Gray": "style_gray", "Blue": "style_blue", "Navy": "style_navy", "Classic": "style_Classic"}
+        self.actionDark.triggered.connect(self.set_run_appearance)
+        self.actionBlack.triggered.connect(self.set_run_appearance)
+        self.actionDarkOrange.triggered.connect(self.set_run_appearance)
+        self.actionGray.triggered.connect(self.set_run_appearance)
+        self.actionBlue.triggered.connect(self.set_run_appearance)
+        self.actionNavy.triggered.connect(self.set_run_appearance)
+        self.actionClassic.triggered.connect(self.set_run_appearance)
 
     def set_run_appearance(self):
         """Set style_sheets
@@ -102,30 +119,258 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
             self.setStyleSheet(PyQt5_stylesheets.load_stylesheet_pyqt5(style="style_Dark"))
 
         # Make the stackedWidg to default at the begining
-        self.stackedWidget_items.setCurrentIndex(4)
+        self.tabWidget_items.setCurrentIndex(0)
         self.stackedWidget_preprocessing_methods.setCurrentIndex(-1)
+        self.stackedWidget_dimreduction.setCurrentIndex(-1)
+        self.stackedWidget_feature_selection.setCurrentIndex(-1)
 
-    def on_pushButton_items_clicked(self):
-        print(self.sender().text())
-        self.stackedWidget_items.setCurrentIndex(self.items_stackedwedge_dict[self.sender().text()])
- 
+    def load_configuration(self):
+        """Load configuration, and display configuration in GUI
+        """
+
+        self.configuration_file, filetype = QFileDialog.getOpenFileName(self,  
+                                "Select configuration file",  
+                                os.getcwd(), "Text Files (*.json);;All Files (*);;") 
+
+        # Read configuration_file if already selected
+        if self.configuration_file != "": 
+            with open(self.configuration_file, 'r', encoding='utf-8') as config:
+                self.configuration = config.read()
+            # Check the configuration is valid JSON, then transform the configuration to dict
+            # If the configuration is not valid JSON, then give configuration and configuration_file to ""
+            try:
+                self.configuration = json.loads(self.configuration)
+                # If already exists self.feature_engineering
+                if (self.feature_engineering != {}):
+                    # If the loaded self.configuration["feature_engineering"] is not empty
+                    # Then ask if rewrite self.feature_engineering with self.configuration["feature_engineering"]
+                    if (list(self.configuration["feature_engineering"].keys()) != []):
+            
+                        reply = QMessageBox.question(self, "Data loading configuration already exists", 
+                                                    "The feature_engineering configuration is already exists, do you want to rewrite it with the  loaded configuration?",
+                                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+           
+                        if reply == QMessageBox.Yes:  
+                            self.feature_engineering = self.configuration["feature_engineering"]
+                            # Because rewrite self.feature_engineering, we need to re-initialize the follows.
+                            self.selected_group = None
+                            self.selected_modality = None
+                            self.selected_file = None
+
+                    # If the loaded self.configuration["feature_engineering"] is empty
+                     # Then assign self.configuration["feature_engineering"] with self.feature_engineering
+                    elif (list(self.configuration["feature_engineering"].keys()) == []):
+                        self.configuration["feature_engineering"] = self.feature_engineering
+                else:
+                    self.feature_engineering = self.configuration["feature_engineering"]
+                # self.display_groups()
+                # self.display_modality()
+                # self.display_files()
+
+            except json.decoder.JSONDecodeError:
+    
+                QMessageBox.warning( self, 'Warning', f'{self.configuration_file} is not valid JSON')
+                self.configuration_file = ""
+   
+        else:
+
+            QMessageBox.warning( self, 'Warning', 'Configuration file was not selected')
+
+    def save_configuration(self):
+        """Save configuration
+
+        TODO
+        """
+        # print(self.comboBox_rfe_estimator.currentText())
+        # return
+        
+        radioButton_all = {
+            "feature_preprocessing": {
+                self.radioButton_zscore : {"zscore": {}}, 
+                self.radioButton_scaling: {
+                    "scaling": {
+                        "min": self.lineEdit_scaling_min.text(), 
+                        "max": self.lineEdit_scaling_max.text()
+                    }
+                }, 
+
+                self.radioButton_demean: {"demean": {}}, 
+                self.radioButton_none_methods: {"none": {}}, 
+                self.radioButton_grouplevel: {"grouplevel": {}}, 
+                self.radioButton_subjectlevel: {"subjectlevel": {}}
+            },
+
+            "dimreduction": {
+                self.radioButton_pca: {
+                    "pca": {
+                        "min": self.doubleSpinBox_pca_maxcomponents.text(), 
+                        "max": self.doubleSpinBox_pca_mincomponents.text(), 
+                        "number": self.spinBox_pcanum.text()
+                    }, 
+                },
+
+                self.radioButton_ica: {
+                    "ica": {
+                            "min": self.doubleSpinBox_ica_minics.text(), 
+                            "max": self.doubleSpinBox_ica_maxics.text(), 
+                            "number": self.spinBox_icnum.text()
+                    }
+                },
+
+                self.radioButton_lda: {"lda": {}},
+
+                self.radioButton_nmf: {
+                    "nmf": {
+                        "min": self.doubleSpinBox_nmf_mincompnents.text(), 
+                        "max": self.doubleSpinBox_nmf_maxcomponents.text(), 
+                        "number": self.spinBox_icnum.text()
+                    }
+                },
+
+                self.radioButton_none: {"none": {}}
+            },
+
+            "feature_selection": {
+                self.radioButton_variance_threshold: {
+                    "variance_threshold": {
+                        "min": self.doubleSpinBox_variancethreshold_min.text(), 
+                        "max": self.doubleSpinBox_variancethreshold_max.text(), 
+                        "number": self.spinBox_variancethreshold_num.text()
+                    }
+                },
+
+                self.radioButton_correlation: {
+                    "correlation": {
+                        "min": self.doubleSpinBox_correlation_minabscoef.text(), 
+                        "max": self.doubleSpinBox_correlation_maxabscoef.text(), 
+                        "number": self.spinBox_correlation_num.text()
+                    }
+                }, 
+
+                self.radioButton_distancecorrelation: {
+                    "distancecorrelation": {
+                        "min": self.doubleSpinBox_distancecorrelation_minabscoef.text(), 
+                        "max": self.doubleSpinBox_distancecorrelation_maxabscoef.text(), 
+                        "number": self.spinBox_distancecorrelation_num.text()
+                    }
+                },
+
+                self.radioButton_fscore: {
+                    "fscore": {
+                        "max": self.doubleSpinBox_fscore_maxnum.text(), 
+                        "min": self.doubleSpinBox_fscore_minnum.text(), 
+                        "number": self.spinBox_fscore_num.text()
+                    }
+                }, 
+
+                self.radioButton_mutualinfo_cls: {
+                    "mutualinfocls": {
+                        "max": self.doubleSpinBox_mutualinfocls_maxnum.text(), 
+                        "min": self.doubleSpinBox_mutualinfocls_minnum.text(),
+                        "number": self.spinBox_mutualinfocls_neighbors.text()
+                    }
+                }, 
+
+                self.radioButton_mutualinfo_regression: {
+                    "mutualinforeg": {
+                        "max": self.doubleSpinBox_mutualinforeg_maxnum.text(), 
+                        "min": self.doubleSpinBox_mutualinforeg_minnum.text(), 
+                        "number": self.spinBox_mutualinforeg_num.text(),
+                        "n_neighbors": self.spinBox_mutualinforeg_neighbors.text()
+                    }
+                }, 
+
+                self.radioButton_relieff: {
+                    "reliff": {
+                        "max": self.doubleSpinBox_relieff_max.text(), 
+                        "min": self.doubleSpinBox_relieff_min.text(), 
+                        "number": self.spinBox_relief_num.text()
+                    }
+                }, 
+
+                self.radioButton_anova: {
+                    "anova": {
+                        "max": self.doubleSpinBox_anova_alpha_max.text(), 
+                        "min": self.doubleSpinBox_anova_alpha_min.text(), 
+                        "number": self.spinBox_anova_num.text(), 
+                        "multiple_correction": self.comboBox_anova_multicorrect.currentText()
+                    }
+                }, 
+
+                self.radioButton_rfe: {
+                    "rfe": {
+                            "step": self.doubleSpinBox_rfe_step.text(), 
+                        "n_folds": self.spinBox_rfe_nfold.text(), 
+                        "estimator": self.comboBox_rfe_estimator.currentText(), 
+                        "n_jobs": self.spinBox_rfe_njobs.text()
+                    }
+                },
+
+                self.radioButton_l1: {
+                    "l1": {
+                        "max": self.doubleSpinBox_l1_alpha_max.text(), 
+                        "min": self.doubleSpinBox_l1_alpha_min.text(), 
+                        "number": self.spinBox_l1_num.text()
+                    }
+                }, 
+
+                self.radioButton_elasticnet: {
+                    "elasticnet": {
+                        "max_alpha": self.doubleSpinBox_elasticnet_alpha_max.text(), 
+                        "min_alpha": self.doubleSpinBox_elasticnet_alpha_min.text(), 
+                        "number_alpha": self.spinBox_elasticnet_num.text(), 
+                        "max_l1ratio": self.doubleSpinBox_elasticnet_l1ratio_max.text(), 
+                        "min_l1ratio": self.doubleSpinBox_elasticnet_l1ratio_min.text(), 
+                        "Number_l1ratio": self.spinBox_l1ratio_num.text(),
+                    }
+                }
+            },
+
+            "unbalance_treatment": {
+                self.radioButton_randover: {"randover": {}}, 
+                self.radioButton_smoteover: {"somteover": {}},
+                self.radioButton_smotencover: {"somtencover": {}}, 
+                self.radioButton_bsmoteover: {"bsmoteover": {}},
+                self.radioButton_randunder: {"randunder": {}}, 
+                self.radioButton_extractionunder: {"extractionunder": {}},
+                self.radioButton_cludterunder: {"clusterunder": {}}, 
+                self.radioButton_nearmissunder: {"nearmissunder": {}},
+            }
+        }
+
+        for key_feature_engineering in radioButton_all:
+            for keys_one_feature_engineering in radioButton_all[key_feature_engineering]:
+                if keys_one_feature_engineering.isChecked():
+                    self.feature_engineering[key_feature_engineering] = radioButton_all[key_feature_engineering][keys_one_feature_engineering]
+
+        if self.configuration_file != "":
+            self.configuration["feature_engineering"] = self.feature_engineering
+            with open(self.configuration_file, 'w', encoding="utf-8") as config:    
+                # Set ensure_ascii=False to save Chinese correctly.
+                config.write(json.dumps(self.configuration, ensure_ascii=False))
+        else:
+            QMessageBox.warning( self, 'Warning', 'Please choose a configuration file first (press button at top left corner)!')
+
     def on_preprocessing_detail_stackedwedge_clicked(self):
-        print(self.sender().text())
+        # self.stackedWidget_preprocessing_methods.setCurrentIndex(0)
         if self.sender().text():
             self.stackedWidget_preprocessing_methods.setCurrentIndex(self.preprocessing_stackedwedge_dict[self.sender().text()])
         else:
             self.stackedWidget_preprocessing_methods.setCurrentIndex(-1)
 
-    def on_radioButton_not_scaling_clicked(self):
-        self.stackedWidget_preprocessing_methods.setCurrentIndex(1)
-
-    #%% radioButtons of dimreduction
     def on_dimreduction_stackedwedge_clicked(self):
-        self.stackedWidget_dimreduction.setCurrentIndex(self.dimreduction_stackedwedge_dict[self.sender().text()])
+        if self.sender():
+            self.stackedWidget_dimreduction.setCurrentIndex(self.dimreduction_stackedwedge_dict[self.sender().text()])
+        else:
+            self.stackedWidget_dimreduction.setCurrentIndex(-1)
 
     def on_feature_selection_stackedwedge_clicked(self):
         self.groupBox_feature_selection_input.setTitle(self.sender().text())
-        self.stackedWidget_feature_selection.setCurrentIndex(self.feature_selection_stackedwedge_dict[self.sender().text()])
+        print(self.sender().text())
+        if self.sender().text():
+            self.stackedWidget_feature_selection.setCurrentIndex(self.feature_selection_stackedwedge_dict[self.sender().text()])
+        else:
+            self.stackedWidget_feature_selection.setCurrentIndex(-1)
 
     def closeEvent(self, event):
         """This function is called when exit icon of the window is clicked.
