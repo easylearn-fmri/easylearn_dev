@@ -1,17 +1,18 @@
-function [uni_label1, max_prop, matching_idx] = lc_voxel_label_matching_between_two_brain_atalas(brain_atalas1,brain_atalas2)
+function [uni_label1, max_prop, matching_idx] = lc_voxel_label_matching_between_two_brain_atalas(from_brain_atalas, to_brain_atalas)
 % This function is used to match the voxels' label between two different
-% brain atalas.(mapping brain_atalas1 to brain_atalas2)
-% Ref. : {Chronnectome fingerprinting: Identifying individuals and
-% predicting higher cognitive functions using dynamic brain connectivity patterns}
-%   input:
-%       brain_atalas1 and brain_atalas1: two different brain atalas.
-%   output:
-%       uni_region: unique region in brain_atalas1, in the order of
-%       matching idx
-%       matching_idx: idx that maching brain_atalas1 to brain_atalas2.
+% brain atalas.(mapping from_brain_atalas to brain_atalas2). Note. these two brain atalas must have the same dimension and in the same space (MNI)
+
+%   Inputs:
+%       from_brain_atalas and to_brain_atalas: two different brain atalas in .mat format.
+%   Outputs:
+%       uni_region: unique region in from_brain_atalas
+%       matching_idx: idx that maching from_brain_atalas to to_brain_atalas.
 %       if one matching idx have 2 or more item, then it means that this uni_region matching 2 or more region in brain_atalas2.
+% Author: Li Chao
+% github account: lichao312214129
 %%
-uni_label1=unique(brain_atalas1);
+
+uni_label1 =unique(from_brain_atalas);
 uni_label1 = setdiff(uni_label1,0);  % de-zero
 num_region=numel(uni_label1);
 max_prop=cell(num_region,1);
@@ -19,8 +20,8 @@ uni_voxellabel=cell(num_region,1);
 matching_idx=cell(num_region,1);
 for i =1:num_region
     fprintf('Region %d/%d\n',i,num_region)
-    one_regione_in_brain_atalas1=brain_atalas1==uni_label1(i);
-    [prop,uni_voxellabel{i,1}]=overlapping_ratio(one_regione_in_brain_atalas1,brain_atalas2);
+    one_regione_in_from_brain_atalas = from_brain_atalas == uni_label1(i);
+    [prop,uni_voxellabel{i,1}] = overlapping_ratio(one_regione_in_from_brain_atalas, to_brain_atalas);
     loc_max_prop=find(prop==max(prop));
     if ~isempty(loc_max_prop)
 %         loc_max_prop=loc_max_prop(1);
