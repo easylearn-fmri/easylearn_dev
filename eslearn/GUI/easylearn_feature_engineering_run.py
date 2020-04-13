@@ -138,8 +138,8 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
                 self.radioButton_zscore : {"zscore": {}}, 
                 self.radioButton_scaling: {
                     "scaling": {
-                        "min": self.lineEdit_scaling_min.text(), 
-                        "max": self.lineEdit_scaling_max.text()
+                        "min": {"value": self.lineEdit_scaling_min.text(), "wedget": self.lineEdit_scaling_min}, 
+                        "max": {"value": self.lineEdit_scaling_max.text(), "wedget": self.lineEdit_scaling_max},
                     }
                 }, 
 
@@ -152,9 +152,9 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
             "dimreduction": {
                 self.radioButton_pca: {
                     "pca": {
-                        "min": self.doubleSpinBox_pca_maxcomponents.text(), 
-                        "max": self.doubleSpinBox_pca_mincomponents.text(), 
-                        "number": self.spinBox_pcanum.text()
+                        "min": {"value": self.doubleSpinBox_pca_maxcomponents.text(), "wedget": self.doubleSpinBox_pca_maxcomponents}, 
+                        "max": {"value": self.doubleSpinBox_pca_mincomponents.text(), "wedget": self.doubleSpinBox_pca_mincomponents} 
+                        "number": {"value": self.spinBox_pcanum.text(), "wedget": self.spinBox_pcanum}
                     }, 
                 },
 
@@ -344,14 +344,15 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
     def display(self):
         """ Display the loaded configuration in the GUI
         """
-        for keys_one_feature_engineering in self.all_inputs:
-            for wedget in self.all_inputs[keys_one_feature_engineering].keys():
+        for keys_one_feature_engineering in self.all_inputs:  # 4 feature eng module loop
+            for wedget in self.all_inputs[keys_one_feature_engineering].keys():  # all wedgets in one feature eng loop
                 for method in self.all_inputs[keys_one_feature_engineering][wedget].keys():
-                    if method == self.feature_engineering[keys_one_feature_engineering].keys():
-                        wedget.checked()   # make the wedget checked ***
+                    if keys_one_feature_engineering in self.feature_engineering.keys():
+                        if method in list(self.feature_engineering[keys_one_feature_engineering].keys()):
+                            wedget.setChecked(True)   # make the wedget checked ***
 
-                        self.lineEdit_scaling_min.setText(self.feature_engineering[keys_one_feature_engineering])
-                        self.lineEdit_scaling_max.setText(self.feature_engineering[keys_one_feature_engineering])
+                        # self.lineEdit_scaling_min.setText(self.feature_engineering[keys_one_feature_engineering])
+                        # self.lineEdit_scaling_max.setText(self.feature_engineering[keys_one_feature_engineering])
 
                         # old = {"scaling": {"min": "-1", "max": "1"}}}
                         # display = "scaling": {
