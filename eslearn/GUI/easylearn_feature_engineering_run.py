@@ -124,8 +124,13 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
         self.stackedWidget_dimreduction.setCurrentIndex(-1)
         self.stackedWidget_feature_selection.setCurrentIndex(-1)
 
-    def all_inputs(self):
-        """All inputs
+    def get_current_inputs(self):
+        """Get all current inputs
+
+        Attrs:
+        -----
+            self.feature_engineering: dictionary
+                all feature_engineering parameters that the user input.
         """
 
         self.all_inputs = {
@@ -282,9 +287,19 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
             }
         }
 
+        #%% ------------------------------------------------------------------------------------
+        for key_feature_engineering in self.all_inputs:
+            for keys_one_feature_engineering in self.all_inputs[key_feature_engineering]:
+                if keys_one_feature_engineering.isChecked():
+                    self.feature_engineering[key_feature_engineering] = self.all_inputs[key_feature_engineering][keys_one_feature_engineering]
+
     def load_configuration(self):
         """Load configuration, and display configuration in GUI
         """
+
+        # Get current inputs before load configuration, so we can 
+        # compare loaded configuration["feature_engineering"] with the current self.feature_engineering
+        self.get_current_inputs()
 
         self.configuration_file, filetype = QFileDialog.getOpenFileName(self,  
                                 "Select configuration file",  
@@ -303,29 +318,22 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
                     # If the loaded self.configuration["feature_engineering"] is not empty
                     # Then ask if rewrite self.feature_engineering with self.configuration["feature_engineering"]
                     if (list(self.configuration["feature_engineering"].keys()) != []):
-            
                         reply = QMessageBox.question(self, "Data loading configuration already exists", 
                                                     "The feature_engineering configuration is already exists, do you want to rewrite it with the  loaded configuration?",
                                                      QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
            
                         if reply == QMessageBox.Yes:  
                             self.feature_engineering = self.configuration["feature_engineering"]
-                            # Because rewrite self.feature_engineering, we need to re-initialize the follows.
-                            self.selected_group = None
-                            self.selected_modality = None
-                            self.selected_file = None
-
+                            self.display()
                     # If the loaded self.configuration["feature_engineering"] is empty
                      # Then assign self.configuration["feature_engineering"] with self.feature_engineering
-                    elif (list(self.configuration["feature_engineering"].keys()) == []):
+                    else:
                         self.configuration["feature_engineering"] = self.feature_engineering
                 else:
                     self.feature_engineering = self.configuration["feature_engineering"]
-
-                self.display()
+                    self.display()
 
             except json.decoder.JSONDecodeError:
-    
                 QMessageBox.warning( self, 'Warning', f'{self.configuration_file} is not valid JSON')
                 self.configuration_file = ""
    
@@ -354,16 +362,11 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
 
     def save_configuration(self):
         """Save configuration
-
-        TODO
         """
-        self.all_inputs()
-        
-        for key_feature_engineering in self.all_inputs:
-            for keys_one_feature_engineering in self.all_inputs[key_feature_engineering]:
-                if keys_one_feature_engineering.isChecked():
-                    self.feature_engineering[key_feature_engineering] = self.all_inputs[key_feature_engineering][keys_one_feature_engineering]
 
+        # Get current inputs before saving feature_engineering parameters
+        self.get_current_inputs()
+        
         if self.configuration_file != "":
             self.configuration["feature_engineering"] = self.feature_engineering
             with open(self.configuration_file, 'w', encoding="utf-8") as config:    

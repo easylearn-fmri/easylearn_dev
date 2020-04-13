@@ -10,6 +10,9 @@ function [uni_label_of_from_atalas, max_prop, matching_idx] = lc_voxel_label_mat
 %       if one matching idx have 2 or more item, then it means that this uni_region matching 2 or more region in brain_atalas2.
 % Author: Li Chao
 % github account: lichao312214129
+% Citing information:
+%   This function is part of the easylearn software, if you think this function is useful, citing the easylearn software in your paper or code would be greatly appreciated!
+%   Citing link: https://github.com/easylearn-fmri/easylearn
 %%
 
 uni_label_of_from_atalas = unique(from_brain_atalas);
