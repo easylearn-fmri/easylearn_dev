@@ -63,7 +63,10 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
         self.radioButton_none_methods.clicked.connect(self.switche_stacked_wedge_for_preprocessing)
         
         # connect dimreduction setting signal to slot: switche to corresponding stackedWidget
-        self.dimreduction_stackedwedge_dict = {"Principal component analysis": 0, "Independent component analysis": 1, "Latent Dirichlet Allocation": 2, "Non-negative matrix factorization": 3, "None": 4}
+        self.dimreduction_stackedwedge_dict = {
+            "Principal component analysis": 0, "Independent component analysis": 1, 
+            "Latent Dirichlet Allocation": 2, "Non-negative matrix factorization": 3, "None": 4
+        }
         self.radioButton_pca.clicked.connect(self.switche_stacked_wedge_for_dimreduction)
         self.radioButton_ica.clicked.connect(self.switche_stacked_wedge_for_dimreduction)
         self.radioButton_lda.clicked.connect(self.switche_stacked_wedge_for_dimreduction)

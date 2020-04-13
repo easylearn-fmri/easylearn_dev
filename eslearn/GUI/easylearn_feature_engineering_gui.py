@@ -966,7 +966,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuSkin.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.tabWidget_items.setCurrentIndex(0)
+        self.tabWidget_items.setCurrentIndex(1)
         self.stackedWidget_preprocessing_methods.setCurrentIndex(3)
         self.stackedWidget_dimreduction.setCurrentIndex(4)
         self.stackedWidget_feature_selection.setCurrentIndex(11)
@@ -992,7 +992,7 @@ class Ui_MainWindow(object):
         self.groupBox.setTitle(_translate("MainWindow", "Methods"))
         self.radioButton_lda.setText(_translate("MainWindow", "Latent Dirichlet Allocation"))
         self.radioButton_ica.setText(_translate("MainWindow", "Independent component analysis"))
-        self.radioButton_nmf.setText(_translate("MainWindow", " Non-negative matrix factorization"))
+        self.radioButton_nmf.setText(_translate("MainWindow", "Non-negative matrix factorization"))
         self.radioButton_pca.setText(_translate("MainWindow", "Principal component analysis"))
         self.radioButton_none.setText(_translate("MainWindow", "None"))
         self.groupBox_2.setTitle(_translate("MainWindow", "Setting"))
