@@ -5,6 +5,11 @@ disease subtyping, dimensional decoding for transdiagnostic psychiatric diseases
 
 We focus on machine learning rather than data preprocessing. Many software, such as SPM, GRETNA, DPABI, REST, FSL, Freesufer, nipy, nipype, nibabel, fmriprep and etc, can be used for data preprocessing.  
 
+# Citing information:
+If you think this function is useful, citing the easylearn software in your paper or code would be greatly appreciated!
+Citing link: https://github.com/easylearn-fmri/easylearn  
+
+# GUI preview
 #### Main Interface
 ![Main Window](./img/GUI_main.png)  
 #### <center> Data loading Interface </center>
