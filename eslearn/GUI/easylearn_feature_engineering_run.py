@@ -37,7 +37,7 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
 
         # Initialization
-        self.feature_engineering = {"feature_preprocessing": {}, "dimreduction": {}, "feature_selection": {}, "unbalance_treatment": {}}
+        self.feature_engineering = {}
         self.configuration_file = ""
 
         # Set appearance
@@ -124,67 +124,11 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
         self.stackedWidget_dimreduction.setCurrentIndex(-1)
         self.stackedWidget_feature_selection.setCurrentIndex(-1)
 
-    def load_configuration(self):
-        """Load configuration, and display configuration in GUI
+    def all_inputs(self):
+        """All inputs
         """
 
-        self.configuration_file, filetype = QFileDialog.getOpenFileName(self,  
-                                "Select configuration file",  
-                                os.getcwd(), "Text Files (*.json);;All Files (*);;") 
-
-        # Read configuration_file if already selected
-        if self.configuration_file != "": 
-            with open(self.configuration_file, 'r', encoding='utf-8') as config:
-                self.configuration = config.read()
-            # Check the configuration is valid JSON, then transform the configuration to dict
-            # If the configuration is not valid JSON, then give configuration and configuration_file to ""
-            try:
-                self.configuration = json.loads(self.configuration)
-                # If already exists self.feature_engineering
-                if (self.feature_engineering != {}):
-                    # If the loaded self.configuration["feature_engineering"] is not empty
-                    # Then ask if rewrite self.feature_engineering with self.configuration["feature_engineering"]
-                    if (list(self.configuration["feature_engineering"].keys()) != []):
-            
-                        reply = QMessageBox.question(self, "Data loading configuration already exists", 
-                                                    "The feature_engineering configuration is already exists, do you want to rewrite it with the  loaded configuration?",
-                                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-           
-                        if reply == QMessageBox.Yes:  
-                            self.feature_engineering = self.configuration["feature_engineering"]
-                            # Because rewrite self.feature_engineering, we need to re-initialize the follows.
-                            self.selected_group = None
-                            self.selected_modality = None
-                            self.selected_file = None
-
-                    # If the loaded self.configuration["feature_engineering"] is empty
-                     # Then assign self.configuration["feature_engineering"] with self.feature_engineering
-                    elif (list(self.configuration["feature_engineering"].keys()) == []):
-                        self.configuration["feature_engineering"] = self.feature_engineering
-                else:
-                    self.feature_engineering = self.configuration["feature_engineering"]
-                # self.display_groups()
-                # self.display_modality()
-                # self.display_files()
-
-            except json.decoder.JSONDecodeError:
-    
-                QMessageBox.warning( self, 'Warning', f'{self.configuration_file} is not valid JSON')
-                self.configuration_file = ""
-   
-        else:
-
-            QMessageBox.warning( self, 'Warning', 'Configuration file was not selected')
-
-    def save_configuration(self):
-        """Save configuration
-
-        TODO
-        """
-        # print(self.comboBox_rfe_estimator.currentText())
-        # return
-        
-        radioButton_all = {
+        self.all_inputs = {
             "feature_preprocessing": {
                 self.radioButton_zscore : {"zscore": {}}, 
                 self.radioButton_scaling: {
@@ -338,10 +282,87 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
             }
         }
 
-        for key_feature_engineering in radioButton_all:
-            for keys_one_feature_engineering in radioButton_all[key_feature_engineering]:
+    def load_configuration(self):
+        """Load configuration, and display configuration in GUI
+        """
+
+        self.configuration_file, filetype = QFileDialog.getOpenFileName(self,  
+                                "Select configuration file",  
+                                os.getcwd(), "Text Files (*.json);;All Files (*);;") 
+
+        # Read configuration_file if already selected
+        if self.configuration_file != "": 
+            with open(self.configuration_file, 'r', encoding='utf-8') as config:
+                self.configuration = config.read()
+            # Check the configuration is valid JSON, then transform the configuration to dict
+            # If the configuration is not valid JSON, then give configuration and configuration_file to ""
+            try:
+                self.configuration = json.loads(self.configuration)
+                # If already exists self.feature_engineering
+                if (self.feature_engineering != {}):
+                    # If the loaded self.configuration["feature_engineering"] is not empty
+                    # Then ask if rewrite self.feature_engineering with self.configuration["feature_engineering"]
+                    if (list(self.configuration["feature_engineering"].keys()) != []):
+            
+                        reply = QMessageBox.question(self, "Data loading configuration already exists", 
+                                                    "The feature_engineering configuration is already exists, do you want to rewrite it with the  loaded configuration?",
+                                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+           
+                        if reply == QMessageBox.Yes:  
+                            self.feature_engineering = self.configuration["feature_engineering"]
+                            # Because rewrite self.feature_engineering, we need to re-initialize the follows.
+                            self.selected_group = None
+                            self.selected_modality = None
+                            self.selected_file = None
+
+                    # If the loaded self.configuration["feature_engineering"] is empty
+                     # Then assign self.configuration["feature_engineering"] with self.feature_engineering
+                    elif (list(self.configuration["feature_engineering"].keys()) == []):
+                        self.configuration["feature_engineering"] = self.feature_engineering
+                else:
+                    self.feature_engineering = self.configuration["feature_engineering"]
+
+                self.display()
+
+            except json.decoder.JSONDecodeError:
+    
+                QMessageBox.warning( self, 'Warning', f'{self.configuration_file} is not valid JSON')
+                self.configuration_file = ""
+   
+        else:
+
+            QMessageBox.warning( self, 'Warning', 'Configuration file was not selected')
+
+    def display(self):
+        """ Display the loaded configuration in the GUI
+        """
+        for keys_one_feature_engineering in self.all_inputs:
+            for wedget in self.all_inputs[keys_one_feature_engineering].keys():
+                for method in self.all_inputs[keys_one_feature_engineering][wedget].keys():
+                    if method == self.feature_engineering[keys_one_feature_engineering].keys():
+                        wedget.checked()   # make the wedget checked ***
+
+                        self.lineEdit_scaling_min.setText(self.feature_engineering[keys_one_feature_engineering])
+                        self.lineEdit_scaling_max.setText(self.feature_engineering[keys_one_feature_engineering])
+
+                        # old = {"scaling": {"min": "-1", "max": "1"}}}
+                        # display = "scaling": {
+                        #     "min": self.lineEdit_scaling_min.text(), 
+                        #     "max": self.lineEdit_scaling_max.text(),
+                        # }
+                        # continue
+
+    def save_configuration(self):
+        """Save configuration
+
+        TODO
+        """
+        self.all_inputs()
+        
+        for key_feature_engineering in self.all_inputs:
+            for keys_one_feature_engineering in self.all_inputs[key_feature_engineering]:
                 if keys_one_feature_engineering.isChecked():
-                    self.feature_engineering[key_feature_engineering] = radioButton_all[key_feature_engineering][keys_one_feature_engineering]
+                    self.feature_engineering[key_feature_engineering] = self.all_inputs[key_feature_engineering][keys_one_feature_engineering]
 
         if self.configuration_file != "":
             self.configuration["feature_engineering"] = self.feature_engineering
