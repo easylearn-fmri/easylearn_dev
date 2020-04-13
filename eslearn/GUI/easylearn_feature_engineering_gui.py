@@ -891,6 +891,7 @@ class Ui_MainWindow(object):
         self.radioButton_bsmoteover.setObjectName("radioButton_bsmoteover")
         self.gridLayout_7.addWidget(self.radioButton_bsmoteover, 4, 0, 1, 1)
         self.radioButton_randover = QtWidgets.QRadioButton(self.groupBox_5)
+        self.radioButton_randover.setChecked(True)
         self.radioButton_randover.setObjectName("radioButton_randover")
         self.gridLayout_7.addWidget(self.radioButton_randover, 1, 0, 1, 1)
         self.label_13 = QtWidgets.QLabel(self.groupBox_5)

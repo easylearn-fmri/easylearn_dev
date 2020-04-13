@@ -50,7 +50,7 @@
       <property name="currentIndex">
        <number>3</number>
       </property>
-      <widget class="QWidget" name="tabWidget_itemsPage1" native="true">
+      <widget class="QWidget" name="tabWidget_itemsPage1">
        <attribute name="title">
         <string>  Preprocessing  </string>
        </attribute>
@@ -241,7 +241,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tabWidget_itemsPage3" native="true">
+      <widget class="QWidget" name="tabWidget_itemsPage3">
        <attribute name="title">
         <string>  Feature selection  </string>
        </attribute>
@@ -1410,7 +1410,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tabWidget_itemsPage2" native="true">
+      <widget class="QWidget" name="tabWidget_itemsPage2">
        <attribute name="title">
         <string>  Dimension reduction  </string>
        </attribute>
@@ -1778,7 +1778,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tabWidget_itemsPage4" native="true">
+      <widget class="QWidget" name="tabWidget_itemsPage4">
        <attribute name="title">
         <string>  Unbalance treatment  </string>
        </attribute>
@@ -1848,6 +1848,12 @@
             <widget class="QRadioButton" name="radioButton_randover">
              <property name="text">
               <string>Random minority over-sampling with replacement</string>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+             <property name="checked">
+              <bool>false</bool>
              </property>
             </widget>
            </item>

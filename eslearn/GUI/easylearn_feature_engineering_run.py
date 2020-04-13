@@ -131,6 +131,8 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
         -----
             self.feature_engineering: dictionary
                 all feature_engineering parameters that the user input.
+            self.all_input: dict
+                
         """
 
         self.all_inputs = {
@@ -344,14 +346,19 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
     def display(self):
         """ Display the loaded configuration in the GUI
         """
+        
         for keys_one_feature_engineering in self.all_inputs:
             for wedget in self.all_inputs[keys_one_feature_engineering].keys():
                 for method in self.all_inputs[keys_one_feature_engineering][wedget].keys():
-                    if method == self.feature_engineering[keys_one_feature_engineering].keys():
-                        wedget.checked()   # make the wedget checked ***
-
-                        self.lineEdit_scaling_min.setText(self.feature_engineering[keys_one_feature_engineering])
-                        self.lineEdit_scaling_max.setText(self.feature_engineering[keys_one_feature_engineering])
+                    if method in list(self.feature_engineering[keys_one_feature_engineering].keys()):
+                        wedget.setChecked(True)   # make the wedget checked
+                        
+                        # self.all_inputs[keys_one_feature_engineering].keys()
+                        # self.all_inputs[keys_one_feature_engineering][wedget]
+                        # self.feature_engineering[keys_one_feature_engineering]
+                        
+                        # self.lineEdit_scaling_min.setText(self.feature_engineering[keys_one_feature_engineering])
+                        # self.lineEdit_scaling_max.setText(self.feature_engineering[keys_one_feature_engineering])
 
                         # old = {"scaling": {"min": "-1", "max": "1"}}}
                         # display = "scaling": {
