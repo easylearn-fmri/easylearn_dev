@@ -121,6 +121,7 @@ Shenyang, Liaoning, PR China.
 
 
 # Demo
+Although, the GUI is under development, you can use simple commands to accomplish some machine learning tasks.  
 The simplest demo is in the eslearn/examples.  
 Below is a demo of training a model to classify insomnia patients using weighted functional connectivity strength as features (You can easily use other voxel-wise metrics as features, such as ReHo, ALFF).
 This demo use svc as classifier, Principal Component Analysis (PCA) as dimension reduction method and Recursive feature elimination (RFE) as feature selection method (inner cross-validation).
