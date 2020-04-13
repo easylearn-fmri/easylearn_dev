@@ -153,7 +153,7 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
                 self.radioButton_pca: {
                     "pca": {
                         "min": {"value": self.doubleSpinBox_pca_maxcomponents.text(), "wedget": self.doubleSpinBox_pca_maxcomponents}, 
-                        "max": {"value": self.doubleSpinBox_pca_mincomponents.text(), "wedget": self.doubleSpinBox_pca_mincomponents} 
+                        "max": {"value": self.doubleSpinBox_pca_mincomponents.text(), "wedget": self.doubleSpinBox_pca_mincomponents}, 
                         "number": {"value": self.spinBox_pcanum.text(), "wedget": self.spinBox_pcanum}
                     }, 
                 },
