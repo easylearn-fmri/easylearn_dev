@@ -1,4 +1,4 @@
-function [uni_label1, max_prop, matching_idx] = lc_voxel_label_matching_between_two_brain_atalas(from_brain_atalas, to_brain_atalas)
+function [uni_label_of_from_atalas, max_prop, matching_idx] = lc_voxel_label_matching_between_two_brain_atalas(from_brain_atalas, to_brain_atalas)
 % This function is used to match the voxels' label between two different
 % brain atalas.(mapping from_brain_atalas to brain_atalas2). Note. these two brain atalas must have the same dimension and in the same space (MNI)
 
@@ -12,15 +12,15 @@ function [uni_label1, max_prop, matching_idx] = lc_voxel_label_matching_between_
 % github account: lichao312214129
 %%
 
-uni_label1 =unique(from_brain_atalas);
-uni_label1 = setdiff(uni_label1,0);  % de-zero
-num_region=numel(uni_label1);
-max_prop=cell(num_region,1);
-uni_voxellabel=cell(num_region,1);
-matching_idx=cell(num_region,1);
-for i =1:num_region
+uni_label_of_from_atalas = unique(from_brain_atalas);
+uni_label_of_from_atalas = setdiff(uni_label_of_from_atalas,0);  % de-zero
+num_region = numel(uni_label_of_from_atalas);
+max_prop = cell(num_region,1);
+uni_voxellabel = cell(num_region,1);
+matching_idx = cell(num_region,1);
+for i = 1:num_region
     fprintf('Region %d/%d\n',i,num_region)
-    one_regione_in_from_brain_atalas = from_brain_atalas == uni_label1(i);
+    one_regione_in_from_brain_atalas = from_brain_atalas == uni_label_of_from_atalas(i);
     [prop,uni_voxellabel{i,1}] = overlapping_ratio(one_regione_in_from_brain_atalas, to_brain_atalas);
     loc_max_prop=find(prop==max(prop));
     if ~isempty(loc_max_prop)
