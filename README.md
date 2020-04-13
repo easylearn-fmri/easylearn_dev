@@ -88,7 +88,7 @@ Shenyang, Liaoning, PR China.
 >1 Brain Function Research Section, The First Affiliated Hospital of China Medical
 University, Shenyang, Liaoning, PR China.  
 
-#Maintainer  
+# Maintainer  
 ##### Chao Li (owner)  
 >lichao19870617@gmail.com   
 >Brain Function Research Section, The First Affiliated Hospital of China Medical
