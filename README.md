@@ -93,7 +93,7 @@ University, Shenyang, Liaoning, PR China.
 >lichao19870617@gmail.com   
 >Brain Function Research Section, The First Affiliated Hospital of China Medical
 University, Shenyang, Liaoning, PR China.        
-##### Mengshi Dong  
+##### Mengshi Dong (owner)  
 >dongmengshi1990@163.com  
 >Department of Radiology, The First Affiliated Hospital of China Medical University,
 Shenyang, Liaoning, PR China.  
