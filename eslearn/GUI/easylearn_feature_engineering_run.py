@@ -2,11 +2,16 @@
 """The GUI of the feature_engineering module of easylearn
 
 Created on 2020/04/12
-@author: Li Chao 黎超
+
+@author: Li Chao
 Email:lichao19870617@gmail.com
 GitHub account name: lichao312214129
 Institution (company): Brain Function Research Section, The First Affiliated Hospital of China Medical University, Shenyang, Liaoning, PR China. 
 
+@author: Dong Mengshi
+Email:dongmengshi1990@163.com
+GitHub account name: dongmengshi
+Institution (company): Department of radiology, The First Affiliated Hospital of China Medical University, Shenyang, Liaoning, PR China. 
 License: MIT
 """
 
