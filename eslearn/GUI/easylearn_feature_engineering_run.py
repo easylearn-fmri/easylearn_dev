@@ -165,9 +165,9 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
 
                 self.radioButton_ica: {
                     "ica": {
-                            "min": self.doubleSpinBox_ica_minics.text(), 
-                            "max": self.doubleSpinBox_ica_maxics.text(), 
-                            "number": self.spinBox_icnum.text()
+                            "min": {"value": self.doubleSpinBox_ica_minics.text(), "wedget": self.doubleSpinBox_ica_minics}, 
+                            "max": {"value": self.doubleSpinBox_ica_maxics.text(), "wedget": self.doubleSpinBox_ica_maxics}, 
+                            "number": {"value": self.spinBox_icnum.text(), "wedget": self.spinBox_icnum},
                     }
                 },
 
