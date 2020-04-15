@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-"""The GUI of the feature_engineering module of easylearn
+"""The GUI of the machine_learning module of easylearn
 
-Created on 2020/04/12
+Created on 2020/04/15
 
 @author: Li Chao
 Email:lichao19870617@gmail.com
@@ -20,24 +20,21 @@ import sys
 import os
 import json
 import cgitb
-# from PyQt5 import *
-# from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QFileDialog
-# from PyQt5.QtCore import *
 from eslearn.stylesheets.PyQt5_stylesheets import PyQt5_stylesheets
 
-from easylearn_feature_engineering_gui import Ui_MainWindow
+from easylearn_machine_learning_gui import Ui_MainWindow
 
 
-class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
+class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
     def __init__(self, working_directory=None):
         QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
 
         # Initialization
-        self.feature_engineering = {}
+        self.machine_learning = {}
         self.configuration_file = ""
 
         # Set appearance
@@ -45,49 +42,6 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
 
         # Debug
         cgitb.enable(display=1, logdir=None)  
-
-        # Connect configuration functions
-        self.actionLoad_configuration.triggered.connect(self.load_configuration)
-        self.actionSave_configuration.triggered.connect(self.save_configuration)
-
-        # connect preprocessing setting signal to slot: switche to corresponding stackedWidget
-        self.preprocessing_stackedwedge_dict = {"Z-score normalization": 0, "Scaling": 1, "De-mean": 2, "None": 3}
-        self.radioButton_zscore.clicked.connect(self.switche_stacked_wedge_for_preprocessing)
-        self.radioButton_scaling.clicked.connect(self.switche_stacked_wedge_for_preprocessing)
-        self.radioButton_demean.clicked.connect(self.switche_stacked_wedge_for_preprocessing)
-        self.radioButton_none_methods.clicked.connect(self.switche_stacked_wedge_for_preprocessing)
-        
-        # connect dimreduction setting signal to slot: switche to corresponding stackedWidget
-        self.dimreduction_stackedwedge_dict = {
-            "Principal component analysis": 0, "Independent component analysis": 1, 
-            "Latent Dirichlet Allocation": 2, "Non-negative matrix factorization": 3, "None": 4
-        }
-        self.radioButton_pca.clicked.connect(self.switche_stacked_wedge_for_dimreduction)
-        self.radioButton_ica.clicked.connect(self.switche_stacked_wedge_for_dimreduction)
-        self.radioButton_lda.clicked.connect(self.switche_stacked_wedge_for_dimreduction)
-        self.radioButton_nmf.clicked.connect(self.switche_stacked_wedge_for_dimreduction)
-        self.radioButton_none.clicked.connect(self.switche_stacked_wedge_for_dimreduction)
-        
-        # connect feature selection setting signal to slot: switche to corresponding stackedWidget
-        self.feature_selection_stackedwedge_dict = {
-            "Variance threshold": 0, "Correlation": 1, "Distance correlation": 2, "F-Score (classification)": 3, 
-            "Mutual information (classification)": 4, "Mutual information (regression)": 5, "ReliefF": 6, "ANOVA/Ttest2 (classification)": 7, 
-            "RFE": 8, 
-            "L1 regularization (Lasso)": 9, "L1 + L2 regularization (Elastic net regression)": 10, 
-            "None": 11
-        }
-        self.radioButton_variance_threshold.clicked.connect(self.switche_stacked_wedge_for_feature_selection)
-        self.radioButton_correlation.clicked.connect(self.switche_stacked_wedge_for_feature_selection)
-        self.radioButton_distancecorrelation.clicked.connect(self.switche_stacked_wedge_for_feature_selection)
-        self.radioButton_fscore.clicked.connect(self.switche_stacked_wedge_for_feature_selection)
-        self.radioButton_mutualinfo_cls.clicked.connect(self.switche_stacked_wedge_for_feature_selection)
-        self.radioButton_mutualinfo_regression.clicked.connect(self.switche_stacked_wedge_for_feature_selection)
-        self.radioButton_relieff.clicked.connect(self.switche_stacked_wedge_for_feature_selection)
-        self.radioButton_anova.clicked.connect(self.switche_stacked_wedge_for_feature_selection)
-        self.radioButton_rfe.clicked.connect(self.switche_stacked_wedge_for_feature_selection)
-        self.radioButton_l1.clicked.connect(self.switche_stacked_wedge_for_feature_selection)
-        self.radioButton_elasticnet.clicked.connect(self.switche_stacked_wedge_for_feature_selection)
-        self.radioButton_featureselection_none.clicked.connect(self.switche_stacked_wedge_for_feature_selection)
 
         # Skins
         self.skins = {"Dark": "style_Dark", "Black": "style_black", "DarkOrange": "style_DarkOrange", 
@@ -99,6 +53,18 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
         self.actionBlue.triggered.connect(self.set_run_appearance)
         self.actionNavy.triggered.connect(self.set_run_appearance)
         self.actionClassic.triggered.connect(self.set_run_appearance)
+
+        # connect classification setting signal to slot: switche to corresponding stackedWidget
+        self.classification_stackedwedge_dict = {
+            "Logistic regression": 0, "Support vector machine": 1, "Ridge classification": 2,
+            "Gaussian process": 3, "Random forest": 4, "AdaBoost": 5
+        }
+        self.radioButton_classificaton_lr.clicked.connect(self.switche_stacked_wedge_for_classification)
+        self.radioButton_classification_svm.clicked.connect(self.switche_stacked_wedge_for_classification)
+        self.radioButton_classification_ridge.clicked.connect(self.switche_stacked_wedge_for_classification)
+        self.radioButton_classification_gaussianprocess.clicked.connect(self.switche_stacked_wedge_for_classification)
+        self.radioButton_classification_randomforest.clicked.connect(self.switche_stacked_wedge_for_classification)
+        self.radioButton_classification_adaboost.clicked.connect(self.switche_stacked_wedge_for_classification)
 
     def set_run_appearance(self):
         """Set style_sheets
@@ -124,34 +90,66 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
             self.setStyleSheet(PyQt5_stylesheets.load_stylesheet_pyqt5(style="style_Dark"))
 
         # Make the stackedWidg to default at the begining
-        self.tabWidget_items.setCurrentIndex(0)
-        self.stackedWidget_preprocessing_methods.setCurrentIndex(-1)
-        self.stackedWidget_dimreduction.setCurrentIndex(-1)
-        self.stackedWidget_feature_selection.setCurrentIndex(-1)
 
     def get_current_inputs(self):
         """Get all current inputs
 
         Attrs:
         -----
-            self.feature_engineering: dictionary
-                all feature_engineering parameters that the user input.
+            self.machine_learning: dictionary
+                all machine_learning parameters that the user input.
         """
 
         self.all_backup_inputs = {
-            "feature_preprocessing": {
-                self.radioButton_zscore : {"Z-score normalization": {}}, 
-                self.radioButton_scaling: {
-                    "Scaling": {
-                        "min": {"value": self.lineEdit_scaling_min.text(), "wedget": self.lineEdit_scaling_min}, 
-                        "max": {"value": self.lineEdit_scaling_max.text(), "wedget": self.lineEdit_scaling_max},
-                    }
+            "classification": {
+                self.radioButton_classificaton_lr:{
+                    "Logistic regression": {
+                        "minl1ratio": {"value": self.doubleSpinBox_clf_lr_minl1ratio.text(), "wedget": self.doubleSpinBox_clf_lr_minl1ration}, 
+                        "maxl1ratio": {"value": self.doubleSpinBox_clf_lr_maxl1ratio.text(), "wedget": self.doubleSpinBox_clf_lr_maxl1ratio},
+                        "numberl1ratio": {"value": self.spinBox__clf_lr_numl1ratio.text(), "wedget": self.spinBox__clf_lr_numl1ratio},
+                    },
                 }, 
 
-                self.radioButton_demean: {"demean": {}}, 
-                self.radioButton_none_methods: {"none": {}}, 
-                self.radioButton_grouplevel: {"grouplevel": {}}, 
-                self.radioButton_subjectlevel: {"subjectlevel": {}}
+                self.radioButton_classification_svm:{
+                    "Support vector machine": {
+                        "minl1ratio": {"value": self.comboBox_clf_svm_kernel.text(), "wedget": self.doubleSpinBox_clf_lr_minl1ration}, 
+                        "maxl1ratio": {"value": self.doubleSpinBox_clf_lr_maxl1ratio.text(), "wedget": self.doubleSpinBox_clf_lr_maxl1ratio},
+                        "numberl1ratio": {"value": self.spinBox__clf_lr_numl1ratio.text(), "wedget": self.spinBox__clf_lr_numl1ratio},
+                    },
+                },
+
+                self.radioButton_classification_ridge:{
+                    "Logistic regression": {
+                        "minl1ratio": {"value": self.doubleSpinBox_clf_lr_minl1ratio.text(), "wedget": self.doubleSpinBox_clf_lr_minl1ration}, 
+                        "maxl1ratio": {"value": self.doubleSpinBox_clf_lr_maxl1ratio.text(), "wedget": self.doubleSpinBox_clf_lr_maxl1ratio},
+                        "numberl1ratio": {"value": self.spinBox__clf_lr_numl1ratio.text(), "wedget": self.spinBox__clf_lr_numl1ratio},
+                    },
+                },
+
+                self.radioButton_classification_gaussianprocess:{
+                    "Logistic regression": {
+                        "minl1ratio": {"value": self.doubleSpinBox_clf_lr_minl1ratio.text(), "wedget": self.doubleSpinBox_clf_lr_minl1ration}, 
+                        "maxl1ratio": {"value": self.doubleSpinBox_clf_lr_maxl1ratio.text(), "wedget": self.doubleSpinBox_clf_lr_maxl1ratio},
+                        "numberl1ratio": {"value": self.spinBox__clf_lr_numl1ratio.text(), "wedget": self.spinBox__clf_lr_numl1ratio},
+                    },
+                },
+
+                self.radioButton_classification_randomforest:{
+                    "Logistic regression": {
+                        "minl1ratio": {"value": self.doubleSpinBox_clf_lr_minl1ratio.text(), "wedget": self.doubleSpinBox_clf_lr_minl1ration}, 
+                        "maxl1ratio": {"value": self.doubleSpinBox_clf_lr_maxl1ratio.text(), "wedget": self.doubleSpinBox_clf_lr_maxl1ratio},
+                        "numberl1ratio": {"value": self.spinBox__clf_lr_numl1ratio.text(), "wedget": self.spinBox__clf_lr_numl1ratio},
+                    },
+                },
+
+                self.radioButton_classification_adaboost:{
+                    "Logistic regression": {
+                        "minl1ratio": {"value": self.doubleSpinBox_clf_lr_minl1ratio.text(), "wedget": self.doubleSpinBox_clf_lr_minl1ration}, 
+                        "maxl1ratio": {"value": self.doubleSpinBox_clf_lr_maxl1ratio.text(), "wedget": self.doubleSpinBox_clf_lr_maxl1ratio},
+                        "numberl1ratio": {"value": self.spinBox__clf_lr_numl1ratio.text(), "wedget": self.spinBox__clf_lr_numl1ratio},
+                    },
+                },
+
             },
 
             "dimreduction": {
@@ -297,14 +295,14 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
         for key_feature_engineering in self.all_backup_inputs:
             for keys_one_feature_engineering in self.all_backup_inputs[key_feature_engineering]:
                 if keys_one_feature_engineering.isChecked():
-                    self.feature_engineering[key_feature_engineering] = self.all_backup_inputs[key_feature_engineering][keys_one_feature_engineering]
+                    self.machine_learning[key_feature_engineering] = self.all_backup_inputs[key_feature_engineering][keys_one_feature_engineering]
 
     def load_configuration(self):
         """Load configuration, and refresh_gui configuration in GUI
         """
 
         # Get current inputs before load configuration, so we can 
-        # compare loaded configuration["feature_engineering"] with the current self.feature_engineering
+        # compare loaded configuration["machine_learning"] with the current self.machine_learning
         self.get_current_inputs()
 
         self.configuration_file, filetype = QFileDialog.getOpenFileName(self,  
@@ -319,24 +317,24 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
             # If the configuration is not valid JSON, then give configuration and configuration_file to ""
             try:
                 self.configuration = json.loads(self.configuration)
-                # If already exists self.feature_engineering
-                if (self.feature_engineering != {}):
-                    # If the loaded self.configuration["feature_engineering"] is not empty
-                    # Then ask if rewrite self.feature_engineering with self.configuration["feature_engineering"]
-                    if (list(self.configuration["feature_engineering"].keys()) != []):
+                # If already exists self.machine_learning
+                if (self.machine_learning != {}):
+                    # If the loaded self.configuration["machine_learning"] is not empty
+                    # Then ask if rewrite self.machine_learning with self.configuration["machine_learning"]
+                    if (list(self.configuration["machine_learning"].keys()) != []):
                         reply = QMessageBox.question(self, "Data loading configuration already exists", 
-                                                    "The feature_engineering configuration is already exists, do you want to rewrite it with the  loaded configuration?",
+                                                    "The machine_learning configuration is already exists, do you want to rewrite it with the  loaded configuration?",
                                                      QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
            
                         if reply == QMessageBox.Yes:  
-                            self.feature_engineering = self.configuration["feature_engineering"]
+                            self.machine_learning = self.configuration["machine_learning"]
                             self.refresh_gui()
-                    # If the loaded self.configuration["feature_engineering"] is empty
-                     # Then assign self.configuration["feature_engineering"] with self.feature_engineering
+                    # If the loaded self.configuration["machine_learning"] is empty
+                     # Then assign self.configuration["machine_learning"] with self.machine_learning
                     else:
-                        self.configuration["feature_engineering"] = self.feature_engineering
+                        self.configuration["machine_learning"] = self.machine_learning
                 else:
-                    self.feature_engineering = self.configuration["feature_engineering"]
+                    self.machine_learning = self.configuration["machine_learning"]
                     self.refresh_gui()
 
             except json.decoder.JSONDecodeError:
@@ -350,23 +348,24 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
     def refresh_gui(self):
         """ Refresh gui the display the loaded configuration in the GUI
         """
+
         print("refresh_gui")
         # Generate a dict for switch stacked wedgets
         switch_dict = {
             "feature_preprocessing": self.switche_stacked_wedge_for_preprocessing,
-            "dimreduction": self.switche_stacked_wedge_for_dimreduction,
+            "dimreduction": self.switche_stacked_wedge_for_classification,
             "feature_selection": self.switche_stacked_wedge_for_feature_selection,
         }
 
         for keys_one_feature_engineering in self.all_backup_inputs:  # 4 feature eng module loop
             for wedget in self.all_backup_inputs[keys_one_feature_engineering].keys():  # all wedgets in one feature eng loop
                 for method in self.all_backup_inputs[keys_one_feature_engineering][wedget].keys():
-                    if keys_one_feature_engineering in self.feature_engineering.keys():
-                        if method in list(self.feature_engineering[keys_one_feature_engineering].keys()):
+                    if keys_one_feature_engineering in self.machine_learning.keys():
+                        if method in list(self.machine_learning[keys_one_feature_engineering].keys()):
                             # Make the wedget checked according loaded param
                             wedget.setChecked(True)   
                             # Make setting to loaded text
-                            for key_setting in self.feature_engineering[keys_one_feature_engineering][method]:
+                            for key_setting in self.machine_learning[keys_one_feature_engineering][method]:
 
                                 print(keys_one_feature_engineering)
                                 print(wedget)
@@ -374,7 +373,7 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
                                 print(self.all_backup_inputs[keys_one_feature_engineering][wedget][method][key_setting].keys())
 
                                 if "wedget" in list(self.all_backup_inputs[keys_one_feature_engineering][wedget][method][key_setting].keys()):
-                                    loaded_text = self.feature_engineering[keys_one_feature_engineering][method][key_setting]["value"]
+                                    loaded_text = self.machine_learning[keys_one_feature_engineering][method][key_setting]["value"]
                                     print(f"method = {method}, setting = {key_setting}, loaded_text={loaded_text}") 
 
                                     # Identity wedget type, then using different methods to "setText"
@@ -395,21 +394,21 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
         """Save configuration
         """
 
-        # Get current inputs before saving feature_engineering parameters
+        # Get current inputs before saving machine_learning parameters
         self.get_current_inputs()
     
-        # Delete wedgets object from self.feature_engineering dict
-        for feature_engineering_name in list(self.feature_engineering.keys()):
-            for method_name in list(self.feature_engineering[feature_engineering_name].keys()):
-                for setting in self.feature_engineering[feature_engineering_name][method_name]:
-                    for content in list(self.feature_engineering[feature_engineering_name][method_name][setting].keys()):
-                        if "wedget" in list(self.feature_engineering[feature_engineering_name][method_name][setting].keys()):
-                            self.feature_engineering[feature_engineering_name][method_name][setting].pop("wedget")
+        # Delete wedgets object from self.machine_learning dict
+        for feature_engineering_name in list(self.machine_learning.keys()):
+            for method_name in list(self.machine_learning[feature_engineering_name].keys()):
+                for setting in self.machine_learning[feature_engineering_name][method_name]:
+                    for content in list(self.machine_learning[feature_engineering_name][method_name][setting].keys()):
+                        if "wedget" in list(self.machine_learning[feature_engineering_name][method_name][setting].keys()):
+                            self.machine_learning[feature_engineering_name][method_name][setting].pop("wedget")
         
         if self.configuration_file != "":
             try:
                 # self.configuration = json.dumps(self.configuration, ensure_ascii=False)
-                self.configuration["feature_engineering"] = self.feature_engineering
+                self.configuration["machine_learning"] = self.machine_learning
                 self.configuration = json.dumps(self.configuration)
                 with open(self.configuration_file, 'w', encoding="utf-8") as config:    
                     config.write(self.configuration)
@@ -419,33 +418,14 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
         else:
             QMessageBox.warning( self, 'Warning', 'Please choose a configuration file first (press button at top left corner)!')
 
-    def switche_stacked_wedge_for_preprocessing(self, signal_bool, method=None):
-        if self.sender().text():
-            if not method:
-                self.stackedWidget_preprocessing_methods.setCurrentIndex(self.preprocessing_stackedwedge_dict[self.sender().text()])
-            else:
-                self.stackedWidget_preprocessing_methods.setCurrentIndex(self.preprocessing_stackedwedge_dict[method])
-        else:
-            self.stackedWidget_preprocessing_methods.setCurrentIndex(-1)
-
-    def switche_stacked_wedge_for_dimreduction(self, signal_bool, method=None):
+    def switche_stacked_wedge_for_classification(self, signal_bool, method=None):
         if self.sender():
             if not method:
-                self.stackedWidget_dimreduction.setCurrentIndex(self.dimreduction_stackedwedge_dict[self.sender().text()])
+                self.stackedWidget_setting.setCurrentIndex(self.classification_stackedwedge_dict[self.sender().text()])
             else:
-                self.stackedWidget_dimreduction.setCurrentIndex(self.dimreduction_stackedwedge_dict[method])
+                self.stackedWidget_setting.setCurrentIndex(self.classification_stackedwedge_dict[method])
         else:
-            self.stackedWidget_dimreduction.setCurrentIndex(-1)
-
-    def switche_stacked_wedge_for_feature_selection(self, signal_bool, method=None):
-        self.groupBox_feature_selection_input.setTitle(self.sender().text())
-        if self.sender().text():
-            if not method:
-                self.stackedWidget_feature_selection.setCurrentIndex(self.feature_selection_stackedwedge_dict[self.sender().text()])
-            else:
-                self.stackedWidget_feature_selection.setCurrentIndex(self.feature_selection_stackedwedge_dict[method])
-        else:
-            self.stackedWidget_feature_selection.setCurrentIndex(-1)
+            self.stackedWidget_setting.setCurrentIndex(-1)
 
     # def closeEvent(self, event):
     #     """This function is called when exit icon of the window is clicked.
@@ -464,6 +444,6 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
 
 if __name__ == "__main__":
     app=QApplication(sys.argv)
-    md=EasylearnFeatureEngineeringRun()
+    md=EasylearnMachineLearningRun()
     md.show()
     sys.exit(app.exec_())

@@ -126,6 +126,8 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         if sender:
             if (sender.text() in list(self.skins.keys())):
                 self.setStyleSheet(PyQt5_stylesheets.load_stylesheet_pyqt5(style=self.skins[sender.text()]))
+                if sender.text() == "Classic":
+                    self.setStyleSheet("")
             else:
                 self.setStyleSheet(PyQt5_stylesheets.load_stylesheet_pyqt5(style="style_Dark"))
         else:

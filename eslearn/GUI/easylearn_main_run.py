@@ -9,24 +9,20 @@ Main GUI of the easylearn
 
 
 import sys
-sys.path.append('E:/easylearn/')
 import os
-import time
 import json
-from PyQt5.QtWidgets import *
-from PyQt5 import *
-from PyQt5.QtGui import QIcon, QPixmap, QPalette
-from PyQt5.QtCore import *
-import qdarkstyle
+from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QFileDialog
+from PyQt5.QtGui import QIcon, QPixmap
 
+from eslearn.stylesheets.PyQt5_stylesheets import PyQt5_stylesheets
 from easylearn_main_gui import Ui_MainWindow
 from easylearn_data_loading_run import EasylearnDataLoadingRun
-from easylearn_logger import easylearn_logger
 
 
 class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
     """This class is used to display the main GUI of the easylearn.
     """
+    
     def __init__(self):
         QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
@@ -35,7 +31,8 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         self.textBrowser.setText("Hi~, I'm easylearn. I hope I can help you finish this project successfully\n")
 
         # Set appearance
-        self.set_run_appearance()
+        self.set_logo()
+        self.set_skin()
 
         # Connecting to functions
         self.select_working_directory.triggered.connect(self.select_workingdir_fun)
@@ -49,23 +46,19 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         self.run.clicked.connect(self.run_fun)
         self.quit.clicked.connect(self.closeEvent_button)
 
+
         # Skins
-        self.skins = ["Dark", "Black", "DarkOrange", "Gray", "Blue", "Navy", "Classic", "Light"]
-        self.actionDark.triggered.connect(self.set_run_appearance)
-        self.actionBlack.triggered.connect(self.set_run_appearance)
-        self.actionDarkOrange.triggered.connect(self.set_run_appearance)
-        self.actionGray.triggered.connect(self.set_run_appearance)
-        self.actionBlue.triggered.connect(self.set_run_appearance)
-        self.actionNavy.triggered.connect(self.set_run_appearance)
-        self.actionClassic.triggered.connect(self.set_run_appearance)
-        self.actionLight.triggered.connect(self.set_run_appearance)
+        self.skins = {"Dark": "style_Dark", "Black": "style_black", "DarkOrange": "style_DarkOrange", 
+                    "Gray": "style_gray", "Blue": "style_blue", "Navy": "style_navy", "Classic": "style_Classic"}
+        self.actionDark.triggered.connect(self.set_skin)
+        self.actionBlack.triggered.connect(self.set_skin)
+        self.actionDarkOrange.triggered.connect(self.set_skin)
+        self.actionGray.triggered.connect(self.set_skin)
+        self.actionBlue.triggered.connect(self.set_skin)
+        self.actionNavy.triggered.connect(self.set_skin)
+        self.actionClassic.triggered.connect(self.set_skin)
 
-        # self.showFullscreen()
-
-    
-    def set_run_appearance(self):
-        """Set a appearance for easylearn (title, logo, skin, etc).
-        """
+    def set_logo(self):
         qss_logo = """#logo{background-color: black;
                 border: 2px solid white;
                 border-radius: 20px;
@@ -74,56 +67,9 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
                 #logo:hover {border-radius: 0px;}
         """
 
-        qss_special = """QPushButton:hover
-        {
-            font-weight: bold; font-size: 20px;
-        }     
-
-        QPushButton#run
-        {
-             border-radius:30px; border: 1px dashed green;
-        }     
-
-        QPushButton#run:hover 
-        {
-            font-weight: bold; border-radius:20px; border: 2px solid green;
-        }  
-
-        QPushButton#quit
-        { 
-            border-radius:30px; border: 1px dashed red;
-        }  
-
-        QPushButton#quit:hover 
-        {
-            font-weight: bold; border-radius:20px; border: 2px solid red;
-        }  
-        """
         self.logo.setStyleSheet(qss_logo)
         self.setWindowTitle('easylearn')
-
-        # icon = QtGui.QIcon()
-        # icon.addPixmap(QtGui.QPixmap("../logo/logo-dms-small.png"))
         self.setWindowIcon(QIcon('../logo/logo-upper.jpg'))
-        # self.setWindowIcon(icon)
-
-        sender = self.sender()
-        if sender:
-            if (sender.text() in self.skins):
-                with open("../stylesheets/" + sender.text() + ".qss") as f:
-                    style_sheets = f.read()
-                    style_sheets = style_sheets + qss_special
-                    self.setStyleSheet(style_sheets)
-            else:
-                with open("../stylesheets/Dark.qss") as f:
-                    style_sheets = f.read()
-                    style_sheets = style_sheets + qss_special
-                    self.setStyleSheet(style_sheets)
-        else:
-            with open("../stylesheets/Dark.qss") as f:
-                style_sheets = f.read()
-                style_sheets = style_sheets + qss_special
-                self.setStyleSheet(style_sheets)
 
         # Run Icon
         self.run.setIcon(QIcon("../logo/run.png"));
@@ -133,6 +79,21 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         self.quit.setIcon(QIcon("../logo/close.png"));
         self.quit.setIconSize(QPixmap("../logo/close.png").size());
         self.quit.resize(QPixmap("../logo/close.png").size());
+
+    def set_skin(self):
+        """Set a appearance for easylearn (skin, etc).
+        """
+
+        sender = self.sender()
+        if sender:
+            if (sender.text() in list(self.skins.keys())):
+                self.setStyleSheet(PyQt5_stylesheets.load_stylesheet_pyqt5(style=self.skins[sender.text()]))
+                if sender.text() == "Classic":
+                    self.setStyleSheet("")
+            else:
+                self.setStyleSheet(PyQt5_stylesheets.load_stylesheet_pyqt5(style="style_Dark"))
+        else:
+            self.setStyleSheet(PyQt5_stylesheets.load_stylesheet_pyqt5(style="style_Dark"))
 
     def select_workingdir_fun(self):
         """
