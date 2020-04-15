@@ -1,9 +1,9 @@
 %% mapping from_brain_atalas to to_brain_atalas
-function lc_mapping_brain_atalas_highlevel()
+function [uni_label_of_from_atalas, max_prop, matching_idx] = lc_mapping_brain_atalas_highlevel()
 % Inputs
 % ------------------------------------------
-from_brain_atalas = 'D:\My_Codes\easylearn-fmri\eslearn\SSD_classification\Voxel_Label_Matching_Between_Two_Brain_Atalas\aal.nii';
-to_brain_atalas = 'D:\My_Codes\easylearn-fmri\eslearn\SSD_classification\Voxel_Label_Matching_Between_Two_Brain_Atalas\brodmann.nii';
+from_brain_atalas =  'D:\My_Codes\easylearn-fmri\eslearn\SSD_classification\Voxel_Label_Matching_Between_Two_Brain_Atalas\brodmann.nii';
+to_brain_atalas ='D:\My_Codes\easylearn-fmri\eslearn\SSD_classification\Voxel_Label_Matching_Between_Two_Brain_Atalas\aal.nii';
 % ------------------------------------------
 
 % Load nii and network labels
@@ -11,7 +11,8 @@ to_brain_atalas = 'D:\My_Codes\easylearn-fmri\eslearn\SSD_classification\Voxel_L
 to_mat = y_Read(to_brain_atalas);
 
 % Matching
-[uni_voxellabel1, prop, matching_idx] = lc_voxel_label_matching_between_two_brain_atalas(from_mat, to_mat);
+[uni_label_of_from_atalas, max_prop, matching_idx] = lc_voxel_label_matching_between_two_brain_atalas(from_mat, to_mat);
+xlswrite('D:\My_Codes\easylearn-fmri\eslearn\SSD_classification\Voxel_Label_Matching_Between_Two_Brain_Atalas\test.xlsx', matching_idx);
 end
 
 function [uni_label_of_from_atalas, max_prop, matching_idx] = lc_voxel_label_matching_between_two_brain_atalas(from_brain_atalas, to_brain_atalas)
