@@ -104,55 +104,53 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
             "classification": {
                 self.radioButton_classificaton_lr:{
                     "Logistic regression": {
-                        "minl1ratio": {"value": self.doubleSpinBox_clf_lr_minl1ratio.text(), "wedget": self.doubleSpinBox_clf_lr_minl1ration}, 
                         "maxl1ratio": {"value": self.doubleSpinBox_clf_lr_maxl1ratio.text(), "wedget": self.doubleSpinBox_clf_lr_maxl1ratio},
+                        "minl1ratio": {"value": self.doubleSpinBox_clf_lr_maxl1ratio.text(), "wedget": self.doubleSpinBox_clf_lr_minl1ration}, 
                         "numberl1ratio": {"value": self.spinBox__clf_lr_numl1ratio.text(), "wedget": self.spinBox__clf_lr_numl1ratio},
                     },
                 }, 
 
                 self.radioButton_classification_svm:{
                     "Support vector machine": {
-                        "minl1ratio": {"value": self.comboBox_clf_svm_kernel.text(), "wedget": self.doubleSpinBox_clf_lr_minl1ration}, 
-                        "maxl1ratio": {"value": self.doubleSpinBox_clf_lr_maxl1ratio.text(), "wedget": self.doubleSpinBox_clf_lr_maxl1ratio},
-                        "numberl1ratio": {"value": self.spinBox__clf_lr_numl1ratio.text(), "wedget": self.spinBox__clf_lr_numl1ratio},
+                        "minl1ratio": {"value": self.doubleSpinBox_clf_svm_minc.text(), "wedget": self.doubleSpinBox_clf_svm_minc}, 
+                        "maxl1ratio": {"value": self.doubleSpinBox_clf_svm_maxc.text(), "wedget": self.doubleSpinBox_clf_svm_maxc},
+                        "numc": {"value": self.spinBox_clf_svm_numc.text(), "wedget": self.spinBox_clf_svm_numc},
+                        "maxgamma": {"value": self.lineEdit_clf_svm_maxgamma.text(), "wedget": self.lineEdit_clf_svm_maxgamma},
+                        "mingamma": {"value": self.lineEdit_clf_svm_mingamma.text(), "wedget": self.lineEdit_clf_svm_mingamma},
+                        "numgamma": {"value": self.spinBox_clf_svm_numgamma.text(), "wedget": self.spinBox_clf_svm_numgamma},
                     },
                 },
 
                 self.radioButton_classification_ridge:{
-                    "Logistic regression": {
-                        "minl1ratio": {"value": self.doubleSpinBox_clf_lr_minl1ratio.text(), "wedget": self.doubleSpinBox_clf_lr_minl1ration}, 
-                        "maxl1ratio": {"value": self.doubleSpinBox_clf_lr_maxl1ratio.text(), "wedget": self.doubleSpinBox_clf_lr_maxl1ratio},
-                        "numberl1ratio": {"value": self.spinBox__clf_lr_numl1ratio.text(), "wedget": self.spinBox__clf_lr_numl1ratio},
+                    "Ridge classification": {
+                        "minalpha": {"value": self.doubleSpinBox_clf_ridgeclf_minalpha.text(), "wedget": self.doubleSpinBox_clf_ridgeclf_minalpha}, 
+                        "maxalpha": {"value": self.doubleSpinBox_clf_ridgeclf_maxalpha.text(), "wedget": self.doubleSpinBox_clf_ridgeclf_maxalpha},
+                        "numalpha": {"value": self.spinBox_clf_ridgeclf_numalpha.text(), "wedget": self.spinBox_clf_ridgeclf_numalpha},
                     },
                 },
 
                 self.radioButton_classification_gaussianprocess:{
-                    "Logistic regression": {
-                        "minl1ratio": {"value": self.doubleSpinBox_clf_lr_minl1ratio.text(), "wedget": self.doubleSpinBox_clf_lr_minl1ration}, 
-                        "maxl1ratio": {"value": self.doubleSpinBox_clf_lr_maxl1ratio.text(), "wedget": self.doubleSpinBox_clf_lr_maxl1ratio},
-                        "numberl1ratio": {"value": self.spinBox__clf_lr_numl1ratio.text(), "wedget": self.spinBox__clf_lr_numl1ratio},
-                    },
+                    "Gaussian process": {},
                 },
 
                 self.radioButton_classification_randomforest:{
-                    "Logistic regression": {
-                        "minl1ratio": {"value": self.doubleSpinBox_clf_lr_minl1ratio.text(), "wedget": self.doubleSpinBox_clf_lr_minl1ration}, 
-                        "maxl1ratio": {"value": self.doubleSpinBox_clf_lr_maxl1ratio.text(), "wedget": self.doubleSpinBox_clf_lr_maxl1ratio},
-                        "numberl1ratio": {"value": self.spinBox__clf_lr_numl1ratio.text(), "wedget": self.spinBox__clf_lr_numl1ratio},
+                    "Random forest": {
+                        "minestimators": {"value": self.spinBox_clf_randomforest_minestimators.text(), "wedget": self.spinBox_clf_randomforest_minestimators}, 
+                        "maxestimators": {"value": self.spinBox_clf_randomforest_maxestimators.text(), "wedget": self.spinBox_clf_randomforest_maxestimators},
+                        "maxdepth": {"value": self.spinBox_clf_randomforest_maxdepth.text(), "wedget": self.spinBox_clf_randomforest_maxdepth},
                     },
                 },
 
                 self.radioButton_classification_adaboost:{
-                    "Logistic regression": {
-                        "minl1ratio": {"value": self.doubleSpinBox_clf_lr_minl1ratio.text(), "wedget": self.doubleSpinBox_clf_lr_minl1ration}, 
-                        "maxl1ratio": {"value": self.doubleSpinBox_clf_lr_maxl1ratio.text(), "wedget": self.doubleSpinBox_clf_lr_maxl1ratio},
-                        "numberl1ratio": {"value": self.spinBox__clf_lr_numl1ratio.text(), "wedget": self.spinBox__clf_lr_numl1ratio},
+                    "AdaBoost": {
+                        "minestimators": {"value": self.spinBox_clf_adaboost_minestimators.text(), "wedget": self.spinBox_clf_adaboost_minestimators}, 
+                        "maxestimators": {"value": self.spinBox_clf_adaboost_maxestimators.text(), "wedget": self.spinBox_clf_adaboost_maxestimators},
                     },
                 },
 
             },
 
-            "dimreduction": {
+            "regression": {
                 self.radioButton_pca: {
                     "Principal component analysis": {
                         "min": {"value": self.doubleSpinBox_pca_maxcomponents.text(), "wedget": self.doubleSpinBox_pca_maxcomponents}, 
