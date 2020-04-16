@@ -77,7 +77,7 @@ def main():
     window.tabifyDockWidget(ui.dockWidget1, ui.dockWidget2)
 
     # setup stylesheet
-    app.setStyleSheet(PyQt5_stylesheets.load_stylesheet_pyqt5(style="style_black"))
+    app.setStyleSheet(PyQt5_stylesheets.load_stylesheet_pyqt5(style="style_classic"))
 
     # auto quit after 2s when testing on travis-ci
     if "--travis" in sys.argv:

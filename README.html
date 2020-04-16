@@ -1058,11 +1058,23 @@ body .markdown-body
 </style><title>README</title></head><body><article class="markdown-body"><h1 id="make-machine-learning-easy"><img src="./eslearn/logo/logo-lower.jpg" width = "200" height = "60" div align=left />  <font size=10>Make machine learning easy!</font><a class="headerlink" href="#make-machine-learning-easy" title="Permanent link"></a></h1>
 <p>Easylearn is designed for machine learning mainly in resting-state fMRI, radiomics and other fields (such as EEG). Easylearn is built on top of scikit-learn, pytorch and other packages. Easylearn can assist doctors and researchers who have limited coding experience to easily realize machine learning, e.g., (MR/CT/PET/EEG)imaging-marker- or other biomarker-based disease diagnosis and prediction, treatment response prediction, 
 disease subtyping, dimensional decoding for transdiagnostic psychiatric diseases or other diseases, disease mechanism exploration and etc.  </p>
-<p>We focus on machine learning rather than data preprocessing. Many software, such as SPM, DPABI, GRETNA, FSL, Freesufer, nipy, nipype, nibabel, fmriprep and etc, can be used for data preprocessing.  </p>
+<p>We focus on machine learning rather than data preprocessing. Many software, such as SPM, GRETNA, DPABI, REST, FSL, Freesufer, nipy, nipype, nibabel, fmriprep and etc, can be used for data preprocessing.  </p>
+<h1 id="citing-information">Citing information:<a class="headerlink" href="#citing-information" title="Permanent link"></a></h1>
+<p>If you think this function is useful, citing the easylearn software in your paper or code would be greatly appreciated!
+Citing link: <a href="https://github.com/easylearn-fmri/easylearn">https://github.com/easylearn-fmri/easylearn</a>  </p>
+<h1 id="gui-preview">GUI preview<a class="headerlink" href="#gui-preview" title="Permanent link"></a></h1>
 <h4 id="main-interface">Main Interface<a class="headerlink" href="#main-interface" title="Permanent link"></a></h4>
 <p><img alt="Main Window" src="///D://My_Codes/easylearn-fmri/img/GUI_main.png" />  </p>
 <h4 id="data-loading-interface"><center> Data loading Interface </center><a class="headerlink" href="#data-loading-interface" title="Permanent link"></a></h4>
-<p><img alt="Data loading" src="///D://My_Codes/easylearn-fmri/img/GUI_data_loading.png" />  </p>
+<p><img alt="Data loading" src="///D://My_Codes/easylearn-fmri/img/GUI_data_loading.png" />    </p>
+<h4 id="feature-engineering-interface-feature-preprocessing"><center> Feature engineering Interface (feature preprocessing) </center><a class="headerlink" href="#feature-engineering-interface-feature-preprocessing" title="Permanent link"></a></h4>
+<p><img alt="Data loading" src="///D://My_Codes/easylearn-fmri/img/preprocessing.png" />   </p>
+<h4 id="feature-engineering-interface-dimension-reduction"><center> Feature engineering Interface (dimension reduction) </center><a class="headerlink" href="#feature-engineering-interface-dimension-reduction" title="Permanent link"></a></h4>
+<p><img alt="Data loading" src="///D://My_Codes/easylearn-fmri/img/dimreduction.png" />   </p>
+<h4 id="feature-engineering-interface-feature-selection"><center> Feature engineering Interface (feature selection) </center><a class="headerlink" href="#feature-engineering-interface-feature-selection" title="Permanent link"></a></h4>
+<p><img alt="Data loading" src="///D://My_Codes/easylearn-fmri/img/feature_selection.png" />   </p>
+<h4 id="feature-engineering-interface-unbalance-treatment"><center> Feature engineering Interface (unbalance treatment) </center><a class="headerlink" href="#feature-engineering-interface-unbalance-treatment" title="Permanent link"></a></h4>
+<p><img alt="Data loading" src="///D://My_Codes/easylearn-fmri/img/unbalance_treatment.png" /> </p>
 <h1 id="core-dependencies">Core Dependencies<a class="headerlink" href="#core-dependencies" title="Permanent link"></a></h1>
 <p>The follows will be automatically install if you use &ldquo;pip install -U easylearn&rdquo; command    </p>
 <ul>
@@ -1149,7 +1161,7 @@ University, Shenyang, Liaoning, PR China.  </p>
 Brain Function Research Section, The First Affiliated Hospital of China Medical
 University, Shenyang, Liaoning, PR China.        </p>
 </blockquote>
-<h5 id="mengshi-dong_1">Mengshi Dong<a class="headerlink" href="#mengshi-dong_1" title="Permanent link"></a></h5>
+<h5 id="mengshi-dong-owner">Mengshi Dong (owner)<a class="headerlink" href="#mengshi-dong-owner" title="Permanent link"></a></h5>
 <blockquote>
 <p><a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#100;&#111;&#110;&#103;&#109;&#101;&#110;&#103;&#115;&#104;&#105;&#49;&#57;&#57;&#48;&#64;&#49;&#54;&#51;&#46;&#99;&#111;&#109;">&#100;&#111;&#110;&#103;&#109;&#101;&#110;&#103;&#115;&#104;&#105;&#49;&#57;&#57;&#48;&#64;&#49;&#54;&#51;&#46;&#99;&#111;&#109;</a><br />
 Department of Radiology, The First Affiliated Hospital of China Medical University,
@@ -1190,7 +1202,8 @@ Shenzhen University        </p>
 <p>Co-Contributors will increase dynamically.    </p>
 </blockquote>
 <h1 id="demo">Demo<a class="headerlink" href="#demo" title="Permanent link"></a></h1>
-<p>The simplest demo is in the eslearn/examples.<br />
+<p>Although, the GUI is under development, you can use simple commands to accomplish some machine learning tasks.<br />
+The simplest demo is in the eslearn/examples.<br />
 Below is a demo of training a model to classify insomnia patients using weighted functional connectivity strength as features (You can easily use other voxel-wise metrics as features, such as ReHo, ALFF).
 This demo use svc as classifier, Principal Component Analysis (PCA) as dimension reduction method and Recursive feature elimination (RFE) as feature selection method (inner cross-validation).
 In each fold, this program will upper-resampling the training dataset to balance the cases with +1 labels and 0 labels.</p>
