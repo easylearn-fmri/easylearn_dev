@@ -1,1 +1,0 @@
-{"data_loading": {}, "feature_engineering": {"feature_selection": {"RFE": {"step": {"value": "0.10"}, "n_folds": {"value": "5"}, "estimator": {"value": "Linear regression"}, "n_jobs": {"value": "-1"}}}}, "machine_learning": {}, "model_evaluation": {}, "statistical_analysis": {}}
