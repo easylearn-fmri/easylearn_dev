@@ -102,13 +102,15 @@ University, Shenyang, Liaoning, PR China.
 Shenyang, Liaoning, PR China.  
 
 ##### Vacancy 1   
-> Contributors will first add to the [contributors list](./eslearn/developer/contributors_list.md). Once your contribution is more than or equal to 1/4 of the total code, you can become a maintainer.
+> Contributors will first add to the [contributors_list.md](./eslearn/developer/contributors_list.md). Once your contribution is more than or equal to 1/4 of the total code, you can become a maintainer.
 ##### Vacancy 2  
-> Contributors will first add to the [contributors list](./eslearn/developer/contributors_list.md). Once your contribution is more than or equal to 1/4 of the total code, you can become a maintainer.
+> Contributors will first add to the [contributors_list.md](./eslearn/developer/contributors_list.md). Once your contribution is more than or equal to 1/4 of the total code, you can become a maintainer.
 
 # Contributors  
-> The current contributors are in [contributors list](./eslearn/developer/contributors_list.md). Once your contribution is more than or equal to 1/4 of the total code, you can become a maintainer. 
- 
+> The current contributors are in [contributors_list.md](./eslearn/developer/contributors_list.md). Once your contribution is more than or equal to 1/4 of the total code, you can become a maintainer. 
+
+# Curent team members
+> The current team members are in [current_team_members.md](./eslearn/developer/current_team_members.md). If you contributed your code, please add yourself to the contributor list.
 
 
 # Demo
