@@ -100,11 +100,14 @@ University, Shenyang, Liaoning, PR China.
 >dongmengshi1990@163.com  
 >Department of Radiology, The First Affiliated Hospital of China Medical University,
 Shenyang, Liaoning, PR China.  
-##### + 
-> If someone makes a very important contribution in later project development, the maintainer list will be added.   
+
+##### Vacancy 1   
+> Contributors will first add to the [contributors list](./eslearn/developer/contributors_list.md). Once your contribution is more than or equal to 1/4 of the total code, you can become a maintainer.
+##### Vacancy 2  
+> Contributors will first add to the [contributors list](./eslearn/developer/contributors_list.md). Once your contribution is more than or equal to 1/4 of the total code, you can become a maintainer.
 
 # Contributors  
->Co-Contributors will increase dynamically.    
+> The current contributors are in [contributors list](./eslearn/developer/contributors_list.md). Once your contribution is more than or equal to 1/4 of the total code, you can become a maintainer. 
  
 
 
