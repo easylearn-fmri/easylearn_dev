@@ -1055,37 +1055,35 @@ body .markdown-body
 .codehilite .vi{color:teal}
 .codehilite .il{color:#009999}
 .codehilite .gc{color:#999;background-color:#EAF2F5}
-</style><title>easylearn_整体参数格式</title></head><body><article class="markdown-body"><h1 id="easylearn">easylearn项目的整体参数的格式<a class="headerlink" href="#easylearn" title="Permanent link"></a></h1>
-<h2 id="_1">概要<a class="headerlink" href="#_1" title="Permanent link"></a></h2>
-<p>此文档描述easylearn中参数加载格式，用户在图形界面中每一次点击或者输入，在确认后都会保存到一个json文件中。该json文件在用户打开软件，选择了工作目录，并初始化时所创建，并由用户命名。此后所有的参数都会被该文件所记录，并用于最后的执行。<br />
-只有充分了解该文件的结构，也就是软件如何记录用户的输入，以后才能方便后续的开发。  </p>
-<h2 id="_2">例子<a class="headerlink" href="#_2" title="Permanent link"></a></h2>
-<p>假设用户选择./developer为工作目录，并在此目录创建了一个叫做&rdquo;configuration_file.json&rdquo;的文件。
-那么空的文件格式为：<br />
-{&ldquo;data_loading&rdquo;: {}, &ldquo;features_engineering&rdquo;: {}, &ldquo;machine_learning&rdquo;: {}, &ldquo;model_evaluation&rdquo;: {}, &ldquo;statistical_analysis&rdquo;: {}}    </p>
-<p>如果用户通过界面加入一个组（group_0:精神分裂症病人组），以及一个模态，并为这个组下的这个模态（modality_0: 数据类型，比如一组人的全脑功能连接）添加了几个包含全脑功能连接数值的文件，那么json文件为： <br />
-{
-    &ldquo;data_loading&rdquo;: 
-        {&ldquo;group_0&rdquo;: 
-            {&ldquo;modality_0&rdquo;: {&ldquo;file&rdquo;: [&ldquo;D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00002.mat&rdquo;, &ldquo;D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00003.mat&rdquo;, &ldquo;D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00004.mat&rdquo;, &ldquo;D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00005.mat&rdquo;, &ldquo;D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00006.mat&rdquo;, &ldquo;D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00007.mat&rdquo;], &ldquo;mask&rdquo;: &ldquo;&rdquo;, &ldquo;targets&rdquo;: [], &ldquo;covariates&rdquo;: []}}, 
-        }, 
-    &ldquo;features_engineering&rdquo;: {}, 
-    &ldquo;machine_learning&rdquo;: {}, 
-    &ldquo;model_evaluation&rdquo;: {}, 
-    &ldquo;statistical_analysis&rdquo;: {}
-}   </p>
-<p>同理，如果用户通过界面再加入一个组（group_1:正常对照组），以及一个模态，并为这个组下的这个模态（modality_1:数据类型，比如一组人的全脑功能连接）添加了几个包含全脑功能连接数值的文件，那么json文件为：<br />
-{
-    &ldquo;data_loading&rdquo;: 
-        {&ldquo;group_0&rdquo;: 
-            {&ldquo;modality_0&rdquo;: {&ldquo;file&rdquo;: [&ldquo;D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00002.mat&rdquo;, &ldquo;D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00003.mat&rdquo;, &ldquo;D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00004.mat&rdquo;, &ldquo;D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00005.mat&rdquo;, &ldquo;D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00006.mat&rdquo;, &ldquo;D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00007.mat&rdquo;], &ldquo;mask&rdquo;: &ldquo;&rdquo;, &ldquo;targets&rdquo;: [], &ldquo;covariates&rdquo;: []}}, 
-        &ldquo;group_1&rdquo;: 
-            {&ldquo;modality_0&rdquo;: {&ldquo;file&rdquo;: [&ldquo;D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00029.mat&rdquo;, &ldquo;D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00030.mat&rdquo;, &ldquo;D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00031.mat&rdquo;, &ldquo;D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00032.mat&rdquo;, &ldquo;D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00033.mat&rdquo;, &ldquo;D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00034.mat&rdquo;], &ldquo;mask&rdquo;: &ldquo;&rdquo;, &ldquo;targets&rdquo;: [], &ldquo;covariates&rdquo;: []}}}, 
-    &ldquo;features_engineering&rdquo;: {}, 
-    &ldquo;machine_learning&rdquo;: {}, 
-    &ldquo;model_evaluation&rdquo;: {}, 
-    &ldquo;statistical_analysis&rdquo;: {}
-}  </p>
-<p>同理，用户会通过界面输入所有需要的参数，比如每个组每个模态的mask（可以为空）， targets(labels), covariates(可以为空)，以及必要的特征工程信息，机器学习信息（比如交叉验证方式，算法等）。  </p>
-<h2 id="_3">执行<a class="headerlink" href="#_3" title="Permanent link"></a></h2>
-<p>假如用户输入了必要的信息，接下来可以进行特征工程，机器学习，模型评估和统计分析。拿机器学习为例子，我们要用全脑功能连接作为特征，来区分精神分裂症和正常对照。用于此时，我们已经获取了features，labels以及其它必要信息（参数）,我们便可以通过这些信息来训练机器学习模型。比如以10折交叉验证的方式训练并测试支持向量机模型。或者以胸部CT影像数据为特征，并划分为训练集，验证集和测试集来训练一个卷积神经网络模型，用于新冠肺炎患者的诊断。</p></article></body></html>
+</style><title>README</title></head><body><article class="markdown-body"><h1 id="_1">此文件夹内的文件是为开发者准备的<a class="headerlink" href="#_1" title="Permanent link"></a></h1>
+<h3 id="_2">初步拟定的代码模板<a class="headerlink" href="#_2" title="Permanent link"></a></h3>
+<div class="codehilite"><pre>- function_template.py is the function template
+
+- class_template.py is the class template
+
+- 目前这个只是我个人的建议，如果您有更好的建议，直接在您folk的项目里面添加模板，然后pull request到easylearn项目
+- 或者您直接在微信群里给出
+</pre></div>
+
+
+<h3 id="contributors_listmd">contributors_list.md<a class="headerlink" href="#contributors_listmd" title="Permanent link"></a></h3>
+<div class="codehilite"><pre>- 代码贡献者名单
+</pre></div>
+
+
+<h3 id="current_team_membersmd">current_team_members.md<a class="headerlink" href="#current_team_membersmd" title="Permanent link"></a></h3>
+<div class="codehilite"><pre>- 目前参与者名单，如您贡献了代码，请将您的名字加入contributors_list.md中，并推送给easylearn项目
+</pre></div>
+
+
+<h3 id="easylearn_inputsmd">easylearn_inputs.md<a class="headerlink" href="#easylearn_inputsmd" title="Permanent link"></a></h3>
+<div class="codehilite"><pre>- 用户的输入格式
+- 所有的用户输入将会被 configuration_file.json所保存
+</pre></div>
+
+
+<h3 id="pca_lripynb">pca_lr.ipynb<a class="headerlink" href="#pca_lripynb" title="Permanent link"></a></h3>
+<div class="codehilite"><pre>- 一个简单的用户开发者代码示例
+- 此示例可以算作是项目底层代码的一个整体逻辑的缩影
+- 如果你有更好的代码逻辑或者设计，那么非常希望得到您的指导
+</pre></div></article></body></html>
