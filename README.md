@@ -91,11 +91,12 @@ Shenyang, Liaoning, PR China.
 >1 Brain Function Research Section, The First Affiliated Hospital of China Medical
 University, Shenyang, Liaoning, PR China.  
 
-# Maintainer  
+# Maintainer  (up to 4 maintainers)
 ##### Chao Li (owner)  
 >lichao19870617@gmail.com   
 >Brain Function Research Section, The First Affiliated Hospital of China Medical
-University, Shenyang, Liaoning, PR China.        
+University, Shenyang, Liaoning, PR China.   
+
 ##### Mengshi Dong (owner)  
 >dongmengshi1990@163.com  
 >Department of Radiology, The First Affiliated Hospital of China Medical University,
@@ -104,14 +105,13 @@ Shenyang, Liaoning, PR China.
 ##### Vacancy 1   
 > Contributors will first add to the [contributors_list.md](./eslearn/developer/contributors_list.md). Once your contribution is more than or equal to 1/4 of the total code, you can become a maintainer.
 ##### Vacancy 2  
-> Contributors will first add to the [contributors_list.md](./eslearn/developer/contributors_list.md). Once your contribution is more than or equal to 1/4 of the total code, you can become a maintainer.
+> Contributors will first add to the [contributors_list.md](./eslearn/developer/contributors_list.md). Once your contribution is more than or equal to 1/4 of the total code, you can become a permanent maintainer.
 
 # Contributors  
-> The current contributors are in [contributors_list.md](./eslearn/developer/contributors_list.md). Once your contribution is more than or equal to 1/4 of the total code, you can become a maintainer. 
+> The current contributors are in [contributors_list.md](./eslearn/developer/contributors_list.md). Once your contribution is more than or equal to 1/4 of the total code, you can become a permanent maintainer. 
 
 # Curent team members
 > The current team members are in [current_team_members.md](./eslearn/developer/current_team_members.md). If you contributed your code, please add yourself to the contributor list.
-
 
 # Demo
 Although, the GUI is under development, you can use simple commands to accomplish some machine learning tasks.  

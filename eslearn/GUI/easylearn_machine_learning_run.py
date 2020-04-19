@@ -71,7 +71,7 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
         } 
 
         """
-        self.setWindowTitle('Feature Engineering')
+        self.setWindowTitle('Machine learning')
         self.setWindowIcon(QIcon('../logo/logo-upper.jpg'))
 
         sender = self.sender()

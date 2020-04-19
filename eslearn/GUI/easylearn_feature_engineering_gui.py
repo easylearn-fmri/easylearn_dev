@@ -966,10 +966,10 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuSkin.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.tabWidget_items.setCurrentIndex(1)
+        self.tabWidget_items.setCurrentIndex(2)
         self.stackedWidget_preprocessing_methods.setCurrentIndex(3)
         self.stackedWidget_dimreduction.setCurrentIndex(4)
-        self.stackedWidget_feature_selection.setCurrentIndex(11)
+        self.stackedWidget_feature_selection.setCurrentIndex(7)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -1049,8 +1049,8 @@ class Ui_MainWindow(object):
         self.label_relieffmax.setText(_translate("MainWindow", "Max_features"))
         self.label_reliffmin.setText(_translate("MainWindow", "Min_feature"))
         self.label_34.setText(_translate("MainWindow", "Number"))
-        self.label_10.setText(_translate("MainWindow", "Max_alpha"))
-        self.label_17.setText(_translate("MainWindow", "Min_alpha"))
+        self.label_10.setText(_translate("MainWindow", "Max_number"))
+        self.label_17.setText(_translate("MainWindow", "Min_number"))
         self.label_11.setText(_translate("MainWindow", "Multi_correct"))
         self.comboBox_anova_multicorrect.setItemText(0, _translate("MainWindow", "None"))
         self.comboBox_anova_multicorrect.setItemText(1, _translate("MainWindow", "FDR"))
