@@ -82,23 +82,31 @@ data_medicated_SSD_550 = scale_550_selected[(scale_550_selected['诊断']==3) & 
 data_unmedicated_SSD_550 = scale_550_selected[(scale_550_selected['诊断']==3) & (scale_550_selected['用药'] == 0) ]
 
 # Frist episode and nerver medicated
-data_unmedicated_schizophreniform_550 = scale_550_selected[(scale_550_selected['诊断']==3) & 
-                                            (scale_550_selected['病程月'] < 6) & 
-                                            (scale_550_selected['用药'] == 0)]
+data_unmedicated_schizophreniform_550 = scale_550_selected[
+    (scale_550_selected['诊断']==3) & 
+    (scale_550_selected['病程月'] < 6) & 
+    (scale_550_selected['用药'] == 0)
+]
 
-data_unmedicated_SZ_550 = scale_550_selected[(scale_550_selected['诊断']==3) & 
-                                            (scale_550_selected['病程月'] >= 6) & 
-                                            (scale_550_selected['用药'] == 0)]
+data_unmedicated_SZ_550 = scale_550_selected[
+    (scale_550_selected['诊断']==3) & 
+    (scale_550_selected['病程月'] >= 6) & 
+    (scale_550_selected['用药'] == 0)
+]
 
-data_firstepisode_unmedicated_SZ_550 = scale_550_selected[(scale_550_selected['诊断']==3) & 
-                                            (scale_550_selected['首发'] == 1) &
-                                            (scale_550_selected['病程月'] <= duration) & 
-                                            (scale_550_selected['病程月'] >= 6) & 
-                                            (scale_550_selected['用药'] == 0)]
+data_firstepisode_unmedicated_SZ_550 = scale_550_selected[
+    (scale_550_selected['诊断']==3) & 
+    (scale_550_selected['首发'] == 1) &
+    (scale_550_selected['病程月'] <= duration) & 
+    (scale_550_selected['病程月'] >= 6) & 
+    (scale_550_selected['用药'] == 0)
+]
 
-data_chronic_unmedicated_SZ_550 = scale_550_selected[(scale_550_selected['诊断']==3) & 
-                                            (scale_550_selected['病程月'] > duration) & 
-                                            (scale_550_selected['用药'] == 0)]
+data_chronic_unmedicated_SZ_550 = scale_550_selected[
+    (scale_550_selected['诊断']==3) & 
+    (scale_550_selected['病程月'] > duration) & 
+    (scale_550_selected['用药'] == 0)
+]
 
 # data_unmedicated_SSD_550['folder'].to_csv(r'D:\WorkStation_2018\WorkStation_CNN_Schizo\Scale\feu_63.txt', index=False)
 

@@ -15,13 +15,13 @@ Citing link: https://github.com/easylearn-fmri/easylearn
 #### <center> Data loading Interface </center>
 ![Data loading](./img/GUI_data_loading.png)    
 #### <center> Feature engineering Interface (feature preprocessing) </center>
-![Data loading](./img/preprocessing.png)   
+![Featur engineering](./img/preprocessing.png)   
 #### <center> Feature engineering Interface (dimension reduction) </center>
-![Data loading](./img/dimreduction.png)   
+![Featur engineering](./img/dimreduction.png)   
 #### <center> Feature engineering Interface (feature selection) </center>
-![Data loading](./img/feature_selection.png)   
+![Featur engineering](./img/feature_selection.png)   
 #### <center> Feature engineering Interface (unbalance treatment) </center>
-![Data loading](./img/unbalance_treatment.png) 
+![Featur engineering](./img/unbalance_treatment.png) 
 # Core Dependencies 
 The follows will be automatically install if you use "pip install -U easylearn" command    
 
@@ -51,6 +51,7 @@ Any contributions you make will be appreciated and announced.
 > Email: lichao19870617@gmail.com  
 > Wechat: 13591648206  
 
+
 # Originator
 ##### Ke Xu
 >kexu@vip.sina.com  
@@ -65,6 +66,7 @@ University, Shenyang, Liaoning, PR China.
 >dongmengshi1990@163.com  
 >Department of Radiology, The First Affiliated Hospital of China Medical University,
 Shenyang, Liaoning, PR China.   
+
 # Supervisor   
 ##### Yanqing Tang  
 >yanqingtang@163.com  
@@ -101,23 +103,8 @@ Shenyang, Liaoning, PR China.
 > If someone makes a very important contribution in later project development, the maintainer list will be added.   
 
 # Contributors  
-##### Shaoqiang Han
->867727390@qq.com  
->The First Affiliated Hospital of ZhengZhou University
-##### Lili Tang
->lilyseyo@gmail.com  
->The First Affiliated Hospital, China Medical University.    
-##### Ning Yang  
->1157663200@qq.com  
->Guangdong Second Provincial General Hospital  
-##### Peng Zhang
->1597403028@qq.com  
->South China Normal University 
-##### Weixiang Liu  
->wxliu@szu.edu.cn  
->Shenzhen University        
-##### +
 >Co-Contributors will increase dynamically.    
+ 
 
 
 # Demo
