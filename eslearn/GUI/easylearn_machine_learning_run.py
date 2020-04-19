@@ -3,15 +3,11 @@
 
 Created on 2020/04/15
 
-@author: Li Chao
-Email:lichao19870617@gmail.com
-GitHub account name: lichao312214129
+@author: Li Chao <lichao19870617@gmail.com; lichao312214129>
 Institution (company): Brain Function Research Section, The First Affiliated Hospital of China Medical University, Shenyang, Liaoning, PR China. 
 
-@author: Dong Mengshi
-Email:dongmengshi1990@163.com
-GitHub account name: dongmengshi
-Institution (company): Department of radiology, The First Affiliated Hospital of China Medical University, Shenyang, Liaoning, PR China. 
+@author: Dong Mengshi <dongmengshi1990@163.com;  dongmengshi>
+GitHub account name: dongmengshstitution (company): Department of radiology, The First Affiliated Hospital of China Medical University, Shenyang, Liaoning, PR China. 
 License: MIT
 """
 
@@ -36,9 +32,6 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
         # Initialization
         self.machine_learning = {}
         self.configuration_file = ""
-
-        # Set appearance
-        self.set_run_appearance()
 
         # Debug
         cgitb.enable(display=1, logdir=None)  
@@ -65,6 +58,9 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
         self.radioButton_classification_gaussianprocess.clicked.connect(self.switche_stacked_wedge_for_classification)
         self.radioButton_classification_randomforest.clicked.connect(self.switche_stacked_wedge_for_classification)
         self.radioButton_classification_adaboost.clicked.connect(self.switche_stacked_wedge_for_classification)
+        
+        # Set appearance
+        self.set_run_appearance()
 
     def set_run_appearance(self):
         """Set style_sheets

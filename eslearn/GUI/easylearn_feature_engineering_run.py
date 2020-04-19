@@ -40,9 +40,6 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
         self.feature_engineering = {}
         self.configuration_file = ""
 
-        # Set appearance
-        self.set_run_appearance()
-
         # Debug
         cgitb.enable(display=1, logdir=None)  
 
@@ -100,6 +97,9 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
         self.actionNavy.triggered.connect(self.set_run_appearance)
         self.actionClassic.triggered.connect(self.set_run_appearance)
 
+        # Set appearance
+        self.set_run_appearance()
+        
     def set_run_appearance(self):
         """Set style_sheets
         """

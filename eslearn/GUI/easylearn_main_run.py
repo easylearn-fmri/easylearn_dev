@@ -17,6 +17,8 @@ from PyQt5.QtGui import QIcon, QPixmap
 from eslearn.stylesheets.PyQt5_stylesheets import PyQt5_stylesheets
 from easylearn_main_gui import Ui_MainWindow
 from easylearn_data_loading_run import EasylearnDataLoadingRun
+from easylearn_feature_engineering_run import EasylearnFeatureEngineeringRun
+from easylearn_machine_learning_run import EasylearnMachineLearningRun
 
 
 class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
@@ -158,7 +160,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
 
         Then, this function will process the data loading.
         """
-        print('data_loading_fun')
+
         self.data_loading = EasylearnDataLoadingRun(self.working_directory)
         self.data_loading.show()
 
@@ -167,14 +169,16 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
 
         Then, this function will process the feature_engineering.
         """
-        print('feature_engineering_fun')
+        self.feature_engineering = EasylearnFeatureEngineeringRun()
+        self.feature_engineering.show()
 
     def machine_learning_fun(self):
         """This function is called when machine_learning button is clicked.
 
         Then, this function will process the data loading.
         """
-        print('machine_learning_fun')
+        self.machine_learning = EasylearnMachineLearningRun()
+        self.machine_learning.show()
 
     def model_evaluation_fun(self):
         """This function is called when model_evaluation button is clicked.
