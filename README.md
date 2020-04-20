@@ -90,13 +90,6 @@ Contributors will first add to the [contributors_list.md](./eslearn/developer/co
 ##### Vacancy 2  
 Contributors will first add to the [contributors_list.md](./eslearn/developer/contributors_list.md). Once your contribution is important or more than or equal to 1/4 of the total code, we will add you as a maintainer. 
 
-##### Vacancy 3  
-Contributors will first add to the [contributors_list.md](./eslearn/developer/contributors_list.md). Once your contribution is important or more than or equal to 1/4 of the total code, we will add you as a maintainer.  
-
-##### Vacancy 4    
-Contributors will first add to the [contributors_list.md](./eslearn/developer/contributors_list.md). Once your contribution is important or more than or equal to 1/4 of the total code, we will add you as a maintainer.  
-
-
 # Contributors  
 The current contributors are in [contributors_list.md](./eslearn/developer/contributors_list.md). Once your contribution is important or more than or equal to 1/4 of the total code, we will add you as a maintainer. 
 
