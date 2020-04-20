@@ -21,3 +21,6 @@
     - 一个简单的用户开发者代码示例
     - 此示例可以算作是项目底层代码的一个整体逻辑的缩影
     - 如果你有更好的代码逻辑或者设计，那么非常希望得到您的指导
+
+### how_to_update_your_folked_rep_with_original.md
+    - 如何保持与easylearn母仓库同步，及如何将自己的贡献加入到easylearn母项目仓库
