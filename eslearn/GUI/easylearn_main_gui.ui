@@ -49,6 +49,99 @@
    </property>
    <layout class="QGridLayout" name="gridLayout">
     <item row="7" column="0">
+     <widget class="QTextBrowser" name="textBrowser">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>20</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>10000000</width>
+        <height>100</height>
+       </size>
+      </property>
+      <property name="midLineWidth">
+       <number>30</number>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="logo">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>100</height>
+       </size>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
+     <widget class="QPushButton" name="model_evaluation">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text">
+       <string>Model Evaluation</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QPushButton" name="data_loading">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <property name="text">
+       <string>Data Loading</string>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>30</width>
+        <height>30</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="0">
+     <widget class="QProgressBar" name="progressBar">
+      <property name="value">
+       <number>0</number>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QPushButton" name="feature_engineering">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text">
+       <string>Feature Engineering</string>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>30</width>
+        <height>30</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="0">
      <layout class="QHBoxLayout" name="save_load">
       <item>
        <widget class="QPushButton" name="quit">
@@ -97,25 +190,6 @@
       </item>
      </layout>
     </item>
-    <item row="2" column="0">
-     <widget class="QPushButton" name="feature_engineering">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="text">
-       <string>Feature Engineering</string>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>30</width>
-        <height>30</height>
-       </size>
-      </property>
-     </widget>
-    </item>
     <item row="3" column="0">
      <widget class="QPushButton" name="machine_learning">
       <property name="sizePolicy">
@@ -132,47 +206,6 @@
         <width>30</width>
         <height>30</height>
        </size>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0">
-     <widget class="QPushButton" name="data_loading">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="styleSheet">
-       <string notr="true"/>
-      </property>
-      <property name="text">
-       <string>Data Loading</string>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>30</width>
-        <height>30</height>
-       </size>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="0">
-     <widget class="QTextBrowser" name="textBrowser">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>20</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>10000000</width>
-        <height>100</height>
-       </size>
-      </property>
-      <property name="midLineWidth">
-       <number>30</number>
       </property>
      </widget>
     </item>
@@ -195,15 +228,8 @@
       </property>
      </widget>
     </item>
-    <item row="8" column="0">
-     <widget class="QProgressBar" name="progressBar">
-      <property name="value">
-       <number>0</number>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="0">
-     <widget class="QPushButton" name="model_evaluation">
+    <item row="6" column="0">
+     <widget class="QPushButton" name="Visualization">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
         <horstretch>0</horstretch>
@@ -211,20 +237,7 @@
        </sizepolicy>
       </property>
       <property name="text">
-       <string>Model Evaluation</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="0">
-     <widget class="QLabel" name="logo">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>100</height>
-       </size>
-      </property>
-      <property name="text">
-       <string/>
+       <string>Visualization</string>
       </property>
      </widget>
     </item>
