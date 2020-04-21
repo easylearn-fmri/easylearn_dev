@@ -1,10 +1,11 @@
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
-"""
+""" CNN for functional connectivity network
+
 Created on Mon Jul 15 15:04:21 2019
-This script is used to training a convolutional neural network,
-then validate and test this model using validation and test data
-@author: Li Chao
-Email: lichao19870617@gmail.com
+This script is used to training validate and test a convolutional neural networ, finally using test data to test the model.
+Validation data is used to optimize the super parameters. Test data must be used only once.
+@author: Li Chao <lichao19870617@gmail.com>
 """
 
 import os
