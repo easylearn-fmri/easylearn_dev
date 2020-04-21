@@ -6,6 +6,8 @@ Created on Mon Jul 15 15:04:21 2019
 This script is used to training validate and test a convolutional neural networ, finally using test data to test the model.
 Validation data is used to optimize the super parameters. Test data must be used only once.
 @author: Li Chao <lichao19870617@gmail.com>
+If you think this code is useful, citing the easylearn software in your paper or code would be greatly appreciated!
+Citing link: https://github.com/easylearn-fmri/easylearn  
 """
 
 import os
