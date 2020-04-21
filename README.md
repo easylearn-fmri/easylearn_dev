@@ -57,9 +57,11 @@ Please refer to [developer link](https://github.com/easylearn-fmri/easylearn/tre
     kexu@vip.sina.com  
     Brain Function Research Section, The First Affiliated Hospital of China Medical University, Shenyang, Liaoning, PR China.  
     Department of Radiology, The First Affiliated Hospital of China Medical University.
+
 ##### Chao Li
     lichao19870617@gmail.com
     Brain Function Research Section, The First Affiliated Hospital of China Medical University, Shenyang, Liaoning, PR China.  
+    
 ##### Mengshi Dong
     dongmengshi1990@163.com  
     Department of Radiology, The First Affiliated Hospital of China Medical University, Shenyang, Liaoning, PR China.   
