@@ -421,7 +421,7 @@ meanFD_550 = [
 ]
 
 f, p = oneway_anova(*meanFD_550)
-ViolinPlot().plot(meanFD_550, ylabel='mean FD', ylabelsize=15, xticklabel=label_550)
+ViolinPlot().plot(meanFD_550, ylabel='mean FD', ylabelsize=15, xticklabel=label_550, xticklabel_rotation=45)
 y_major_locator=MultipleLocator(0.05)
 ax = plt.gca()
 ax.yaxis.set_major_locator(y_major_locator)
@@ -436,5 +436,6 @@ if is_savefig_headmotion:
     pdf = PdfPages(r'D:\WorkStation_2018\SZ_classification\Figure\headmotion_dataset1.pdf')
     pdf.savefig()
     pdf.close()
+plt.show()
         
 
