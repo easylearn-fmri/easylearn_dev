@@ -18,6 +18,7 @@ import pickle
 
 from lc_binomialtest import lc_binomialtest
 from eslearn.statistical_analysis.lc_anova import oneway_anova
+from eslearn.visualization.el_violine import ViolinPlot
 
 #%% Inputs
 scale_550_file = r'D:\WorkStation_2018\SZ_classification\Scale\10-24大表.xlsx'
@@ -28,7 +29,7 @@ classification_results_pooling_file = r'D:\WorkStation_2018\SZ_classification\Da
 classification_results_results_leave_one_site_cv_file = r'D:\WorkStation_2018\SZ_classification\Data\ML_data_npy\results_leave_one_site_cv.npy'
 classification_results_feu_file = r'D:\WorkStation_2018\SZ_classification\Data\ML_data_npy\results_unmedicated_and_firstepisode_550.npy'
 is_plot = 1
-is_savefig = 1
+is_savefig = 0
 
 #%% Load and proprocess
 scale_550 = pd.read_excel(scale_550_file)
@@ -372,7 +373,7 @@ if is_plot:
     xticks = ax.get_xticks()
     yticks = ax.get_yticks()
     for i, (y, x, n, m, s) in enumerate(zip(yticks, barcont_all, samplesize_all, mean_all, std_all)):
-        p, _, _, _ = binomial_test(n, np.int(n * x), 0.5, 0.5)
+        p, _, _, _ = lc_binomialtest(n, np.int(n * x), 0.5, 0.5)
         
         if m: plt.text(0.101, y-0.3, f'mean={m:.1f}({s:.1f})', fontsize=15)
         plt.text(0.31, y-0.3, 'N = %.0f' % n, fontsize=15)
@@ -392,52 +393,48 @@ if is_plot:
         pdf.close()
     plt.show()
 
-    #%% Head motion
-    is_savefig_headmotion = 1
+#%% Head motion
+is_savefig_headmotion = 1
 
-    mean_meanFD_550 = [
-        data_firstepisode_SZ_550['mean FD_Power'].mean(axis=0), data_not_firstepisode_SZ_550['mean FD_Power'].mean(axis=0),
-        data_schizophreniform_550['mean FD_Power'].mean(axis=0), data_shortdurationSZ_550['mean FD_Power'].mean(axis=0), data_longdurationSZ_550['mean FD_Power'].mean(axis=0), 
-        data_young_onset_age_550['mean FD_Power'].mean(axis=0), data_old_onset_age_550['mean FD_Power'].mean(axis=0), 
-        data_medicated_SSD_550['mean FD_Power'].mean(axis=0), data_unmedicated_SSD_550['mean FD_Power'].mean(axis=0), data_unmedicated_schizophreniform_550['mean FD_Power'].mean(axis=0), 
-        data_unmedicated_SZ_550['mean FD_Power'].mean(axis=0), data_firstepisode_unmedicated_SZ_550['mean FD_Power'].mean(axis=0), data_chronic_unmedicated_SZ_550['mean FD_Power'].mean(axis=0)
-    ]
+mean_meanFD_550 = [
+    data_firstepisode_SZ_550['mean FD_Power'].mean(axis=0), data_not_firstepisode_SZ_550['mean FD_Power'].mean(axis=0),
+    data_schizophreniform_550['mean FD_Power'].mean(axis=0), data_shortdurationSZ_550['mean FD_Power'].mean(axis=0), data_longdurationSZ_550['mean FD_Power'].mean(axis=0), 
+    data_young_onset_age_550['mean FD_Power'].mean(axis=0), data_old_onset_age_550['mean FD_Power'].mean(axis=0), 
+    data_medicated_SSD_550['mean FD_Power'].mean(axis=0), data_unmedicated_SSD_550['mean FD_Power'].mean(axis=0), data_unmedicated_schizophreniform_550['mean FD_Power'].mean(axis=0), 
+    data_unmedicated_SZ_550['mean FD_Power'].mean(axis=0), data_firstepisode_unmedicated_SZ_550['mean FD_Power'].mean(axis=0), data_chronic_unmedicated_SZ_550['mean FD_Power'].mean(axis=0)
+]
 
-    std_meanFD_550 = [
-        data_firstepisode_SZ_550['mean FD_Power'].std(), data_not_firstepisode_SZ_550['mean FD_Power'].std(),
-        data_schizophreniform_550['mean FD_Power'].std(), data_shortdurationSZ_550['mean FD_Power'].std(), data_longdurationSZ_550['mean FD_Power'].std(), 
-        data_young_onset_age_550['mean FD_Power'].std(), data_old_onset_age_550['mean FD_Power'].std(), 
-        data_medicated_SSD_550['mean FD_Power'].std(), data_unmedicated_SSD_550['mean FD_Power'].std(), data_unmedicated_schizophreniform_550['mean FD_Power'].std(), 
-        data_unmedicated_SZ_550['mean FD_Power'].std(), data_firstepisode_unmedicated_SZ_550['mean FD_Power'].std(), data_chronic_unmedicated_SZ_550['mean FD_Power'].std()
-    ]
+std_meanFD_550 = [
+    data_firstepisode_SZ_550['mean FD_Power'].std(), data_not_firstepisode_SZ_550['mean FD_Power'].std(),
+    data_schizophreniform_550['mean FD_Power'].std(), data_shortdurationSZ_550['mean FD_Power'].std(), data_longdurationSZ_550['mean FD_Power'].std(), 
+    data_young_onset_age_550['mean FD_Power'].std(), data_old_onset_age_550['mean FD_Power'].std(), 
+    data_medicated_SSD_550['mean FD_Power'].std(), data_unmedicated_SSD_550['mean FD_Power'].std(), data_unmedicated_schizophreniform_550['mean FD_Power'].std(), 
+    data_unmedicated_SZ_550['mean FD_Power'].std(), data_firstepisode_unmedicated_SZ_550['mean FD_Power'].std(), data_chronic_unmedicated_SZ_550['mean FD_Power'].std()
+]
   
-    meanFD_550 = [
-        data_firstepisode_SZ_550['mean FD_Power'], data_not_firstepisode_SZ_550['mean FD_Power'],
-        data_schizophreniform_550['mean FD_Power'], data_shortdurationSZ_550['mean FD_Power'], data_longdurationSZ_550['mean FD_Power'], 
-        data_young_onset_age_550['mean FD_Power'], data_old_onset_age_550['mean FD_Power'], 
-        data_medicated_SSD_550['mean FD_Power'], data_unmedicated_SSD_550['mean FD_Power'], data_unmedicated_schizophreniform_550['mean FD_Power'], 
-        data_unmedicated_SZ_550['mean FD_Power'], data_firstepisode_unmedicated_SZ_550['mean FD_Power'], data_chronic_unmedicated_SZ_550['mean FD_Power']
-    ]
-    
-    f, p = oneway_anova(*meanFD_550)
-    plt.figure(figsize=(8,10))
-    plt.bar(range(13), mean_meanFD_550, yerr=std_meanFD_550, color='darkturquoise', capsize=5, linewidth=2)
-    plt.tick_params(labelsize=20)
-    plt.xticks(range(len(label_550)), label_550, fontsize=15, rotation=90)
-    plt.title('mean FD', fontsize=20, fontweight='bold')
-    y_major_locator=MultipleLocator(0.02)
-    ax = plt.gca()
-    ax.yaxis.set_major_locator(y_major_locator)
-    ax.spines['top'].set_visible(False)
-    ax.spines['right'].set_visible(False)
-    ax.spines['bottom'].set_linewidth(2)
-    ax.spines['left'].set_linewidth(2)
-    plt.grid(axis='y')
+meanFD_550 = [
+    data_firstepisode_SZ_550['mean FD_Power'], data_not_firstepisode_SZ_550['mean FD_Power'],
+    data_schizophreniform_550['mean FD_Power'], data_shortdurationSZ_550['mean FD_Power'], data_longdurationSZ_550['mean FD_Power'], 
+    data_young_onset_age_550['mean FD_Power'], data_old_onset_age_550['mean FD_Power'], 
+    data_medicated_SSD_550['mean FD_Power'], data_unmedicated_SSD_550['mean FD_Power'], data_unmedicated_schizophreniform_550['mean FD_Power'], 
+    data_unmedicated_SZ_550['mean FD_Power'], data_firstepisode_unmedicated_SZ_550['mean FD_Power'], data_chronic_unmedicated_SZ_550['mean FD_Power']
+]
 
-    if is_savefig_headmotion:
-        plt.tight_layout()
-        plt.subplots_adjust(left=0.25, wspace = 0.5, hspace = 0.5)  # wspace 左右
-        pdf = PdfPages(r'D:\WorkStation_2018\SZ_classification\Figure\headmotion_dataset1.pdf')
-        pdf.savefig()
-        pdf.close()
+f, p = oneway_anova(*meanFD_550)
+ViolinPlot().plot(meanFD_550, ylabel='mean FD', ylabelsize=15, xticklabel=label_550)
+y_major_locator=MultipleLocator(0.05)
+ax = plt.gca()
+ax.yaxis.set_major_locator(y_major_locator)
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+ax.spines['bottom'].set_linewidth(2)
+ax.spines['left'].set_linewidth(2)
+
+if is_savefig_headmotion:
+    plt.tight_layout()
+    plt.subplots_adjust(left=0.25, wspace = 0.5, hspace = 0.5)  # wspace 左右
+    pdf = PdfPages(r'D:\WorkStation_2018\SZ_classification\Figure\headmotion_dataset1.pdf')
+    pdf.savefig()
+    pdf.close()
         
+
