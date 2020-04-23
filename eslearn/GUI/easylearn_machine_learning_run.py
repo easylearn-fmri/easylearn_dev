@@ -47,6 +47,10 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
         self.actionNavy.triggered.connect(self.set_run_appearance)
         self.actionClassic.triggered.connect(self.set_run_appearance)
 
+        # Connect configuration functions
+        self.actionLoad_configuration.triggered.connect(self.load_configuration)
+        self.actionSave_configuration.triggered.connect(self.save_configuration)
+
         # connect classification setting signal to slot: switche to corresponding stackedWidget
         self.classification_stackedwedge_dict = {
             "Logistic regression": 0, "Support vector machine": 1, "Ridge classification": 2,
@@ -101,7 +105,7 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
                 self.radioButton_classificaton_lr:{
                     "Logistic regression": {
                         "maxl1ratio": {"value": self.doubleSpinBox_clf_lr_maxl1ratio.text(), "wedget": self.doubleSpinBox_clf_lr_maxl1ratio},
-                        "minl1ratio": {"value": self.doubleSpinBox_clf_lr_maxl1ratio.text(), "wedget": self.doubleSpinBox_clf_lr_minl1ration}, 
+                        "minl1ratio": {"value": self.doubleSpinBox_clf_lr_maxl1ratio.text(), "wedget": self.doubleSpinBox_clf_lr_minl1ratio}, 
                         "numberl1ratio": {"value": self.spinBox__clf_lr_numl1ratio.text(), "wedget": self.spinBox__clf_lr_numl1ratio},
                     },
                 }, 
@@ -146,150 +150,13 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
 
             },
 
-            "regression": {
-                self.radioButton_pca: {
-                    "Principal component analysis": {
-                        "min": {"value": self.doubleSpinBox_pca_maxcomponents.text(), "wedget": self.doubleSpinBox_pca_maxcomponents}, 
-                        "max": {"value": self.doubleSpinBox_pca_mincomponents.text(), "wedget": self.doubleSpinBox_pca_mincomponents}, 
-                        "number": {"value": self.spinBox_pcanum.text(), "wedget": self.spinBox_pcanum}
-                    }, 
-                },
-
-                self.radioButton_ica: {
-                    "Independent component analysis": { 
-                            "min": {"value": self.doubleSpinBox_ica_minics.text(), "wedget": self.doubleSpinBox_ica_minics}, 
-                            "max": {"value": self.doubleSpinBox_ica_maxics.text(), "wedget": self.doubleSpinBox_ica_maxics}, 
-                            "number": {"value": self.spinBox_icnum.text(), "wedget": self.spinBox_icnum},
-                    }
-                },
-
-                self.radioButton_lda: {"lda": {}},
-
-                self.radioButton_nmf: {
-                    "Non-negative matrix factorization": {
-                        "min": {"value": self.doubleSpinBox_nmf_mincompnents.text(), "wedget": self.doubleSpinBox_nmf_mincompnents}, 
-                        "max": {"value": self.doubleSpinBox_nmf_maxcomponents.text(), "wedget": self.doubleSpinBox_nmf_maxcomponents}, 
-                        "number": {"value": self.spinBox_icnum.text(), "wedget": self.spinBox_icnum},
-                    }
-                },
-
-                self.radioButton_none: {"none": {}}
-            },
-
-            "feature_selection": {
-                self.radioButton_variance_threshold: {
-                    "Variance threshold": {
-                        "min": {"value": self.doubleSpinBox_variancethreshold_min.text(), "wedget": self.doubleSpinBox_variancethreshold_min}, 
-                        "max": {"value": self.doubleSpinBox_variancethreshold_max.text(), "wedget": self.doubleSpinBox_variancethreshold_max}, 
-                        "number": {"value": self.spinBox_variancethreshold_num.text(), "wedget": self.spinBox_variancethreshold_num}
-                    }
-                },
-
-                self.radioButton_correlation: {
-                    "Correlation": {
-                        "min": {"value": self.doubleSpinBox_correlation_minabscoef.text(), "wedget": self.doubleSpinBox_correlation_minabscoef}, 
-                        "max": {"value": self.doubleSpinBox_correlation_maxabscoef.text(), "wedget": self.doubleSpinBox_correlation_maxabscoef}, 
-                        "number": {"value": self.spinBox_correlation_num.text(), "wedget": self.spinBox_correlation_num},
-                    }
-                }, 
-
-                self.radioButton_distancecorrelation: {
-                    "Distance correlation": {
-                        "min": {"value": self.doubleSpinBox_distancecorrelation_minabscoef.text(), "wedget": self.doubleSpinBox_distancecorrelation_minabscoef}, 
-                        "max": {"value": self.doubleSpinBox_distancecorrelation_maxabscoef.text(), "wedget": self.doubleSpinBox_distancecorrelation_maxabscoef}, 
-                        "number": {"value": self.spinBox_distancecorrelation_num.text(), "wedget": self.spinBox_distancecorrelation_num},
-                    }
-                },
-
-                self.radioButton_fscore: {
-                    "F-Score (classification)": {
-                        "max":{"value": self.doubleSpinBox_fscore_maxnum.text(), "wedget": self.doubleSpinBox_fscore_maxnum}, 
-                        "min": {"value":self.doubleSpinBox_fscore_minnum.text(), "wedget": self.doubleSpinBox_fscore_minnum}, 
-                        "number": {"value":self.spinBox_fscore_num.text(), "wedget": self.spinBox_fscore_num},
-                    }
-                }, 
-
-                self.radioButton_mutualinfo_cls: {
-                    "Mutual information (classification)": {
-                        "max": {"value": self.doubleSpinBox_mutualinfocls_maxnum.text(), "wedget": self.doubleSpinBox_mutualinfocls_maxnum}, 
-                        "min": {"value": self.doubleSpinBox_mutualinfocls_minnum.text(), "wedget": self.doubleSpinBox_mutualinfocls_minnum},
-                        "number": {"value": self.spinBox_mutualinfocls_num.text(), "wedget":  self.spinBox_mutualinfocls_num},
-                        "n_neighbors": {"value": self.spinBox_mutualinfocls_neighbors.text(), "wedget": self.spinBox_mutualinfocls_neighbors},
-                    }
-                }, 
-
-                self.radioButton_mutualinfo_regression: {
-                    "Mutual information (regression)": {
-                        "max": {"value": self.doubleSpinBox_mutualinforeg_maxnum.text(), "wedget": self.doubleSpinBox_mutualinforeg_maxnum}, 
-                        "min": {"value": self.doubleSpinBox_mutualinforeg_minnum.text(), "wedget": self.doubleSpinBox_mutualinforeg_minnum},
-                        "number": {"value": self.spinBox_mutualinforeg_num.text(), "wedget":  self.spinBox_mutualinforeg_num},
-                        "n_neighbors": {"value": self.spinBox_mutualinforeg_neighbors.text(), "wedget": self.spinBox_mutualinforeg_neighbors},
-                    }
-                }, 
-
-                self.radioButton_relieff: {
-                    "ReliefF": {
-                        "max": {"value": self.doubleSpinBox_relieff_max.text(), "wedget": self.doubleSpinBox_relieff_max}, 
-                        "min": {"value": self.doubleSpinBox_relieff_min.text(), "wedget": self.doubleSpinBox_relieff_min}, 
-                        "number": {"value": self.spinBox_relief_num.text(), "wedget": self.spinBox_relief_num},
-                    }
-                }, 
-
-                self.radioButton_anova: {
-                    "ANOVA": {
-                        "max": {"value": self.doubleSpinBox_anova_alpha_max.text(), "wedget": self.doubleSpinBox_anova_alpha_max}, 
-                        "min": {"value": self.doubleSpinBox_anova_alpha_min.text(), "wedget": self.doubleSpinBox_anova_alpha_min}, 
-                        "number": {"value": self.spinBox_anova_num.text(), "wedget": self.spinBox_anova_num}, 
-                        "multiple_correction": {"value": self.comboBox_anova_multicorrect.currentText(), "wedget": self.comboBox_anova_multicorrect},
-                    }
-                }, 
-
-                self.radioButton_rfe: {
-                    "RFE": {
-                        "step": {"value": self.doubleSpinBox_rfe_step.text(), "wedget": self.doubleSpinBox_rfe_step}, 
-                        "n_folds": {"value": self.spinBox_rfe_nfold.text(), "wedget":  self.spinBox_rfe_nfold}, 
-                        "estimator": {"value": self.comboBox_rfe_estimator.currentText(), "wedget": self.comboBox_rfe_estimator}, 
-                        "n_jobs": {"value": self.spinBox_rfe_njobs.text(), "wedget": self.spinBox_rfe_njobs}
-                    }
-                },
-
-                self.radioButton_l1: {
-                    "L1 regularization (Lasso)": {
-                        "max": {"va1ue": self.doubleSpinBox_l1_alpha_max.text(), "wedget": self.doubleSpinBox_l1_alpha_max}, 
-                        "min": {"va1ue": self.doubleSpinBox_l1_alpha_min.text(), "wedget": self.doubleSpinBox_l1_alpha_min}, 
-                        "number": {"va1ue": self.spinBox_l1_num.text(), "wedget": self.spinBox_l1_num}
-                    }
-                }, 
-
-                self.radioButton_elasticnet: {
-                    "L1 + L2 regularization (Elastic net regression)": {
-                        "max_alpha": {"value": self.doubleSpinBox_elasticnet_alpha_max.text(), "wedget": self.doubleSpinBox_elasticnet_alpha_max}, 
-                        "min_alpha": {"value": self.doubleSpinBox_elasticnet_alpha_min.text(), "wedget": self.doubleSpinBox_elasticnet_alpha_min}, 
-                        "number_alpha": {"value": self.spinBox_elasticnet_num.text(), "wedget": self.spinBox_elasticnet_num}, 
-                        "max_l1ratio": {"value": self.doubleSpinBox_elasticnet_l1ratio_max.text(), "wedget": self.doubleSpinBox_elasticnet_l1ratio_max}, 
-                        "min_l1ratio": {"value": self.doubleSpinBox_elasticnet_l1ratio_min.text(), "wedget":  self.doubleSpinBox_elasticnet_l1ratio_min}, 
-                        "Number_l1ratio": {"value": self.spinBox_l1ratio_num.text(), "wedget":  self.spinBox_l1ratio_num},
-                    }
-                }
-            },
-
-            "unbalance_treatment": {
-                self.radioButton_randover: {"randover": {}}, 
-                self.radioButton_smoteover: {"somteover": {}},
-                self.radioButton_smotencover: {"somtencover": {}}, 
-                self.radioButton_bsmoteover: {"bsmoteover": {}},
-                self.radioButton_randunder: {"randunder": {}}, 
-                self.radioButton_extractionunder: {"extractionunder": {}},
-                self.radioButton_cludterunder: {"clusterunder": {}}, 
-                self.radioButton_nearmissunder: {"nearmissunder": {}},
-            }
         }
 
         #%% ----------------------------------get current inputs---------------------------------------
-        for key_feature_engineering in self.all_backup_inputs:
-            for keys_one_feature_engineering in self.all_backup_inputs[key_feature_engineering]:
-                if keys_one_feature_engineering.isChecked():
-                    self.machine_learning[key_feature_engineering] = self.all_backup_inputs[key_feature_engineering][keys_one_feature_engineering]
+        for key_machine_learning in self.all_backup_inputs:
+            for keys_one_machine_learning in self.all_backup_inputs[key_machine_learning]:
+                if keys_one_machine_learning.isChecked():
+                    self.machine_learning[key_machine_learning] = self.all_backup_inputs[key_machine_learning][keys_one_machine_learning]
 
     def load_configuration(self):
         """Load configuration, and refresh_gui configuration in GUI
@@ -346,43 +213,41 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
         print("refresh_gui")
         # Generate a dict for switch stacked wedgets
         switch_dict = {
-            "feature_preprocessing": self.switche_stacked_wedge_for_preprocessing,
-            "dimreduction": self.switche_stacked_wedge_for_classification,
-            "feature_selection": self.switche_stacked_wedge_for_feature_selection,
+            "classification": self.switche_stacked_wedge_for_classification,
         }
 
-        for keys_one_feature_engineering in self.all_backup_inputs:  # 4 feature eng module loop
-            for wedget in self.all_backup_inputs[keys_one_feature_engineering].keys():  # all wedgets in one feature eng loop
-                for method in self.all_backup_inputs[keys_one_feature_engineering][wedget].keys():
-                    if keys_one_feature_engineering in self.machine_learning.keys():
-                        if method in list(self.machine_learning[keys_one_feature_engineering].keys()):
+        for keys_one_machine_learning in self.all_backup_inputs:  # 4 feature eng module loop
+            for wedget in self.all_backup_inputs[keys_one_machine_learning].keys():  # all wedgets in one feature eng loop
+                for method in self.all_backup_inputs[keys_one_machine_learning][wedget].keys():
+                    if keys_one_machine_learning in self.machine_learning.keys():
+                        if method in list(self.machine_learning[keys_one_machine_learning].keys()):
                             # Make the wedget checked according loaded param
                             wedget.setChecked(True)   
                             # Make setting to loaded text
-                            for key_setting in self.machine_learning[keys_one_feature_engineering][method]:
+                            for key_setting in self.machine_learning[keys_one_machine_learning][method]:
 
-                                print(keys_one_feature_engineering)
+                                print(keys_one_machine_learning)
                                 print(wedget)
                                 print(key_setting)
-                                print(self.all_backup_inputs[keys_one_feature_engineering][wedget][method][key_setting].keys())
+                                print(self.all_backup_inputs[keys_one_machine_learning][wedget][method][key_setting].keys())
 
-                                if "wedget" in list(self.all_backup_inputs[keys_one_feature_engineering][wedget][method][key_setting].keys()):
-                                    loaded_text = self.machine_learning[keys_one_feature_engineering][method][key_setting]["value"]
+                                if "wedget" in list(self.all_backup_inputs[keys_one_machine_learning][wedget][method][key_setting].keys()):
+                                    loaded_text = self.machine_learning[keys_one_machine_learning][method][key_setting]["value"]
                                     print(f"method = {method}, setting = {key_setting}, loaded_text={loaded_text}") 
 
                                     # Identity wedget type, then using different methods to "setText"
                                     # NOTE. 所有控件在设计时，尽量保留原控件的名字在命名的前部分，这样下面才好确定时哪一种类型的控件，从而用不同的赋值方式！
-                                    if "lineEdit" in self.all_backup_inputs[keys_one_feature_engineering][wedget][method][key_setting]["wedget"].objectName():
-                                        self.all_backup_inputs[keys_one_feature_engineering][wedget][method][key_setting]["wedget"].setText(loaded_text)
-                                    elif "doubleSpinBox" in self.all_backup_inputs[keys_one_feature_engineering][wedget][method][key_setting]["wedget"].objectName():
-                                        self.all_backup_inputs[keys_one_feature_engineering][wedget][method][key_setting]["wedget"].setValue(float(loaded_text))
-                                    elif "spinBox" in self.all_backup_inputs[keys_one_feature_engineering][wedget][method][key_setting]["wedget"].objectName():
-                                        self.all_backup_inputs[keys_one_feature_engineering][wedget][method][key_setting]["wedget"].setValue(int(loaded_text))
-                                    elif "comboBox" in self.all_backup_inputs[keys_one_feature_engineering][wedget][method][key_setting]["wedget"].objectName():
-                                        self.all_backup_inputs[keys_one_feature_engineering][wedget][method][key_setting]["wedget"].setCurrentText(loaded_text)
+                                    if "lineEdit" in self.all_backup_inputs[keys_one_machine_learning][wedget][method][key_setting]["wedget"].objectName():
+                                        self.all_backup_inputs[keys_one_machine_learning][wedget][method][key_setting]["wedget"].setText(loaded_text)
+                                    elif "doubleSpinBox" in self.all_backup_inputs[keys_one_machine_learning][wedget][method][key_setting]["wedget"].objectName():
+                                        self.all_backup_inputs[keys_one_machine_learning][wedget][method][key_setting]["wedget"].setValue(float(loaded_text))
+                                    elif "spinBox" in self.all_backup_inputs[keys_one_machine_learning][wedget][method][key_setting]["wedget"].objectName():
+                                        self.all_backup_inputs[keys_one_machine_learning][wedget][method][key_setting]["wedget"].setValue(int(loaded_text))
+                                    elif "comboBox" in self.all_backup_inputs[keys_one_machine_learning][wedget][method][key_setting]["wedget"].objectName():
+                                        self.all_backup_inputs[keys_one_machine_learning][wedget][method][key_setting]["wedget"].setCurrentText(loaded_text)
                                     
                                 # Switch stacked wedget
-                                switch_dict[keys_one_feature_engineering](True, method)
+                                switch_dict[keys_one_machine_learning](True, method)
 
     def save_configuration(self):
         """Save configuration
@@ -392,12 +257,13 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
         self.get_current_inputs()
     
         # Delete wedgets object from self.machine_learning dict
-        for feature_engineering_name in list(self.machine_learning.keys()):
-            for method_name in list(self.machine_learning[feature_engineering_name].keys()):
-                for setting in self.machine_learning[feature_engineering_name][method_name]:
-                    for content in list(self.machine_learning[feature_engineering_name][method_name][setting].keys()):
-                        if "wedget" in list(self.machine_learning[feature_engineering_name][method_name][setting].keys()):
-                            self.machine_learning[feature_engineering_name][method_name][setting].pop("wedget")
+        # NOTE: This code is only for current configuration structure
+        for machine_learning_name in list(self.machine_learning.keys()):
+            for method_name in list(self.machine_learning[machine_learning_name].keys()):
+                for setting in list(self.machine_learning[machine_learning_name][method_name].keys()):
+                    for content in list(self.machine_learning[machine_learning_name][method_name][setting].keys()):
+                        if "wedget" in list(self.machine_learning[machine_learning_name][method_name][setting].keys()):
+                            self.machine_learning[machine_learning_name][method_name][setting].pop("wedget")
         
         if self.configuration_file != "":
             try:

@@ -11,7 +11,7 @@ Main GUI of the easylearn
 import sys
 import os
 import json
-from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QFileDialog
+from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QFileDialog, QInputDialog, QLineEdit
 from PyQt5.QtGui import QIcon, QPixmap
 
 from eslearn.stylesheets.PyQt5_stylesheets import PyQt5_stylesheets

@@ -1,0 +1,1 @@
+{"data_loading": {}, "feature_engineering": {}, "machine_learning": {"classification": {"Support vector machine": {"minl1ratio": {"value": "1.00"}, "maxl1ratio": {"value": "1.00"}, "numc": {"value": "0"}, "maxgamma": {"value": ""}, "mingamma": {"value": ""}, "numgamma": {"value": "0"}}}}, "model_evaluation": {}, "statistical_analysis": {}}
