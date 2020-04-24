@@ -1,1 +1,58 @@
-{"data_loading": {}, "feature_engineering": {}, "machine_learning": {"Classification": {"Support vector machine": {"kernel": {"value": "linear"}, "minc": {"value": "1.00"}, "maxc": {"value": "1.00"}, "numc": {"value": "0"}, "maxgamma": {"value": ""}, "mingamma": {"value": ""}, "numgamma": {"value": "0"}}}, "Regression": {"Linear regression": {}}}, "model_evaluation": {}, "statistical_analysis": {}}
+{
+    "data_loading": {
+        "group_0": {
+            "modality_0": {
+                "file": [
+                    "D:/My_Codes/easylearn-fmri/eslearn/GUI/configuration_file.json",
+                    "D:/My_Codes/easylearn-fmri/eslearn/GUI/dec.py",
+                    "D:/My_Codes/easylearn-fmri/eslearn/GUI/easylearn_data_loading_gui.py",
+                    "D:/My_Codes/easylearn-fmri/eslearn/GUI/easylearn_data_loading_gui.ui",
+                    "D:/My_Codes/easylearn-fmri/eslearn/GUI/easylearn_data_loading_run.py",
+                    "D:/My_Codes/easylearn-fmri/eslearn/GUI/easylearn_feature_engineering.py",
+                    "D:/My_Codes/easylearn-fmri/eslearn/GUI/easylearn_feature_engineering_gui.py",
+                    "D:/My_Codes/easylearn-fmri/eslearn/GUI/easylearn_feature_engineering_gui.ui"
+                ],
+                "mask": "",
+                "targets": [],
+                "covariates": []
+            }
+        }
+    },
+    "feature_engineering": {
+        "feature_preprocessing": {
+            "Z-score normalization": {}
+        },
+        "dimreduction": {
+            "Independent component analysis": {
+                "min": {
+                    "value": "0.01"
+                },
+                "max": {
+                    "value": "0.99"
+                },
+                "number": {
+                    "value": "10"
+                }
+            }
+        },
+        "feature_selection": {
+            "ReliefF": {
+                "max": {
+                    "value": "1.00"
+                },
+                "min": {
+                    "value": "0.10"
+                },
+                "number": {
+                    "value": "10"
+                }
+            }
+        },
+        "unbalance_treatment": {
+            "randover": {}
+        }
+    },
+    "machine_learning": {},
+    "model_evaluation": {},
+    "statistical_analysis": {}
+}

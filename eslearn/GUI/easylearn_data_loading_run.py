@@ -191,7 +191,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
             self.configuration["data_loading"] = self.data_loading
             with open(self.configuration_file, 'w', encoding="utf-8") as config:    
                 # Set ensure_ascii=False to save Chinese correctly.
-                config.write(json.dumps(self.configuration, ensure_ascii=False))
+                config.write(json.dumps(self.configuration, ensure_ascii=False, indent=4))
         else:
 
             QMessageBox.warning( self, 'Warning', 'Please choose a configuration file first (press button at top left corner)!')

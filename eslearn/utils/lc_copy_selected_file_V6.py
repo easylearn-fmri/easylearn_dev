@@ -12,22 +12,23 @@ input:
     #   reference_file:需要复制的被试名字所在text文件（大表中的uid）
     #   keywork_of_reference_uid:如提取量表中唯一识别号的正则表达式
     #   ith_number_of_reference_uid: 量表中的唯一识别号有多个匹配项时，选择第几个 （比如有一个名字为subj0001_bold7000, 此时可能匹配到0001和7000，遇到这种情况选择第几个匹配项）
+    #   keywork_of_target_file: 需要移动/赋值的文件的关键字（除uid之外的）
     #   keyword_of_parent_folder_containing_target_file:想把被试的哪个模态/或那个文件夹下的文件复制出来（如同时有'resting'和'dti'时，选择那个模态）
-    #   matching_point_number_of_target_uid_in_backwards:与referenceid匹配的唯一识别号在倒数第几个block内(以target file为起点计算，第一个计数为1)
+    #   unique_id_level_of_target_file:与referenceid匹配的唯一识别号在倒数第几个block内(以target file为起点计算，第一个计数为1)
     #   如'D:\myCodes\workstation_20180829_dynamicFC\FunImgARW\1-500\00002_resting\dti\dic.txt'的唯一识别号在倒数第3个中
     #   keyword_of_target_file_uid:用来筛选mri数据中唯一识别号的正则表达式
     #   ith_number_of_targetfile_uid: target file中的唯一识别号有多个匹配项时，选择第几个.
     #   keyword_of_target_file_uid:用来筛选file的正则表达式或keyword
     #   targe_file_folder：原始数据的根目录
-    #   save_path: 将原始数据copy到哪个大路径
+    #   out_path: 将原始数据copy到哪个大路径
     #   n_processess=5几个线程
     #   is_save_log：是否保存复制log
     #  is_copy：是否执行复制功能
     #  is_move:是否移动（0）
-    #  save_into_one_or_more_folder：保存到每个被试文件夹下，还是保存到一个文件夹下
+    #  save_into_one_or_more_folder：'one_file_one_folder' or 'all_files_in_one_folder'
     #  save_suffix：文件保存的尾缀（'.nii'）
     #  is_run:是否真正对文件执行移动或复制（0）
-    #   总体来说被复制的文件放在如下的路径：save_path/saveFolderName/subjName/files
+    #   总体来说被复制的文件放在如下的路径：out_path/saveFolderName/subjName/files
 @author: LI Chao
 new featrue:真多核多线程处理，类的函数统一返回self
 匹配file name:正则表达式匹配
@@ -48,25 +49,25 @@ sys.path.append(
 class CopyFmri():
     def __init__(
             self,
-            reference_file=r'E:\wangfeidata\uid.txt',
-            targe_file_folder=r'E:\wangfeidata\FunImgARWD',
+            reference_file=None,
+            targe_file_folder=None,
 
             keywork_of_reference_uid='([1-9]\d*)',
             ith_number_of_reference_uid=0,
             keyword_of_target_file_uid='([1-9]\d*)',
             ith_number_of_targetfile_uid=0,
-            matching_point_number_of_target_uid_in_backwards=2,
+            unique_id_level_of_target_file=2,
             
-            keywork_of_target_file_not_for_uid='nii',
+            keywork_of_target_file='nii',
             keyword_of_parent_folder_containing_target_file='',
 
-            save_path=r'E:\wangfeidata',
+            out_path=None,
             n_processess=2,
             is_save_log=1,
             is_copy=0,
             is_move=0,
             save_into_one_or_more_folder='one_file_one_folder',
-            save_suffix='.nii',
+            save_suffix='',
             is_run=0):
 
         self.reference_file = reference_file
@@ -75,13 +76,13 @@ class CopyFmri():
         self.keywork_of_reference_uid = keywork_of_reference_uid
         self.ith_number_of_reference_uid = ith_number_of_reference_uid
         self.keyword_of_target_file_uid = keyword_of_target_file_uid
-        self.matching_point_number_of_target_uid_in_backwards = matching_point_number_of_target_uid_in_backwards
+        self.unique_id_level_of_target_file = unique_id_level_of_target_file
         self.ith_number_of_targetfile_uid = ith_number_of_targetfile_uid
 
-        self.keywork_of_target_file_not_for_uid = keywork_of_target_file_not_for_uid
+        self.keywork_of_target_file = keywork_of_target_file
         self.keyword_of_parent_folder_containing_target_file = keyword_of_parent_folder_containing_target_file
 
-        self.save_path = save_path
+        self.out_path = out_path
         self.n_processess = n_processess
         self.is_save_log = is_save_log
         self.is_copy = is_copy
@@ -94,14 +95,15 @@ class CopyFmri():
     def _after_init(self):
         """ handle the init parameter
         """
+
         # chech param
         if self.is_copy == 1 & self.is_move == 1:
-            print('### Cannot copy and move at the same time! ###\n')
+            raise ValueError('Cannot copy and move at the same time!')
             print('### please press Ctrl+C to close the progress ###\n')
 
         # create save folder
-        if not os.path.exists(self.save_path):
-            os.makedirs(self.save_path)
+        if not os.path.exists(self.out_path):
+            os.makedirs(self.out_path)
 
         # read reference_file(excel or text)
         try:
@@ -134,12 +136,12 @@ class CopyFmri():
 
     def fetch_allSubjName(self):
         '''
-        matching_point_number_of_target_uid_in_backwards:subjName在倒数第几个block内(第一个计数为1)
+        unique_id_level_of_target_file:subjName在倒数第几个block内(第一个计数为1)
         # 如'D:\myCodes\workstation_20180829_dynamicFC\FunImgARW\1-500\00002_resting\dti\dic.txt'
         # 的subjName在倒数第3个中
         '''
         self.allSubjName = self.allFilePath
-        for i in range(self.matching_point_number_of_target_uid_in_backwards - 1):
+        for i in range(self.unique_id_level_of_target_file - 1):
             self.allSubjName = [os.path.dirname(
                 allFilePath_) for allFilePath_ in self.allSubjName]
         self.allSubjName = [os.path.basename(
@@ -236,10 +238,10 @@ class CopyFmri():
     def screen_pathLogicalLocation_accordingTo_fileName(self):
         """ 匹配file name (不是用于提取uid):正则表达式匹配
         """
-        if self.keywork_of_target_file_not_for_uid:
+        if self.keywork_of_target_file:
             self.allFileName = pd.Series(self.allFileName)
             self.logic_index_file_name = self.allFileName.str.contains(
-                self.keywork_of_target_file_not_for_uid)
+                self.keywork_of_target_file)
         else:
             self.logic_index_file_name = np.ones([len(self.allFileName), 1]) == 1
             self.logic_index_file_name = pd.DataFrame(self.logic_index_file_name)
@@ -282,15 +284,15 @@ class CopyFmri():
         # 每个file保存到每个subjxxx文件夹下面
         if self.save_into_one_or_more_folder == 'one_file_one_folder':
             folder_name = subjName.split('.')[0]
-            output_folder = os.path.join(self.save_path, folder_name)
+            output_folder = os.path.join(self.out_path, folder_name)
             # 新建subjxxx文件夹
             if not os.path.exists(output_folder):
                 os.makedirs(output_folder)
 
         # 所有file保存到一个uid下面（file的名字以subjxxx命名）
-        elif self.save_into_one_or_more_folder == 'all_file_one_folder':
+        elif self.save_into_one_or_more_folder == 'all_files_in_one_folder':
             output_folder = os.path.join(
-                self.save_path, subjName + self.save_suffix)
+                self.out_path, subjName + self.save_suffix)
 
         # copying OR moving OR do nothing
         fileIndex = self.allSelectedSubjName_raw[(
@@ -303,8 +305,6 @@ class CopyFmri():
                          output_folder) for fileIndex_ in fileIndex]
         elif self.is_copy == 0 and self.is_move == 0:
             print('### No copy and No move ###\n')
-        else:
-            print('### Cannot copy and move at the same time! ###\n')
 
         print('Copy the {}/{}th subject: {} OK!\n'.format(i + 1, n_allSelectedSubj, subjName))
 
@@ -313,24 +313,17 @@ class CopyFmri():
         # 每个file保存到每个subjxxx文件夹下面
         if self.save_into_one_or_more_folder == 'one_file_one_folder':
             pass
-        elif self.save_into_one_or_more_folder == 'all_file_one_folder':
+        elif self.save_into_one_or_more_folder == 'all_files_in_one_folder':
             pass
         else:
             print(
-                "###没有指定复制到一个文件夹还是每个被试文件夹###\n###{}跟'all_file_one_folder' OR 'one_file_one_folder'都不符合###".format(
+                "###没有指定复制到一个文件夹还是每个被试文件夹###\n###{}跟'all_files_in_one_folder' OR 'one_file_one_folder'都不符合###".format(
                     self.save_into_one_or_more_folder))
 
         # 多线程
         # unique的name
         uniSubjName = self.allSelectedSubjName_raw.iloc[:, 0].unique()
         print('Copying...\n')
-        """
-        # 单线程
-        for i,subjName in enumerate(uniSubjName):
-            self.copy_base(i,subjName)
-        """
-
-        # 多线程
         cores = multiprocessing.cpu_count()
         if self.n_processess > cores:
             self.n_processess = cores - 1
@@ -373,7 +366,7 @@ class CopyFmri():
         print(
             'Files that not found are : {}\n\nThey may be saved in:\n[{}]\n'.format(
                 self.unmatched_ref.values,
-                self.save_path))
+                self.out_path))
         print('=' * 50 + '\n')
 
         # save for checking
@@ -389,7 +382,7 @@ class CopyFmri():
             uniSubjName = pd.DataFrame(uniSubjName)
             uniSubjName.to_csv(
                 os.path.join(
-                    self.save_path,
+                    self.out_path,
                     'log_allSelectedSubjName.txt'),
                 index=False,
                 header=False)
@@ -397,19 +390,19 @@ class CopyFmri():
             # 所有不匹配的被试名称
             self.unmatched_ref.to_csv(
                 os.path.join(
-                    self.save_path,
+                    self.out_path,
                     'log_unmatched_reference.txt'),
                 index=False,
                 header=False)
 
             # 被选路径下所有的文件夹名称
             pd.DataFrame(pd.unique(self.allSubjName.iloc[:, 0])).dropna().to_csv(
-                os.path.join(self.save_path, 'log_alltargetfilename.txt'), index=False, header=False)
+                os.path.join(self.out_path, 'log_alltargetfilename.txt'), index=False, header=False)
 
             # 所有匹配的文件路径
             self.allSelectedFilePath.to_csv(
                 os.path.join(
-                    self.save_path,
+                    self.out_path,
                     'log_allSelectedFilePath.txt'),
                 index=False,
                 header=False)
@@ -417,7 +410,7 @@ class CopyFmri():
             # 保存log
             f = open(
                 os.path.join(
-                    self.save_path,
+                    self.out_path,
                     "log_copy_inputs.txt"),
                 'a')
             f.write("\n\n")
@@ -429,8 +422,8 @@ class CopyFmri():
                 "keyword_of_parent_folder_containing_target_file are: " +
                 self.keyword_of_parent_folder_containing_target_file)
             f.write("\n\n")
-            f.write("matching_point_number_of_target_uid_in_backwards is: " +
-                    str(self.matching_point_number_of_target_uid_in_backwards))
+            f.write("unique_id_level_of_target_file is: " +
+                    str(self.unique_id_level_of_target_file))
             f.write("\n\n")
             f.write("keyword_of_target_file_uid is: " +
                     str(self.keyword_of_target_file_uid))
@@ -440,7 +433,7 @@ class CopyFmri():
             f.write("\n\n")
             f.write("targe_file_folder is: " + self.targe_file_folder)
             f.write("\n\n")
-            f.write("save_path is: " + self.save_path)
+            f.write("out_path is: " + self.out_path)
             f.write("\n\n")
             f.write("n_processess is: " + str(self.n_processess))
             f.write("\n\n")
@@ -454,12 +447,12 @@ class CopyFmri():
 
 # %%
 if __name__ == '__main__':
-    uid = r'D:\WorkStation_2018\WorkStation_dynamicFC_V3\Data\ID_Scale_Headmotion\held_out_samples.txt'
-    target_folder = r'D:\WorkStation_2018\WorkStation_dynamicFC_V1\Data\ROISignals_FumImgARWSFC_screened'
-    save_path = r'D:\WorkStation_2018\WorkStation_dynamicFC_V3\Data\held_out_samples'
+    uid = r'D:\WorkStation_2018\WorkStation_dynamicFC_V3\Data\ID_Scale_Headmotion\id.xlsx'
+    target_folder = r'F:\Data\Doctor\FunImg_our'
+    out_path = r'F:\Data\Doctor\Funimg_610'
     
-    matching_point_number_of_target_uid_in_backwards = 1
-    keywork_of_target_file_not_for_uid = ''
+    unique_id_level_of_target_file = 2
+    keywork_of_target_file = ''
     save_suffix= ''
     
     copy = CopyFmri(
@@ -469,15 +462,15 @@ if __name__ == '__main__':
             ith_number_of_reference_uid=0,
             keyword_of_target_file_uid='([1-9]\d*)',
             ith_number_of_targetfile_uid=0,
-            matching_point_number_of_target_uid_in_backwards=matching_point_number_of_target_uid_in_backwards,
-            keywork_of_target_file_not_for_uid=keywork_of_target_file_not_for_uid,
+            unique_id_level_of_target_file=unique_id_level_of_target_file,
+            keywork_of_target_file=keywork_of_target_file,
             keyword_of_parent_folder_containing_target_file='',
-            save_path=save_path,
+            out_path=out_path,
             n_processess=8,
             is_save_log=1,
-            is_copy=1,
-            is_move=0,
-            save_into_one_or_more_folder='all_file_one_folder',
+            is_copy=0,
+            is_move=1,
+            save_into_one_or_more_folder='one_file_one_folder',
             save_suffix=save_suffix,
             is_run=1)
     

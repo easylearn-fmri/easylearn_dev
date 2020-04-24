@@ -274,7 +274,7 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
             try:
                 # self.configuration = json.dumps(self.configuration, ensure_ascii=False)
                 self.configuration["machine_learning"] = self.machine_learning
-                self.configuration = json.dumps(self.configuration)
+                self.configuration = json.dumps(self.configuration, indent=4)
                 with open(self.configuration_file, 'w', encoding="utf-8") as config:    
                     config.write(self.configuration)
             except json.decoder.JSONDecodeError:
