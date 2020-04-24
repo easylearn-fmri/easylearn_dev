@@ -132,13 +132,16 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
     def get_current_inputs(self):
         """Get all current inputs
 
+        Programme will scan the GUI to determine the user's inputs.
+
         Attrs:
         -----
             self.feature_engineering: dictionary
                 all feature_engineering parameters that the user input.
         """
 
-        self.all_backup_inputs = {
+        # I put all available inputs in a dictionary named all_available_inputs
+        self.all_available_inputs = {
             "feature_preprocessing": {
                 self.radioButton_zscore : {"Z-score normalization": {}}, 
                 self.radioButton_scaling: {
@@ -293,11 +296,11 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
             }
         }
 
-        #%% ----------------------------------get current inputs---------------------------------------
-        for key_feature_engineering in self.all_backup_inputs:
-            for keys_one_feature_engineering in self.all_backup_inputs[key_feature_engineering]:
+        # Get current inputs
+        for key_feature_engineering in self.all_available_inputs:
+            for keys_one_feature_engineering in self.all_available_inputs[key_feature_engineering]:
                 if keys_one_feature_engineering.isChecked():
-                    self.feature_engineering[key_feature_engineering] = self.all_backup_inputs[key_feature_engineering][keys_one_feature_engineering]
+                    self.feature_engineering[key_feature_engineering] = self.all_available_inputs[key_feature_engineering][keys_one_feature_engineering]
 
     def load_configuration(self):
         """Load configuration, and refresh_gui configuration in GUI
@@ -358,9 +361,9 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
             "feature_selection": self.switche_stacked_wedge_for_feature_selection,
         }
 
-        for keys_one_feature_engineering in self.all_backup_inputs:  # 4 feature eng module loop
-            for wedget in self.all_backup_inputs[keys_one_feature_engineering].keys():  # all wedgets in one feature eng loop
-                for method in self.all_backup_inputs[keys_one_feature_engineering][wedget].keys():
+        for keys_one_feature_engineering in self.all_available_inputs:  # 4 feature eng module loop
+            for wedget in self.all_available_inputs[keys_one_feature_engineering].keys():  # all wedgets in one feature eng loop
+                for method in self.all_available_inputs[keys_one_feature_engineering][wedget].keys():
                     if keys_one_feature_engineering in self.feature_engineering.keys():
                         if method in list(self.feature_engineering[keys_one_feature_engineering].keys()):
                             # Make the wedget checked according loaded param
@@ -371,22 +374,22 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
                                 print(keys_one_feature_engineering)
                                 print(wedget)
                                 print(key_setting)
-                                print(self.all_backup_inputs[keys_one_feature_engineering][wedget][method][key_setting].keys())
+                                print(self.all_available_inputs[keys_one_feature_engineering][wedget][method][key_setting].keys())
 
-                                if "wedget" in list(self.all_backup_inputs[keys_one_feature_engineering][wedget][method][key_setting].keys()):
+                                if "wedget" in list(self.all_available_inputs[keys_one_feature_engineering][wedget][method][key_setting].keys()):
                                     loaded_text = self.feature_engineering[keys_one_feature_engineering][method][key_setting]["value"]
                                     print(f"method = {method}, setting = {key_setting}, loaded_text={loaded_text}") 
 
                                     # Identity wedget type, then using different methods to "setText"
                                     # NOTE. 所有控件在设计时，尽量保留原控件的名字在命名的前部分，这样下面才好确定时哪一种类型的控件，从而用不同的赋值方式！
-                                    if "lineEdit" in self.all_backup_inputs[keys_one_feature_engineering][wedget][method][key_setting]["wedget"].objectName():
-                                        self.all_backup_inputs[keys_one_feature_engineering][wedget][method][key_setting]["wedget"].setText(loaded_text)
-                                    elif "doubleSpinBox" in self.all_backup_inputs[keys_one_feature_engineering][wedget][method][key_setting]["wedget"].objectName():
-                                        self.all_backup_inputs[keys_one_feature_engineering][wedget][method][key_setting]["wedget"].setValue(float(loaded_text))
-                                    elif "spinBox" in self.all_backup_inputs[keys_one_feature_engineering][wedget][method][key_setting]["wedget"].objectName():
-                                        self.all_backup_inputs[keys_one_feature_engineering][wedget][method][key_setting]["wedget"].setValue(int(loaded_text))
-                                    elif "comboBox" in self.all_backup_inputs[keys_one_feature_engineering][wedget][method][key_setting]["wedget"].objectName():
-                                        self.all_backup_inputs[keys_one_feature_engineering][wedget][method][key_setting]["wedget"].setCurrentText(loaded_text)
+                                    if "lineEdit" in self.all_available_inputs[keys_one_feature_engineering][wedget][method][key_setting]["wedget"].objectName():
+                                        self.all_available_inputs[keys_one_feature_engineering][wedget][method][key_setting]["wedget"].setText(loaded_text)
+                                    elif "doubleSpinBox" in self.all_available_inputs[keys_one_feature_engineering][wedget][method][key_setting]["wedget"].objectName():
+                                        self.all_available_inputs[keys_one_feature_engineering][wedget][method][key_setting]["wedget"].setValue(float(loaded_text))
+                                    elif "spinBox" in self.all_available_inputs[keys_one_feature_engineering][wedget][method][key_setting]["wedget"].objectName():
+                                        self.all_available_inputs[keys_one_feature_engineering][wedget][method][key_setting]["wedget"].setValue(int(loaded_text))
+                                    elif "comboBox" in self.all_available_inputs[keys_one_feature_engineering][wedget][method][key_setting]["wedget"].objectName():
+                                        self.all_available_inputs[keys_one_feature_engineering][wedget][method][key_setting]["wedget"].setCurrentText(loaded_text)
                                     
                                 # Switch stacked wedget
                                 switch_dict[keys_one_feature_engineering](True, method)

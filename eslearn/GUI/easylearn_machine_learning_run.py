@@ -24,6 +24,13 @@ from easylearn_machine_learning_gui import Ui_MainWindow
 
 
 class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
+    """The GUI of the machine_learning module of easylearn
+
+    All users' input will save to configuration_file for finally run the whole machine learning pipeline.
+    Specificity, the self.machine_learning configuration will save to the configuration_file that the user created in 
+    the main window.
+    """
+
     def __init__(self, working_directory=None):
         QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
@@ -51,7 +58,16 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
         self.actionLoad_configuration.triggered.connect(self.load_configuration)
         self.actionSave_configuration.triggered.connect(self.save_configuration)
 
-        # connect classification setting signal to slot: switche to corresponding stackedWidget
+        # connect to radioButton of machine learning type: switche to corresponding machine learning type window
+        self.machine_learning_type_stackedwedge_dict = {
+            "Classification": 0, "Regression": 1, "Clustering": 2, "Deep learning": 3,
+        }
+        self.radioButton_classification.clicked.connect(self.switche_stacked_wedge_for_machine_learning_type)
+        self.radioButton_regression.clicked.connect(self.switche_stacked_wedge_for_machine_learning_type)
+        self.radioButton_clustering.clicked.connect(self.switche_stacked_wedge_for_machine_learning_type)
+        self.radioButton_deeplearning.clicked.connect(self.switche_stacked_wedge_for_machine_learning_type)
+
+        # connect classification setting signal to slot: switche to corresponding classification model
         self.classification_stackedwedge_dict = {
             "Logistic regression": 0, "Support vector machine": 1, "Ridge classification": 2,
             "Gaussian process": 3, "Random forest": 4, "AdaBoost": 5
@@ -94,14 +110,17 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
     def get_current_inputs(self):
         """Get all current inputs
 
+        Programme will scan the GUI to determine the user's inputs.
+
         Attrs:
         -----
             self.machine_learning: dictionary
                 all machine_learning parameters that the user input.
         """
 
-        self.all_backup_inputs = {
-            "classification": {
+        # I put all available inputs in a dictionary named all_available_inputs
+        self.all_available_inputs = {
+            "Classification": {
                 self.radioButton_classificaton_lr:{
                     "Logistic regression": {
                         "maxl1ratio": {"value": self.doubleSpinBox_clf_lr_maxl1ratio.text(), "wedget": self.doubleSpinBox_clf_lr_maxl1ratio},
@@ -112,8 +131,9 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
 
                 self.radioButton_classification_svm:{
                     "Support vector machine": {
-                        "minl1ratio": {"value": self.doubleSpinBox_clf_svm_minc.text(), "wedget": self.doubleSpinBox_clf_svm_minc}, 
-                        "maxl1ratio": {"value": self.doubleSpinBox_clf_svm_maxc.text(), "wedget": self.doubleSpinBox_clf_svm_maxc},
+                        "kernel": {"value": self.comboBox_clf_svm_kernel.currentText(), "wedget": self.comboBox_clf_svm_kernel},
+                        "minc": {"value": self.doubleSpinBox_clf_svm_minc.text(), "wedget": self.doubleSpinBox_clf_svm_minc}, 
+                        "maxc": {"value": self.doubleSpinBox_clf_svm_maxc.text(), "wedget": self.doubleSpinBox_clf_svm_maxc},
                         "numc": {"value": self.spinBox_clf_svm_numc.text(), "wedget": self.spinBox_clf_svm_numc},
                         "maxgamma": {"value": self.lineEdit_clf_svm_maxgamma.text(), "wedget": self.lineEdit_clf_svm_maxgamma},
                         "mingamma": {"value": self.lineEdit_clf_svm_mingamma.text(), "wedget": self.lineEdit_clf_svm_mingamma},
@@ -147,16 +167,40 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
                         "maxestimators": {"value": self.spinBox_clf_adaboost_maxestimators.text(), "wedget": self.spinBox_clf_adaboost_maxestimators},
                     },
                 },
+            },
 
+            "Regression": {
+                self.radioButton_regression_linearregression:{
+                    "Linear regression": {
+                        
+                    },
+                }, 
+            },
+
+            "Clustering": {
+                self.radioButton_clustering_kmeans:{
+                    "K-means clustering": {
+                        
+                    },
+                }, 
+            },
+
+
+            "Deep learning": {
+                self.radioButton_regression_linearregression:{
+                    "Linear regression": {
+                        
+                    },
+                }, 
             },
 
         }
 
-        #%% ----------------------------------get current inputs---------------------------------------
-        for key_machine_learning in self.all_backup_inputs:
-            for keys_one_machine_learning in self.all_backup_inputs[key_machine_learning]:
-                if keys_one_machine_learning.isChecked():
-                    self.machine_learning[key_machine_learning] = self.all_backup_inputs[key_machine_learning][keys_one_machine_learning]
+        # Get current inputs
+        for key_machine_learning in self.all_available_inputs:
+            for mltype in self.all_available_inputs[key_machine_learning]:
+                if mltype.isChecked():
+                    self.machine_learning[key_machine_learning] = self.all_available_inputs[key_machine_learning][mltype]
 
     def load_configuration(self):
         """Load configuration, and refresh_gui configuration in GUI
@@ -183,10 +227,12 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
                     # If the loaded self.configuration["machine_learning"] is not empty
                     # Then ask if rewrite self.machine_learning with self.configuration["machine_learning"]
                     if (list(self.configuration["machine_learning"].keys()) != []):
-                        reply = QMessageBox.question(self, "Data loading configuration already exists", 
-                                                    "The machine_learning configuration is already exists, do you want to rewrite it with the  loaded configuration?",
-                                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-           
+                        reply = QMessageBox.question(
+                            self, "Data loading configuration already exists", 
+                            "The machine_learning configuration is already exists, do you want to rewrite it with the  loaded configuration?",
+                             QMessageBox.Yes | QMessageBox.No, QMessageBox.No
+                        )
+
                         if reply == QMessageBox.Yes:  
                             self.machine_learning = self.configuration["machine_learning"]
                             self.refresh_gui()
@@ -197,63 +243,18 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
                 else:
                     self.machine_learning = self.configuration["machine_learning"]
                     self.refresh_gui()
-
             except json.decoder.JSONDecodeError:
                 QMessageBox.warning( self, 'Warning', f'{self.configuration_file} is not valid JSON')
                 self.configuration_file = ""
    
         else:
-
             QMessageBox.warning( self, 'Warning', 'Configuration file was not selected')
 
-    def refresh_gui(self):
-        """ Refresh gui the display the loaded configuration in the GUI
-        """
-
-        print("refresh_gui")
-        # Generate a dict for switch stacked wedgets
-        switch_dict = {
-            "classification": self.switche_stacked_wedge_for_classification,
-        }
-
-        for keys_one_machine_learning in self.all_backup_inputs:  # 4 feature eng module loop
-            for wedget in self.all_backup_inputs[keys_one_machine_learning].keys():  # all wedgets in one feature eng loop
-                for method in self.all_backup_inputs[keys_one_machine_learning][wedget].keys():
-                    if keys_one_machine_learning in self.machine_learning.keys():
-                        if method in list(self.machine_learning[keys_one_machine_learning].keys()):
-                            # Make the wedget checked according loaded param
-                            wedget.setChecked(True)   
-                            # Make setting to loaded text
-                            for key_setting in self.machine_learning[keys_one_machine_learning][method]:
-
-                                print(keys_one_machine_learning)
-                                print(wedget)
-                                print(key_setting)
-                                print(self.all_backup_inputs[keys_one_machine_learning][wedget][method][key_setting].keys())
-
-                                if "wedget" in list(self.all_backup_inputs[keys_one_machine_learning][wedget][method][key_setting].keys()):
-                                    loaded_text = self.machine_learning[keys_one_machine_learning][method][key_setting]["value"]
-                                    print(f"method = {method}, setting = {key_setting}, loaded_text={loaded_text}") 
-
-                                    # Identity wedget type, then using different methods to "setText"
-                                    # NOTE. 所有控件在设计时，尽量保留原控件的名字在命名的前部分，这样下面才好确定时哪一种类型的控件，从而用不同的赋值方式！
-                                    if "lineEdit" in self.all_backup_inputs[keys_one_machine_learning][wedget][method][key_setting]["wedget"].objectName():
-                                        self.all_backup_inputs[keys_one_machine_learning][wedget][method][key_setting]["wedget"].setText(loaded_text)
-                                    elif "doubleSpinBox" in self.all_backup_inputs[keys_one_machine_learning][wedget][method][key_setting]["wedget"].objectName():
-                                        self.all_backup_inputs[keys_one_machine_learning][wedget][method][key_setting]["wedget"].setValue(float(loaded_text))
-                                    elif "spinBox" in self.all_backup_inputs[keys_one_machine_learning][wedget][method][key_setting]["wedget"].objectName():
-                                        self.all_backup_inputs[keys_one_machine_learning][wedget][method][key_setting]["wedget"].setValue(int(loaded_text))
-                                    elif "comboBox" in self.all_backup_inputs[keys_one_machine_learning][wedget][method][key_setting]["wedget"].objectName():
-                                        self.all_backup_inputs[keys_one_machine_learning][wedget][method][key_setting]["wedget"].setCurrentText(loaded_text)
-                                    
-                                # Switch stacked wedget
-                                switch_dict[keys_one_machine_learning](True, method)
-
     def save_configuration(self):
-        """Save configuration
+        """Save configuration that users inputed.
         """
 
-        # Get current inputs before saving machine_learning parameters
+        # Get current inputs before saving
         self.get_current_inputs()
     
         # Delete wedgets object from self.machine_learning dict
@@ -264,7 +265,11 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
                     for content in list(self.machine_learning[machine_learning_name][method_name][setting].keys()):
                         if "wedget" in list(self.machine_learning[machine_learning_name][method_name][setting].keys()):
                             self.machine_learning[machine_learning_name][method_name][setting].pop("wedget")
+
+        # TODO: only keep one machine learning type
+        print(self.machine_learning)
         
+        # If already identified the configuration file, then excude saving logic.      
         if self.configuration_file != "":
             try:
                 # self.configuration = json.dumps(self.configuration, ensure_ascii=False)
@@ -278,12 +283,111 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
         else:
             QMessageBox.warning( self, 'Warning', 'Please choose a configuration file first (press button at top left corner)!')
 
+    #%% Update GUI: including refresh_gui and switche_stacked_wedge_for_*
+    def refresh_gui(self):
+        """ Refresh gui the display the loaded configuration in the GUI
+        """
+
+        # Generate a dict for switch stacked wedgets
+        switch_dict = {
+            "Classification": self.switche_stacked_wedge_for_classification,
+            "Regression": self.switche_stacked_wedge_for_regression,
+            "Clustering": self.switche_stacked_wedge_for_clustering,
+            "Deep learning": self.switche_stacked_wedge_for_deep_learning,
+        }
+
+        for mltype in self.all_available_inputs:  # each machine learning type
+            for wedget in self.all_available_inputs[mltype].keys():  # each model wedget of one machine learning type
+                for method in self.all_available_inputs[mltype][wedget].keys():
+                    # print(method)
+                    if mltype in self.machine_learning.keys():
+                        # self.switche_stacked_wedge_for_machine_learning_type(True, mltype)
+                        # print(mltype)
+                        if method in list(self.machine_learning[mltype].keys()):
+                            # Make the wedget checked according loaded param
+                            wedget.setChecked(True)   
+                            # Make setting to loaded text
+                            for key_setting in self.machine_learning[mltype][method]:
+                                if "wedget" in list(self.all_available_inputs[mltype][wedget][method][key_setting].keys()):
+                                    loaded_text = self.machine_learning[mltype][method][key_setting]["value"]
+                                    # Identity wedget type, then using different methods to "setText"
+                                    # NOTE. 所有控件在设计时，尽量保留原控件的名字在命名的前部分，这样下面才好确定时哪一种类型的控件，从而用不同的赋值方式！
+                                    if "lineEdit" in self.all_available_inputs[mltype][wedget][method][key_setting]["wedget"].objectName():
+                                        self.all_available_inputs[mltype][wedget][method][key_setting]["wedget"].setText(loaded_text)
+                                    elif "doubleSpinBox" in self.all_available_inputs[mltype][wedget][method][key_setting]["wedget"].objectName():
+                                        self.all_available_inputs[mltype][wedget][method][key_setting]["wedget"].setValue(float(loaded_text))
+                                    elif "spinBox" in self.all_available_inputs[mltype][wedget][method][key_setting]["wedget"].objectName():
+                                        self.all_available_inputs[mltype][wedget][method][key_setting]["wedget"].setValue(int(loaded_text))
+                                    elif "comboBox" in self.all_available_inputs[mltype][wedget][method][key_setting]["wedget"].objectName():
+                                        self.all_available_inputs[mltype][wedget][method][key_setting]["wedget"].setCurrentText(loaded_text)
+
+                                    # Switch stacked wedget
+                                    switch_dict[mltype](True, method)
+
+
+    def switche_stacked_wedge_for_machine_learning_type(self, signal_bool, mltype=None):
+        """ Switch to corresponding machine learning type window
+        """
+
+        if self.sender():
+            if not mltype:
+                self.stackedWidget_type.setCurrentIndex(self.machine_learning_type_stackedwedge_dict[self.sender().text()])
+            else:
+                self.stackedWidget_type.setCurrentIndex(self.machine_learning_type_stackedwedge_dict[mltype])
+        else:
+            self.stackedWidget_type.setCurrentIndex(-1)
+
     def switche_stacked_wedge_for_classification(self, signal_bool, method=None):
+        """ Switch to corresponding classification model window
+        """
+
+        self.radioButton_classification.setChecked(True)
+
         if self.sender():
             if not method:
                 self.stackedWidget_setting.setCurrentIndex(self.classification_stackedwedge_dict[self.sender().text()])
             else:
                 self.stackedWidget_setting.setCurrentIndex(self.classification_stackedwedge_dict[method])
+        else:
+            self.stackedWidget_setting.setCurrentIndex(-1)
+
+    def switche_stacked_wedge_for_regression(self, signal_bool, method=None):
+        """ Switch to corresponding regression model window
+        """
+        self.radioButton_regression.setChecked(True)
+
+        if self.sender():
+            if not method:
+                self.stackedWidget_setting.setCurrentIndex(self.regression_stackedwedge_dict[self.sender().text()])
+            else:
+                self.stackedWidget_setting.setCurrentIndex(self.regression_stackedwedge_dict[method])
+        else:
+            self.stackedWidget_setting.setCurrentIndex(-1)
+
+    def switche_stacked_wedge_for_clustering(self, signal_bool, method=None):
+        """ Switch to corresponding clustering model window
+        """
+
+        self.radioButton_clustering.setChecked(True)
+
+        if self.sender():
+            if not method:
+                self.stackedWidget_setting.setCurrentIndex(self.clustering_stackedwedge_dict[self.sender().text()])
+            else:
+                self.stackedWidget_setting.setCurrentIndex(self.clustering_stackedwedge_dict[method])
+        else:
+            self.stackedWidget_setting.setCurrentIndex(-1)
+
+    def switche_stacked_wedge_for_deep_learning(self, signal_bool, method=None):
+        """ Switch to corresponding deep learning model window
+        """
+        self.radioButton_deeplearning.setChecked(True)
+
+        if self.sender():
+            if not method:
+                self.stackedWidget_setting.setCurrentIndex(self.deep_learning_stackedwedge_dict[self.sender().text()])
+            else:
+                self.stackedWidget_setting.setCurrentIndex(self.deep_learning_stackedwedge_dict[method])
         else:
             self.stackedWidget_setting.setCurrentIndex(-1)
 
