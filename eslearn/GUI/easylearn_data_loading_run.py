@@ -428,6 +428,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
     def input_mask_target_covariate(self):
         """Can input or select file
         """
+        
         if (bool(self.selected_group) & bool(self.selected_modality)):
             loaded_file, filetype = QFileDialog.getOpenFileName(self,  
                                     "Select file",  os.getcwd(), 
