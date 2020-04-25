@@ -1,0 +1,100 @@
+{
+    "Classification": {
+        "Logistic regression": {
+            "maxl1ratio": {
+                "value": "1.00"
+            },
+            "minl1ratio": {
+                "value": "1.00"
+            },
+            "numberl1ratio": {
+                "value": "1"
+            }
+        },
+        "Support vector machine": {
+            "kernel": {
+                "value": "linear"
+            },
+            "minc": {
+                "value": "1.00"
+            },
+            "maxc": {
+                "value": "1.00"
+            },
+            "numc": {
+                "value": "1"
+            },
+            "maxgamma": {
+                "value": "scale"
+            },
+            "mingamma": {
+                "value": "scale"
+            },
+            "numgamma": {
+                "value": "1"
+            }
+        },
+        "Ridge classification": {
+            "minalpha": {
+                "value": "1.00"
+            },
+            "maxalpha": {
+                "value": "1.00"
+            },
+            "numalpha": {
+                "value": "1"
+            }
+        },
+        "Gaussian process": {},
+        "Random forest": {
+            "minestimators": {
+                "value": "10"
+            },
+            "maxestimators": {
+                "value": "10"
+            },
+            "maxdepth": {
+                "value": "10"
+            }
+        },
+        "AdaBoost": {
+            "minestimators": {
+                "value": "2"
+            },
+            "maxestimators": {
+                "value": "2"
+            }
+        }
+    },
+    "Regression": {
+        "Linear regression": {},
+        "Lasso regression": {
+            "minalpha": {
+                "value": "1.00"
+            },
+            "maxalpha": {
+                "value": "1.00"
+            },
+            "numalpha": {
+                "value": "1"
+            }
+        },
+        "Ridge regression": {
+            "minalpha": {
+                "value": "1.00"
+            },
+            "maxalpha": {
+                "value": "1.00"
+            },
+            "numalpha": {
+                "value": "1"
+            }
+        }
+    },
+    "Clustering": {
+        "K-means clustering": {}
+    },
+    "Deep learning": {
+        "Linear regression": {}
+    }
+}

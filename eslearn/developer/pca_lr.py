@@ -41,7 +41,7 @@ from eslearn.model_evaluation.el_evaluation_model_performances import eval_perfo
 # 加载数据集：此处直接使用生成的数据
 # 实际使用中，我们需要根据不同的数据类型，来加载不同的数据。并且需要检查用户给定的数据是否符合要求。
 # 因此，此处需要我们设计一个检查数据的模块。
-X, y = make_classification(n_features=20, n_redundant=0, n_informative=2)
+X, y = make_classification(n_features=20, n_samples=200, n_classes=2, n_redundant=0, n_informative=2)
 
 # 确定训练集和测试集，在实际中此处会通过交叉验证的方式执行。
 # 此处，需要我们设计交叉验证的模块。

@@ -1,0 +1,208 @@
+{
+    "feature_preprocessing": {
+        "Z-score normalization": {},
+        "Scaling": {
+            "min": {
+                "value": "0"
+            },
+            "max": {
+                "value": "1"
+            }
+        },
+        "demean": {},
+        "none": {},
+        "grouplevel": {},
+        "subjectlevel": {}
+    },
+    "dimreduction": {
+        "Principal component analysis": {
+            "min": {
+                "value": "0.99"
+            },
+            "max": {
+                "value": "0.01"
+            },
+            "number": {
+                "value": "10"
+            }
+        },
+        "Independent component analysis": {
+            "min": {
+                "value": "0.01"
+            },
+            "max": {
+                "value": "0.99"
+            },
+            "number": {
+                "value": "10"
+            }
+        },
+        "lda": {},
+        "Non-negative matrix factorization": {
+            "min": {
+                "value": "0.01"
+            },
+            "max": {
+                "value": "1.00"
+            },
+            "number": {
+                "value": "10"
+            }
+        },
+        "none": {}
+    },
+    "feature_selection": {
+        "Variance threshold": {
+            "min": {
+                "value": "0.10"
+            },
+            "max": {
+                "value": "0.80"
+            },
+            "number": {
+                "value": "10"
+            }
+        },
+        "Correlation": {
+            "min": {
+                "value": "0.01"
+            },
+            "max": {
+                "value": "1.00"
+            },
+            "number": {
+                "value": "10"
+            }
+        },
+        "Distance correlation": {
+            "min": {
+                "value": "0.00"
+            },
+            "max": {
+                "value": "1.00"
+            },
+            "number": {
+                "value": "10"
+            }
+        },
+        "F-Score (classification)": {
+            "max": {
+                "value": "1.00"
+            },
+            "min": {
+                "value": "0.01"
+            },
+            "number": {
+                "value": "10"
+            }
+        },
+        "Mutual information (classification)": {
+            "max": {
+                "value": "1.00"
+            },
+            "min": {
+                "value": "0.00"
+            },
+            "number": {
+                "value": "10"
+            },
+            "n_neighbors": {
+                "value": "3"
+            }
+        },
+        "Mutual information (regression)": {
+            "max": {
+                "value": "1.00"
+            },
+            "min": {
+                "value": "0.00"
+            },
+            "number": {
+                "value": "10"
+            },
+            "n_neighbors": {
+                "value": "3"
+            }
+        },
+        "ReliefF": {
+            "max": {
+                "value": "1.00"
+            },
+            "min": {
+                "value": "0.00"
+            },
+            "number": {
+                "value": "10"
+            }
+        },
+        "ANOVA": {
+            "max": {
+                "value": "1.00"
+            },
+            "min": {
+                "value": "0.00"
+            },
+            "number": {
+                "value": "10"
+            },
+            "multiple_correction": {
+                "value": "None"
+            }
+        },
+        "RFE": {
+            "step": {
+                "value": "0.10"
+            },
+            "n_folds": {
+                "value": "5"
+            },
+            "estimator": {
+                "value": "SVM"
+            },
+            "n_jobs": {
+                "value": "-1"
+            }
+        },
+        "L1 regularization (Lasso)": {
+            "max": {
+                "va1ue": "100.00"
+            },
+            "min": {
+                "va1ue": "0.00"
+            },
+            "number": {
+                "va1ue": "10"
+            }
+        },
+        "L1 + L2 regularization (Elastic net regression)": {
+            "max_alpha": {
+                "value": "100.00"
+            },
+            "min_alpha": {
+                "value": "0.00"
+            },
+            "number_alpha": {
+                "value": "10"
+            },
+            "max_l1ratio": {
+                "value": "1.00"
+            },
+            "min_l1ratio": {
+                "value": "0.00"
+            },
+            "Number_l1ratio": {
+                "value": "10"
+            }
+        }
+    },
+    "unbalance_treatment": {
+        "randover": {},
+        "somteover": {},
+        "somtencover": {},
+        "bsmoteover": {},
+        "randunder": {},
+        "extractionunder": {},
+        "clusterunder": {},
+        "nearmissunder": {}
+    }
+}

@@ -184,12 +184,10 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
                 self.display_files()
 
             except json.decoder.JSONDecodeError:
-    
                 QMessageBox.warning( self, 'Warning', f'{self.configuration_file} is not valid JSON')
                 self.configuration_file = ""
    
         else:
-
             QMessageBox.warning( self, 'Warning', 'Configuration file was not selected')
 
     def save_configuration(self):
