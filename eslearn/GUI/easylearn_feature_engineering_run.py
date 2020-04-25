@@ -39,13 +39,20 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
         # Initialization
         self.feature_engineering = {}
         self.configuration_file = ""
+        self.all_available_inputs()
 
         # Debug
-        cgitb.enable(display=1, logdir=None)  
+        # Set working_directory
+        self.working_directory = working_directory
+        if self.working_directory:
+            cgitb.enable(format="text", display=1, logdir=os.path.join(self.working_directory, "log_feature_engineering"))
+        else:
+            cgitb.enable(display=1, logdir=None)  
 
         # Connect configuration functions
         self.actionLoad_configuration.triggered.connect(self.load_configuration)
         self.actionSave_configuration.triggered.connect(self.save_configuration)
+        self.actionGet_all_available_configuraton.triggered.connect(self._get_all_available_inputs)
 
         # connect preprocessing setting signal to slot: switche to corresponding stackedWidget
         self.preprocessing_stackedwedge_dict = {"Z-score normalization": 0, "Scaling": 1, "De-mean": 2, "None": 3}
@@ -129,18 +136,10 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
         self.stackedWidget_dimreduction.setCurrentIndex(-1)
         self.stackedWidget_feature_selection.setCurrentIndex(-1)
 
-    def get_current_inputs(self):
-        """Get all current inputs
-
-        Programme will scan the GUI to determine the user's inputs.
-
-        Attrs:
-        -----
-            self.feature_engineering: dictionary
-                all feature_engineering parameters that the user input.
+    def all_available_inputs(self):
+        """I put all available inputs in a dictionary named all_available_inputs
         """
 
-        # I put all available inputs in a dictionary named all_available_inputs
         self.all_available_inputs = {
             "feature_preprocessing": {
                 self.radioButton_zscore : {"Z-score normalization": {}}, 
@@ -296,12 +295,54 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
             }
         }
 
+    def _get_all_available_inputs(self):
+        """ This method used to get all available inputs for users
+        
+        Delete wedgets object from all available inputs dict
+        NOTE: This code is only for current configuration structure
+        """
+
+        all_available_inputs_for_user_tmp = self.all_available_inputs
+        for feature_engineering_name in list(all_available_inputs_for_user_tmp.keys()):
+            for method in list(all_available_inputs_for_user_tmp[feature_engineering_name].keys()):
+                for method_name in list(all_available_inputs_for_user_tmp[feature_engineering_name][method].keys()):
+                    for setting in list(all_available_inputs_for_user_tmp[feature_engineering_name][method][method_name].keys()):
+                        if "wedget" in list(all_available_inputs_for_user_tmp[feature_engineering_name][method][method_name][setting].keys()):
+                            all_available_inputs_for_user_tmp[feature_engineering_name][method][method_name][setting].pop("wedget")
+
+        all_available_inputs_for_user = {}
+        for feature_engineering_name in list(all_available_inputs_for_user_tmp.keys()):
+            all_available_inputs_for_user[feature_engineering_name] = {}
+            for method in list(all_available_inputs_for_user_tmp[feature_engineering_name].keys()):
+                all_available_inputs_for_user[feature_engineering_name].update(all_available_inputs_for_user_tmp[feature_engineering_name][method])
+        del all_available_inputs_for_user_tmp
+
+        # Save to folder that contains configuration file
+        if self.configuration_file != "":
+            outname = os.path.join(os.path.dirname(self.configuration_file), 'all_available_feature_engineering_inputs.json')
+            with open(outname, 'w', encoding="utf-8") as config:    
+                config.write(json.dumps(all_available_inputs_for_user, indent=4))
+        else:
+            QMessageBox.warning( self, 'Warning', "configuration file is not selected!")
+
+
+    def get_current_inputs(self):
+        """Get all current inputs
+
+        Programme will scan the GUI to determine the user's inputs.
+
+        Attrs:
+        -----
+            self.feature_engineering: dictionary
+                all feature_engineering parameters that the user input.
+        """
+
         # Get current inputs
         for key_feature_engineering in self.all_available_inputs:
             for keys_one_feature_engineering in self.all_available_inputs[key_feature_engineering]:
                 if keys_one_feature_engineering.isChecked():
                     self.feature_engineering[key_feature_engineering] = self.all_available_inputs[key_feature_engineering][keys_one_feature_engineering]
-
+    
     def load_configuration(self):
         """Load configuration, and refresh_gui configuration in GUI
         """
@@ -310,9 +351,18 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
         # compare loaded configuration["feature_engineering"] with the current self.feature_engineering
         self.get_current_inputs()
 
-        self.configuration_file, filetype = QFileDialog.getOpenFileName(self,  
-                                "Select configuration file",  
-                                os.getcwd(), "Text Files (*.json);;All Files (*);;") 
+        if not self.working_directory:
+            self.configuration_file, filetype = QFileDialog.getOpenFileName(
+                self,  
+                "Select configuration file",  
+                os.getcwd(), "Text Files (*.json);;All Files (*);;"
+            ) 
+        else:
+            self.configuration_file, filetype = QFileDialog.getOpenFileName(
+                self,  
+                "Select configuration file",  
+                self.working_directory, "Text Files (*.json);;All Files (*);;"
+            ) 
 
         # Read configuration_file if already selected
         if self.configuration_file != "": 
@@ -353,7 +403,7 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
     def refresh_gui(self):
         """ Refresh gui the display the loaded configuration in the GUI
         """
-        print("refresh_gui")
+
         # Generate a dict for switch stacked wedgets
         switch_dict = {
             "feature_preprocessing": self.switche_stacked_wedge_for_preprocessing,
@@ -370,16 +420,8 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
                             wedget.setChecked(True)   
                             # Make setting to loaded text
                             for key_setting in self.feature_engineering[keys_one_feature_engineering][method]:
-
-                                print(keys_one_feature_engineering)
-                                print(wedget)
-                                print(key_setting)
-                                print(self.all_available_inputs[keys_one_feature_engineering][wedget][method][key_setting].keys())
-
                                 if "wedget" in list(self.all_available_inputs[keys_one_feature_engineering][wedget][method][key_setting].keys()):
                                     loaded_text = self.feature_engineering[keys_one_feature_engineering][method][key_setting]["value"]
-                                    print(f"method = {method}, setting = {key_setting}, loaded_text={loaded_text}") 
-
                                     # Identity wedget type, then using different methods to "setText"
                                     # NOTE. 所有控件在设计时，尽量保留原控件的名字在命名的前部分，这样下面才好确定时哪一种类型的控件，从而用不同的赋值方式！
                                     if "lineEdit" in self.all_available_inputs[keys_one_feature_engineering][wedget][method][key_setting]["wedget"].objectName():
@@ -412,10 +454,9 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
         if self.configuration_file != "":
             try:
                 # self.configuration = json.dumps(self.configuration, ensure_ascii=False)
-                self.configuration["feature_engineering"] = self.feature_engineering
-                self.configuration = json.dumps(self.configuration, indent=4)
+                # print(self.feature_engineering)
                 with open(self.configuration_file, 'w', encoding="utf-8") as config:    
-                    config.write(self.configuration)
+                    config.write(json.dumps(self.configuration, ensure_ascii=False, indent=4))
             except json.decoder.JSONDecodeError:
                 QMessageBox.warning( self, 'Warning', f'{self.configuration}'+ ' is not a valid JSON!')
 

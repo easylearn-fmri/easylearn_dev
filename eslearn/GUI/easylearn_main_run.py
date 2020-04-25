@@ -13,12 +13,13 @@ import os
 import json
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QFileDialog, QInputDialog, QLineEdit
 from PyQt5.QtGui import QIcon, QPixmap
+from PyQt5.Qt import QCoreApplication
 
-from eslearn.stylesheets.PyQt5_stylesheets import PyQt5_stylesheets
 from easylearn_main_gui import Ui_MainWindow
 from easylearn_data_loading_run import EasylearnDataLoadingRun
 from easylearn_feature_engineering_run import EasylearnFeatureEngineeringRun
 from easylearn_machine_learning_run import EasylearnMachineLearningRun
+from eslearn.stylesheets.PyQt5_stylesheets import PyQt5_stylesheets
 
 
 class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
@@ -29,7 +30,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
-        self.working_directory = ""
+        self.working_directory = None
         self.textBrowser.setText("Hi~, I'm easylearn. I hope I can help you finish this project successfully\n")
 
         # Set appearance
@@ -102,23 +103,19 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         This function is used to select the working working_directory, then change directory to this directory.
         """
         #  If has selected working working_directory previously, then I set it as initial working working_directory.
-        if self.working_directory == "":
+        if not self.working_directory:
             self.working_directory = QFileDialog.getExistingDirectory(self, "Select a working_directory", os.getcwd()) 
             self.textBrowser.setText("Current working directory is " + self.working_directory + "\n")
         else:
             self.working_directory = QFileDialog.getExistingDirectory(self, "Select a working_directory", self.working_directory) 
             self.textBrowser.setText("Current working directory is " + self.working_directory + "\n")
 
-        # If already choose a working directory, change directory to the working directory
-        if self.working_directory != "":
-            os.chdir(self.working_directory)
-
     def initialize_configuration_fun(self):
         """Create file to save settings
 
         This function will add the configuration_file to self
         """
-        if self.working_directory != "":
+        if self.working_directory:
             configuration_file_name, ok = QInputDialog.getText(self, "Initialize configuration", "Please name the configuration file:", QLineEdit.Normal, "configuration_file.json")
             self.configuration_file = os.path.join(self.working_directory, configuration_file_name)
             with open(self.configuration_file, 'w') as configuration_file:
@@ -169,7 +166,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
 
         Then, this function will process the feature_engineering.
         """
-        self.feature_engineering = EasylearnFeatureEngineeringRun()
+        self.feature_engineering = EasylearnFeatureEngineeringRun(self.working_directory)
         self.feature_engineering.show()
 
     def machine_learning_fun(self):
@@ -177,7 +174,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
 
         Then, this function will process the data loading.
         """
-        self.machine_learning = EasylearnMachineLearningRun()
+        self.machine_learning = EasylearnMachineLearningRun(self.working_directory)
         self.machine_learning.show()
 
     def model_evaluation_fun(self):

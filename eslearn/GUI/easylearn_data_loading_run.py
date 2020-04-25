@@ -17,7 +17,6 @@ License: MIT
 
 
 import sys
-sys.path.append('../stylesheets/PyQt5_stylesheets')
 import os
 import json
 import cgitb
@@ -28,7 +27,7 @@ from PyQt5.QtGui import QIcon
 import sys
 from PyQt5.QtWidgets import QApplication,QWidget,QVBoxLayout,QListView,QMessageBox
 from PyQt5.QtCore import*
-import PyQt5_stylesheets
+from eslearn.stylesheets.PyQt5_stylesheets import PyQt5_stylesheets
 
 from easylearn_data_loading_gui import Ui_MainWindow
 
@@ -42,7 +41,6 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         # Set working_directory
         self.working_directory = working_directory
         if self.working_directory:
-            os.chdir(self.working_directory)
             cgitb.enable(format="text", display=1, logdir=os.path.join(self.working_directory, "log_data_loading"))
         else:
             cgitb.enable(display=1, logdir=None)   
@@ -136,9 +134,19 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
     def load_configuration(self):
         """Load configuration, and display groups
         """
-        self.configuration_file, filetype = QFileDialog.getOpenFileName(self,  
-                                "Select configuration file",  
-                                os.getcwd(), "Text Files (*.json);;All Files (*);;") 
+
+        if not self.working_directory:
+            self.configuration_file, filetype = QFileDialog.getOpenFileName(
+                self,  
+                "Select configuration file",  
+                os.getcwd(), "Text Files (*.json);;All Files (*);;"
+            ) 
+        else:
+            self.configuration_file, filetype = QFileDialog.getOpenFileName(
+                self,  
+                "Select configuration file",  
+                self.working_directory, "Text Files (*.json);;All Files (*);;"
+            ) 
 
         # Read configuration_file if already selected
         if self.configuration_file != "": 
@@ -225,6 +233,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
     def add_group(self):
         """Add a group
         """
+
         group_name, ok = QInputDialog.getText(self, "Add group", "Please name the group:", QLineEdit.Normal, "group_") 
         if group_name != "":
             if group_name not in self.data_loading.keys():
@@ -384,9 +393,9 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
     #%% -----------------------------------------------------------------
     
     def display_groups(self):
+        """Display groups' name in the list view
         """
-        Display groups' name in the list view
-        """
+
         self.slm_group.setStringList(self.data_loading.keys())  
         self.listView_groups.setModel(self.slm_group)
     
@@ -424,7 +433,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         if (bool(self.selected_group) & bool(self.selected_modality)):
             loaded_file, filetype = QFileDialog.getOpenFileName(self,  
                                     "Select file",  os.getcwd(), 
-                                    "Text Files (*.txt);;Excel Files (*.xlsx);;Excel Files (*.xls);;Nifti Files (*.nii);;Matlab Files (*.mat);;All Files (*)"
+                                    "Nifti Files (*.nii);;Matlab Files (*.mat);;All Files (*)"
             )
 
             if loaded_file != "":

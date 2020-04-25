@@ -1940,6 +1940,7 @@
     </property>
     <addaction name="actionLoad_configuration"/>
     <addaction name="actionSave_configuration"/>
+    <addaction name="actionGet_all_available_configuraton"/>
    </widget>
    <widget class="QMenu" name="menuHelp_G">
     <property name="title">
@@ -2006,6 +2007,11 @@
   <action name="actionClassic">
    <property name="text">
     <string>Classic</string>
+   </property>
+  </action>
+  <action name="actionGet_all_available_configuraton">
+   <property name="text">
+    <string>Get all available configuraton</string>
    </property>
   </action>
  </widget>

@@ -952,8 +952,11 @@ class Ui_MainWindow(object):
         self.actionNavy.setObjectName("actionNavy")
         self.actionClassic = QtWidgets.QAction(MainWindow)
         self.actionClassic.setObjectName("actionClassic")
+        self.actionGet_all_available_configuraton = QtWidgets.QAction(MainWindow)
+        self.actionGet_all_available_configuraton.setObjectName("actionGet_all_available_configuraton")
         self.menuConfiguration_file_f.addAction(self.actionLoad_configuration)
         self.menuConfiguration_file_f.addAction(self.actionSave_configuration)
+        self.menuConfiguration_file_f.addAction(self.actionGet_all_available_configuraton)
         self.menuSkin.addAction(self.actionDark)
         self.menuSkin.addAction(self.actionBlack)
         self.menuSkin.addAction(self.actionDarkOrange)
@@ -1102,4 +1105,5 @@ class Ui_MainWindow(object):
         self.actionBlue.setText(_translate("MainWindow", "Blue"))
         self.actionNavy.setText(_translate("MainWindow", "Navy"))
         self.actionClassic.setText(_translate("MainWindow", "Classic"))
+        self.actionGet_all_available_configuraton.setText(_translate("MainWindow", "Get all available configuraton"))
 

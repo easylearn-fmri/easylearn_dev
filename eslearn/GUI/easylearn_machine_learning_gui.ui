@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>885</width>
-    <height>615</height>
+    <width>862</width>
+    <height>744</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,15 +15,56 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_9">
-    <item row="1" column="2">
-     <widget class="QStackedWidget" name="stackedWidget_type">
+    <item row="0" column="0">
+     <widget class="QGroupBox" name="groupBox_machine_learning_type">
+      <property name="title">
+       <string>Machine Learning Type</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_19">
+       <item row="0" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QRadioButton" name="radioButton_classification">
+           <property name="text">
+            <string>Classification</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="radioButton_regression">
+           <property name="text">
+            <string>Regression</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="radioButton_clustering">
+           <property name="text">
+            <string>Clustering</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="radioButton_deeplearning">
+           <property name="text">
+            <string>Deep learning</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QStackedWidget" name="stackedWidget_machine_learning_type">
       <property name="layoutDirection">
        <enum>Qt::LeftToRight</enum>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
-      <widget class="QWidget" name="stackedWidgetPage1" native="true">
+      <widget class="QWidget" name="stackedWidgetPage_classification">
        <layout class="QGridLayout" name="gridLayout_12">
         <item row="0" column="2" rowspan="2">
          <widget class="QGroupBox" name="groupBox_setting">
@@ -44,7 +85,7 @@
           </property>
           <layout class="QGridLayout" name="gridLayout">
            <item row="0" column="0">
-            <widget class="QStackedWidget" name="stackedWidget_setting">
+            <widget class="QStackedWidget" name="stackedWidget_classification_setting">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                <horstretch>0</horstretch>
@@ -58,7 +99,7 @@
               </size>
              </property>
              <property name="currentIndex">
-              <number>3</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="to_lr">
               <layout class="QGridLayout" name="gridLayout_11">
@@ -70,7 +111,11 @@
                 </widget>
                </item>
                <item row="2" column="1">
-                <widget class="QSpinBox" name="spinBox__clf_lr_numl1ratio"/>
+                <widget class="QSpinBox" name="spinBox__clf_lr_numl1ratio">
+                 <property name="value">
+                  <number>1</number>
+                 </property>
+                </widget>
                </item>
                <item row="0" column="1">
                 <widget class="QDoubleSpinBox" name="doubleSpinBox_clf_lr_maxl1ratio">
@@ -209,7 +254,11 @@
                 </widget>
                </item>
                <item row="6" column="2">
-                <widget class="QSpinBox" name="spinBox_clf_svm_numgamma"/>
+                <widget class="QSpinBox" name="spinBox_clf_svm_numgamma">
+                 <property name="value">
+                  <number>1</number>
+                 </property>
+                </widget>
                </item>
                <item row="3" column="0">
                 <widget class="QLabel" name="label">
@@ -223,13 +272,24 @@
                  <property name="maximum">
                   <number>1000</number>
                  </property>
+                 <property name="value">
+                  <number>1</number>
+                 </property>
                 </widget>
                </item>
                <item row="4" column="2">
-                <widget class="QLineEdit" name="lineEdit_clf_svm_maxgamma"/>
+                <widget class="QLineEdit" name="lineEdit_clf_svm_maxgamma">
+                 <property name="text">
+                  <string>scale</string>
+                 </property>
+                </widget>
                </item>
                <item row="5" column="2">
-                <widget class="QLineEdit" name="lineEdit_clf_svm_mingamma"/>
+                <widget class="QLineEdit" name="lineEdit_clf_svm_mingamma">
+                 <property name="text">
+                  <string>scale</string>
+                 </property>
+                </widget>
                </item>
               </layout>
              </widget>
@@ -286,7 +346,11 @@
                 </widget>
                </item>
                <item row="2" column="1">
-                <widget class="QSpinBox" name="spinBox_clf_ridgeclf_numalpha"/>
+                <widget class="QSpinBox" name="spinBox_clf_ridgeclf_numalpha">
+                 <property name="value">
+                  <number>1</number>
+                 </property>
+                </widget>
                </item>
               </layout>
              </widget>
@@ -471,7 +535,7 @@
             </widget>
            </item>
            <item row="0" column="0">
-            <widget class="QRadioButton" name="radioButton_classificaton_lr">
+            <widget class="QRadioButton" name="radioButton_classification_lr">
              <property name="text">
               <string>Logistic regression</string>
              </property>
@@ -496,44 +560,196 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="stackedWidgetPage2" native="true">
+      <widget class="QWidget" name="stackedWidgetPage_regression">
        <layout class="QGridLayout" name="gridLayout_2">
         <item row="0" column="1">
-         <widget class="QGroupBox" name="groupBox_5">
+         <widget class="QGroupBox" name="GroupBox_Settting">
           <property name="title">
            <string>Setting</string>
           </property>
+          <layout class="QGridLayout" name="gridLayout_17">
+           <item row="0" column="0">
+            <widget class="QStackedWidget" name="stackedWidget_regression">
+             <property name="currentIndex">
+              <number>2</number>
+             </property>
+             <widget class="QWidget" name="to_linearregression"/>
+             <widget class="QWidget" name="to_lassoregression">
+              <layout class="QGridLayout" name="gridLayout_13">
+               <item row="0" column="1">
+                <widget class="QDoubleSpinBox" name="doubleSpinBox_regression_lasso_maxalpha">
+                 <property name="maximum">
+                  <double>10000.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>1.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QSpinBox" name="spinBox_regression_lasso_numalpha">
+                 <property name="maximum">
+                  <number>10000</number>
+                 </property>
+                 <property name="value">
+                  <number>1</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QDoubleSpinBox" name="doubleSpinBox_regression_lasso_minalpha">
+                 <property name="maximum">
+                  <double>10000.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>1.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_12">
+                 <property name="text">
+                  <string>Number</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_11">
+                 <property name="text">
+                  <string>Min_alpha</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_3">
+                 <property name="text">
+                  <string>Max_alpha</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="2">
+                <spacer name="horizontalSpacer_2">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeType">
+                  <enum>QSizePolicy::Fixed</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="to_ridgeregression">
+              <layout class="QGridLayout" name="gridLayout_18">
+               <item row="2" column="1">
+                <widget class="QSpinBox" name="spinBox_regression_ridge_numalpha">
+                 <property name="maximum">
+                  <number>10000</number>
+                 </property>
+                 <property name="value">
+                  <number>1</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_14">
+                 <property name="text">
+                  <string>Number</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_15">
+                 <property name="text">
+                  <string>Min_alpha</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QDoubleSpinBox" name="doubleSpinBox_regression_ridge_maxalpha">
+                 <property name="maximum">
+                  <double>10000.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>1.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QDoubleSpinBox" name="doubleSpinBox_regression_ridge_minalpha">
+                 <property name="maximum">
+                  <double>10000.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>1.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_13">
+                 <property name="text">
+                  <string>Max_alpha</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="2">
+                <spacer name="horizontalSpacer_4">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeType">
+                  <enum>QSizePolicy::Fixed</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </widget>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </item>
         <item row="0" column="0">
-         <widget class="QGroupBox" name="groupBox_2">
+         <widget class="QGroupBox" name="Methods">
           <property name="title">
            <string>Methods</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_6">
            <item row="6" column="1">
-            <widget class="QRadioButton" name="radioButton_10">
+            <widget class="QRadioButton" name="radioButton_regression_gaussianprocess">
              <property name="text">
               <string>Gaussian process</string>
              </property>
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QRadioButton" name="radioButton_2">
+            <widget class="QRadioButton" name="radioButton_regression_lasso">
              <property name="text">
               <string>Lasso regression</string>
              </property>
             </widget>
            </item>
            <item row="8" column="1">
-            <widget class="QRadioButton" name="radioButton_6">
+            <widget class="QRadioButton" name="radioButton_regression_randomforest">
              <property name="text">
               <string>Random forest</string>
              </property>
             </widget>
            </item>
            <item row="2" column="1">
-            <widget class="QRadioButton" name="radioButton_9">
+            <widget class="QRadioButton" name="radioButton_regression_ridge">
              <property name="text">
               <string>Ridge regression</string>
              </property>
@@ -547,14 +763,14 @@
             </widget>
            </item>
            <item row="4" column="1">
-            <widget class="QRadioButton" name="radioButton_7">
+            <widget class="QRadioButton" name="radioButton_regression_svm">
              <property name="text">
-              <string>Support vector machines</string>
+              <string>Support vector machine</string>
              </property>
             </widget>
            </item>
            <item row="3" column="1">
-            <widget class="QRadioButton" name="radioButton_11">
+            <widget class="QRadioButton" name="radioButton_regression_elasticnet">
              <property name="text">
               <string>Elastic-Net regression</string>
              </property>
@@ -565,7 +781,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="stackedWidgetPage3" native="true">
+      <widget class="QWidget" name="stackedWidgetPage_clustering">
        <layout class="QGridLayout" name="gridLayout_3">
         <item row="0" column="2">
          <widget class="QGroupBox" name="groupBox_6">
@@ -613,7 +829,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="stackedWidgetPage4" native="true">
+      <widget class="QWidget" name="stackedWidgetPage_deeplearning">
        <layout class="QGridLayout" name="gridLayout_4">
         <item row="0" column="0">
          <widget class="QGroupBox" name="groupBox_7">
@@ -654,47 +870,7 @@
         </item>
        </layout>
       </widget>
-     </widget>
-    </item>
-    <item row="0" column="2">
-     <widget class="QGroupBox" name="groupBox">
-      <property name="title">
-       <string>Machine Learning Type</string>
-      </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout">
-         <item>
-          <widget class="QRadioButton" name="radioButton_classification">
-           <property name="text">
-            <string>Classification</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QRadioButton" name="radioButton_regression">
-           <property name="text">
-            <string>Regression</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QRadioButton" name="radioButton_clustering">
-           <property name="text">
-            <string>Clustering</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QRadioButton" name="radioButton_deeplearning">
-           <property name="text">
-            <string>Deep learning</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
+      <widget class="QWidget" name="stackedWidgetPage_none"/>
      </widget>
     </item>
    </layout>
@@ -704,7 +880,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>885</width>
+     <width>862</width>
      <height>26</height>
     </rect>
    </property>
@@ -714,6 +890,7 @@
     </property>
     <addaction name="actionLoad_configuration"/>
     <addaction name="actionSave_configuration"/>
+    <addaction name="actionGet_all_available_configuration"/>
    </widget>
    <widget class="QMenu" name="menuHelp_H">
     <property name="title">
@@ -792,6 +969,11 @@
   <action name="actionClassic">
    <property name="text">
     <string>Classic</string>
+   </property>
+  </action>
+  <action name="actionGet_all_available_configuration">
+   <property name="text">
+    <string>Get all available configuration</string>
    </property>
   </action>
  </widget>

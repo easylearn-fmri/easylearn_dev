@@ -1,58 +1,29 @@
 {
     "data_loading": {
-        "group_0": {
-            "modality_0": {
+        "group_1": {
+            "modality_1": {
                 "file": [
-                    "D:/My_Codes/easylearn-fmri/eslearn/GUI/configuration_file.json",
-                    "D:/My_Codes/easylearn-fmri/eslearn/GUI/dec.py",
-                    "D:/My_Codes/easylearn-fmri/eslearn/GUI/easylearn_data_loading_gui.py",
-                    "D:/My_Codes/easylearn-fmri/eslearn/GUI/easylearn_data_loading_gui.ui",
-                    "D:/My_Codes/easylearn-fmri/eslearn/GUI/easylearn_data_loading_run.py",
-                    "D:/My_Codes/easylearn-fmri/eslearn/GUI/easylearn_feature_engineering.py",
-                    "D:/My_Codes/easylearn-fmri/eslearn/GUI/easylearn_feature_engineering_gui.py",
-                    "D:/My_Codes/easylearn-fmri/eslearn/GUI/easylearn_feature_engineering_gui.ui"
+                    "D:/WorkStation_2018/WorkStation_2018_11_machineLearning_Psychosi_ALFF/Data/mALFF_All/ALFFMap_S20-1-0001.nii",
+                    "D:/WorkStation_2018/WorkStation_2018_11_machineLearning_Psychosi_ALFF/Data/mALFF_All/ALFFMap_S20-1-0002.nii",
+                    "D:/WorkStation_2018/WorkStation_2018_11_machineLearning_Psychosi_ALFF/Data/mALFF_All/ALFFMap_S20-1-0003.nii",
+                    "D:/WorkStation_2018/WorkStation_2018_11_machineLearning_Psychosi_ALFF/Data/mALFF_All/ALFFMap_S20-1-0004.nii",
+                    "D:/WorkStation_2018/WorkStation_2018_11_machineLearning_Psychosi_ALFF/Data/mALFF_All/ALFFMap_S20-1-0005.nii",
+                    "D:/WorkStation_2018/WorkStation_2018_11_machineLearning_Psychosi_ALFF/Data/mALFF_All/ALFFMap_S20-1-0006.nii",
+                    "D:/WorkStation_2018/WorkStation_2018_11_machineLearning_Psychosi_ALFF/Data/mALFF_All/ALFFMap_S20-1-0007.nii",
+                    "D:/WorkStation_2018/WorkStation_2018_11_machineLearning_Psychosi_ALFF/Data/mALFF_All/ALFFMap_S20-1-0008.nii"
                 ],
-                "mask": "",
-                "targets": [],
-                "covariates": []
+                "mask": "D:/WorkStation_2018/SZ_classification/Data/Atalas/sorted_brainnetome_atalas_3mm.nii",
+                "targets": "D:/My_Codes/easylearn-fmri/eslearn/GUI/Some_ML_Tools.txt",
+                "covariates": "D:/My_Codes/easylearn-fmri/eslearn/GUI/Some_ML_Tools.txt"
             }
         }
     },
-    "feature_engineering": {
-        "feature_preprocessing": {
-            "Z-score normalization": {}
-        },
-        "dimreduction": {
-            "Independent component analysis": {
-                "min": {
-                    "value": "0.01"
-                },
-                "max": {
-                    "value": "0.99"
-                },
-                "number": {
-                    "value": "10"
-                }
-            }
-        },
-        "feature_selection": {
-            "ReliefF": {
-                "max": {
-                    "value": "1.00"
-                },
-                "min": {
-                    "value": "0.10"
-                },
-                "number": {
-                    "value": "10"
-                }
-            }
-        },
-        "unbalance_treatment": {
-            "randover": {}
+    "feature_engineering": {},
+    "machine_learning": {
+        "Regression": {
+            "Linear regression": {}
         }
     },
-    "machine_learning": {},
     "model_evaluation": {},
     "statistical_analysis": {}
 }

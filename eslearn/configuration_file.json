@@ -1,0 +1,84 @@
+{
+    "data_loading": {
+        "group_1": {
+            "modality_1": {
+                "file": [
+                    "D:/WorkStation_2018/WorkStation_2018_11_machineLearning_Psychosi_ALFF/Data/mALFF_All/ALFFMap_S20-1-0001.nii",
+                    "D:/WorkStation_2018/WorkStation_2018_11_machineLearning_Psychosi_ALFF/Data/mALFF_All/ALFFMap_S20-1-0002.nii",
+                    "D:/WorkStation_2018/WorkStation_2018_11_machineLearning_Psychosi_ALFF/Data/mALFF_All/ALFFMap_S20-1-0003.nii",
+                    "D:/WorkStation_2018/WorkStation_2018_11_machineLearning_Psychosi_ALFF/Data/mALFF_All/ALFFMap_S20-1-0004.nii",
+                    "D:/WorkStation_2018/WorkStation_2018_11_machineLearning_Psychosi_ALFF/Data/mALFF_All/ALFFMap_S20-1-0005.nii",
+                    "D:/WorkStation_2018/WorkStation_2018_11_machineLearning_Psychosi_ALFF/Data/mALFF_All/ALFFMap_S20-1-0006.nii",
+                    "D:/WorkStation_2018/WorkStation_2018_11_machineLearning_Psychosi_ALFF/Data/mALFF_All/ALFFMap_S20-1-0007.nii",
+                    "D:/WorkStation_2018/WorkStation_2018_11_machineLearning_Psychosi_ALFF/Data/mALFF_All/ALFFMap_S20-1-0008.nii"
+                ],
+                "mask": "D:/WorkStation_2018/SZ_classification/Data/Atalas/sorted_brainnetome_atalas_3mm.nii",
+                "targets": "D:/My_Codes/easylearn-fmri/eslearn/GUI/Some_ML_Tools.txt",
+                "covariates": "D:/My_Codes/easylearn-fmri/eslearn/GUI/Some_ML_Tools.txt"
+            }
+        }
+    },
+    "feature_engineering": {
+        "feature_preprocessing": {
+            "grouplevel": {}
+        },
+        "dimreduction": {
+            "Non-negative matrix factorization": {
+                "min": {
+                    "value": "0.01"
+                },
+                "max": {
+                    "value": "1.00"
+                },
+                "number": {
+                    "value": "10"
+                }
+            }
+        },
+        "feature_selection": {
+            "Variance threshold": {
+                "min": {
+                    "value": "0.10"
+                },
+                "max": {
+                    "value": "0.80"
+                },
+                "number": {
+                    "value": "10"
+                }
+            }
+        },
+        "unbalance_treatment": {
+            "randover": {}
+        }
+    },
+    "machine_learning": {
+        "Classification": {
+            "Support vector machine": {
+                "kernel": {
+                    "value": "linear"
+                },
+                "minc": {
+                    "value": "1.00"
+                },
+                "maxc": {
+                    "value": "1.00"
+                },
+                "numc": {
+                    "value": "1"
+                },
+                "maxgamma": {
+                    "value": "scale"
+                },
+                "mingamma": {
+                    "value": "scale"
+                },
+                "numgamma": {
+                    "value": "1"
+                }
+            }
+        }
+    },
+    "model_evaluation": {},
+    "statistical_analysis": {}
+}
