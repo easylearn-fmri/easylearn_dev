@@ -95,21 +95,21 @@ pipe = Pipeline([
 # Set paramters according to users inputs
 # PCA参数
 max_components = 0.99,
-min_components = 0.5
-number_pc = 5
+min_components = 0.7
+number_pc = 3
 range_dimreduction = np.linspace(min_components, max_components, number_pc).reshape(number_pc,)
 
 # ANOVA参数
-max_number = 1,
-min_number = 0.5
-number_anova = 5
+max_number = 1
+min_number = 0.7
+number_anova = 3
 range_feature_selection = np.linspace(min_number, max_number, number_anova).reshape(number_anova,)
 # 由于anova检验的特征数必须是整数，所以进行如下的操作，将min/max_number 变为整数
 range_feature_selection = np.int16(range_feature_selection * np.shape(X)[1])
 
 # 分类器参数
-max_l1_ratio = 1,
-min_l1_ratio = 0
+max_l1_ratio = 1
+min_l1_ratio = 0.5
 number_l1_ratio = 5
 range_l1_ratio = np.linspace(min_l1_ratio, max_l1_ratio, number_l1_ratio).reshape(number_l1_ratio,)
 

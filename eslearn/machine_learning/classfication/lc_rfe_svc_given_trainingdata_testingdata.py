@@ -4,13 +4,11 @@ Created on Fri Apr 12 16:25:57 2019
 @author: LI Chao
 """
 import sys
-sys.path.append(r'D:\My_Codes\LC_Machine_Learning\lc_rsfmri_tools\lc_rsfmri_tools_python')
-sys.path.append(r'F:\黎超\dynamicFC\Code\lc_rsfmri_tools_python-master\Machine_learning\classfication')
-sys.path.append(r'D:\My_Codes\LC_Machine_Learning\lc_rsfmri_tools\lc_rsfmri_tools_python\Utils')
 import numpy as np
-from lc_read_nii import read_multiNii_LC
-from lc_read_nii import read_sigleNii_LC
+
+from eslearn.utils.lc_niiProcessor import NiiProcessor
 from lc_svc_rfe_cv_V2 import SVCRefCv
+from eslearn.utils.lc_evaluation_model_performances import eval_performance
 
 class SvcForGivenTrAndTe(SVCRefCv):
     """
@@ -22,13 +20,13 @@ class SvcForGivenTrAndTe(SVCRefCv):
     def __init__(self,
                  # =====================================================================
                  # all inputs are follows
-                 patients_path=r'D:\WorkStation_2018\Workstation_Old\WorkStation_2018-05_MVPA_insomnia_FCS\mALFF\patient_mALFF',  # 训练组病人
-                 hc_path=r'D:\WorkStation_2018\Workstation_Old\WorkStation_2018-05_MVPA_insomnia_FCS\mALFF\control_mALFF',  # 训练组正常人
-                 val_path=r'D:\WorkStation_2018\Workstation_Old\WorkStation_2018-05_MVPA_insomnia_FCS\mALFF\control_mALFF',  # 验证集数据
-                 val_label=r'D:\My_Codes\LC_Machine_Learning\lc_rsfmri_tools\lc_rsfmri_tools_python\Machine_learning\classfication\val_label.txt',  # 验证数据的label文件
-                 suffix='.img',  #图像文件的后缀
-                 mask=r'D:\WorkStation_2018\Workstation_Old\WorkStation_2018-05_MVPA_insomnia_FCS\mALFF\patient_mALFF\mALFFMap_sub006.img',
-                 k=2  # 训练集内部进行RFE时，用的kfold CV
+                 patients_path=r'D:\workstation_b\xiaowei\ToLC\training\BD_label1',  # 训练组病人
+                 hc_path=r'D:\workstation_b\xiaowei\ToLC\training\MDD__label0',  # 训练组正常人
+                 val_path=r'D:\workstation_b\xiaowei\ToLC\testing',  # 验证集数据
+                 val_label=r'D:\workstation_b\xiaowei\ToLC\testing_label.txt',  # 验证数据的label文件
+                 suffix='.nii',  #图像文件的后缀
+                 mask=r'G:\Softer_DataProcessing\spm12\spm12\tpm\Reslice3_TPM_greaterThan0.2.nii',
+                 k=5  # 训练集内部进行RFE时，用的kfold CV
                  # =====================================================================
                  ):
         
@@ -46,18 +44,18 @@ class SvcForGivenTrAndTe(SVCRefCv):
         """load training data and validation data and generate label for training data"""
         print("loading...")
         # train data
-        data1,_=read_multiNii_LC(self.patients_path, self.suffix)
-        data1=np.squeeze(np.array([np.array(data1).reshape(1,-1) for data1 in data1]))
-        data2,_=read_multiNii_LC(self.hc_path, self.suffix)
-        data2=np.squeeze(np.array([np.array(data2).reshape(1,-1) for data2 in data2]))
-        data=np.vstack([data1,data2])
+        data1, _ = NiiProcessor().read_multi_nii(self.patients_path, self.suffix)
+        data1 = np.squeeze(np.array([np.array(data1).reshape(1,-1) for data1 in data1]))
+        data2,_ = NiiProcessor().read_multi_nii(self.hc_path, self.suffix)
+        data2 = np.squeeze(np.array([np.array(data2).reshape(1,-1) for data2 in data2]))
+        data = np.vstack([data1,data2])
         
         # validation data
-        data_validation,self.name_val=read_multiNii_LC(self.val_path, self.suffix)
+        data_validation,self.name_val=NiiProcessor().read_multi_nii(self.val_path, self.suffix)
         data_validation=np.squeeze(np.array([np.array(data_validation).reshape(1,-1) for data_validation in data_validation]))
         
         # data in mask
-        mask,_=read_sigleNii_LC(self.mask)
+        mask, _ = NiiProcessor().read_sigle_nii(self.mask)
         mask=mask>=0.2
         mask=np.array(mask).reshape(-1,)
         
@@ -65,7 +63,7 @@ class SvcForGivenTrAndTe(SVCRefCv):
         self.data_validation=data_validation[:,mask]
         
         # label_tr
-        self.label_tr=np.hstack([np.ones([len(data1),])-1,np.ones([len(data2),])])
+        self.label_tr=np.hstack([np.ones([len(data1),]),np.ones([len(data2),]) - 1])
         print("loaded")
         return self
 
@@ -100,17 +98,18 @@ class SvcForGivenTrAndTe(SVCRefCv):
 
         # eval performances
         self.val_label=np.loadtxt(self.val_label)
-        self.eval_prformance(self.val_label,self.predict,self.decision)
-        
-        return self
+        acc, sens, spec, auc = eval_performance(
+            self.val_label,self.predict,self.decision, 
+            accuracy_kfold=None, sensitivity_kfold=None, specificity_kfold=None, AUC_kfold=None,
+            verbose=1, is_showfig=False,
+        )
+
     
     def main(self):
-        self.load_data()
+        self._load_data_infolder()
         self.tr_te_ev()
-        return self
     
 if __name__=="__main__":
     svc=SvcForGivenTrAndTe()
-    results=svc.main()
-    results=results.__dict__
+    svc.main()
     print("Done!\n")

@@ -80,11 +80,6 @@ Please refer to [developer link](https://github.com/easylearn-fmri/easylearn/tre
     2 Beijing Key Laboratory of Brain Imaging and Connectomics, Beijing Normal University, Beijing 100875, China  
     3 IDG/McGovern Institute for Brain Research, Beijing Normal University, Beijing 100875, China 
 
-##### Fei Wang  
-    fei.wang@yale.edu  
-    1 Brain Function Research Section, The First Affiliated Hospital of China Medical
-    University, Shenyang, Liaoning, PR China.  
-
 # Maintainers
 ##### Vacancy 1   
 Contributors will first add to the [contributors_list.md](./eslearn/developer/contributors_list.md). Once your contribution is important or more than or equal to 1/4 of the total code, we will add you as a maintainer.  

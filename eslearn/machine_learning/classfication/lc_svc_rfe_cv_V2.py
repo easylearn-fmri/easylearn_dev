@@ -31,9 +31,9 @@ from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
 import matplotlib.pyplot as plt
 
-from Utils.lc_featureSelection_rfe import rfeCV
-from Utils.lc_dimreduction import pca
-import Utils.lc_scaler as scl
+from eslearn.feature_engineering.feature_selection.el_rfe import rfeCV
+from eslearn.feature_engineering.feature_reduction.el_dimreduction import pca
+import eslearn.utils.lc_scaler as scl
 #==============================================================================
 
 class SVCRefCv(object):

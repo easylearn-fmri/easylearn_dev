@@ -447,9 +447,9 @@ class CopyFmri():
 
 # %%
 if __name__ == '__main__':
-    uid = r'D:\WorkStation_2018\WorkStation_dynamicFC_V3\Data\ID_Scale_Headmotion\id.xlsx'
-    target_folder = r'F:\Data\Doctor\FunImg_our'
-    out_path = r'F:\Data\Doctor\Funimg_610'
+    uid = r'F:\Data\Doctor\Funimg_610ARW_1\log_unmatched_reference.txt'
+    target_folder = r'F:\Data\Doctor\Funimg_610ARW'
+    out_path = r'F:\Data\Doctor\Funimg_610ARW_1'
     
     unique_id_level_of_target_file = 2
     keywork_of_target_file = ''

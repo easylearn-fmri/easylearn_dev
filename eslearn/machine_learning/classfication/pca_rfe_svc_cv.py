@@ -17,8 +17,9 @@ import os
 
 from eslearn.utils.lc_evaluation_model_performances import eval_performance
 from eslearn.utils.lc_niiProcessor import NiiProcessor
-from eslearn.feature_selection.el_rfe import rfeCV
-import eslearn.utils.el_preprocessing as elprep
+from eslearn.feature_engineering.feature_selection.el_rfe import rfeCV
+import eslearn.feature_engineering.feature_preprocessing.el_preprocessing as elprep
+from eslearn.feature_engineering.feature_reduction.el_dimreduction import pca_apply
 
 
 class PcaRfeSvcCV():
@@ -199,11 +200,11 @@ class PcaRfeSvcCV():
             """
             Load nii and generate label
             """
-            data1, _ = NiiProcessor().main(self.path_patients)
+            data1, _ = NiiProcessor().read_multi_nii(self.path_patients)
             data1 = np.squeeze(
                 np.array([np.array(data1).reshape(1, -1) for data1 in data1]))
     
-            data2, _ = NiiProcessor().main(self.path_HC)
+            data2, _ = NiiProcessor().read_multi_nii(self.path_HC)
             data2 = np.squeeze(
                 np.array([np.array(data2).reshape(1, -1) for data2 in data2]))
     
@@ -289,7 +290,6 @@ class PcaRfeSvcCV():
         return feature_train, feature_test, mask_selected
         
     def dimReduction_PCA(self, train_X, test_X, pca_n_component):
-        from eslearn.utils.lc_dimreduction import pca_apply
         x_train, x_test, trained_pca = pca_apply(
                     train_X, test_X, pca_n_component)
         return x_train, x_test, trained_pca
@@ -349,10 +349,10 @@ class PcaRfeSvcCV():
 if __name__ == '__main__':
     # =============================================================================
     # All inputs
-    path_patients = r'D:\WorkStation_2018\Workstation_Old\WorkStation_2018-05_MVPA_insomnia_FCS\Degree\degree_gray_matter\Zdegree\Z_degree_patient\Weighted'
-    path_HC = r'D:\WorkStation_2018\Workstation_Old\WorkStation_2018-05_MVPA_insomnia_FCS\Degree\degree_gray_matter\Zdegree\Z_degree_control\Weighted'
+    path_patients = r'D:\workstation_b\xiaowei\ToLC\training\BD_label1'  # 训练组病人
+    path_HC = r'D:\workstation_b\xiaowei\ToLC\training\MDD__label0' # 训练组正常人
     path_mask = r'G:\Softer_DataProcessing\spm12\spm12\tpm\Reslice3_TPM_greaterThan0.2.nii'
-    path_out = r'D:\workstation_b\haoge\FC'
+    path_out = r'D:\workstation_b\xiaowei\ToLC'
     # =============================================================================
     
     clf = PcaRfeSvcCV(path_patients=path_patients,
