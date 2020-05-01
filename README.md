@@ -74,11 +74,19 @@ Please refer to [developer link](https://github.com/easylearn-fmri/easylearn/tre
     2 Department of Psychiatry, The First Affiliated Hospital of China Medical University,
     Shenyang, Liaoning, PR China.      
  
+#### Fei Wang
+    fei.wang@cmu.edu.cn
+    1 Brain Function Research Section, The First Affiliated Hospital of China Medical
+    University, Shenyang, Liaoning, PR China.  
+    2 Department of Psychiatry, The First Affiliated Hospital of China Medical University,
+    Shenyang, Liaoning, PR China.    
+    
 ##### Yong He  
     yong.he@bnu.edu.cn  
     1 National Key Laboratory of Cognitive Neuroscience and Learning, Beijing Normal University, Beijing 100875, China  
     2 Beijing Key Laboratory of Brain Imaging and Connectomics, Beijing Normal University, Beijing 100875, China  
     3 IDG/McGovern Institute for Brain Research, Beijing Normal University, Beijing 100875, China 
+
 
 # Maintainers
 ##### Vacancy 1   
