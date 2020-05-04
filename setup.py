@@ -10,16 +10,16 @@ Email:  lichao19870617@gmail.com; dongmengshi1990@163.com; 867727390@qq.com;
 
 from setuptools import setup, find_packages
 
-with open("README.md", "r") as fh:
-    long_description = fh.read()
+# with open("README.md", "r") as fh:
+#     long_description = fh.read()
 
 setup(
     name='easylearn',
-    version='0.1.12.alpha',
+    version='0.1.13.alpha',
     description=(
         'This project is designed for machine learning in resting-state fMRI field'
     ),
-    long_description=long_description,
+    # long_description=long_description,
     long_description_content_type="text/markdown",
     author='Chao Li',
     author_email='lichao19870617@gmail.com',

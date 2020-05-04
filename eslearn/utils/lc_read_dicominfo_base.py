@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Wed Jun  5 09:26:21 2019
-
+https://www.cnblogs.com/XDU-Lakers/p/9863114.html
 @author: lenovo
 """
 from SimpleITK import ReadImage, ImageSeriesReader, GetArrayFromImage
