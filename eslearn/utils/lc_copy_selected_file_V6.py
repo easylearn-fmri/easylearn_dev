@@ -130,8 +130,8 @@ class CopyFmri():
         self.allFilePath = []
         for onePath in self.allWalkPath:
             for oneFile in onePath[2]:
-                target_folder = os.path.join(onePath[0], oneFile)
-                self.allFilePath.append(target_folder)
+                source_folder = os.path.join(onePath[0], oneFile)
+                self.allFilePath.append(source_folder)
         return self
 
     def fetch_allSubjName(self):
@@ -264,7 +264,7 @@ class CopyFmri():
         return self
 
     def fetch_selfectedFilePath_accordingPathLogicalLocation(self):
-        # target_folder
+        # source_folder
         self.allFilePath = pd.DataFrame(self.allFilePath)
         self.allSelectedFilePath = self.allFilePath[self.logic_index_all]
         self.allSelectedFilePath = self.allSelectedFilePath.dropna()
@@ -278,7 +278,6 @@ class CopyFmri():
         self.allSelectedSubjName_raw = self.allSelectedSubjName_raw.dropna()
         return self
 
-    # %% run copy
     def copy_base(self, i, subjName):
         n_allSelectedSubj = len(np.unique(self.allSelectedSubjName_raw))
         # 每个file保存到每个subjxxx文件夹下面
@@ -293,17 +292,19 @@ class CopyFmri():
         elif self.save_into_one_or_more_folder == 'all_files_in_one_folder':
             output_folder = os.path.join(
                 self.out_path, subjName + self.save_suffix)
+        else:
+            print("Please specify how to save: one_file_one_folder OR all_files_in_one_folder")
 
         # copying OR moving OR do nothing
         fileIndex = self.allSelectedSubjName_raw[(
             self.allSelectedSubjName_raw.values == subjName)].index.tolist()
-        if self.is_copy == 1 and self.is_move == 0:
+        if (self.is_copy) and (not self.is_move):
             [shutil.copy(self.allSelectedFilePath.loc[fileIndex_, :][0],
                          output_folder) for fileIndex_ in fileIndex]
-        elif self.is_copy == 0 and self.is_move == 1:
+        elif (not self.is_copy) and (self.is_move):
             [shutil.move(self.allSelectedFilePath.loc[fileIndex_, :][0],
                          output_folder) for fileIndex_ in fileIndex]
-        elif self.is_copy == 0 and self.is_move == 0:
+        elif (not self.is_copy) and (not self.is_move):
             print('### No copy and No move ###\n')
 
         print('Copy the {}/{}th subject: {} OK!\n'.format(i + 1, n_allSelectedSubj, subjName))
@@ -339,7 +340,7 @@ class CopyFmri():
 
     # %%
     def main_run(self):
-        # all target_folder and name
+        # all source_folder and name
         self._after_init()
         self = self.walkAllPath()
         self = self.fetch_allFilePath()
@@ -447,17 +448,17 @@ class CopyFmri():
 
 # %%
 if __name__ == '__main__':
-    uid = r'F:\Data\Doctor\Funimg_610ARW_1\log_unmatched_reference.txt'
-    target_folder = r'F:\Data\Doctor\Funimg_610ARW'
-    out_path = r'F:\Data\Doctor\Funimg_610ARW_1'
+    uid = r'D:\WorkStation_2018\WorkStation_dynamicFC_V3\Data\ID_Scale_Headmotion\id_mdd_final.xlsx'
+    source_folder = r'D:\WorkStation_2018\WorkStation_dynamicFC_V3\Data\sfc'
+    out_path = r'D:\workstation_b\ZhangYue_Guangdongshengzhongyiyuan\data_clustering\c'
     
-    unique_id_level_of_target_file = 2
+    unique_id_level_of_target_file = 1
     keywork_of_target_file = ''
     save_suffix= ''
     
     copy = CopyFmri(
             reference_file=uid,
-            targe_file_folder=target_folder,
+            targe_file_folder=source_folder,
             keywork_of_reference_uid='([1-9]\d*)',
             ith_number_of_reference_uid=0,
             keyword_of_target_file_uid='([1-9]\d*)',
@@ -468,9 +469,9 @@ if __name__ == '__main__':
             out_path=out_path,
             n_processess=8,
             is_save_log=1,
-            is_copy=0,
-            is_move=1,
-            save_into_one_or_more_folder='one_file_one_folder',
+            is_copy=1,
+            is_move=0,
+            save_into_one_or_more_folder='all_files_in_one_folder',
             save_suffix=save_suffix,
             is_run=1)
     
