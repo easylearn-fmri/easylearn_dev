@@ -51,5 +51,5 @@
 现阶段，我已经把软件的框架搭建完成，图形界面已经开发了4/5。接下来的工作便是实现底层代码逻辑， 不过这一部分比较快。
 
 # 团队
-[current_team_members.md](../eslearn/developer/current_team_members.md)
-[contributors_list.md](../eslearn/developer/contributors_list.md)
+[current_team_members.md](./current_team_members.md)
+[contributors_list.md](./contributors_list.md)
