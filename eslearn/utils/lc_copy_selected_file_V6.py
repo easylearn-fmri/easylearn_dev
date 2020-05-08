@@ -448,7 +448,7 @@ class CopyFmri():
 
 # %%
 if __name__ == '__main__':
-    uid = r'D:\WorkStation_2018\WorkStation_dynamicFC_V3\Data\ID_Scale_Headmotion\id_mdd_final.xlsx'
+    uid = r'D:\WorkStation_2018\SZ_classification\Scale\index_chronic.txt'
     source_folder = r'D:\WorkStation_2018\WorkStation_dynamicFC_V3\Data\sfc'
     out_path = r'D:\workstation_b\ZhangYue_Guangdongshengzhongyiyuan\data_clustering\c'
     

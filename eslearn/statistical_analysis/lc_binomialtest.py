@@ -43,8 +43,8 @@ def lc_plot(prob, k, p, titlename):
 
 
 if __name__ ==  "__main__":
-    n = 74
-    acc =0.59
+    n = 92
+    acc =0.71
     k = np.int32(n * acc)
     print(k)
     p, sum_prob, prob, randk = lc_binomialtest(n, k, 0.5, 0.5)
