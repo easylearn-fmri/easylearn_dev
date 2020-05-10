@@ -14,7 +14,7 @@ class ViolinPlot(object):
     """This class is used to plot violin
     """
 
-    def plot(self, data, xlabel=None, ylabel=None, xlabelsize=10, ylabelsize=10, xticklabel=None, yticklabel=None, xticklabel_rotation=90):
+    def plot(self, data, xlabel=None, ylabel=None, xlabelsize=10, ylabelsize=10, xticklabel=None, yticklabel=None, xticklabel_rotation=45):
         """Plot
 
         Parameters:
@@ -54,10 +54,53 @@ class ViolinPlot(object):
         if ylabel:
             self.ax.set_ylabel(ylabel, fontsize=ylabelsize)
 
+class ViolinPlotMatplotlib(object):
+    """ ViolinPlot customization 
+
+    """
+
+
+    def adjacent_values(self, vals, q1, q3):
+        upper_adjacent_value = q3 + (q3 - q1) * 1.5
+        upper_adjacent_value = np.clip(upper_adjacent_value, q3, vals[-1])
+    
+        lower_adjacent_value = q1 - (q3 - q1) * 1.5
+        lower_adjacent_value = np.clip(lower_adjacent_value, vals[0], q1)
+        return lower_adjacent_value, upper_adjacent_value
+
+    def plot(self, data, **kwargs):
+        """ Plot violin
+
+        Parameters:
+        ----------
+            data: list
+                each item in list is a array
+            **kwargs: matplotlib kwargs
+        """
+
+        # Sorted data so that adjacent_values method can get sorted array
+        data = [sorted(d) for d in data]
+
+        parts = plt.violinplot(data, showmeans=False, showmedians=False, showextrema=False, **kwargs)
+
+        quartile1, medians, quartile3 = np.percentile(data, [25, 50, 75], axis=1)
+        whiskers = np.array([
+            self.adjacent_values(sorted_array, q1, q3)
+            for sorted_array, q1, q3 in zip(data, quartile1, quartile3)])
+        whiskersMin, whiskersMax = whiskers[:, 0], whiskers[:, 1]
+
+        if 'positions' in kwargs.keys():
+            inds = kwargs['positions']
+        else:
+            inds = np.arange(1, len(medians) + 1)
+        
+        plt.scatter(inds, medians, marker='o', color='white', s=10, zorder=3)
+        plt.vlines(inds, quartile1, quartile3, color='k', linestyle='-', lw=5)
+        plt.vlines(inds, whiskersMin, whiskersMax, color='k', linestyle='-', lw=1)
 
 if __name__ == "__main__":
     np.random.seed(666)
-    data = [sorted(np.random.normal(0, std, 100)) for std in range(1, 5)]
-    violin = ViolinPlot()
+    data = [np.random.randn(100,), np.random.randn(100,)]
+    violin = ViolinPlotMatplotlib()
     violin.plot(data)
     plt.show()
