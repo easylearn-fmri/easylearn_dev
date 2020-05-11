@@ -43,69 +43,10 @@ def lc_plot(prob, k, p, titlename):
 
 
 if __name__ ==  "__main__":
-    n = 92
-    acc =0.71
+    n = 550
+    acc =0.69
     k = np.int32(n * acc)
     print(k)
     p, sum_prob, prob, randk = lc_binomialtest(n, k, 0.5, 0.5)
     print(p)
     lc_plot(prob, k, p, titlename = f'Testing data\n (Sample size = {n}, Accuracy = {acc})')
-
-
-    # plt.subplots_adjust(left=None, bottom=None, right=None, top=None,
-    #                     wspace=0.5, hspace=0.5)
-    
-    # p1, p2 = 0.5, 0.5
-
-    # n, k = 149, 119 
-    # p, sum_prob, prob, randk = lc_binomialtest(140, 119, p1, p2)
-    # plt.subplot(2, 5, 1)
-    # lc_plot(prob, k, p, titlename = f'Training set (n = 149)')
-
-    # n, k = 61, 49
-    # p, sum_prob, prob, randk = lc_binomialtest(n, k, p1, p2)
-    # plt.subplot(2, 5, 2)
-    # lc_plot(prob, k, p, titlename = f'Test set (n = 61)')
-
-    # n, k = 6, 4
-    # p, sum_prob, prob, randk = lc_binomialtest(n, k, p1, p2)
-    # plt.subplot(2, 5, 3)
-    # lc_plot(prob, k, p, titlename = f'GE (n = 6)')
-
-    # n, k = 24, 18
-    # p, sum_prob, prob, randk = lc_binomialtest(n, k, p1, p2)
-    # plt.subplot(2, 5, 4)
-    # lc_plot(prob, k, p, titlename = f'Philips (n = 24)')
-
-    # n, k = 11, 10
-    # p, sum_prob, prob, randk = lc_binomialtest(n, k, p1, p2)
-    # plt.subplot(2, 5, 5)
-    # lc_plot(prob, k, p, titlename = f'Siemens (n = 11)')
-
-    # n, k = 20,16 
-    # p, sum_prob, prob, randk = lc_binomialtest(n, k, p1, p2)
-    # plt.subplot(2, 5, 6)
-    # lc_plot(prob, k, p, titlename = f'Toshiba (n = 20)')
-
-    # n, k = 4, 3
-    # p, sum_prob, prob, randk = lc_binomialtest(n, k, p1, p2)
-    # plt.subplot(2, 5, 7)
-    # lc_plot(prob, k, p, titlename = f'1 mm (n = 4)')
-
-    # n, k = 3, 2
-    # p, sum_prob, prob, randk = lc_binomialtest(n, k, p1, p2)
-    # plt.subplot(2, 5, 8)
-    # lc_plot(prob, k, p, titlename = f'2 mm (n = 3)')
-
-    # n, k = 21, 15
-    # p, sum_prob, prob, randk = lc_binomialtest(n, k, p1, p2)
-    # plt.subplot(2, 5, 9)
-    # lc_plot(prob, k, p, titlename = f'5 mm (n = 21)')
-
-    # n, k = 33, 28
-    # p, sum_prob, prob, randk = lc_binomialtest(n, k, p1, p2)
-    # plt.subplot(2, 5, 10)
-    # lc_plot(prob, k, p, titlename = f'8 mm (n = 33)')
-    
-    # plt.savefig(r'D:\workstation_b\Fundation\stat_test.tif', dpi=1200, bbox_inches='tight')
-    # plt.show()

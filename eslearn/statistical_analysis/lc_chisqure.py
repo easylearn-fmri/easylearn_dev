@@ -1,17 +1,37 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Mon Nov 26 15:31:57 2018
-构成比的卡方检验
-Chi-square test of independence of variables in a contingency table.
-@author: lenovo
+"""Chi-square test for independence of variables in a contingency table or constituent ratio.
+
+NOTE. When 'correction' is False in lc_chi2, then lc_chi2 and lc_chisqure is the same.
+@author: Li Chao
+Email:lichao19870617@gmail.com OR lichao19870617@163.com
 """
 from scipy.stats import chi2_contingency
 from scipy.stats import chi2
 import numpy as np
 
 
-def lc_chi2(data):
-    # data=np.array([[10,20],[10,30],[20,400]])
+def lc_chi2(obs, tt, **kwargs):
+    """
+    Parameters:
+    -----------
+        obs: list with each item is a number
+            observed frequence
+        tt: list with each item is a number
+                total number of each group
+    Returns:
+    --------
+        chisqurevalue: float
+            chi-square value
+        p: float
+            p-value
+    EXAMPLE:
+    tt = [120, 81]
+    obs = [31, 67]
+    chi2value, pvalue = lc_chi2(
+    print(f"chi-squre value = {chi2value}\np-value = {pvalue}")
+    """
+
+    data = np.array([obs, np.array(tt) - np.array(obs)])
     results = chi2_contingency(data)
     chi2value = results[0]
     pvalue = results[1]
@@ -19,12 +39,27 @@ def lc_chi2(data):
 
 
 def lc_chisqure(obs, tt):
+    """Chi-square test for constituent ratio
+
+    Parameters:
+    -----------
+        obs: list with each item is a number
+            observed frequence
+        tt: list with each item is a number
+                total number of each group
+    Returns:
+    --------
+        chisqurevalue: float
+            chi-square value
+        p: float
+            p-value
+    EXAMPLE:
+    tt = [120, 81]
+    obs = [31, 67]
+    chisqurevalue, p = lc_chisqure(obs, tt)
+    print(f"chi-squre value = {chisqurevalue}\np-value = {p}")
     """
-    obs: observed frequence
-    tt: total number of each group
-    NOTE. Make sure the number are np.array
-    The results is in line with SPSS
-    """
+
     tt = np.array(tt)
     obs1 = obs
     obs1 = np.array(obs1)
@@ -46,6 +81,11 @@ def lc_chisqure(obs, tt):
 
 
 if __name__ == "__main__":
-    tt = [120, 81 - 20]
-    obs = [31, 67 - 20]
-    print(lc_chisqure(obs, tt))
+    tt = [120, 81]
+    obs = [31, 67]
+
+    chi2value, pvalue = lc_chi2(obs, tt,  correction=False)
+    print(f"chi-squre value = {chi2value}\np-value = {pvalue}")
+
+    chisqurevalue, p = lc_chisqure(obs, tt)
+    print(f"chi-squre value = {chisqurevalue}\np-value = {p}")
