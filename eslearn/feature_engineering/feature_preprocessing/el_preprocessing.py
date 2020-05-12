@@ -31,7 +31,7 @@ class Preprocessing():
             which level to preprocess features, 'subject' or 'group'
     '''
 
-    def __init__(self, data_preprocess_method='StandardScaler', data_preprocess_level='subject'):
+    def __init__(self, data_preprocess_method='StandardScaler', data_preprocess_level='group'):
         self.data_preprocess_method = data_preprocess_method
         self.data_preprocess_level = data_preprocess_level
 
