@@ -15,7 +15,7 @@ from sklearn.datasets import make_classification
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
 from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import make_scorer
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, f1_score
 from sklearn.pipeline import Pipeline
 from sklearn.svm import LinearSVC  # NOTE. If using SVC, then search C will very slow.
 from sklearn.linear_model import LogisticRegression
@@ -162,14 +162,14 @@ class SvcForGivenTrAndTe():
         if self.search_strategy == 'grid':
             model = GridSearchCV(
                 pipe, n_jobs=self.n_jobs, param_grid=param_grid, cv=cv, 
-                scoring = make_scorer(accuracy_score), refit=True
+                scoring = make_scorer(f1_score), refit=True
             )
             # print(f"GridSearchCV fitting (about {iteration_num} times iteration)...\n")
 
         elif self.search_strategy == 'random':
             model = RandomizedSearchCV(
                 pipe, n_jobs=self.n_jobs, param_distributions=param_grid, cv=cv, 
-                scoring = make_scorer(accuracy_score), refit=True, n_iter=self.n_iter_of_randomedsearch,
+                scoring = make_scorer(f1_score), refit=True, n_iter=self.n_iter_of_randomedsearch,
             )
         
             # print(f"RandomizedSearchCV fitting (about {iteration_num} times iteration)...\n")
