@@ -17,8 +17,9 @@ from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import make_scorer
 from sklearn.metrics import accuracy_score
 from sklearn.pipeline import Pipeline
-from sklearn.svm import SVC
+from sklearn.svm import LinearSVC  # NOTE. If using SVC, then search C will very slow.
 from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.decomposition import PCA, NMF
 from sklearn.feature_selection import SelectKBest, f_classif, RFE
 from joblib import Memory
@@ -45,24 +46,23 @@ class SvcForGivenTrAndTe():
                 val_path=r'D:\workstation_b\xiaowei\ToLC\testing',  # 验证集数据
                 val_label=r'D:\workstation_b\xiaowei\ToLC\testing_label.txt',  # 验证数据的label文件
                 suffix='.nii',  # 特征文件的尾缀
-                mask=r'G:\Softer_DataProcessing\spm12\spm12\tpm\Reslice3_TPM_greaterThan0.2.nii',  # mask
+                mask=r'G:\Softer_DataProcessing\spm12\spm12\tpm\Reslice3_TPM_greaterThan0.2.nii',  # ma ++sk
                 path_out=r'D:\workstation_b\xiaowei\ToLC',
                 n_jobs=1,  # 并行处理使用的线程数目
                 
                 # 以下参数可以调试
                 data_preprocess_method='MinMaxScaler', # OR 'StandardScaler'
                 data_preprocess_level='group',  # OR 'subject'
-                mask_threshold=0.1,
+                mask_threshold=0.1,  # range=[0,1)
                 search_strategy='random',  # OR 'grid', if your choose 'grid', then the running time is significantly greater than 'random'
-                k=5,  # 网格搜索最佳参数时，用几折交叉验证
-                n_iter_of_randomedsearch=10,  # When you used randomedSearchCV ('random'), how many iterations to perform random search.
-                max_components=0.99,  # PCA参数：最大成分数目
-                min_components=0.3,  # PCA参数：最小成分数目
-                number_pc=5,      # number_pc=10 PCA参数：参数寻优的候选成分范围内的数目
-                
-                feature_selection_step=10,  #feature_selection_step=10 特征选择范围内的间隔，间隔越小搜索的特征组合越多
-                range_C = np.logspace(-2, 10, 5),  #  np.logspace(-2, 10, 5)代码参与模型搜索的模型包括：支持向量机和逻辑回归，两者超参数C的搜索范围，必须时正数
-                range_gamma = np.logspace(-9, 3, 5),  # np.logspace(-9, 3, 5) 代码参与模型搜索的模型包括：支持向量机和逻辑回归，两者超参数gamma的搜索范围
+                k=5,  # range=(0, positive integer infinity); 网格搜索最佳参数时，用几折交叉验证
+                n_iter_of_randomedsearch=10,  # range=(0, positive integer infinity); When you used randomedSearchCV ('random'), how many iterations to perform random search.
+                max_components=0.99,  # range= (0,1]; PCA参数：最大成分数目
+                min_components=0.3,  # range=(0,1]; PCA参数：最小成分数目
+                number_pc=5,  # range=(0, positive integer infinity); PCA参数：参数寻优的候选成分范围内的数目
+                feature_selection_step=20,  # range=(0, positive integer infinity); 特征选择范围内的间隔，间隔越小搜索的特征组合越多
+                range_C = np.logspace(-2, 10, 10, base=10),  #  np.logspace(-2, 10, 5)=[1.e-02, 1.e+01, 1.e+04, 1.e+07, 1.e+10]; 超参数C的搜索范围，必须时正数
+                n_estimators = np.arange(5, 50, 5),
                 # =====================================================================
                 ):
         
@@ -87,7 +87,7 @@ class SvcForGivenTrAndTe():
         self.number_pc = number_pc
         self.feature_selection_step = feature_selection_step
         self.range_C = range_C
-        self.range_gamma = range_gamma
+        self.n_estimators = n_estimators
 
         print("SvcForGivenTrAndTe initiated")
         
@@ -134,51 +134,37 @@ class SvcForGivenTrAndTe():
         # Feature reduction parameters
         range_dimreduction = np.linspace(self.min_components, self.max_components, self.number_pc).reshape(self.number_pc,)
         
-        # Feature selection parameters
-        print("Identifing components after PCA...\n")
-        pca = PCA(n_components=self.min_components)
-        pca.fit(X=x_train)
-        min_number_anova = pca.n_components_
-        pca = PCA(n_components=self.max_components)
-        pca.fit(X=x_train)
-        max_number_anova = pca.n_components_
-        range_feature_selection = np.arange(min_number_anova, max_number_anova, self.feature_selection_step)
-        
         # Set parameters of gridCV
         print("Setting parameters of gridCV...\n")
         param_grid = [
-            {   'reduce_dim':[PCA(iterated_power=7)],
+            {   'reduce_dim':[PCA()],
                 'reduce_dim__n_components': range_dimreduction,
-                'feature_selection':[RFE(estimator=SVC())],
-                'feature_selection__n_features_to_select': range_feature_selection,
-                'estimator':[SVC()],
-                'estimator__kernel': ['rbf', 'linear'],
+                'estimator':[LinearSVC()],
                 'estimator__C': self.range_C,
-                'estimator__gamma': self.range_gamma,
                 
             }, 
-            {   'reduce_dim':[PCA(iterated_power=7)],
-                'reduce_dim__n_components': range_dimreduction,
-                'feature_selection':[SelectKBest(f_classif)],
-                'feature_selection__k': range_feature_selection,
+
+            {   'reduce_dim':[PCA()],
                 'estimator':[LogisticRegression()],
                 'estimator__penalty': ['l1', 'l2'],
             }, 
+
+            {   'reduce_dim':[PCA()],
+                'estimator': [RandomForestClassifier(random_state=0)],
+                'estimator__n_estimators': self.n_estimators,
+            }, 
+            
         ]
         
-        iteration_num = (
-            len(range_dimreduction) * len(range_feature_selection) * 2 * len(self.range_C) * len(self.range_gamma) + 
-            len(range_dimreduction) * len(range_feature_selection) * 2
-        )
         
         # Train
         cv = StratifiedKFold(n_splits=self.k)
         if self.search_strategy == 'grid':
-            grid = GridSearchCV(
+            model = GridSearchCV(
                 pipe, n_jobs=self.n_jobs, param_grid=param_grid, cv=cv, 
                 scoring = make_scorer(accuracy_score), refit=True
             )
-            print(f"GridSearchCV fitting (about {iteration_num} times iteration)...\n")
+            # print(f"GridSearchCV fitting (about {iteration_num} times iteration)...\n")
 
         elif self.search_strategy == 'random':
             model = RandomizedSearchCV(
@@ -186,11 +172,12 @@ class SvcForGivenTrAndTe():
                 scoring = make_scorer(accuracy_score), refit=True, n_iter=self.n_iter_of_randomedsearch,
             )
         
-            print(f"RandomizedSearchCV fitting (about {iteration_num} times iteration)...\n")
+            # print(f"RandomizedSearchCV fitting (about {iteration_num} times iteration)...\n")
         else:
             print(f"Please specify which search strategy!\n")
             return
 
+        print("Fitting...")
         model.fit(x_train, y_train)
 
         # Delete the temporary cache before exiting
@@ -210,41 +197,41 @@ class SvcForGivenTrAndTe():
 
         #%% training
         print("training...\nYou need to wait for a while...")
-        grid = self.pipeline_grid(data_train, self.label_tr)
-        
-        pred_train = grid.predict(data_train)
+        model = self.pipeline_grid(data_train, self.label_tr)
+
+        pred_train = model.predict(data_train)
         #TODO: different estimator has different method to get decision
         try:
-            dec_train = grid.predict_proba(data_train)[:,1]
+            dec_train = model.predict_proba(data_train)[:,1]
         except AttributeError:
-            dec_train = grid.decision_function(data_train)
+            dec_train = model.decision_function(data_train)
 
         # fetch orignal weight
-        estimator = grid.best_estimator_
+        estimator = model.best_estimator_
         clf = estimator['estimator']
         pca_model = estimator['reduce_dim']
         select_model = estimator['feature_selection']
         
-        weight = np.zeros(np.size(select_model.get_support()))
+        # weight = np.zeros(np.size(select_model.get_support()))
         #TODO: different estimator has different method to get coef.
         # Besides, some estimator have no coef, e.g., rbf svm
-        try:
-            weight[select_model.get_support()] = clf.coef_[0]
-            weight = pca_model.inverse_transform(weight)
-            self.weight_3d = np.zeros(self.mask_orig.shape)
-            self.weight_3d[self.mask_orig] = weight
-            self._weight2nii()
-        except AttributeError:
-             self.weight_3d = None
+        # try:
+        #     weight[select_model.get_support()] = clf.coef_[0]
+        #     weight = pca_model.inverse_transform(weight)
+        #     self.weight_3d = np.zeros(self.mask_orig.shape)
+        #     self.weight_3d[self.mask_orig] = weight
+        #     self._weight2nii()
+        # except AttributeError:
+        #      self.weight_3d = None
              
         # testing
         print("testing...")
-        self.predict = grid.predict(data_validation)
+        self.predict = model.predict(data_validation)
         #TODO: different estimator has different method to get decision
         try:
-            self.decision = grid.predict_proba(data_validation)
+            self.decision = model.predict_proba(data_validation)
         except AttributeError:
-            self.decision = grid.decision_function(data_validation)
+            self.decision = model.decision_function(data_validation)
 
         # eval performances
         acc, sens, spec, auc = eval_performance(
@@ -268,6 +255,8 @@ class SvcForGivenTrAndTe():
         all_per = np.vstack([np.array(performances_train), np.array(performances_val)])
         all_per[np.isnan(all_per)] = 0
         np.savetxt(os.path.join(self.path_out, 'performances.txt'), all_per, fmt="%f", delimiter=",")
+        # Save model
+        np.save(os.path.join(self.path_out, 'model.npy'), model)
 
     def _weight2nii(self, dimension_nii_data=(61, 73, 61)):
         """Transfer weight matrix to nii file
