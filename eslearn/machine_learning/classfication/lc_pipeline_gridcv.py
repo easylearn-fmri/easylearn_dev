@@ -11,11 +11,12 @@ Email:lichao19870617@gmail.com
 import sys
 import os
 import numpy as np
+import pickle
 from sklearn.datasets import make_classification
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
 from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import make_scorer
-from sklearn.metrics import accuracy_score, f1_score
+from sklearn.metrics import accuracy_score, f1_score, recall_score, roc_auc_score
 from sklearn.pipeline import Pipeline
 from sklearn.svm import LinearSVC  # NOTE. If using SVC, then search C will very slow.
 from sklearn.linear_model import LogisticRegression
@@ -43,26 +44,27 @@ class SvcForGivenTrAndTe():
                 # All inputs are follows
                 patients_path=r'D:\workstation_b\xiaowei\ToLC\training\BD_label1',  # 训练组病人
                 hc_path=r'D:\workstation_b\xiaowei\ToLC\training\MDD__label0',  # 训练组正常人
-                val_path=r'D:\workstation_b\xiaowei\ToLC\testing',  # 验证集数据
-                val_label=r'D:\workstation_b\xiaowei\ToLC\testing_label.txt',  # 验证数据的label文件
+                val_path=r'D:\workstation_b\xiaowei\ToLC2\PREDICTING\mixed',  # 验证集数据
+                val_label=r'D:\workstation_b\xiaowei\ToLC2\PREDICTING\mixed_label.txt',  # 验证数据的label文件
                 suffix='.nii',  # 特征文件的尾缀
                 mask=r'G:\Softer_DataProcessing\spm12\spm12\tpm\Reslice3_TPM_greaterThan0.2.nii',  # ma ++sk
-                path_out=r'D:\workstation_b\xiaowei\ToLC',
+                path_out=r'D:\workstation_b\xiaowei\ToLC2',
                 n_jobs=1,  # 并行处理使用的线程数目
                 
                 # 以下参数可以调试
-                data_preprocess_method='MinMaxScaler', # OR 'StandardScaler'
-                data_preprocess_level='group',  # OR 'subject'
-                mask_threshold=0.1,  # range=[0,1)
-                search_strategy='random',  # OR 'grid', if your choose 'grid', then the running time is significantly greater than 'random'
+                data_preprocess_method='StandardScaler', # 'MinMaxScaler' OR 'StandardScaler'
+                data_preprocess_level='subject',  # 'group' OR 'subject'
+                mask_threshold=0.2,  # range=[0,1)
+                search_strategy='random', #  # OR 'grid', if your choose 'grid', then the running time is significantly greater than 'random'
                 k=5,  # range=(0, positive integer infinity); 网格搜索最佳参数时，用几折交叉验证
                 n_iter_of_randomedsearch=10,  # range=(0, positive integer infinity); When you used randomedSearchCV ('random'), how many iterations to perform random search.
                 max_components=0.99,  # range= (0,1]; PCA参数：最大成分数目
                 min_components=0.3,  # range=(0,1]; PCA参数：最小成分数目
-                number_pc=5,  # range=(0, positive integer infinity); PCA参数：参数寻优的候选成分范围内的数目
+                number_pc=10,  # range=(0, positive integer infinity); PCA参数：参数寻优的候选成分范围内的数目
                 feature_selection_step=20,  # range=(0, positive integer infinity); 特征选择范围内的间隔，间隔越小搜索的特征组合越多
-                range_C = np.logspace(-2, 10, 10, base=10),  #  np.logspace(-2, 10, 5)=[1.e-02, 1.e+01, 1.e+04, 1.e+07, 1.e+10]; 超参数C的搜索范围，必须时正数
-                n_estimators = np.arange(5, 50, 5),
+                range_C=np.logspace(-2, 20, 20, base=2),  #  np.logspace(-2, 10, 5)=[1.e-02, 1.e+01, 1.e+04, 1.e+07, 1.e+10]; 超参数C的搜索范围，必须时正数
+                n_estimators=np.arange(5, 50, 5),
+                metric=accuracy_score
                 # =====================================================================
                 ):
         
@@ -88,6 +90,7 @@ class SvcForGivenTrAndTe():
         self.feature_selection_step = feature_selection_step
         self.range_C = range_C
         self.n_estimators = n_estimators
+        self.metric=metric
 
         print("SvcForGivenTrAndTe initiated")
         
@@ -133,23 +136,35 @@ class SvcForGivenTrAndTe():
 
         # Feature reduction parameters
         range_dimreduction = np.linspace(self.min_components, self.max_components, self.number_pc).reshape(self.number_pc,)
+        range_k = np.int32(range_dimreduction * x_train.shape[1])
         
         # Set parameters of gridCV
         print("Setting parameters of gridCV...\n")
         param_grid = [
-            {   'reduce_dim':[PCA()],
+            {   
+                'reduce_dim':[PCA(), NMF()],
                 'reduce_dim__n_components': range_dimreduction,
+                'estimator':[LinearSVC()],
+                'estimator__penalty': ['l1', 'l2'],
+                'estimator__C': self.range_C,
+                
+            }, 
+            {   
+                'feature_selection':[SelectKBest(f_classif)],
+                'feature_selection__k': range_k,
                 'estimator':[LinearSVC()],
                 'estimator__C': self.range_C,
                 
             }, 
 
-            {   'reduce_dim':[PCA()],
+            {   
+                'reduce_dim':[PCA()],
                 'estimator':[LogisticRegression()],
                 'estimator__penalty': ['l1', 'l2'],
             }, 
 
-            {   'reduce_dim':[PCA()],
+            {   
+                'reduce_dim':[PCA()],
                 'estimator': [RandomForestClassifier(random_state=0)],
                 'estimator__n_estimators': self.n_estimators,
             }, 
@@ -162,14 +177,14 @@ class SvcForGivenTrAndTe():
         if self.search_strategy == 'grid':
             model = GridSearchCV(
                 pipe, n_jobs=self.n_jobs, param_grid=param_grid, cv=cv, 
-                scoring = make_scorer(f1_score), refit=True
+                scoring = make_scorer(self.metric), refit=True
             )
             # print(f"GridSearchCV fitting (about {iteration_num} times iteration)...\n")
 
         elif self.search_strategy == 'random':
             model = RandomizedSearchCV(
                 pipe, n_jobs=self.n_jobs, param_distributions=param_grid, cv=cv, 
-                scoring = make_scorer(f1_score), refit=True, n_iter=self.n_iter_of_randomedsearch,
+                scoring = make_scorer(self.metric), refit=True, n_iter=self.n_iter_of_randomedsearch,
             )
         
             # print(f"RandomizedSearchCV fitting (about {iteration_num} times iteration)...\n")
@@ -192,7 +207,7 @@ class SvcForGivenTrAndTe():
         """
         
         # scale
-        prep = Preprocessing(data_preprocess_method='StandardScaler', data_preprocess_level='group')
+        prep = Preprocessing(data_preprocess_method=self.data_preprocess_method, data_preprocess_level=self.data_preprocess_level)
         data_train, data_validation = prep.data_preprocess(self.data_train, self.data_validation)
 
         #%% training
@@ -256,7 +271,13 @@ class SvcForGivenTrAndTe():
         all_per[np.isnan(all_per)] = 0
         np.savetxt(os.path.join(self.path_out, 'performances.txt'), all_per, fmt="%f", delimiter=",")
         # Save model
-        np.save(os.path.join(self.path_out, 'model.npy'), model)
+        with open(os.path.join(self.path_out, 'model.pickle'), 'wb') as fw:
+            pickle.dump(model, fw)
+
+        # 加载svm.pickle
+        with open(os.path.join(self.path_out, 'model.pickle'), 'rb') as fr:
+            model = pickle.load(fr)
+
 
     def _weight2nii(self, dimension_nii_data=(61, 73, 61)):
         """Transfer weight matrix to nii file
