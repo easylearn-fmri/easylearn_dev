@@ -66,7 +66,7 @@ def eval_performance(label_real=None, label_predict=None, decision=None,
         from matplotlib.backends.backend_pdf import PdfPages
         from matplotlib.pyplot import MultipleLocator
         
-        if ((accuracy_kfold) and (sensitivity_kfold) and (specificity_kfold)):
+        if all((accuracy_kfold) and all(sensitivity_kfold) and all(specificity_kfold)):
             fig, ax = plt.subplots(1,3, figsize=(15,5))
         else:
             fig, ax = plt.subplots(1,2, figsize=(10,5))

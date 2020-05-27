@@ -1,4 +1,4 @@
-function [teststat, pvalues] = el_glm(independent_variables, dependent_variables, contrast, test_type)
+function [teststat, pvalues, beta_value] = el_glm(independent_variables, dependent_variables, contrast, test_type)
 % General linear model for fmri-like (Very high dimension of dependent variables, e.g. voxels) data
 % This function is based on revised NBSglm, so users should cite NBS software.
 % USAGE: el_glm(dependent_variables, independent_variables, contrast, test_type)
@@ -16,10 +16,10 @@ GLM.test = test_type;
 GLM.contrast = contrast;
 GLM.X = independent_variables;
 GLM.y=dependent_variables;
-[teststat, pvalues]=NBSglm_x(GLM);
+[teststat, pvalues, beta_value]=NBSglm_x(GLM);
 end
 
-function [test_stat,pvalues]=NBSglm_x(varargin)
+function [test_stat,pvalues, beta_value]=NBSglm_x(varargin)
 %NBSglm_x is revised from NBSglm
 %
 %   Test_Stat=NBSglm_x(GLM) operates on each GLM defined by the structure
@@ -68,8 +68,8 @@ if ~isempty(ind_nuisance)
     dependent_variables=resid_y+[GLM.X(:,ind_nuisance)]*b;
 end
 
-b_perm=zeros(p,M);
-b_perm=GLM.X\dependent_variables;
+beta_value=zeros(p,M);
+beta_value=GLM.X\dependent_variables;
 
 %Compute statistic of interest
 if strcmp(GLM.test,'onesample')
@@ -78,10 +78,10 @@ if strcmp(GLM.test,'onesample')
 elseif strcmp(GLM.test,'ttest')
     resid=zeros(n,M);
     mse=zeros(n,M);
-    resid=dependent_variables-GLM.X*b_perm;
+    resid=dependent_variables-GLM.X*beta_value;
     mse=sum(resid.^2)/(n-p);
     se=sqrt(mse*(GLM.contrast*inv(GLM.X'*GLM.X)*GLM.contrast'));
-    test_stat=(GLM.contrast*b_perm)./se;  % bj/Sbj, df=n-m-1
+    test_stat=(GLM.contrast*beta_value)./se;  % bj/Sbj, df=n-m-1
     % Added by Li Chao
     if nargout >= 2
         pvalues = 2*(1-tcdf(abs(test_stat),n-p-1));  % df=n-m-1; The reason why I multiplied it by 2 is that I applied two-tailed test.
@@ -91,9 +91,9 @@ elseif strcmp(GLM.test,'ftest')
     sse=zeros(1,M);
     ssr=zeros(1,M);
     %Sum of squares due to error
-    sse=sum((dependent_variables-GLM.X*b_perm).^2);
+    sse=sum((dependent_variables-GLM.X*beta_value).^2);
     %Sum of square due to regression
-    ssr=sum((GLM.X*b_perm-repmat(mean(dependent_variables),n,1)).^2);
+    ssr=sum((GLM.X*beta_value-repmat(mean(dependent_variables),n,1)).^2);
     if isempty(ind_nuisance)
         test_stat=(ssr/(p-1))./(sse/(n-p));
         % Added by Li Chao
