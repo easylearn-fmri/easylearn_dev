@@ -47,7 +47,7 @@ class SvcForGivenTrAndTe():
                 val_path=r'D:\workstation_b\xiaowei\ToLC2\PREDICTING\mixed',  # 验证集数据
                 val_label=r'D:\workstation_b\xiaowei\ToLC2\PREDICTING\mixed_label.txt',  # 验证数据的label文件
                 suffix='.nii',  # 特征文件的尾缀
-                mask=r'G:\Softer_DataProcessing\spm12\spm12\tpm\Reslice3_TPM_greaterThan0.2.nii',  # ma ++sk
+                mask=r'G:\Softer_DataProcessing\spm12\spm12\tpm\Reslice3_TPM_greaterThan0.2.nii',  # mask
                 path_out=r'D:\workstation_b\xiaowei\ToLC2',
                 n_jobs=1,  # 并行处理使用的线程数目
                 
