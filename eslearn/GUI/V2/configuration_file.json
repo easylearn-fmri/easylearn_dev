@@ -1,0 +1,35 @@
+{
+    "data_loading": {},
+    "feature_engineering": {
+        "feature_preprocessing": {
+            "Scaling": {
+                "min": {
+                    "value": "-1"
+                },
+                "max": {
+                    "value": "1"
+                }
+            }
+        },
+        "dimreduction": {
+            "Independent component analysis": {
+                "n_components": {
+                    "value": "0.80, 0ji"
+                }
+            }
+        },
+        "feature_selection": {
+            "Variance threshold": {
+                "threshold": {
+                    "value": "0.4, 0.9"
+                }
+            }
+        },
+        "unbalance_treatment": {
+            "somteover": {}
+        }
+    },
+    "machine_learning": {},
+    "model_evaluation": {},
+    "statistical_analysis": {}
+}
