@@ -448,9 +448,9 @@ class CopyFmri():
 
 # %%
 if __name__ == '__main__':
-    uid = r'D:\WorkStation_2018\SZ_classification\Scale\index_chronic.txt'
-    source_folder = r'D:\WorkStation_2018\WorkStation_dynamicFC_V3\Data\sfc'
-    out_path = r'D:\workstation_b\ZhangYue_Guangdongshengzhongyiyuan\data_clustering\c'
+    uid = r'D:\WorkStation_2018\Workstation_2020_transdiagnositic_subtyping\Data\id.xlsx'
+    source_folder = r'D:\WorkStation_2018\Workstation_2020_transdiagnositic_subtyping\Data\FC_1322'
+    out_path = r'D:\WorkStation_2018\Workstation_2020_transdiagnositic_subtyping\Data\Discovery_dataset'
     
     unique_id_level_of_target_file = 1
     keywork_of_target_file = ''

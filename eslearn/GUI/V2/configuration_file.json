@@ -19,9 +19,12 @@
             }
         },
         "feature_selection": {
-            "Variance threshold": {
-                "threshold": {
-                    "value": "0.4, 0.9"
+            "Mutual information (regression)": {
+                "topnum": {
+                    "value": "0.4, 0.6"
+                },
+                "n_neighbors": {
+                    "value": "5"
                 }
             }
         },

@@ -275,8 +275,8 @@ class SvcForGivenTrAndTe():
             pickle.dump(model, fw)
 
         # 加载svm.pickle
-        with open(os.path.join(self.path_out, 'model.pickle'), 'rb') as fr:
-            model = pickle.load(fr)
+        # with open(os.path.join(self.path_out, 'model.pickle'), 'rb') as fr:
+            # model = pickle.load(fr)
 
 
     def _weight2nii(self, dimension_nii_data=(61, 73, 61)):
@@ -297,3 +297,4 @@ if __name__=="__main__":
     svc=SvcForGivenTrAndTe()
     svc.main()
     print("Done!\n")
+
