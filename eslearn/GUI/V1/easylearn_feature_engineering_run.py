@@ -39,7 +39,7 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
         # Initialization
         self.feature_engineering = {}
         self.configuration_file = ""
-        self.all_available_inputs_fun()
+        self.all_available_inputs()
 
         # Debug
         # Set working_directory
@@ -117,7 +117,7 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
 
         """
         self.setWindowTitle('Feature Engineering')
-        self.setWindowIcon(QIcon('./logo/logo-upper.jpg'))
+        self.setWindowIcon(QIcon('../logo/logo-upper.jpg'))
 
         sender = self.sender()
         if sender:
@@ -136,10 +136,8 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
         self.stackedWidget_dimreduction.setCurrentIndex(-1)
         self.stackedWidget_feature_selection.setCurrentIndex(-1)
 
-    def all_available_inputs_fun(self):
+    def all_available_inputs(self):
         """I put all available inputs in a dictionary named all_available_inputs
-
-        All potential wedget are also in the dictionary for reloading parameters.
         """
 
         self.all_available_inputs = {
@@ -154,20 +152,24 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
 
                 self.radioButton_demean: {"demean": {}}, 
                 self.radioButton_none_methods: {"none": {}}, 
-                # self.radioButton_grouplevel: {"grouplevel": {}}, 
-                # self.radioButton_subjectlevel: {"subjectlevel": {}}
+                self.radioButton_grouplevel: {"grouplevel": {}}, 
+                self.radioButton_subjectlevel: {"subjectlevel": {}}
             },
 
             "dimreduction": {
                 self.radioButton_pca: {
                     "Principal component analysis": {
-                        "n_components": {"value": self.lineEdit_pca_components.text(), "wedget": self.lineEdit_pca_components}, 
+                        "min": {"value": self.doubleSpinBox_pca_maxcomponents.text(), "wedget": self.doubleSpinBox_pca_maxcomponents}, 
+                        "max": {"value": self.doubleSpinBox_pca_mincomponents.text(), "wedget": self.doubleSpinBox_pca_mincomponents}, 
+                        "number": {"value": self.spinBox_pcanum.text(), "wedget": self.spinBox_pcanum}
                     }, 
                 },
 
                 self.radioButton_ica: {
                     "Independent component analysis": { 
-                            "n_components": {"value": self.lineEdit_ica_components.text(), "wedget": self.lineEdit_ica_components}, 
+                            "min": {"value": self.doubleSpinBox_ica_minics.text(), "wedget": self.doubleSpinBox_ica_minics}, 
+                            "max": {"value": self.doubleSpinBox_ica_maxics.text(), "wedget": self.doubleSpinBox_ica_maxics}, 
+                            "number": {"value": self.spinBox_icnum.text(), "wedget": self.spinBox_icnum},
                     }
                 },
 
@@ -175,7 +177,9 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
 
                 self.radioButton_nmf: {
                     "Non-negative matrix factorization": {
-                        "n_components": {"value": self.lineEdit_ida_components.text(), "wedget": self.lineEdit_ida_components}, 
+                        "min": {"value": self.doubleSpinBox_nmf_mincompnents.text(), "wedget": self.doubleSpinBox_nmf_mincompnents}, 
+                        "max": {"value": self.doubleSpinBox_nmf_maxcomponents.text(), "wedget": self.doubleSpinBox_nmf_maxcomponents}, 
+                        "number": {"value": self.spinBox_icnum.text(), "wedget": self.spinBox_icnum},
                     }
                 },
 
@@ -185,51 +189,67 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
             "feature_selection": {
                 self.radioButton_variance_threshold: {
                     "Variance threshold": {
-                        "threshold": {"value": self.lineEdit_variancethreshold_threshold.text(), "wedget": self.lineEdit_variancethreshold_threshold}, 
+                        "min": {"value": self.doubleSpinBox_variancethreshold_min.text(), "wedget": self.doubleSpinBox_variancethreshold_min}, 
+                        "max": {"value": self.doubleSpinBox_variancethreshold_max.text(), "wedget": self.doubleSpinBox_variancethreshold_max}, 
+                        "number": {"value": self.spinBox_variancethreshold_num.text(), "wedget": self.spinBox_variancethreshold_num}
                     }
                 },
 
                 self.radioButton_correlation: {
                     "Correlation": {
-                        "abscoef": {"value": self.lineEdit_correlation_abscoef.text(), "wedget": self.lineEdit_correlation_abscoef}, 
+                        "min": {"value": self.doubleSpinBox_correlation_minabscoef.text(), "wedget": self.doubleSpinBox_correlation_minabscoef}, 
+                        "max": {"value": self.doubleSpinBox_correlation_maxabscoef.text(), "wedget": self.doubleSpinBox_correlation_maxabscoef}, 
+                        "number": {"value": self.spinBox_correlation_num.text(), "wedget": self.spinBox_correlation_num},
                     }
                 }, 
 
                 self.radioButton_distancecorrelation: {
                     "Distance correlation": {
-                        "abscoef": {"value": self.lineEdit_distancecorrelation_abscoef.text(), "wedget": self.lineEdit_distancecorrelation_abscoef}, 
+                        "min": {"value": self.doubleSpinBox_distancecorrelation_minabscoef.text(), "wedget": self.doubleSpinBox_distancecorrelation_minabscoef}, 
+                        "max": {"value": self.doubleSpinBox_distancecorrelation_maxabscoef.text(), "wedget": self.doubleSpinBox_distancecorrelation_maxabscoef}, 
+                        "number": {"value": self.spinBox_distancecorrelation_num.text(), "wedget": self.spinBox_distancecorrelation_num},
                     }
                 },
 
                 self.radioButton_fscore: {
                     "F-Score (classification)": {
-                        "topnum":{"value": self.lineEdit_fscore_topnum.text(), "wedget": self.lineEdit_fscore_topnum}, 
+                        "max":{"value": self.doubleSpinBox_fscore_maxnum.text(), "wedget": self.doubleSpinBox_fscore_maxnum}, 
+                        "min": {"value":self.doubleSpinBox_fscore_minnum.text(), "wedget": self.doubleSpinBox_fscore_minnum}, 
+                        "number": {"value":self.spinBox_fscore_num.text(), "wedget": self.spinBox_fscore_num},
                     }
                 }, 
 
                 self.radioButton_mutualinfo_cls: {
                     "Mutual information (classification)": {
-                        "topnum": {"value": self.lineEdit_mutualinfocls_topnum.text(), "wedget": self.lineEdit_mutualinfocls_topnum}, 
+                        "max": {"value": self.doubleSpinBox_mutualinfocls_maxnum.text(), "wedget": self.doubleSpinBox_mutualinfocls_maxnum}, 
+                        "min": {"value": self.doubleSpinBox_mutualinfocls_minnum.text(), "wedget": self.doubleSpinBox_mutualinfocls_minnum},
+                        "number": {"value": self.spinBox_mutualinfocls_num.text(), "wedget":  self.spinBox_mutualinfocls_num},
                         "n_neighbors": {"value": self.spinBox_mutualinfocls_neighbors.text(), "wedget": self.spinBox_mutualinfocls_neighbors},
                     }
                 }, 
 
                 self.radioButton_mutualinfo_regression: {
                     "Mutual information (regression)": {
-                        "topnum": {"value": self.lineEdit_mutualinforeg_topnum.text(), "wedget": self.lineEdit_mutualinforeg_topnum}, 
+                        "max": {"value": self.doubleSpinBox_mutualinforeg_maxnum.text(), "wedget": self.doubleSpinBox_mutualinforeg_maxnum}, 
+                        "min": {"value": self.doubleSpinBox_mutualinforeg_minnum.text(), "wedget": self.doubleSpinBox_mutualinforeg_minnum},
+                        "number": {"value": self.spinBox_mutualinforeg_num.text(), "wedget":  self.spinBox_mutualinforeg_num},
                         "n_neighbors": {"value": self.spinBox_mutualinforeg_neighbors.text(), "wedget": self.spinBox_mutualinforeg_neighbors},
                     }
                 }, 
 
                 self.radioButton_relieff: {
                     "ReliefF": {
-                        "topnum": {"value": self.lineEdit_relieff_topnum.text(), "wedget": self.lineEdit_relieff_topnum}, 
+                        "max": {"value": self.doubleSpinBox_relieff_max.text(), "wedget": self.doubleSpinBox_relieff_max}, 
+                        "min": {"value": self.doubleSpinBox_relieff_min.text(), "wedget": self.doubleSpinBox_relieff_min}, 
+                        "number": {"value": self.spinBox_relief_num.text(), "wedget": self.spinBox_relief_num},
                     }
                 }, 
 
                 self.radioButton_anova: {
                     "ANOVA": {
-                        "topnum": {"value": self.lineEdit_anova_topnum.text(), "wedget": self.lineEdit_anova_topnum}, 
+                        "max": {"value": self.doubleSpinBox_anova_alpha_max.text(), "wedget": self.doubleSpinBox_anova_alpha_max}, 
+                        "min": {"value": self.doubleSpinBox_anova_alpha_min.text(), "wedget": self.doubleSpinBox_anova_alpha_min}, 
+                        "number": {"value": self.spinBox_anova_num.text(), "wedget": self.spinBox_anova_num}, 
                         "multiple_correction": {"value": self.comboBox_anova_multicorrect.currentText(), "wedget": self.comboBox_anova_multicorrect},
                     }
                 }, 
@@ -245,14 +265,20 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
 
                 self.radioButton_l1: {
                     "L1 regularization (Lasso)": {
-                        "alpha": {"va1ue": self.lineEdit_l1_alpha.text(), "wedget": self.lineEdit_l1_alpha}, 
+                        "max": {"va1ue": self.doubleSpinBox_l1_alpha_max.text(), "wedget": self.doubleSpinBox_l1_alpha_max}, 
+                        "min": {"va1ue": self.doubleSpinBox_l1_alpha_min.text(), "wedget": self.doubleSpinBox_l1_alpha_min}, 
+                        "number": {"va1ue": self.spinBox_l1_num.text(), "wedget": self.spinBox_l1_num}
                     }
                 }, 
 
                 self.radioButton_elasticnet: {
                     "L1 + L2 regularization (Elastic net regression)": {
-                        "alpha": {"value": self.lineEdit_elasticnet_alpha.text(), "wedget": self.lineEdit_elasticnet_alpha}, 
-                        "l1ratio": {"value": self.lineEdit_elasticnet_l1ratio.text(), "wedget": self.lineEdit_elasticnet_l1ratio}, 
+                        "max_alpha": {"value": self.doubleSpinBox_elasticnet_alpha_max.text(), "wedget": self.doubleSpinBox_elasticnet_alpha_max}, 
+                        "min_alpha": {"value": self.doubleSpinBox_elasticnet_alpha_min.text(), "wedget": self.doubleSpinBox_elasticnet_alpha_min}, 
+                        "number_alpha": {"value": self.spinBox_elasticnet_num.text(), "wedget": self.spinBox_elasticnet_num}, 
+                        "max_l1ratio": {"value": self.doubleSpinBox_elasticnet_l1ratio_max.text(), "wedget": self.doubleSpinBox_elasticnet_l1ratio_max}, 
+                        "min_l1ratio": {"value": self.doubleSpinBox_elasticnet_l1ratio_min.text(), "wedget":  self.doubleSpinBox_elasticnet_l1ratio_min}, 
+                        "Number_l1ratio": {"value": self.spinBox_l1ratio_num.text(), "wedget":  self.spinBox_l1ratio_num},
                     }
                 }
             },
@@ -310,18 +336,13 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
             self.feature_engineering: dictionary
                 all feature_engineering parameters that the user input.
         """
-        
-        # Refresh self.all_availble_inputs
-        self.all_available_inputs_fun()
-        
+
         # Get current inputs
         for key_feature_engineering in self.all_available_inputs:
             for keys_one_feature_engineering in self.all_available_inputs[key_feature_engineering]:
                 if keys_one_feature_engineering.isChecked():
                     self.feature_engineering[key_feature_engineering] = self.all_available_inputs[key_feature_engineering][keys_one_feature_engineering]
     
-        # print(self.feature_engineering)
-        
     def load_configuration(self):
         """Load configuration, and refresh_gui configuration in GUI
         """
@@ -395,17 +416,14 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
                 for method in self.all_available_inputs[keys_one_feature_engineering][wedget].keys():
                     if keys_one_feature_engineering in self.feature_engineering.keys():
                         if method in list(self.feature_engineering[keys_one_feature_engineering].keys()):
-                            # Make the radiobutton wedget checked according loaded param
+                            # Make the wedget checked according loaded param
                             wedget.setChecked(True)   
                             # Make setting to loaded text
                             for key_setting in self.feature_engineering[keys_one_feature_engineering][method]:
                                 if "wedget" in list(self.all_available_inputs[keys_one_feature_engineering][wedget][method][key_setting].keys()):
                                     loaded_text = self.feature_engineering[keys_one_feature_engineering][method][key_setting]["value"]
                                     # Identity wedget type, then using different methods to "setText"
-                                    # NOTE. In the design of all wedgets (in pyqt5 and disigner), 
-                                    # make sure that keeping the name of the original wedgets in the first part of the name 
-                                    # (e.g., "lineEdit_scaling_min" is a wedget name of a lineEdit wedget), 
-                                    # so that the following can determine which type of wedgets, so as to use different assignment methods!
+                                    # NOTE. 所有控件在设计时，尽量保留原控件的名字在命名的前部分，这样下面才好确定时哪一种类型的控件，从而用不同的赋值方式！
                                     if "lineEdit" in self.all_available_inputs[keys_one_feature_engineering][wedget][method][key_setting]["wedget"].objectName():
                                         self.all_available_inputs[keys_one_feature_engineering][wedget][method][key_setting]["wedget"].setText(loaded_text)
                                     elif "doubleSpinBox" in self.all_available_inputs[keys_one_feature_engineering][wedget][method][key_setting]["wedget"].objectName():
@@ -446,7 +464,6 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
             QMessageBox.warning( self, 'Warning', 'Please choose a configuration file first (press button at top left corner)!')
 
     def switche_stacked_wedge_for_preprocessing(self, signal_bool, method=None):
-        self.groupBox_preprocessing_setting.setTitle(self.sender().text())
         if self.sender().text():
             if not method:
                 self.stackedWidget_preprocessing_methods.setCurrentIndex(self.preprocessing_stackedwedge_dict[self.sender().text()])
@@ -456,7 +473,6 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
             self.stackedWidget_preprocessing_methods.setCurrentIndex(-1)
 
     def switche_stacked_wedge_for_dimreduction(self, signal_bool, method=None):
-        self.groupBox_dimreduction_setting.setTitle(self.sender().text())
         if self.sender():
             if not method:
                 self.stackedWidget_dimreduction.setCurrentIndex(self.dimreduction_stackedwedge_dict[self.sender().text()])
@@ -466,7 +482,7 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
             self.stackedWidget_dimreduction.setCurrentIndex(-1)
 
     def switche_stacked_wedge_for_feature_selection(self, signal_bool, method=None):
-        self.groupBox_feature_selection_setting.setTitle(self.sender().text())
+        self.groupBox_feature_selection_input.setTitle(self.sender().text())
         if self.sender().text():
             if not method:
                 self.stackedWidget_feature_selection.setCurrentIndex(self.feature_selection_stackedwedge_dict[self.sender().text()])
@@ -475,19 +491,19 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
         else:
             self.stackedWidget_feature_selection.setCurrentIndex(-1)
 
-    def closeEvent(self, event):
-        """This function is called when exit icon of the window is clicked.
+    # def closeEvent(self, event):
+    #     """This function is called when exit icon of the window is clicked.
 
-        This function make sure the program quit safely.
-        """
-        # Set qss to make sure the QMessageBox can be seen
-        reply = QMessageBox.question(self, 'Quit',"Are you sure to quit?",
-                                      QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+    #     This function make sure the program quit safely.
+    #     """
+    #     # Set qss to make sure the QMessageBox can be seen
+    #     reply = QMessageBox.question(self, 'Quit',"Are you sure to quit?",
+    #                                  QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
 
-        if reply == QMessageBox.Yes:
-            event.accept()
-        else:
-            event.ignore() 
+    #     if reply == QMessageBox.Yes:
+    #         event.accept()
+    #     else:
+    #         event.ignore() 
 
 
 if __name__ == "__main__":

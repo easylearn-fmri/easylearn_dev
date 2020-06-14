@@ -32,7 +32,18 @@
             "somteover": {}
         }
     },
-    "machine_learning": {},
+    "machine_learning": {
+        "Classification": {
+            "Gaussian process": {
+                "kernel": {
+                    "value": "None"
+                },
+                "multiclass": {
+                    "value": "one_vs_one"
+                }
+            }
+        }
+    },
     "model_evaluation": {},
     "statistical_analysis": {}
 }

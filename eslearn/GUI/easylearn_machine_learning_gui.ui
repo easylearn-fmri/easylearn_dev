@@ -62,7 +62,7 @@
        <enum>Qt::LeftToRight</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="stackedWidgetPage_classification">
        <layout class="QGridLayout" name="gridLayout_12">
@@ -84,7 +84,7 @@
            <string>Setting</string>
           </property>
           <layout class="QGridLayout" name="gridLayout">
-           <item row="0" column="0">
+           <item row="0" column="1">
             <widget class="QStackedWidget" name="stackedWidget_classification_setting">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -99,58 +99,56 @@
               </size>
              </property>
              <property name="currentIndex">
-              <number>4</number>
+              <number>6</number>
              </property>
              <widget class="QWidget" name="to_lr">
               <layout class="QGridLayout" name="gridLayout_11">
-               <item row="2" column="0">
-                <widget class="QLabel" name="label_7">
+               <item row="1" column="1">
+                <widget class="QLineEdit" name="lineEdit_clf_lr_l1ratio">
                  <property name="text">
-                  <string>Number</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="1">
-                <widget class="QSpinBox" name="spinBox__clf_lr_numl1ratio">
-                 <property name="value">
-                  <number>1</number>
+                  <string>0.5</string>
                  </property>
                 </widget>
                </item>
                <item row="0" column="1">
-                <widget class="QDoubleSpinBox" name="doubleSpinBox_clf_lr_maxl1ratio">
-                 <property name="maximum">
-                  <double>1.000000000000000</double>
-                 </property>
-                 <property name="singleStep">
-                  <double>1.000000000000000</double>
-                 </property>
-                 <property name="value">
-                  <double>1.000000000000000</double>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="1">
-                <widget class="QDoubleSpinBox" name="doubleSpinBox_clf_lr_minl1ratio">
-                 <property name="maximum">
-                  <double>1.000000000000000</double>
-                 </property>
-                 <property name="singleStep">
-                  <double>1.000000000000000</double>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="0">
-                <widget class="QLabel" name="label_5">
-                 <property name="text">
-                  <string>Max_l1_ratio</string>
-                 </property>
+                <widget class="QComboBox" name="comboBox_clf_lr_penalty">
+                 <item>
+                  <property name="text">
+                   <string>elasticnet</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>none</string>
+                  </property>
+                 </item>
                 </widget>
                </item>
                <item row="1" column="0">
                 <widget class="QLabel" name="label_2">
                  <property name="text">
-                  <string>Min_l1_ratio</string>
+                  <string>L1_ratio</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_8">
+                 <property name="text">
+                  <string>Penalty</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_12">
+                 <property name="text">
+                  <string>C</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QLineEdit" name="lineEdit_clf_lr_alpha">
+                 <property name="text">
+                  <string>1</string>
                  </property>
                 </widget>
                </item>
@@ -158,7 +156,35 @@
              </widget>
              <widget class="QWidget" name="to_svm">
               <layout class="QGridLayout" name="gridLayout_10">
-               <item row="0" column="1" colspan="2">
+               <item row="3" column="0">
+                <widget class="QLabel" name="label_gamma">
+                 <property name="text">
+                  <string>Gamma</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0" colspan="3">
+                <widget class="QLabel" name="label_C">
+                 <property name="text">
+                  <string>C</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_clf_svm_kernel">
+                 <property name="text">
+                  <string>Kernel</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="4">
+                <widget class="QLineEdit" name="lineEdit_clf_svm_gamma">
+                 <property name="text">
+                  <string>scale</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="4">
                 <widget class="QComboBox" name="comboBox_clf_svm_kernel">
                  <item>
                   <property name="text">
@@ -182,112 +208,10 @@
                  </item>
                 </widget>
                </item>
-               <item row="1" column="2">
-                <widget class="QDoubleSpinBox" name="doubleSpinBox_clf_svm_maxc">
-                 <property name="maximum">
-                  <double>1000000.000000000000000</double>
-                 </property>
-                 <property name="singleStep">
-                  <double>1.000000000000000</double>
-                 </property>
-                 <property name="value">
-                  <double>1.000000000000000</double>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="0">
-                <widget class="QLabel" name="label_clf_svm_kernel">
+               <item row="1" column="4">
+                <widget class="QLineEdit" name="lineEdit_clf_svm_c">
                  <property name="text">
-                  <string>Kernel</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="0" colspan="2">
-                <widget class="QLabel" name="label_6">
-                 <property name="text">
-                  <string>Max_C</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="0" colspan="2">
-                <widget class="QLabel" name="label_4">
-                 <property name="text">
-                  <string>Min_C</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="4" column="0">
-                <widget class="QLabel" name="label_10">
-                 <property name="text">
-                  <string>Max_gamma</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="5" column="0">
-                <widget class="QLabel" name="label_9">
-                 <property name="text">
-                  <string>Min_gamma</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="6" column="0">
-                <widget class="QLabel" name="label_8">
-                 <property name="text">
-                  <string>Number_gamma</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="2">
-                <widget class="QDoubleSpinBox" name="doubleSpinBox_clf_svm_minc">
-                 <property name="minimum">
-                  <double>0.000000000000000</double>
-                 </property>
-                 <property name="maximum">
-                  <double>100000.000000000000000</double>
-                 </property>
-                 <property name="singleStep">
-                  <double>1.000000000000000</double>
-                 </property>
-                 <property name="value">
-                  <double>1.000000000000000</double>
-                 </property>
-                </widget>
-               </item>
-               <item row="6" column="2">
-                <widget class="QSpinBox" name="spinBox_clf_svm_numgamma">
-                 <property name="value">
-                  <number>1</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="0">
-                <widget class="QLabel" name="label">
-                 <property name="text">
-                  <string>Numer_C</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="2">
-                <widget class="QSpinBox" name="spinBox_clf_svm_numc">
-                 <property name="maximum">
-                  <number>1000</number>
-                 </property>
-                 <property name="value">
-                  <number>1</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="4" column="2">
-                <widget class="QLineEdit" name="lineEdit_clf_svm_maxgamma">
-                 <property name="text">
-                  <string>scale</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="5" column="2">
-                <widget class="QLineEdit" name="lineEdit_clf_svm_mingamma">
-                 <property name="text">
-                  <string>scale</string>
+                  <string>1</string>
                  </property>
                 </widget>
                </item>
@@ -295,82 +219,67 @@
              </widget>
              <widget class="QWidget" name="to_ridgeclf">
               <layout class="QGridLayout" name="gridLayout_14">
-               <item row="0" column="0">
-                <widget class="QLabel" name="label_21">
-                 <property name="text">
-                  <string>Max_alpha</string>
-                 </property>
-                </widget>
-               </item>
                <item row="0" column="1">
-                <widget class="QDoubleSpinBox" name="doubleSpinBox_clf_ridgeclf_maxalpha">
-                 <property name="maximum">
-                  <double>1000000.000000000000000</double>
-                 </property>
-                 <property name="singleStep">
-                  <double>0.100000000000000</double>
-                 </property>
-                 <property name="value">
-                  <double>1.000000000000000</double>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="0">
                 <widget class="QLabel" name="label_20">
                  <property name="text">
-                  <string>Min_alpha</string>
+                  <string>Alpha</string>
                  </property>
                 </widget>
                </item>
-               <item row="1" column="1">
-                <widget class="QDoubleSpinBox" name="doubleSpinBox_clf_ridgeclf_minalpha">
-                 <property name="minimum">
-                  <double>0.000000000000000</double>
-                 </property>
-                 <property name="maximum">
-                  <double>100000.000000000000000</double>
-                 </property>
-                 <property name="singleStep">
-                  <double>0.100000000000000</double>
-                 </property>
-                 <property name="value">
-                  <double>1.000000000000000</double>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="0">
-                <widget class="QLabel" name="label_19">
+               <item row="0" column="2">
+                <widget class="QLineEdit" name="lineEdit_clf_ridgeclf_alpha">
                  <property name="text">
-                  <string>Numer</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="1">
-                <widget class="QSpinBox" name="spinBox_clf_ridgeclf_numalpha">
-                 <property name="value">
-                  <number>1</number>
+                  <string>1</string>
                  </property>
                 </widget>
                </item>
               </layout>
              </widget>
-             <widget class="QWidget" name="to_guassianprocess"/>
-             <widget class="QWidget" name="to_randomforest">
-              <layout class="QGridLayout" name="gridLayout_15">
-               <item row="2" column="0">
-                <widget class="QLabel" name="label_22">
+             <widget class="QWidget" name="to_guassianprocess">
+              <layout class="QGridLayout" name="gridLayout_24">
+               <item row="0" column="1">
+                <widget class="QLineEdit" name="lineEdit_clf_gaussianprocess_kernel">
                  <property name="text">
-                  <string>Max_estimators</string>
+                  <string>None</string>
                  </property>
                 </widget>
                </item>
-               <item row="5" column="1">
-                <widget class="QSpinBox" name="spinBox_clf_randomforest_maxdepth">
-                 <property name="maximum">
-                  <number>10000</number>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_9">
+                 <property name="text">
+                  <string>Multi_class</string>
                  </property>
-                 <property name="value">
-                  <number>10</number>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_10">
+                 <property name="text">
+                  <string>Kernel</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QComboBox" name="comboBox_clf_gaussianprocess_multiclass">
+                 <item>
+                  <property name="text">
+                   <string>one_vs_rest</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>one_vs_one</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="to_randomforest">
+              <layout class="QGridLayout" name="gridLayout_15">
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_24">
+                 <property name="text">
+                  <string>Estimators</string>
                  </property>
                 </widget>
                </item>
@@ -381,21 +290,7 @@
                  </property>
                 </widget>
                </item>
-               <item row="3" column="1">
-                <widget class="QSpinBox" name="spinBox_clf_randomforest_minestimators">
-                 <property name="value">
-                  <number>10</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="0">
-                <widget class="QLabel" name="label_24">
-                 <property name="text">
-                  <string>Min_estimators</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="5" column="0">
+               <item row="4" column="0">
                 <widget class="QLabel" name="label_26">
                  <property name="text">
                   <string>Max_depth</string>
@@ -416,10 +311,17 @@
                  </item>
                 </widget>
                </item>
+               <item row="4" column="1">
+                <widget class="QLineEdit" name="lineEdit_clf_randomforest_maxdepth">
+                 <property name="text">
+                  <string>None</string>
+                 </property>
+                </widget>
+               </item>
                <item row="2" column="1">
-                <widget class="QSpinBox" name="spinBox_clf_randomforest_maxestimators">
-                 <property name="value">
-                  <number>10</number>
+                <widget class="QLineEdit" name="lineEdit_clf_randomforest_estimators">
+                 <property name="text">
+                  <string>100</string>
                  </property>
                 </widget>
                </item>
@@ -443,50 +345,45 @@
                  </property>
                 </widget>
                </item>
-               <item row="3" column="0">
-                <widget class="QLabel" name="label_29">
-                 <property name="text">
-                  <string>Min_estimators</string>
-                 </property>
-                </widget>
-               </item>
                <item row="2" column="1">
-                <widget class="QSpinBox" name="spinBox_clf_adaboost_maxestimators">
-                 <property name="value">
-                  <number>2</number>
+                <widget class="QLineEdit" name="lineEdit_clf_adaboost_estimators">
+                 <property name="text">
+                  <string>50</string>
                  </property>
                 </widget>
                </item>
                <item row="2" column="0">
-                <widget class="QLabel" name="label_27">
+                <widget class="QLabel" name="label_29">
                  <property name="text">
-                  <string>Max_estimators</string>
+                  <string>Estimators</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0">
+                <widget class="QLabel" name="label_7">
+                 <property name="text">
+                  <string>Algorithm</string>
                  </property>
                 </widget>
                </item>
                <item row="3" column="1">
-                <widget class="QSpinBox" name="spinBox_clf_adaboost_minestimators">
-                 <property name="value">
-                  <number>2</number>
-                 </property>
+                <widget class="QComboBox" name="comboBox_clf_adaboost_algoritm">
+                 <item>
+                  <property name="text">
+                   <string>SAMME</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>SAMME.R</string>
+                  </property>
+                 </item>
                 </widget>
                </item>
               </layout>
              </widget>
+             <widget class="QWidget" name="to_none"/>
             </widget>
-           </item>
-           <item row="0" column="1">
-            <spacer name="horizontalSpacer_3">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
            </item>
           </layout>
          </widget>
@@ -571,258 +468,225 @@
            <item row="0" column="0">
             <widget class="QStackedWidget" name="stackedWidget_regression">
              <property name="currentIndex">
-              <number>2</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="to_linearregression"/>
              <widget class="QWidget" name="to_lassoregression">
               <layout class="QGridLayout" name="gridLayout_13">
-               <item row="0" column="1">
-                <widget class="QDoubleSpinBox" name="doubleSpinBox_regression_lasso_maxalpha">
-                 <property name="maximum">
-                  <double>10000.000000000000000</double>
-                 </property>
-                 <property name="value">
-                  <double>1.000000000000000</double>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="1">
-                <widget class="QSpinBox" name="spinBox_regression_lasso_numalpha">
-                 <property name="maximum">
-                  <number>10000</number>
-                 </property>
-                 <property name="value">
-                  <number>1</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="1">
-                <widget class="QDoubleSpinBox" name="doubleSpinBox_regression_lasso_minalpha">
-                 <property name="maximum">
-                  <double>10000.000000000000000</double>
-                 </property>
-                 <property name="value">
-                  <double>1.000000000000000</double>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="0">
-                <widget class="QLabel" name="label_12">
-                 <property name="text">
-                  <string>Number</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="0">
+               <item row="0" column="0">
                 <widget class="QLabel" name="label_11">
                  <property name="text">
-                  <string>Min_alpha</string>
+                  <string>Alpha</string>
                  </property>
                 </widget>
                </item>
-               <item row="0" column="0">
-                <widget class="QLabel" name="label_3">
+               <item row="0" column="1">
+                <widget class="QLineEdit" name="lineEdit_regression_lasso_alpha">
                  <property name="text">
-                  <string>Max_alpha</string>
+                  <string>1</string>
                  </property>
                 </widget>
-               </item>
-               <item row="0" column="2">
-                <spacer name="horizontalSpacer_2">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeType">
-                  <enum>QSizePolicy::Fixed</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
                </item>
               </layout>
              </widget>
              <widget class="QWidget" name="to_ridgeregression">
               <layout class="QGridLayout" name="gridLayout_18">
-               <item row="2" column="1">
-                <widget class="QSpinBox" name="spinBox_regression_ridge_numalpha">
-                 <property name="maximum">
-                  <number>10000</number>
-                 </property>
-                 <property name="value">
-                  <number>1</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="0">
-                <widget class="QLabel" name="label_14">
-                 <property name="text">
-                  <string>Number</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="0">
+               <item row="0" column="0">
                 <widget class="QLabel" name="label_15">
                  <property name="text">
-                  <string>Min_alpha</string>
+                  <string>Alpha</string>
                  </property>
                 </widget>
                </item>
                <item row="0" column="1">
-                <widget class="QDoubleSpinBox" name="doubleSpinBox_regression_ridge_maxalpha">
-                 <property name="maximum">
-                  <double>10000.000000000000000</double>
-                 </property>
-                 <property name="value">
-                  <double>1.000000000000000</double>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="1">
-                <widget class="QDoubleSpinBox" name="doubleSpinBox_regression_ridge_minalpha">
-                 <property name="maximum">
-                  <double>10000.000000000000000</double>
-                 </property>
-                 <property name="value">
-                  <double>1.000000000000000</double>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="0">
-                <widget class="QLabel" name="label_13">
+                <widget class="QLineEdit" name="lineEdit_regression_ridge_alpha">
                  <property name="text">
-                  <string>Max_alpha</string>
+                  <string>1</string>
                  </property>
                 </widget>
-               </item>
-               <item row="0" column="2">
-                <spacer name="horizontalSpacer_4">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeType">
-                  <enum>QSizePolicy::Fixed</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
                </item>
               </layout>
              </widget>
              <widget class="QWidget" name="to_elasticnet">
               <layout class="QGridLayout" name="gridLayout_20">
-               <item row="2" column="1">
-                <widget class="QSpinBox" name="spinBox__regression_elasticnet_numl1ratio">
-                 <property name="value">
-                  <number>1</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="1">
-                <widget class="QDoubleSpinBox" name="doubleSpinBox__regression_elasticnet_maxalpha">
-                 <property name="value">
-                  <double>1.000000000000000</double>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_17">
+                 <property name="text">
+                  <string>L1_ratio</string>
                  </property>
                 </widget>
                </item>
                <item row="2" column="0">
-                <widget class="QLabel" name="label_18">
+                <widget class="QLabel" name="label_28">
                  <property name="text">
-                  <string>Number_l1_ratio</string>
+                  <string>Alpha</string>
                  </property>
                 </widget>
                </item>
                <item row="0" column="1">
-                <widget class="QDoubleSpinBox" name="doubleSpinBox_regression_elasticnet_maxl1ratio">
-                 <property name="value">
-                  <double>0.500000000000000</double>
-                 </property>
-                </widget>
-               </item>
-               <item row="5" column="1">
-                <widget class="QSpinBox" name="spinBox__regression_elasticnet_numalpha">
-                 <property name="value">
-                  <number>1</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="4" column="1">
-                <widget class="QDoubleSpinBox" name="doubleSpinBox__regression_elasticnet_minalpha">
-                 <property name="value">
-                  <double>1.000000000000000</double>
-                 </property>
-                </widget>
-               </item>
-               <item row="5" column="0">
-                <widget class="QLabel" name="label_30">
+                <widget class="QLineEdit" name="lineEdit_regression_elasticnet_l1ratio">
                  <property name="text">
-                  <string>Number_alpha</string>
+                  <string>0.5</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QLineEdit" name="lineEdit_regression_elasticnet_alpha">
+                 <property name="text">
+                  <string>1</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="to_svm_regression">
+              <layout class="QGridLayout" name="gridLayout_21">
+               <item row="0" column="1">
+                <widget class="QComboBox" name="comboBox_regression_svm_kernel">
+                 <item>
+                  <property name="text">
+                   <string>linear</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>poly</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>rbf</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>sigmoid</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_3">
+                 <property name="text">
+                  <string>C</string>
                  </property>
                 </widget>
                </item>
                <item row="0" column="0">
-                <widget class="QLabel" name="label_16">
+                <widget class="QLabel" name="label">
                  <property name="text">
-                  <string>Max_l1_ratio</string>
+                  <string>Kernel</string>
                  </property>
                 </widget>
                </item>
-               <item row="4" column="0">
-                <widget class="QLabel" name="label_28">
+               <item row="3" column="1">
+                <widget class="QLineEdit" name="lineEdit_regression_svm_gamma">
                  <property name="text">
-                  <string>Min_alpha</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="1">
-                <widget class="QDoubleSpinBox" name="doubleSpinBox__regression_elasticnet_minr1ratio">
-                 <property name="value">
-                  <double>0.500000000000000</double>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="0">
-                <widget class="QLabel" name="label_17">
-                 <property name="text">
-                  <string>Min_l1_ratio</string>
+                  <string>scale</string>
                  </property>
                 </widget>
                </item>
                <item row="3" column="0">
-                <widget class="QLabel" name="label_25">
+                <widget class="QLabel" name="label_4">
                  <property name="text">
-                  <string>Max_alpha</string>
+                  <string>Gamma</string>
                  </property>
                 </widget>
                </item>
-               <item row="0" column="2">
-                <spacer name="horizontalSpacer_5">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
+               <item row="2" column="1">
+                <widget class="QLineEdit" name="lineEdit_regression_svm_c">
+                 <property name="text">
+                  <string>1</string>
                  </property>
-                 <property name="sizeType">
-                  <enum>QSizePolicy::Fixed</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
+                </widget>
                </item>
               </layout>
              </widget>
-             <widget class="QWidget" name="to_svm_regression"/>
-             <widget class="QWidget" name="to_gaussianprocess"/>
-             <widget class="QWidget" name="to_randomforest_regression"/>
+             <widget class="QWidget" name="to_gaussianprocess">
+              <layout class="QGridLayout" name="gridLayout_22">
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_5">
+                 <property name="text">
+                  <string>Alpha</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_6">
+                 <property name="text">
+                  <string>Kernel</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QLineEdit" name="lineEdit_regression_gaussianprocess_alpha">
+                 <property name="text">
+                  <string>1e-10</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QLineEdit" name="lineEdit_regression_gaussianprocess_kernel">
+                 <property name="text">
+                  <string>None</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="to_randomforest_regression">
+              <layout class="QGridLayout" name="gridLayout_23">
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_30">
+                 <property name="text">
+                  <string>Criterion</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QComboBox" name="comboBox_regression_randomforest_criterion">
+                 <item>
+                  <property name="text">
+                   <string>mse</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>mae</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_25">
+                 <property name="text">
+                  <string>Estimators</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QLineEdit" name="lineEdit_regression_randomforest_estimators">
+                 <property name="text">
+                  <string>100</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_27">
+                 <property name="text">
+                  <string>Max_depth</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QLineEdit" name="lineEdit_regression_randomforest_maxdepth">
+                 <property name="text">
+                  <string>None</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
             </widget>
            </item>
           </layout>
@@ -887,6 +751,8 @@
          </widget>
         </item>
        </layout>
+       <zorder>Methods</zorder>
+       <zorder>GroupBox_Settting</zorder>
       </widget>
       <widget class="QWidget" name="stackedWidgetPage_clustering">
        <layout class="QGridLayout" name="gridLayout_3">
@@ -904,14 +770,14 @@
           </property>
           <layout class="QGridLayout" name="gridLayout_7">
            <item row="2" column="0">
-            <widget class="QRadioButton" name="radioButton_5">
+            <widget class="QRadioButton" name="radioButton_hierarchical_clustering">
              <property name="text">
               <string>Hierarchical clustering</string>
              </property>
             </widget>
            </item>
            <item row="1" column="0">
-            <widget class="QRadioButton" name="radioButton_4">
+            <widget class="QRadioButton" name="radioButton_spectral_clustering">
              <property name="text">
               <string> Spectral clustering</string>
              </property>
@@ -925,7 +791,7 @@
             </widget>
            </item>
            <item row="3" column="0">
-            <widget class="QRadioButton" name="radioButton_8">
+            <widget class="QRadioButton" name="radioButton_DBSCAN">
              <property name="text">
               <string>DBSCAN</string>
              </property>
@@ -945,21 +811,21 @@
           </property>
           <layout class="QGridLayout" name="gridLayout_8">
            <item row="2" column="0">
-            <widget class="QRadioButton" name="radioButton_20">
+            <widget class="QRadioButton" name="radioButton_RNN">
              <property name="text">
               <string>RNN</string>
              </property>
             </widget>
            </item>
            <item row="1" column="0">
-            <widget class="QRadioButton" name="radioButton_17">
+            <widget class="QRadioButton" name="radioButton_GCN">
              <property name="text">
               <string>GCN</string>
              </property>
             </widget>
            </item>
            <item row="0" column="0">
-            <widget class="QRadioButton" name="radioButton_18">
+            <widget class="QRadioButton" name="radioButton_CNN">
              <property name="text">
               <string>CNN</string>
              </property>

@@ -40,7 +40,7 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
         # Initialization
         self.machine_learning = {}
         self.configuration_file = ""
-        self.all_available_inputs()
+        self.all_inputs_fun()
 
         # Debug
         # Set working_directory
@@ -66,7 +66,7 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
         self.actionSave_configuration.triggered.connect(self.save_configuration)
         self.actionGet_all_available_configuration.triggered.connect(self._get_all_available_inputs)
 
-        # connect to radioButton of machine learning type: switche to corresponding machine learning type window
+        # Connect to radioButton of machine learning type: switche to corresponding machine learning type window
         self.machine_learning_type_stackedwedge_dict = {
             "Classification": 0, "Regression": 1, "Clustering": 2, "Deep learning": 3,
         }
@@ -75,7 +75,7 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
         self.radioButton_clustering.clicked.connect(self.switche_stacked_wedge_for_machine_learning_type)
         self.radioButton_deeplearning.clicked.connect(self.switche_stacked_wedge_for_machine_learning_type)
 
-        # connect classification setting signal to slot: switche to corresponding classification model
+        # Connect classification setting signal to slot: switche to corresponding classification model
         self.classification_stackedwedge_dict = {
             "Logistic regression": 0, "Support vector machine": 1, "Ridge classification": 2,
             "Gaussian process": 3, "Random forest": 4, "AdaBoost": 5
@@ -87,7 +87,7 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
         self.radioButton_classification_randomforest.clicked.connect(self.switche_stacked_wedge_for_classification)
         self.radioButton_classification_adaboost.clicked.connect(self.switche_stacked_wedge_for_classification)
         
-        # connect regression setting signal to slot: switche to corresponding regression method
+        # Connect regression setting signal to slot: switche to corresponding regression method
         self.regression_stackedwedge_dict = {
             "Linear regression": 0, "Lasso regression": 1, "Ridge regression": 2,
             "Elastic-Net regression": 3, "Support vector machine": 4, "Gaussian process": 5,
@@ -99,6 +99,7 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
         self.radioButton_regression_elasticnet.clicked.connect(self.switche_stacked_wedge_for_regression)
         self.radioButton_regression_svm.clicked.connect(self.switche_stacked_wedge_for_regression)
         self.radioButton_regression_gaussianprocess.clicked.connect(self.switche_stacked_wedge_for_regression)
+        self.radioButton_regression_randomforest.clicked.connect(self.switche_stacked_wedge_for_regression)
 
         # Set appearance
         self.set_run_appearance()
@@ -126,7 +127,7 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
         else:
             self.setStyleSheet(PyQt5_stylesheets.load_stylesheet_pyqt5(style="style_Dark"))
 
-    def all_available_inputs(self):
+    def all_inputs_fun(self):
         """I put all available inputs in a dictionary named all_available_inputs
         """
 
@@ -141,48 +142,45 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
             "Classification": {
                 self.radioButton_classification_lr:{
                     "Logistic regression": {
-                        "maxl1ratio": {"value": self.doubleSpinBox_clf_lr_maxl1ratio.text(), "wedget": self.doubleSpinBox_clf_lr_maxl1ratio},
-                        "minl1ratio": {"value": self.doubleSpinBox_clf_lr_maxl1ratio.text(), "wedget": self.doubleSpinBox_clf_lr_minl1ratio}, 
-                        "numberl1ratio": {"value": self.spinBox__clf_lr_numl1ratio.text(), "wedget": self.spinBox__clf_lr_numl1ratio},
+                        "penalty": {"value": self.comboBox_clf_lr_penalty.currentText(), "wedget": self.comboBox_clf_lr_penalty},
+                        "1ratio": {"value": self.lineEdit_clf_lr_l1ratio.text(), "wedget": self.lineEdit_clf_lr_l1ratio},
+                        "alpha": {"value": self.lineEdit_clf_lr_alpha.text(), "wedget": self.lineEdit_clf_lr_alpha},
                     },
                 }, 
 
                 self.radioButton_classification_svm:{
                     "Support vector machine": {
                         "kernel": {"value": self.comboBox_clf_svm_kernel.currentText(), "wedget": self.comboBox_clf_svm_kernel},
-                        "minc": {"value": self.doubleSpinBox_clf_svm_minc.text(), "wedget": self.doubleSpinBox_clf_svm_minc}, 
-                        "maxc": {"value": self.doubleSpinBox_clf_svm_maxc.text(), "wedget": self.doubleSpinBox_clf_svm_maxc},
-                        "numc": {"value": self.spinBox_clf_svm_numc.text(), "wedget": self.spinBox_clf_svm_numc},
-                        "maxgamma": {"value": self.lineEdit_clf_svm_maxgamma.text(), "wedget": self.lineEdit_clf_svm_maxgamma},
-                        "mingamma": {"value": self.lineEdit_clf_svm_mingamma.text(), "wedget": self.lineEdit_clf_svm_mingamma},
-                        "numgamma": {"value": self.spinBox_clf_svm_numgamma.text(), "wedget": self.spinBox_clf_svm_numgamma},
+                        "c": {"value": self.lineEdit_clf_svm_c.text(), "wedget": self.lineEdit_clf_svm_c}, 
+                        "gamma": {"value": self.lineEdit_clf_svm_gamma.text(), "wedget": self.lineEdit_clf_svm_gamma},
                     },
                 },
 
                 self.radioButton_classification_ridge:{
                     "Ridge classification": {
-                        "minalpha": {"value": self.doubleSpinBox_clf_ridgeclf_minalpha.text(), "wedget": self.doubleSpinBox_clf_ridgeclf_minalpha}, 
-                        "maxalpha": {"value": self.doubleSpinBox_clf_ridgeclf_maxalpha.text(), "wedget": self.doubleSpinBox_clf_ridgeclf_maxalpha},
-                        "numalpha": {"value": self.spinBox_clf_ridgeclf_numalpha.text(), "wedget": self.spinBox_clf_ridgeclf_numalpha},
+                        "alpha": {"value": self.lineEdit_clf_ridgeclf_alpha.text(), "wedget": self.lineEdit_clf_ridgeclf_alpha}, 
                     },
                 },
 
                 self.radioButton_classification_gaussianprocess:{
-                    "Gaussian process": {},
+                    "Gaussian process": {
+                        "kernel": {"value": self.lineEdit_clf_gaussianprocess_kernel.text(), "wedget": self.lineEdit_clf_gaussianprocess_kernel}, 
+                        "multiclass": {"value": self.comboBox_clf_gaussianprocess_multiclass.currentText(), "wedget": self.comboBox_clf_gaussianprocess_multiclass}, 
+                    },
                 },
 
                 self.radioButton_classification_randomforest:{
                     "Random forest": {
-                        "minestimators": {"value": self.spinBox_clf_randomforest_minestimators.text(), "wedget": self.spinBox_clf_randomforest_minestimators}, 
-                        "maxestimators": {"value": self.spinBox_clf_randomforest_maxestimators.text(), "wedget": self.spinBox_clf_randomforest_maxestimators},
-                        "maxdepth": {"value": self.spinBox_clf_randomforest_maxdepth.text(), "wedget": self.spinBox_clf_randomforest_maxdepth},
+                        "estimators": {"value": self.lineEdit_clf_randomforest_estimators.text(), "wedget": self.lineEdit_clf_randomforest_estimators}, 
+                        "maxdepth": {"value": self.lineEdit_clf_randomforest_maxdepth.text(), "wedget": self.lineEdit_clf_randomforest_maxdepth},
                     },
                 },
 
                 self.radioButton_classification_adaboost:{
                     "AdaBoost": {
-                        "minestimators": {"value": self.spinBox_clf_adaboost_minestimators.text(), "wedget": self.spinBox_clf_adaboost_minestimators}, 
-                        "maxestimators": {"value": self.spinBox_clf_adaboost_maxestimators.text(), "wedget": self.spinBox_clf_adaboost_maxestimators},
+                        "estimators": {"value": self.lineEdit_clf_adaboost_estimators.text(), "wedget": self.lineEdit_clf_adaboost_estimators}, 
+                        "algoritm": {"value": self.comboBox_clf_adaboost_algoritm.currentText(), "wedget": self.comboBox_clf_adaboost_algoritm}, 
+                        "baseestimator": {"value": self.comboBox_clf_adaboost_baseesitmator.currentText(), "wedget": self.comboBox_clf_adaboost_baseesitmator},                         
                     },
                 },
             },
@@ -195,20 +193,51 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
                 }, 
                 self.radioButton_regression_lasso: {
                     "Lasso regression":{
-                        "minalpha": {"value": self.doubleSpinBox_regression_lasso_minalpha.text(), "wedget": self.doubleSpinBox_regression_lasso_minalpha}, 
-                        "maxalpha": {"value": self.doubleSpinBox_regression_lasso_maxalpha.text(), "wedget": self.doubleSpinBox_regression_lasso_maxalpha},
-                        "numalpha": {"value": self.spinBox_regression_lasso_numalpha.text(), "wedget": self.spinBox_regression_lasso_numalpha},
+                        "alpha": {"value": self.lineEdit_regression_lasso_alpha.text(), "wedget": self.lineEdit_regression_lasso_alpha}, 
                     }
 
                 },
                 self.radioButton_regression_ridge: {
                     "Ridge regression":{
-                        "minalpha": {"value": self.doubleSpinBox_regression_ridge_minalpha.text(), "wedget": self.doubleSpinBox_regression_ridge_minalpha}, 
-                        "maxalpha": {"value": self.doubleSpinBox_regression_ridge_maxalpha.text(), "wedget": self.doubleSpinBox_regression_ridge_maxalpha},
-                        "numalpha": {"value": self.spinBox_regression_ridge_numalpha.text(), "wedget": self.spinBox_regression_ridge_numalpha},
+                        "alpha": {"value": self.lineEdit_regression_ridge_alpha.text(), "wedget": self.lineEdit_regression_ridge_alpha}, 
                     }
 
-                }
+                },
+
+                self.radioButton_regression_elasticnet: {
+                    "Elastic-Net regression":{
+                        "l1ratio": {"value": self.lineEdit_regression_elasticnet_l1ratio.text(), "wedget": self.lineEdit_regression_elasticnet_l1ratio}, 
+                        "alpha": {"value": self.lineEdit_regression_elasticnet_alpha.text(), "wedget": self.lineEdit_regression_elasticnet_alpha}, 
+                    }
+
+                },
+
+                self.radioButton_regression_svm: {
+                    "Support vector machine":{
+                        "l1ratio": {"value": self.lineEdit_regression_elasticnet_l1ratio.text(), "wedget": self.lineEdit_regression_elasticnet_l1ratio}, 
+                        "alpha": {"value": self.lineEdit_regression_elasticnet_alpha.text(), "wedget": self.lineEdit_regression_elasticnet_alpha}, 
+                        "gamma": {"value": self.lineEdit_regression_svm_gamma.text(), "wedget": self.lineEdit_regression_svm_gamma},
+                    }
+
+                },
+
+                self.radioButton_regression_gaussianprocess: {
+                    "Gaussian process":{
+                        "kernel": {"value": self.lineEdit_regression_gaussianprocess_kernel.text(), "wedget": self.lineEdit_regression_gaussianprocess_kernel}, 
+                        "alpha": {"value": self.lineEdit_regression_gaussianprocess_alpha.text(), "wedget": self.lineEdit_regression_gaussianprocess_alpha}, 
+                    }
+
+                },
+
+                self.radioButton_regression_randomforest: {
+                    "Random forest":{
+                        "criterion": {"value": self.comboBox_regression_randomforest_criterion.currentText(), "wedget": self.comboBox_regression_randomforest_criterion}, 
+                        "estimators": {"value": self.lineEdit_regression_randomforest_estimators.text(), "wedget": self.lineEdit_regression_randomforest_estimators}, 
+                        "maxdepth": {"value": self.lineEdit_regression_randomforest_maxdepth.text(), "wedget": self.lineEdit_regression_randomforest_maxdepth}, 
+                    }
+
+                },
+
             },
 
             "Clustering": {
@@ -236,6 +265,9 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
         Delete wedgets object from all available inputs dict
         NOTE: This code is only for current configuration structure
         """
+
+        # Scan the current inputs
+        self.all_inputs_fun()
 
         all_available_inputs_for_user_tmp = self.all_available_inputs
         for machine_learning_name in list(all_available_inputs_for_user_tmp.keys()):
@@ -271,19 +303,27 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
                 all machine_learning parameters that the user input.
         """
 
+        # Scan the current inputs
+        self.all_inputs_fun()
+        
         # Get current inputs
         for machine_learning_type in self.all_available_inputs:
             for method in self.all_available_inputs[machine_learning_type]:
                 # Only both machine_learning_type and method are clicked, I save configuration to self.machine_learning dictionary 
+                # due to users may clicked multiple methods across different machine_learning_type
+                # given that machine_learning_type is stackedWidgetPage
                 if self.machine_learning_type_dict[machine_learning_type].isChecked() and method.isChecked():
+                    self.machine_learning = {}
                     self.machine_learning[machine_learning_type] = self.all_available_inputs[machine_learning_type][method]
 
     def load_configuration(self):
-        """Load configuration, and refresh_gui configuration in GUI
+        """Load configuration, and display_loaded_inputs_in_gui configuration in GUI (removed to get_current_inputs method)
         """
 
         # Get current inputs before load configuration, so we can 
         # compare loaded configuration["machine_learning"] with the current self.machine_learning
+
+        # Scan the current GUI first and get current inputs
         self.get_current_inputs()
 
         if not self.working_directory:
@@ -320,14 +360,14 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
 
                         if reply == QMessageBox.Yes:  
                             self.machine_learning = self.configuration["machine_learning"]
-                            self.refresh_gui()
+                            self.display_loaded_inputs_in_gui()
                     # If the loaded self.configuration["machine_learning"] is empty
                      # Then assign self.configuration["machine_learning"] with self.machine_learning
                     else:
                         self.configuration["machine_learning"] = self.machine_learning
                 else:
                     self.machine_learning = self.configuration["machine_learning"]
-                    self.refresh_gui()
+                    self.display_loaded_inputs_in_gui()
             except json.decoder.JSONDecodeError:
                 QMessageBox.warning( self, 'Warning', f'{self.configuration_file} is not valid JSON')
                 self.configuration_file = ""
@@ -339,7 +379,7 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
         """Save configuration that users inputed.
         """
 
-        # Get current inputs before saving
+        # Refresh the current GUI first and get current inputs
         self.get_current_inputs()
     
         # Delete wedgets object from self.machine_learning dict
@@ -366,9 +406,9 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
             QMessageBox.warning( self, 'Warning', 'Please choose a configuration file first (press button at top left corner)!')
 
 
-    #%% Update GUI: including refresh_gui and switche_stacked_wedge_for_*
-    def refresh_gui(self):
-        """ Refresh gui the display the loaded configuration in the GUI
+    #%% Update GUI: including display_loaded_inputs_in_gui and switche_stacked_wedge_for_*
+    def display_loaded_inputs_in_gui(self):
+        """ Display the loaded configuration in the GUI
         """
 
         # Generate a dict for switch stacked wedgets
@@ -381,11 +421,11 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
 
         for machine_learning_type in list(self.all_available_inputs.keys()):
             for method in self.all_available_inputs[machine_learning_type].keys():  
-                if machine_learning_type in self.machine_learning.keys():
-                    # Click the input machine learning type wedget
+                if machine_learning_type in self.machine_learning.keys():  # Avoiding duplicate machine_learning_type selection, because users may clicked multiple methods in different machine_learning_type
+                    # Click the input machine_learning_type wedget
                     self.machine_learning_type_dict[machine_learning_type].setChecked(True)
                     
-                    if method.text() in list(self.machine_learning[machine_learning_type].keys()):
+                    if method.text() in list(self.machine_learning[machine_learning_type].keys()):  # TODO: Is it necessary to use "if"
                         # Click the input method wedget
                         method.setChecked(True) 
                         
@@ -393,7 +433,7 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
                         for key_setting in self.machine_learning[machine_learning_type][method.text()]:
                             if "wedget" in list(self.all_available_inputs[machine_learning_type][method][method.text()][key_setting].keys()):
                                 loaded_text = self.machine_learning[machine_learning_type][method.text()][key_setting]["value"]
-                                # Identity wedget type, then using different methods to "setText"
+                                # Identify wedget type, then using different methods to "setText"
                                 # NOTE. 所有控件在设计时，尽量保留原控件的名字在命名的前部分，这样下面才好确定时哪一种类型的控件，从而用不同的赋值方式！
                                 if "lineEdit" in self.all_available_inputs[machine_learning_type][method][method.text()][key_setting]["wedget"].objectName():
                                     self.all_available_inputs[machine_learning_type][method][method.text()][key_setting]["wedget"].setText(loaded_text)
@@ -475,19 +515,19 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
         else:
             self.stackedWidget_classification_setting.setCurrentIndex(-1)
 
-    # def closeEvent(self, event):
-    #     """This function is called when exit icon of the window is clicked.
+    def closeEvent(self, event):
+        """This function is called when exit icon of the window is clicked.
 
-    #     This function make sure the program quit safely.
-    #     """
-    #     # Set qss to make sure the QMessageBox can be seen
-    #     reply = QMessageBox.question(self, 'Quit',"Are you sure to quit?",
-    #                                  QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+        This function make sure the program quit safely.
+        """
+        # Set qss to make sure the QMessageBox can be seen
+        reply = QMessageBox.question(self, 'Quit',"Are you sure to quit?",
+                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
 
-    #     if reply == QMessageBox.Yes:
-    #         event.accept()
-    #     else:
-    #         event.ignore() 
+        if reply == QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore() 
 
 
 if __name__ == "__main__":
