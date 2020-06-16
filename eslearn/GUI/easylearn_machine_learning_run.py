@@ -42,6 +42,12 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
         self.configuration_file = ""
         self.all_inputs_fun()
 
+        # Set appearance
+        try:
+            self.set_run_appearance()
+        except ModuleNotFoundError:
+            pass
+            
         # Debug
         # Set working_directory
         self.working_directory = working_directory
@@ -101,8 +107,6 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
         self.radioButton_regression_gaussianprocess.clicked.connect(self.switche_stacked_wedge_for_regression)
         self.radioButton_regression_randomforest.clicked.connect(self.switche_stacked_wedge_for_regression)
 
-        # Set appearance
-        self.set_run_appearance()
 
     def set_run_appearance(self):
         """Set style_sheets

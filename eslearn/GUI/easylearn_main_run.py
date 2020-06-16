@@ -11,6 +11,7 @@ Main GUI of the easylearn
 import sys
 import os
 import json
+import cgitb
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QFileDialog, QInputDialog, QLineEdit
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.Qt import QCoreApplication
@@ -33,9 +34,17 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         self.working_directory = None
         self.textBrowser.setText("Hi~, I'm easylearn. I hope I can help you finish this project successfully\n")
 
+        # Set working_directory and debug
+        if self.working_directory:
+            cgitb.enable(format="text", display=1, logdir=os.path.join(self.working_directory, "log_data_loading"))
+        else:
+            cgitb.enable(display=1, logdir=None) 
+
         # Set appearance
-        self.set_logo()
-        self.set_skin()
+        try:
+            self.set_run_appearance()
+        except ModuleNotFoundError:
+            pass
 
         # Connecting to functions
         self.select_working_directory.triggered.connect(self.select_workingdir_fun)
@@ -53,15 +62,15 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         # Skins
         self.skins = {"Dark": "style_Dark", "Black": "style_black", "DarkOrange": "style_DarkOrange", 
                     "Gray": "style_gray", "Blue": "style_blue", "Navy": "style_navy", "Classic": "style_Classic"}
-        self.actionDark.triggered.connect(self.set_skin)
-        self.actionBlack.triggered.connect(self.set_skin)
-        self.actionDarkOrange.triggered.connect(self.set_skin)
-        self.actionGray.triggered.connect(self.set_skin)
-        self.actionBlue.triggered.connect(self.set_skin)
-        self.actionNavy.triggered.connect(self.set_skin)
-        self.actionClassic.triggered.connect(self.set_skin)
+        self.actionDark.triggered.connect(self.set_run_appearance)
+        self.actionBlack.triggered.connect(self.set_run_appearance)
+        self.actionDarkOrange.triggered.connect(self.set_run_appearance)
+        self.actionGray.triggered.connect(self.set_run_appearance)
+        self.actionBlue.triggered.connect(self.set_run_appearance)
+        self.actionNavy.triggered.connect(self.set_run_appearance)
+        self.actionClassic.triggered.connect(self.set_run_appearance)
 
-    def set_logo(self):
+    def set_run_appearance(self):
         qss_logo = """#logo{background-color: black;
                 border: 2px solid white;
                 border-radius: 20px;
@@ -81,12 +90,9 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         # Close Icon
         self.quit.setIcon(QIcon("../logo/close.png"));
         self.quit.setIconSize(QPixmap("../logo/close.png").size());
-        self.quit.resize(QPixmap("../logo/close.png").size());
+        self.quit.resize(QPixmap("../logo/close.png").size())
 
-    def set_skin(self):
-        """Set a appearance for easylearn (skin, etc).
-        """
-
+        # Skin
         sender = self.sender()
         if sender:
             if (sender.text() in list(self.skins.keys())):

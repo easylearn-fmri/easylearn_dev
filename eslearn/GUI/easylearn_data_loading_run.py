@@ -38,7 +38,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
 
-        # Set working_directory
+        # Set working_directory and debug
         self.working_directory = working_directory
         if self.working_directory:
             cgitb.enable(format="text", display=1, logdir=os.path.join(self.working_directory, "log_data_loading"))
@@ -56,6 +56,12 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         self.slm_group = QStringListModel()
         self.slm_modality = QStringListModel()
         self.slm_file = QStringListModel()
+
+        # Set appearance
+        try:
+            self.set_run_appearance()
+        except ModuleNotFoundError:
+            pass
 
         # connections
         self.actionChoose_configuration_file.triggered.connect(self.load_configuration)
@@ -104,9 +110,6 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         self.actionNavy.triggered.connect(self.set_run_appearance)
         self.actionClassic.triggered.connect(self.set_run_appearance)
         self.actionLight.triggered.connect(self.set_run_appearance)
-
-        # set appearance
-        self.set_run_appearance()
 
     def set_run_appearance(self):
         """Set style_sheets
