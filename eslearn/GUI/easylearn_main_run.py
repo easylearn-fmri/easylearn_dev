@@ -44,7 +44,12 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         try:
             self.set_run_appearance()
         except ModuleNotFoundError:
-            pass
+            lib_root = os.path.dirname(os.__file__)
+            pyqt5_stylesheets_file  = r"site-packages\eslearn\stylesheets\PyQt5_stylesheets"
+            pyqt5_stylesheets_path = os.path.join(lib_root, pyqt5_stylesheets_file)
+            QMessageBox.warning(
+                self, "Warning", f"Skin can not be used due to you did not install PyQt5_stylesheets!\nOpen terminal in the follow directory\n<{pyqt5_stylesheets_path}>, then input command 'python setup.py install' to install PyQt5_stylesheets"
+            )
 
         # Connecting to functions
         self.select_working_directory.triggered.connect(self.select_workingdir_fun)
