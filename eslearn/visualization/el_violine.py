@@ -8,7 +8,6 @@ This code is copy and revised from https://cloud.tencent.com/developer/article/1
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
-import pandas as pd
 
 class ViolinPlot(object):
     """This class is used to plot violin
@@ -92,9 +91,9 @@ class ViolinPlotMatplotlib(object):
         # Sorted data so that adjacent_values method can get sorted array
         data = [sorted(d) for d in data]
 
-        parts = plt.violinplot(data, showmeans=False, showmedians=False, showextrema=False, **kwargs)
-
-        quartile1, medians, quartile3 = np.percentile(data, [25, 50, 75], axis=1)
+        perc = np.array([np.percentile(data_, [25, 50, 75]) for data_ in data])
+        quartile1, medians, quartile3 = perc[:,0], perc[:,1], perc[:,2]
+        
         whiskers = np.array([
             self.adjacent_values(sorted_array, q1, q3)
             for sorted_array, q1, q3 in zip(data, quartile1, quartile3)])
@@ -105,6 +104,17 @@ class ViolinPlotMatplotlib(object):
         else:
             inds = np.arange(1, len(medians) + 1)
         
+        # Plot violin
+        parts = plt.violinplot(data, showmeans=False, showmedians=False, showextrema=False, positions=inds)
+        
+        # Set color
+        if 'facecolor' in kwargs.keys():
+            for i, pc in enumerate(parts['bodies']):
+                pc.set_facecolor(kwargs['facecolor'][i])
+        if 'edgecolor' in kwargs.keys():
+            for i, pc in enumerate(parts['bodies']):
+                pc.set_edgecolor(kwargs['edgecolor'][i])
+        
         plt.scatter(inds, medians, marker='o', color='white', s=10, zorder=3)
         plt.vlines(inds, quartile1, quartile3, color='k', linestyle='-', lw=5)
         plt.vlines(inds, whiskersMin, whiskersMax, color='k', linestyle='-', lw=1)
@@ -112,10 +122,10 @@ class ViolinPlotMatplotlib(object):
 if __name__ == "__main__":
     np.random.seed(666)
     data = [np.random.randn(100,), np.random.randn(100,), np.random.randn(100,), ]
-    violin = ViolinPlot()
-    violin.plot(data, xticklabel=['1111','',''])
-    plt.show()
-    # ViolinPlotMatplotlib().plot([data[0]], positions=[0])
+    # violin = ViolinPlot()
+    # violin.plot(data, xticklabel=['1111','',''])
+    # plt.show()
+    ViolinPlotMatplotlib().plot(data, positions=[0, 1, 2], facecolor=['r', 'g', 'b'])
     # plt.grid(axis='y')
     # ViolinPlotMatplotlib().plot([data[1]], positions=[1])
     # plt.grid(axis='y')
