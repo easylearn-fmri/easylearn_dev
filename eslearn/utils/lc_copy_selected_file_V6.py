@@ -448,9 +448,9 @@ class CopyFmri():
 
 # %%
 if __name__ == '__main__':
-    uid = r'D:\WorkStation_2018\Workstation_2020_transdiagnositic_subtyping\Data\id.xlsx'
-    source_folder = r'D:\WorkStation_2018\Workstation_2020_transdiagnositic_subtyping\Data\FC_1322'
-    out_path = r'D:\WorkStation_2018\Workstation_2020_transdiagnositic_subtyping\Data\Discovery_dataset'
+    uid = r'D:\WorkStation_2018\WorkStation_dynamicFC_V3\Data\ID_Scale_Headmotion\held_out_samples.txt'
+    source_folder = r'D:\WorkStation_2018\WorkStation_dynamicFC_V3\Data\dfc_all_WindowLength17_WindowStep1_part1'
+    out_path = r'D:\WorkStation_2018\WorkStation_dynamicFC_V3\Data\dfc_all_WindowLength17_WindowStep1_heldoutsample'
     
     unique_id_level_of_target_file = 1
     keywork_of_target_file = ''
@@ -469,8 +469,8 @@ if __name__ == '__main__':
             out_path=out_path,
             n_processess=8,
             is_save_log=1,
-            is_copy=1,
-            is_move=0,
+            is_copy=0,
+            is_move=1,
             save_into_one_or_more_folder='all_files_in_one_folder',
             save_suffix=save_suffix,
             is_run=1)
