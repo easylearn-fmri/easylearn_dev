@@ -3,6 +3,7 @@ cd "path/to/your/folked_easylearn"
 # 2. 查看关联情况
 git remote -v  
 # 3. 如果没有关联，则关联到easylearn母仓库
+<!-- git remote add upstream git@github.com:BNUCNL/dnnbrain.git -->
 git remote add upstream git@github.com:easylearn-fmri/easylearn.git
 # 4. 再次查看关联情况
 git remote -v  

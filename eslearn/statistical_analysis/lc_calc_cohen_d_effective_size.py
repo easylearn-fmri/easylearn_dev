@@ -6,9 +6,9 @@ Created on Wed Feb 26 16:48:21 2020
 Email: lichao19870617@gmail.com
 """
 
-import numpy as np
+import numpy.sqrt as npsqrt
 
-def CohenEffectSize(group1, group2):
+def CohenEffectSize(group1=group1, group2=group2):
     """ Calculate Cohen' d 
     Parameters:
     -----------
@@ -28,5 +28,5 @@ def CohenEffectSize(group1, group2):
     var2 = group2.var(axis=0)
 
     pooled_var = ((n1 -1) * var1 + (n2 - 1) * var2) / (n1 + n2 - 2)
-    d = diff / np.sqrt(pooled_var)
+    d = diff / npsqrt(pooled_var)
     return d

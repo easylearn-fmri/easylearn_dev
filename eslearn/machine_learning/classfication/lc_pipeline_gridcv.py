@@ -16,7 +16,7 @@ from sklearn.datasets import make_classification
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
 from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import make_scorer
-from sklearn.metrics import accuracy_score, f1_score, recall_score, roc_auc_score
+from sklearn.metrics import accuracy_score, f1_score, recall_score, roc_auc_score, precision_score
 from sklearn.pipeline import Pipeline
 from sklearn.svm import LinearSVC  # NOTE. If using SVC, then search C will very slow.
 from sklearn.linear_model import LogisticRegression
@@ -53,7 +53,7 @@ class SvcForGivenTrAndTe():
                 
                 # 以下参数可以调试
                 data_preprocess_method='StandardScaler', # 'MinMaxScaler' OR 'StandardScaler'
-                data_preprocess_level='subject',  # 'group' OR 'subject'
+                data_preprocess_level='group',  # 'group' OR 'subject'
                 mask_threshold=0.2,  # range=[0,1)
                 search_strategy='random', #  # OR 'grid', if your choose 'grid', then the running time is significantly greater than 'random'
                 k=5,  # range=(0, positive integer infinity); 网格搜索最佳参数时，用几折交叉验证
@@ -64,7 +64,7 @@ class SvcForGivenTrAndTe():
                 feature_selection_step=20,  # range=(0, positive integer infinity); 特征选择范围内的间隔，间隔越小搜索的特征组合越多
                 range_C=np.logspace(-2, 20, 20, base=2),  #  np.logspace(-2, 10, 5)=[1.e-02, 1.e+01, 1.e+04, 1.e+07, 1.e+10]; 超参数C的搜索范围，必须时正数
                 n_estimators=np.arange(5, 50, 5),
-                metric=accuracy_score
+                metric=precision_score
                 # =====================================================================
                 ):
         
@@ -203,7 +203,7 @@ class SvcForGivenTrAndTe():
         return model
 
     def tr_te_ev(self):
-        """训练，测试，评估
+        """Training, testing and evaluating performances
         """
         
         # scale
