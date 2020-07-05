@@ -6,14 +6,6 @@ virtualenv -p F:\Python3.6.5_V2\python.exe virtualenv_eslearn
 # Check current environment 
 $old_path = [environment]::GetEnvironmentvariable("Path", "User")
 
-# Add virtual environment to User path in Powershell
-$new_path_virtual = "; D:\My_Codes\virtualenv_eslearn\Scripts"
-[environment]::SetEnvironmentvariable("Path", $new_path_virtual, "User")
-
-# Add real environment to User path in Powershell
-$new_path_real = "; F:\Python3.6.5\Scripts; F:\Python3.6.5"
-[environment]::SetEnvironmentvariable("Path", $new_path_real, "User")
-
 # Configure dnnbrain
 $old_path = [environment]::GetEnvironmentvariable("DNNBRAIN_DATA", "User")
 $path_to_dnnbrain_data = 'F:\Python3.6.5\Lib\site-packages\dnnbrain\data'
