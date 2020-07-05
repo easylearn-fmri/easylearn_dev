@@ -19,7 +19,7 @@ class cal:
         print(a,b,c)
 
 
-c1 = cal(10,11)
+c1 = cal(20,11)
 c1.cal_test(1,2,3)
 c1.cal_info()
 print(c1.cal_add)
