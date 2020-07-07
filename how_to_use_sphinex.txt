@@ -1,0 +1,12 @@
+# At doc folder run following
+sphinx-quickstart
+
+# 命令行进入doc目录，执行生成API文档命
+sphinx-apidoc -o source ../eslearn/
+
+
+# cd doc
+make clean
+
+# build
+sphinx-build -b html doc build
