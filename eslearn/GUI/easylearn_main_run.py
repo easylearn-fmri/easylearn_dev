@@ -60,6 +60,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         self.machine_learning.clicked.connect(self.machine_learning_fun)
         self.model_evaluation.clicked.connect(self.model_evaluation_fun)
         self.statistical_analysis.clicked.connect(self.statistical_analysis_fun)
+        self.Visualization.clicked.connect(self.visualization)
         self.run.clicked.connect(self.run_fun)
         self.quit.clicked.connect(self.closeEvent_button)
 
@@ -202,12 +203,10 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         """
         print('statistical_analysis_fun')
 
-    def save_workflow_fun(self):
-        """This function is called when data_loading button is clicked.
-
-        Then, this function will process the data loading.
+    def visualization(self):
+        """This function is called when Visualization button is clicked..
         """
-        print('save_workflow_fun')
+        print('visualization')
 
     def run_fun(self):
         """This function is called when data_loading button is clicked.
