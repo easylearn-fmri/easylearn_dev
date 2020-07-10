@@ -57,12 +57,6 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         self.slm_modality = QStringListModel()
         self.slm_file = QStringListModel()
 
-        # Set appearance
-        try:
-            self.set_run_appearance()
-        except ModuleNotFoundError:
-            pass
-
         # connections
         self.actionChoose_configuration_file.triggered.connect(self.load_configuration)
         self.actionSave_configuration.triggered.connect(self.save_configuration)
@@ -110,6 +104,12 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         self.actionNavy.triggered.connect(self.set_run_appearance)
         self.actionClassic.triggered.connect(self.set_run_appearance)
         self.actionLight.triggered.connect(self.set_run_appearance)
+
+        # Set appearance
+        try:
+            self.set_run_appearance()
+        except ModuleNotFoundError:
+            pass
 
     def set_run_appearance(self):
         """Set style_sheets

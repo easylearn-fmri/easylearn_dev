@@ -41,12 +41,6 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
         self.configuration_file = ""
         self.all_available_inputs_fun()
 
-        # Set appearance
-        try:
-            self.set_run_appearance()
-        except ModuleNotFoundError:
-            pass
-
         # Debug
         # Set working_directory
         self.working_directory = working_directory
@@ -109,6 +103,12 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
         self.actionBlue.triggered.connect(self.set_run_appearance)
         self.actionNavy.triggered.connect(self.set_run_appearance)
         self.actionClassic.triggered.connect(self.set_run_appearance)
+
+        # Set appearance
+        try:
+            self.set_run_appearance()
+        except ModuleNotFoundError:
+            pass
         
     def set_run_appearance(self):
         """Set style_sheets

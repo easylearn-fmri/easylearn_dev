@@ -42,12 +42,6 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
         self.configuration_file = ""
         self.all_inputs_fun()
 
-        # Set appearance
-        try:
-            self.set_run_appearance()
-        except ModuleNotFoundError:
-            pass
-            
         # Debug
         # Set working_directory
         self.working_directory = working_directory
@@ -55,17 +49,6 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
             cgitb.enable(format="text", display=1, logdir=os.path.join(self.working_directory, "log_machine_learning"))
         else:
             cgitb.enable(display=1, logdir=None) 
-
-        # Skins
-        self.skins = {"Dark": "style_Dark", "Black": "style_black", "DarkOrange": "style_DarkOrange", 
-                    "Gray": "style_gray", "Blue": "style_blue", "Navy": "style_navy", "Classic": "style_Classic"}
-        self.actionDark.triggered.connect(self.set_run_appearance)
-        self.actionBlack.triggered.connect(self.set_run_appearance)
-        self.actionDarkOrange.triggered.connect(self.set_run_appearance)
-        self.actionGray.triggered.connect(self.set_run_appearance)
-        self.actionBlue.triggered.connect(self.set_run_appearance)
-        self.actionNavy.triggered.connect(self.set_run_appearance)
-        self.actionClassic.triggered.connect(self.set_run_appearance)
 
         # Connect configuration functions
         self.actionLoad_configuration.triggered.connect(self.load_configuration)
@@ -106,6 +89,23 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
         self.radioButton_regression_svm.clicked.connect(self.switche_stacked_wedge_for_regression)
         self.radioButton_regression_gaussianprocess.clicked.connect(self.switche_stacked_wedge_for_regression)
         self.radioButton_regression_randomforest.clicked.connect(self.switche_stacked_wedge_for_regression)
+
+        # Skins
+        self.skins = {"Dark": "style_Dark", "Black": "style_black", "DarkOrange": "style_DarkOrange", 
+                    "Gray": "style_gray", "Blue": "style_blue", "Navy": "style_navy", "Classic": "style_Classic"}
+        self.actionDark.triggered.connect(self.set_run_appearance)
+        self.actionBlack.triggered.connect(self.set_run_appearance)
+        self.actionDarkOrange.triggered.connect(self.set_run_appearance)
+        self.actionGray.triggered.connect(self.set_run_appearance)
+        self.actionBlue.triggered.connect(self.set_run_appearance)
+        self.actionNavy.triggered.connect(self.set_run_appearance)
+        self.actionClassic.triggered.connect(self.set_run_appearance)
+
+        # Set appearance
+        try:
+            self.set_run_appearance()
+        except ModuleNotFoundError:
+            pass
 
 
     def set_run_appearance(self):
