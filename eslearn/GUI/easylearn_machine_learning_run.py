@@ -327,7 +327,7 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
         # Get current inputs before load configuration, so we can 
         # compare loaded configuration["machine_learning"] with the current self.machine_learning
 
-        # Scan the current GUI first and get current inputs
+        # Scan the current GUI first and get current inputs, so that to compare with loaded configuration
         self.get_current_inputs()
 
         if not self.working_directory:

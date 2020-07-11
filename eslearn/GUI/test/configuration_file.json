@@ -62,16 +62,10 @@
         }
     },
     "machine_learning": {
-        "Classification": {
-            "Support vector machine": {
-                "kernel": {
-                    "value": "linear"
-                },
-                "c": {
-                    "value": "1 10 100"
-                },
-                "gamma": {
-                    "value": "scale"
+        "Regression": {
+            "Lasso regression": {
+                "alpha": {
+                    "value": "0.5"
                 }
             }
         }
