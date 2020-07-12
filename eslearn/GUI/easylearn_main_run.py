@@ -20,6 +20,7 @@ from easylearn_main_gui import Ui_MainWindow
 from easylearn_data_loading_run import EasylearnDataLoadingRun
 from easylearn_feature_engineering_run import EasylearnFeatureEngineeringRun
 from easylearn_machine_learning_run import EasylearnMachineLearningRun
+from easylearn_model_evaluation_run import EasylearnModelEvaluationRun
 from eslearn.stylesheets.PyQt5_stylesheets import PyQt5_stylesheets
 
 
@@ -194,7 +195,8 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
 
         Then, this function will process the model evaluation.
         """
-        print('model_evaluation_fun')
+        self.model_evaluation = EasylearnModelEvaluationRun(self.working_directory)
+        self.model_evaluation.show()
 
     def statistical_analysis_fun(self):
         """This function is called when data_loading button is clicked.

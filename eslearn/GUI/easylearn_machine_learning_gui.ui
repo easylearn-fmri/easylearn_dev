@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>862</width>
-    <height>744</height>
+    <width>846</width>
+    <height>809</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -66,7 +66,58 @@
       </property>
       <widget class="QWidget" name="stackedWidgetPage_classification">
        <layout class="QGridLayout" name="gridLayout_12">
-        <item row="0" column="2" rowspan="2">
+        <item row="0" column="0">
+         <widget class="QGroupBox" name="groupBox_method">
+          <property name="title">
+           <string>Model</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_5">
+           <item row="3" column="0">
+            <widget class="QRadioButton" name="radioButton_classification_gaussianprocess">
+             <property name="text">
+              <string>Gaussian process</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="0">
+            <widget class="QRadioButton" name="radioButton_classification_randomforest">
+             <property name="text">
+              <string>Random forest</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QRadioButton" name="radioButton_classification_svm">
+             <property name="text">
+              <string>Support vector machine</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QRadioButton" name="radioButton_classification_lr">
+             <property name="text">
+              <string>Logistic regression</string>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="0">
+            <widget class="QRadioButton" name="radioButton_classification_adaboost">
+             <property name="text">
+              <string>AdaBoost</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QRadioButton" name="radioButton_classification_ridge">
+             <property name="text">
+              <string>Ridge classification</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="0" column="2">
          <widget class="QGroupBox" name="groupBox_setting">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -388,7 +439,7 @@
           </layout>
          </widget>
         </item>
-        <item row="1" column="1">
+        <item row="0" column="1">
          <spacer name="horizontalSpacer">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
@@ -404,62 +455,11 @@
           </property>
          </spacer>
         </item>
-        <item row="0" column="0" rowspan="2">
-         <widget class="QGroupBox" name="groupBox_method">
-          <property name="title">
-           <string>Model</string>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_5">
-           <item row="3" column="0">
-            <widget class="QRadioButton" name="radioButton_classification_gaussianprocess">
-             <property name="text">
-              <string>Gaussian process</string>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="0">
-            <widget class="QRadioButton" name="radioButton_classification_randomforest">
-             <property name="text">
-              <string>Random forest</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QRadioButton" name="radioButton_classification_svm">
-             <property name="text">
-              <string>Support vector machine</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="0">
-            <widget class="QRadioButton" name="radioButton_classification_lr">
-             <property name="text">
-              <string>Logistic regression</string>
-             </property>
-            </widget>
-           </item>
-           <item row="8" column="0">
-            <widget class="QRadioButton" name="radioButton_classification_adaboost">
-             <property name="text">
-              <string>AdaBoost</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <widget class="QRadioButton" name="radioButton_classification_ridge">
-             <property name="text">
-              <string>Ridge classification</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="stackedWidgetPage_regression">
        <layout class="QGridLayout" name="gridLayout_2">
-        <item row="0" column="1">
+        <item row="0" column="2">
          <widget class="QGroupBox" name="GroupBox_Settting">
           <property name="title">
            <string>Setting</string>
@@ -467,6 +467,12 @@
           <layout class="QGridLayout" name="gridLayout_17">
            <item row="0" column="0">
             <widget class="QStackedWidget" name="stackedWidget_regression">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
              <property name="currentIndex">
               <number>0</number>
              </property>
@@ -750,21 +756,111 @@
           </layout>
          </widget>
         </item>
+        <item row="0" column="1">
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
        </layout>
        <zorder>Methods</zorder>
        <zorder>GroupBox_Settting</zorder>
+       <zorder>horizontalSpacer_2</zorder>
       </widget>
       <widget class="QWidget" name="stackedWidgetPage_clustering">
        <layout class="QGridLayout" name="gridLayout_3">
-        <item row="0" column="2">
-         <widget class="QGroupBox" name="groupBox_6">
+        <item row="0" column="3">
+         <widget class="QGroupBox" name="groupBox_settting">
           <property name="title">
            <string>Setting</string>
           </property>
+          <layout class="QGridLayout" name="gridLayout_25">
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_14">
+             <property name="text">
+              <string>init</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QSpinBox" name="spinBox"/>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_13">
+             <property name="text">
+              <string>n_clusters</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2">
+            <widget class="QComboBox" name="comboBox">
+             <item>
+              <property name="text">
+               <string>k-means++</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>random</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="2" column="2">
+            <widget class="QLineEdit" name="lineEdit">
+             <property name="text">
+              <string>10</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_16">
+             <property name="text">
+              <string>n_init</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="2">
+            <widget class="QSpinBox" name="spinBox_2"/>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="label_18">
+             <property name="text">
+              <string>random_state</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </item>
-        <item row="0" column="1">
-         <widget class="QGroupBox" name="groupBox_3">
+        <item row="0" column="2">
+         <spacer name="horizontalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="0" column="0" colspan="2">
+         <widget class="QGroupBox" name="groupBox_methods">
           <property name="title">
            <string>Methods</string>
           </property>
@@ -846,6 +942,19 @@
       <widget class="QWidget" name="stackedWidgetPage_none"/>
      </widget>
     </item>
+    <item row="2" column="0">
+     <widget class="QGroupBox" name="groupBox">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>200</height>
+       </size>
+      </property>
+      <property name="title">
+       <string>Datasets</string>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -853,8 +962,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>862</width>
-     <height>25</height>
+     <width>846</width>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuConfiguration_file_F">

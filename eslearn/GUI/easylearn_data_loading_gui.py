@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'D:\My_Codes\easylearn-fmri\eslearn\gui_test\easylearn_data_loading_gui.ui'
+# Form implementation generated from reading ui file '.\easylearn_data_loading_gui.ui'
 #
 # Created by: PyQt5 UI code generator 5.11.3
 #

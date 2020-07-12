@@ -15,7 +15,7 @@
                     "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_patient/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub009.nii"
                 ],
                 "mask": "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/Reslice_THALAMUS.nii",
-                "targets": [],
+                "targets": "1 1 1 1 1 1 1 1 1 1",
                 "covariates": []
             }
         },
@@ -34,7 +34,7 @@
                     "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_control/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub010.nii"
                 ],
                 "mask": "",
-                "targets": [],
+                "targets": "0 0 0 0 0 0 0 0 0 0",
                 "covariates": []
             }
         }
@@ -62,14 +62,32 @@
         }
     },
     "machine_learning": {
-        "Regression": {
-            "Lasso regression": {
-                "alpha": {
-                    "value": "0.5"
+        "Classification": {
+            "Support vector machine": {
+                "kernel": {
+                    "value": "linear"
+                },
+                "c": {
+                    "value": "1"
+                },
+                "gamma": {
+                    "value": "scale"
                 }
             }
         }
     },
-    "model_evaluation": {},
+    "model_evaluation": {
+        "K-fold": {
+            "n_splits": {
+                "value": "10"
+            },
+            "shuffle": {
+                "value": "False"
+            },
+            "random_state": {
+                "value": "5"
+            }
+        }
+    },
     "statistical_analysis": {}
 }

@@ -154,7 +154,6 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
         model_evaluation_type = self.model_evaluation_type_dict[self.tabWidget.currentIndex()]
         print(model_evaluation_type)
         self.model_evaluation[model_evaluation_type] = self.all_available_inputs[model_evaluation_type]
-        print(self.model_evaluation)
 
     def load_configuration(self):
         """Load configuration, and display_loaded_inputs_in_gui configuration in GUI (removed to get_current_inputs method)
@@ -215,8 +214,6 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
         else:
             QMessageBox.warning( self, 'Warning', 'Configuration file was not selected')
 
-        print(self.model_evaluation)
-
     def save_configuration(self):
         """Save configuration that users inputed.
         """
@@ -227,11 +224,10 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
         # Delete wedgets object from self.model_evaluation dict
         # NOTE: This code is only for current configuration structure
         for model_evaluation_name in list(self.model_evaluation.keys()):
-            for method_name in list(self.model_evaluation[model_evaluation_name].keys()):
-                for setting in list(self.model_evaluation[model_evaluation_name][method_name].keys()):
-                    for content in list(self.model_evaluation[model_evaluation_name][method_name][setting].keys()):
-                        if "wedget" in list(self.model_evaluation[model_evaluation_name][method_name][setting].keys()):
-                            self.model_evaluation[model_evaluation_name][method_name][setting].pop("wedget")
+            for setting in list(self.model_evaluation[model_evaluation_name].keys()):
+                for content in list(self.model_evaluation[model_evaluation_name][setting].keys()):
+                    if "wedget" in list(self.model_evaluation[model_evaluation_name][setting].keys()):
+                        self.model_evaluation[model_evaluation_name][setting].pop("wedget")
         
         # If already identified the configuration file, then excude saving logic.      
         if self.configuration_file != "":
@@ -253,109 +249,26 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
         """ Display the loaded configuration in the GUI
         """
 
-        # Generate a dict for switch stacked wedgets
-        method_switch_dict = {
-            "Classification": self.switche_stacked_wedge_for_classification,
-            "Regression": self.switche_stacked_wedge_for_regression,
-            "Clustering": self.switche_stacked_wedge_for_clustering,
-            "Deep learning": self.switche_stacked_wedge_for_deep_learning,
-        }
-
         for model_evaluation_type in list(self.all_available_inputs.keys()):
-            for method in self.all_available_inputs[model_evaluation_type].keys():  
-                if model_evaluation_type in self.model_evaluation.keys():  # Avoiding duplicate model_evaluation_type selection, because users may clicked multiple methods in different model_evaluation_type
-                    # Click the input model_evaluation_type wedget
-                    self.model_evaluation_type_dict[model_evaluation_type].setChecked(True)
-                    
-                    if method.text() in list(self.model_evaluation[model_evaluation_type].keys()):  # TODO: Is it necessary to use "if"
-                        # Click the input method wedget
-                        method.setChecked(True) 
-                        
-                        # Click the input setting wedget
-                        for key_setting in self.model_evaluation[model_evaluation_type][method.text()]:
-                            if "wedget" in list(self.all_available_inputs[model_evaluation_type][method][method.text()][key_setting].keys()):
-                                loaded_text = self.model_evaluation[model_evaluation_type][method.text()][key_setting]["value"]
-                                # Identify wedget type, then using different methods to "setText"
-                                # NOTE. 所有控件在设计时，尽量保留原控件的名字在命名的前部分，这样下面才好确定时哪一种类型的控件，从而用不同的赋值方式！
-                                if "lineEdit" in self.all_available_inputs[model_evaluation_type][method][method.text()][key_setting]["wedget"].objectName():
-                                    self.all_available_inputs[model_evaluation_type][method][method.text()][key_setting]["wedget"].setText(loaded_text)
-                                elif "doubleSpinBox" in self.all_available_inputs[model_evaluation_type][method][method.text()][key_setting]["wedget"].objectName():
-                                    self.all_available_inputs[model_evaluation_type][method][method.text()][key_setting]["wedget"].setValue(float(loaded_text))
-                                elif "spinBox" in self.all_available_inputs[model_evaluation_type][method][method.text()][key_setting]["wedget"].objectName():
-                                    self.all_available_inputs[model_evaluation_type][method][method.text()][key_setting]["wedget"].setValue(int(loaded_text))
-                                elif "comboBox" in self.all_available_inputs[model_evaluation_type][method][method.text()][key_setting]["wedget"].objectName():
-                                    self.all_available_inputs[model_evaluation_type][method][method.text()][key_setting]["wedget"].setCurrentText(loaded_text)
-
-                                # Switch stacked wedget
-                                self.switche_stacked_wedge_for_model_evaluation_type(True, model_evaluation_type)
-                                method_switch_dict[model_evaluation_type](True, method.text())
-
-
-    def switche_stacked_wedge_for_model_evaluation_type(self, signal_bool, model_evaluation_type=None):
-        """ Switch to corresponding machine learning type window
-        """
-
-        if self.sender():
-            if not model_evaluation_type:
-                self.stackedWidget_model_evaluation_type.setCurrentIndex(self.model_evaluation_type_stackedwedge_dict[self.sender().text()])
-            else:
-                self.stackedWidget_model_evaluation_type.setCurrentIndex(self.model_evaluation_type_stackedwedge_dict[model_evaluation_type])
-        else:
-            self.stackedWidget_model_evaluation_type.setCurrentIndex(-1)
-
-    def switche_stacked_wedge_for_classification(self, signal_bool, method=None):
-        """ Switch to corresponding classification model window
-        """
-
-        self.radioButton_classification.setChecked(True)
-
-        if self.sender():
-            if not method:
-                self.stackedWidget_classification_setting.setCurrentIndex(self.classification_stackedwedge_dict[self.sender().text()])
-            else:
-                self.stackedWidget_classification_setting.setCurrentIndex(self.classification_stackedwedge_dict[method])
-        else:
-            self.stackedWidget_classification_setting.setCurrentIndex(-1)
-
-    def switche_stacked_wedge_for_regression(self, signal_bool, method=None):
-        """ Switch to corresponding regression model window
-        """
-        self.radioButton_regression.setChecked(True)
-
-        if self.sender():
-            if not method:
-                self.stackedWidget_regression.setCurrentIndex(self.regression_stackedwedge_dict[self.sender().text()])
-            else:
-                self.stackedWidget_regression.setCurrentIndex(self.regression_stackedwedge_dict[method])
-        else:
-            self.stackedWidget_regression.setCurrentIndex(-1)
-
-    def switche_stacked_wedge_for_clustering(self, signal_bool, method=None):
-        """ Switch to corresponding clustering model window
-        """
-
-        self.radioButton_clustering.setChecked(True)
-
-        if self.sender():
-            if not method:
-                self.stackedWidget_classification_setting.setCurrentIndex(self.clustering_stackedwedge_dict[self.sender().text()])
-            else:
-                self.stackedWidget_classification_setting.setCurrentIndex(self.clustering_stackedwedge_dict[method])
-        else:
-            self.stackedWidget_classification_setting.setCurrentIndex(-1)
-
-    def switche_stacked_wedge_for_deep_learning(self, signal_bool, method=None):
-        """ Switch to corresponding deep learning model window
-        """
-        self.radioButton_deeplearning.setChecked(True)
-
-        if self.sender():
-            if not method:
-                self.stackedWidget_classification_setting.setCurrentIndex(self.deep_learning_stackedwedge_dict[self.sender().text()])
-            else:
-                self.stackedWidget_classification_setting.setCurrentIndex(self.deep_learning_stackedwedge_dict[method])
-        else:
-            self.stackedWidget_classification_setting.setCurrentIndex(-1)
+            if model_evaluation_type in self.model_evaluation.keys():
+                # Switch to model_evaluation_type tabwedget
+                self.tabWidget.setCurrentIndex(self.model_evaluation_type_stackedwedge_dict[model_evaluation_type])
+                for setting in list(self.all_available_inputs[model_evaluation_type].keys()):
+                    if "wedget" in list(self.all_available_inputs[model_evaluation_type][setting].keys()):
+                        loaded_text = self.model_evaluation[model_evaluation_type][setting]["value"]
+                        # Identify wedget type, then using different methods to "setText"
+                        # NOTE. 所有控件在设计时，尽量保留原控件的名字在命名的前部分，这样下面才好确定时哪一种类型的控件，从而用不同的赋值方式！
+                        if "lineEdit" in self.all_available_inputs[model_evaluation_type][setting]["wedget"].objectName():
+                            self.all_available_inputs[model_evaluation_type][setting]["wedget"].setText(loaded_text)
+                        elif "doubleSpinBox" in self.all_available_inputs[model_evaluation_type][setting]["wedget"].objectName():
+                            self.all_available_inputs[model_evaluation_type][setting]["wedget"].setValue(float(loaded_text))
+                        elif "spinBox" in self.all_available_inputs[model_evaluation_type][setting]["wedget"].objectName():
+                            self.all_available_inputs[model_evaluation_type][setting]["wedget"].setValue(int(loaded_text))
+                        elif "comboBox" in self.all_available_inputs[model_evaluation_type][setting]["wedget"].objectName():
+                            self.all_available_inputs[model_evaluation_type][setting]["wedget"].setCurrentText(loaded_text)
+                        else:
+                            # TODO: EXTENSION
+                            print("Input wedget is not support now!\n")
 
     def closeEvent(self, event):
         """This function is called when exit icon of the window is clicked.
