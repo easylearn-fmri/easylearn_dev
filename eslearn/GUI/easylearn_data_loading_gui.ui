@@ -38,8 +38,14 @@
                 <height>10</height>
                </size>
               </property>
+              <property name="acceptDrops">
+               <bool>false</bool>
+              </property>
               <property name="sizeAdjustPolicy">
                <enum>QAbstractScrollArea::AdjustToContents</enum>
+              </property>
+              <property name="dragEnabled">
+               <bool>false</bool>
               </property>
              </widget>
             </item>
@@ -228,8 +234,14 @@
               <height>10</height>
              </size>
             </property>
+            <property name="acceptDrops">
+             <bool>false</bool>
+            </property>
             <property name="sizeAdjustPolicy">
              <enum>QAbstractScrollArea::AdjustToContents</enum>
+            </property>
+            <property name="dragEnabled">
+             <bool>false</bool>
             </property>
            </widget>
           </item>

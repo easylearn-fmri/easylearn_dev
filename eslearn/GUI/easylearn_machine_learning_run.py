@@ -90,6 +90,10 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
         self.radioButton_regression_gaussianprocess.clicked.connect(self.switche_stacked_wedge_for_regression)
         self.radioButton_regression_randomforest.clicked.connect(self.switche_stacked_wedge_for_regression)
 
+        # # Datasets
+        # self.treeWidget_candidate_datasets.setColumnCount(2)
+        # self.treeWidget_candidate_datasets.setHeaderLabels(['Key','Value'])
+
         # Skins
         self.skins = {"Dark": "style_Dark", "Black": "style_black", "DarkOrange": "style_DarkOrange", 
                     "Gray": "style_gray", "Blue": "style_blue", "Navy": "style_navy", "Classic": "style_Classic"}

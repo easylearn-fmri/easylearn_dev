@@ -18,6 +18,7 @@ import os
 import json
 import cgitb
 from PyQt5.QtGui import QIcon
+from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QFileDialog
 from eslearn.stylesheets.PyQt5_stylesheets import PyQt5_stylesheets
 
@@ -59,6 +60,10 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
             "K-fold": 0, "Stratified K-fold": 1, "Random splits": 2, "User-defined CV": 3,
         }
       
+        # Datasets
+        
+
+
         # Skins
         self.skins = {"Dark": "style_Dark", "Black": "style_black", "DarkOrange": "style_DarkOrange", 
                     "Gray": "style_gray", "Blue": "style_blue", "Navy": "style_navy", "Classic": "style_Classic"}
@@ -74,6 +79,7 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
         try:
             self.set_run_appearance()
         except ModuleNotFoundError:
+            print("Set run appearance failed!\n")
             pass
 
 
