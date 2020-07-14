@@ -61,7 +61,12 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
         }
       
         # Datasets
-        
+        self.listWidget.addItem("feferr")
+        self.listWidget.addItem("......eeee")
+        print(self.listWidget.currentItem())
+        print(self.listWidget.count())
+        print(self.listWidget.item(1).text())
+
 
 
         # Skins
