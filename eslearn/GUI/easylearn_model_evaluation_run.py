@@ -51,7 +51,7 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
         else:
             cgitb.enable(display=1, logdir=None) 
 
-        # # Connect configuration functions
+        # Connect configuration functions
         self.actionLoad_configuration.triggered.connect(self.load_configuration)
         self.actionSave_configuration.triggered.connect(self.save_configuration)
 
@@ -60,14 +60,10 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
             "K-fold": 0, "Stratified K-fold": 1, "Random splits": 2, "User-defined CV": 3,
         }
       
-        # Datasets
-        self.listWidget.addItem("feferr")
-        self.listWidget.addItem("......eeee")
-        print(self.listWidget.currentItem())
-        print(self.listWidget.count())
-        print(self.listWidget.item(1).text())
-
-
+        # Connect to remove selected datasets 
+        self.listWidget_selected_datasets.doubleClicked.connect(self.remove_selected_datasets)
+        self.listWidget_selected_datasets.itemChanged.connect(self.del_repeated_items)
+        self.listWidget_selected_datasets.customContextMenuRequested.connect(self.remove_selected_datasets)
 
         # Skins
         self.skins = {"Dark": "style_Dark", "Black": "style_black", "DarkOrange": "style_DarkOrange", 
@@ -121,6 +117,13 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
             2: "Random splits", 3: "User defined CV",
         }
 
+        # Get current selected datasets
+        count = self.listWidget_selected_datasets.count()
+        selected_datasets = []
+        for i in range(count):
+            selected_datasets.append(self.listWidget_selected_datasets.item(i).text())
+
+
         # All available inputs
         self.all_available_inputs = {
             "K-fold": {
@@ -145,6 +148,11 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
             "User defined CV": {
                                
             },
+
+            "Datasets":{
+                            "selected_datasets": {"value":selected_datasets, "wedget": self.listWidget_selected_datasets},
+
+            }
         }
 
     def get_current_inputs(self):
@@ -163,8 +171,8 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
         
         # Get current inputs
         model_evaluation_type = self.model_evaluation_type_dict[self.tabWidget.currentIndex()]
-        print(model_evaluation_type)
         self.model_evaluation[model_evaluation_type] = self.all_available_inputs[model_evaluation_type]
+        self.model_evaluation["Datasets"] = self.all_available_inputs["Datasets"]
 
     def load_configuration(self):
         """Load configuration, and display_loaded_inputs_in_gui configuration in GUI (removed to get_current_inputs method)
@@ -260,10 +268,12 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
         """ Display the loaded configuration in the GUI
         """
 
+        # Display the cross-validation configuration
         for model_evaluation_type in list(self.all_available_inputs.keys()):
             if model_evaluation_type in self.model_evaluation.keys():
                 # Switch to model_evaluation_type tabwedget
-                self.tabWidget.setCurrentIndex(self.model_evaluation_type_stackedwedge_dict[model_evaluation_type])
+                if model_evaluation_type != "Datasets":  # Because "Datasets" is not tabWidget
+                    self.tabWidget.setCurrentIndex(self.model_evaluation_type_stackedwedge_dict[model_evaluation_type])
                 for setting in list(self.all_available_inputs[model_evaluation_type].keys()):
                     if "wedget" in list(self.all_available_inputs[model_evaluation_type][setting].keys()):
                         loaded_text = self.model_evaluation[model_evaluation_type][setting]["value"]
@@ -277,23 +287,71 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
                             self.all_available_inputs[model_evaluation_type][setting]["wedget"].setValue(int(loaded_text))
                         elif "comboBox" in self.all_available_inputs[model_evaluation_type][setting]["wedget"].objectName():
                             self.all_available_inputs[model_evaluation_type][setting]["wedget"].setCurrentText(loaded_text)
+                        elif "listWidget" in self.all_available_inputs[model_evaluation_type][setting]["wedget"].objectName():
+                            self.all_available_inputs[model_evaluation_type][setting]["wedget"].addItems(loaded_text)
                         else:
                             # TODO: EXTENSION
                             print("Input wedget is not support now!\n")
 
-    def closeEvent(self, event):
-        """This function is called when exit icon of the window is clicked.
-
-        This function make sure the program quit safely.
+        # Display the datasets
+        if self.configuration["data_loading"]:
+            for candidate_dataset_group in self.configuration["data_loading"]:
+                for candidate_dataset_modality in self.configuration["data_loading"][candidate_dataset_group]:
+                    display_datasets = candidate_dataset_group + ": " + candidate_dataset_modality
+                    self.listWidget_candidate_datasets.addItem(display_datasets)
+    
+    def del_repeated_items(self):
         """
-        # Set qss to make sure the QMessageBox can be seen
-        reply = QMessageBox.question(self, 'Quit',"Are you sure to quit?",
-                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+        Delete repeated items in selected_datasets
+        """
 
-        if reply == QMessageBox.Yes:
-            event.accept()
-        else:
-            event.ignore() 
+        nitem = self.listWidget_selected_datasets.count()
+        selected_datasets = [self.listWidget_selected_datasets.item(i).text() for i in range(nitem)]
+        selected_datasets_new = list(set(selected_datasets))  
+        selected_datasets_new.sort(key=selected_datasets.index)
+
+        # Delete old selected datasets
+        self.listWidget_selected_datasets.clear()
+        
+        # Update none-repeated datasets
+        self.listWidget_selected_datasets.addItems(selected_datasets_new)
+
+
+    def remove_selected_datasets(self):
+        """
+        This function is used to remove selected datasets
+        
+        If exist selected self.selected_datasets and self.selected_datasets is in list(self.data_loading.keys),
+        then remove.
+        """
+
+        reply = QMessageBox.question(self, "Delete selected datasets", "Remove this datasets: " + self.listWidget_selected_datasets.currentItem().text() + "?",
+                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+        if reply == QMessageBox.Yes:  
+            # Remove selected datasets
+                nitem = self.listWidget_selected_datasets.count()
+                selected_datasets = [self.listWidget_selected_datasets.item(i).text() for i in range(nitem)]
+                button = self.sender()
+                row = self.listWidget_selected_datasets.indexAt(button.pos()).row()
+                print(row)
+                # delete selected item
+                if row != -1:
+                    self.listWidget_selected_datasets.takeItem(row)  
+                else:          
+                    self.listWidget_selected_datasets.takeItem(0)  
+    # def closeEvent(self, event):
+    #     """This function is called when exit icon of the window is clicked.
+
+    #     This function make sure the program quit safely.
+    #     """
+    #     # Set qss to make sure the QMessageBox can be seen
+    #     reply = QMessageBox.question(self, 'Quit',"Are you sure to quit?",
+    #                                  QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+
+    #     if reply == QMessageBox.Yes:
+    #         event.accept()
+    #     else:
+    #         event.ignore() 
 
 
 if __name__ == "__main__":

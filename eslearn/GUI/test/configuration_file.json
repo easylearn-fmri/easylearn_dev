@@ -87,6 +87,13 @@
             "random_state": {
                 "value": "5"
             }
+        },
+        "Datasets": {
+            "selected_datasets": {
+                "value": [
+                    "group_1: modality_1"
+                ]
+            }
         }
     },
     "statistical_analysis": {}
