@@ -33,19 +33,19 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
     the main window.
     """
 
-    def __init__(self, working_directory=None):
+    def __init__(self, working_directory=None, configuration_file=""):
         QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
 
         # Initialization
+        self.working_directory = working_directory
+        self.configuration_file = configuration_file
         self.model_evaluation = {}
-        self.configuration_file = ""
         self.all_inputs_fun()
 
         # Debug
         # Set working_directory
-        self.working_directory = working_directory
         if self.working_directory:
             cgitb.enable(format="text", display=1, logdir=os.path.join(self.working_directory, "log_model_evaluation"))
         else:
@@ -57,13 +57,13 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
 
         # # Connect to radioButton of model evaluation type: switche to corresponding model evaluation type window
         self.model_evaluation_type_stackedwedge_dict = {
-            "K-fold": 0, "Stratified K-fold": 1, "Random splits": 2, "User-defined CV": 3,
+            "K-fold": 0, "Stratified k-fold": 1, "Random splits": 2, "User-defined CV": 3,
         }
       
         # Connect to remove selected datasets 
         self.listWidget_selected_datasets.doubleClicked.connect(self.remove_selected_datasets)
-        self.listWidget_selected_datasets.itemChanged.connect(self.del_repeated_items)
         self.listWidget_selected_datasets.customContextMenuRequested.connect(self.remove_selected_datasets)
+        self.listWidget_selected_datasets.itemChanged.connect(self.del_repeated_items)
 
         # Skins
         self.skins = {"Dark": "style_Dark", "Black": "style_black", "DarkOrange": "style_DarkOrange", 
@@ -83,6 +83,8 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
             print("Set run appearance failed!\n")
             pass
 
+        # Automatically load configuration
+        self.load_configuration()
 
     def set_run_appearance(self):
         """Set style_sheets
@@ -114,7 +116,7 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
         # # This dictionary is used to keep track of model_evaluation types
         self.model_evaluation_type_dict = {
             0: "K-fold", 1: "Stratified k-fold",
-            2: "Random splits", 3: "User defined CV",
+            2: "Random splits", 3: "User-defined CV",
         }
 
         # Get current selected datasets
@@ -145,7 +147,7 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
                                 "random_state": {"value": self.spinBox_randomsplits_randomstate.text(), "wedget": self.spinBox_randomsplits_randomstate},
             },
 
-            "User defined CV": {
+            "User-defined CV": {
                                
             },
 
@@ -170,7 +172,8 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
         self.all_inputs_fun()
         
         # Get current inputs
-        model_evaluation_type = self.model_evaluation_type_dict[self.tabWidget.currentIndex()]
+        self.model_evaluation = {}
+        model_evaluation_type = self.model_evaluation_type_dict[self.tabWidget_CV.currentIndex()]
         self.model_evaluation[model_evaluation_type] = self.all_available_inputs[model_evaluation_type]
         self.model_evaluation["Datasets"] = self.all_available_inputs["Datasets"]
 
@@ -184,18 +187,19 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
         # Scan the current GUI first and get current inputs, so that to compare with loaded configuration
         self.get_current_inputs()
 
-        if not self.working_directory:
-            self.configuration_file, filetype = QFileDialog.getOpenFileName(
-                self,  
-                "Select configuration file",  
-                os.getcwd(), "Text Files (*.json);;All Files (*);;"
-            ) 
-        else:
-            self.configuration_file, filetype = QFileDialog.getOpenFileName(
-                self,  
-                "Select configuration file",  
-                self.working_directory, "Text Files (*.json);;All Files (*);;"
-            ) 
+        if self.configuration_file == "":
+            if not self.working_directory:
+                self.configuration_file, filetype = QFileDialog.getOpenFileName(
+                    self,  
+                    "Select configuration file",  
+                    os.getcwd(), "Text Files (*.json);;All Files (*);;"
+                ) 
+            else:
+                self.configuration_file, filetype = QFileDialog.getOpenFileName(
+                    self,  
+                    "Select configuration file",  
+                    self.working_directory, "Text Files (*.json);;All Files (*);;"
+                ) 
 
         # Read configuration_file if already selected
         if self.configuration_file != "": 
@@ -272,8 +276,8 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
         for model_evaluation_type in list(self.all_available_inputs.keys()):
             if model_evaluation_type in self.model_evaluation.keys():
                 # Switch to model_evaluation_type tabwedget
-                if model_evaluation_type != "Datasets":  # Because "Datasets" is not tabWidget
-                    self.tabWidget.setCurrentIndex(self.model_evaluation_type_stackedwedge_dict[model_evaluation_type])
+                if model_evaluation_type != "Datasets":  # Because "Datasets" is not tabWidget_CV
+                    self.tabWidget_CV.setCurrentIndex(self.model_evaluation_type_stackedwedge_dict[model_evaluation_type])
                 for setting in list(self.all_available_inputs[model_evaluation_type].keys()):
                     if "wedget" in list(self.all_available_inputs[model_evaluation_type][setting].keys()):
                         loaded_text = self.model_evaluation[model_evaluation_type][setting]["value"]
@@ -288,6 +292,7 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
                         elif "comboBox" in self.all_available_inputs[model_evaluation_type][setting]["wedget"].objectName():
                             self.all_available_inputs[model_evaluation_type][setting]["wedget"].setCurrentText(loaded_text)
                         elif "listWidget" in self.all_available_inputs[model_evaluation_type][setting]["wedget"].objectName():
+                            self.all_available_inputs[model_evaluation_type][setting]["wedget"].clear()  # To avoid repeated items
                             self.all_available_inputs[model_evaluation_type][setting]["wedget"].addItems(loaded_text)
                         else:
                             # TODO: EXTENSION
@@ -295,6 +300,7 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
 
         # Display the datasets
         if self.configuration["data_loading"]:
+            self.listWidget_candidate_datasets.clear()
             for candidate_dataset_group in self.configuration["data_loading"]:
                 for candidate_dataset_modality in self.configuration["data_loading"][candidate_dataset_group]:
                     display_datasets = candidate_dataset_group + ": " + candidate_dataset_modality
@@ -339,19 +345,20 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
                     self.listWidget_selected_datasets.takeItem(row)  
                 else:          
                     self.listWidget_selected_datasets.takeItem(0)  
-    # def closeEvent(self, event):
-    #     """This function is called when exit icon of the window is clicked.
 
-    #     This function make sure the program quit safely.
-    #     """
-    #     # Set qss to make sure the QMessageBox can be seen
-    #     reply = QMessageBox.question(self, 'Quit',"Are you sure to quit?",
-    #                                  QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+    def closeEvent(self, event):
+        """This function is called when exit icon of the window is clicked.
 
-    #     if reply == QMessageBox.Yes:
-    #         event.accept()
-    #     else:
-    #         event.ignore() 
+        This function make sure the program quit safely.
+        """
+
+        reply = QMessageBox.question(self, 'Quit',"Are you sure to quit?",
+                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+
+        if reply == QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore() 
 
 
 if __name__ == "__main__":

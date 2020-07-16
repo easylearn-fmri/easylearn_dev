@@ -32,14 +32,15 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
     the main window.
     """
 
-    def __init__(self, working_directory=None):
+    def __init__(self, working_directory=None, configuration_file=""):
         QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
 
         # Initialization
         self.machine_learning = {}
-        self.configuration_file = ""
+        self.working_directory = working_directory
+        self.configuration_file = configuration_file
         self.all_inputs_fun()
 
         # Debug
@@ -111,6 +112,8 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
         except ModuleNotFoundError:
             pass
 
+        # Automatically load configuration
+        self.load_configuration()
 
     def set_run_appearance(self):
         """Set style_sheets
@@ -334,18 +337,19 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
         # Scan the current GUI first and get current inputs, so that to compare with loaded configuration
         self.get_current_inputs()
 
-        if not self.working_directory:
-            self.configuration_file, filetype = QFileDialog.getOpenFileName(
-                self,  
-                "Select configuration file",  
-                os.getcwd(), "Text Files (*.json);;All Files (*);;"
-            ) 
-        else:
-            self.configuration_file, filetype = QFileDialog.getOpenFileName(
-                self,  
-                "Select configuration file",  
-                self.working_directory, "Text Files (*.json);;All Files (*);;"
-            ) 
+        if self.configuration_file == "":
+            if not self.working_directory:
+                self.configuration_file, filetype = QFileDialog.getOpenFileName(
+                    self,  
+                    "Select configuration file",  
+                    os.getcwd(), "Text Files (*.json);;All Files (*);;"
+                ) 
+            else:
+                self.configuration_file, filetype = QFileDialog.getOpenFileName(
+                    self,  
+                    "Select configuration file",  
+                    self.working_directory, "Text Files (*.json);;All Files (*);;"
+                ) 
 
         # Read configuration_file if already selected
         if self.configuration_file != "": 

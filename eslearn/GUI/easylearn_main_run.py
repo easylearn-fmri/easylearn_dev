@@ -33,6 +33,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
         self.working_directory = None
+        self.configuration_file = ""
         self.textBrowser.setText("Hi~, I'm easylearn. I hope I can help you finish this project successfully\n")
 
         # Set working_directory and debug
@@ -171,7 +172,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         Then, this function will process the data loading.
         """
 
-        self.data_loading = EasylearnDataLoadingRun(self.working_directory)
+        self.data_loading = EasylearnDataLoadingRun(self.working_directory, self.configuration_file)
         self.data_loading.show()
 
     def feature_engineering_fun(self):
@@ -179,7 +180,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
 
         Then, this function will process the feature_engineering.
         """
-        self.feature_engineering = EasylearnFeatureEngineeringRun(self.working_directory)
+        self.feature_engineering = EasylearnFeatureEngineeringRun(self.working_directory, self.configuration_file)
         self.feature_engineering.show()
 
     def machine_learning_fun(self):
@@ -187,7 +188,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
 
         Then, this function will process the data loading.
         """
-        self.machine_learning = EasylearnMachineLearningRun(self.working_directory)
+        self.machine_learning = EasylearnMachineLearningRun(self.working_directory, self.configuration_file)
         self.machine_learning.show()
 
     def model_evaluation_fun(self):
@@ -195,7 +196,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
 
         Then, this function will process the model evaluation.
         """
-        self.model_evaluation = EasylearnModelEvaluationRun(self.working_directory)
+        self.model_evaluation = EasylearnModelEvaluationRun(self.working_directory, self.configuration_file)
         self.model_evaluation.show()
 
     def statistical_analysis_fun(self):
