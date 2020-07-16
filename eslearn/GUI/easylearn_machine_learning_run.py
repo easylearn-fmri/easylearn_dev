@@ -32,22 +32,17 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
     the main window.
     """
 
-    def __init__(self, working_directory=None):
+    def __init__(self, working_directory=None, configuration_file=""):
         QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
 
         # Initialization
         self.machine_learning = {}
-        self.configuration_file = ""
+        self.working_directory = working_directory
+        self.configuration_file = configuration_file
         self.all_inputs_fun()
 
-        # Set appearance
-        try:
-            self.set_run_appearance()
-        except ModuleNotFoundError:
-            pass
-            
         # Debug
         # Set working_directory
         self.working_directory = working_directory
@@ -55,17 +50,6 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
             cgitb.enable(format="text", display=1, logdir=os.path.join(self.working_directory, "log_machine_learning"))
         else:
             cgitb.enable(display=1, logdir=None) 
-
-        # Skins
-        self.skins = {"Dark": "style_Dark", "Black": "style_black", "DarkOrange": "style_DarkOrange", 
-                    "Gray": "style_gray", "Blue": "style_blue", "Navy": "style_navy", "Classic": "style_Classic"}
-        self.actionDark.triggered.connect(self.set_run_appearance)
-        self.actionBlack.triggered.connect(self.set_run_appearance)
-        self.actionDarkOrange.triggered.connect(self.set_run_appearance)
-        self.actionGray.triggered.connect(self.set_run_appearance)
-        self.actionBlue.triggered.connect(self.set_run_appearance)
-        self.actionNavy.triggered.connect(self.set_run_appearance)
-        self.actionClassic.triggered.connect(self.set_run_appearance)
 
         # Connect configuration functions
         self.actionLoad_configuration.triggered.connect(self.load_configuration)
@@ -107,6 +91,29 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
         self.radioButton_regression_gaussianprocess.clicked.connect(self.switche_stacked_wedge_for_regression)
         self.radioButton_regression_randomforest.clicked.connect(self.switche_stacked_wedge_for_regression)
 
+        # # Datasets
+        # self.treeWidget_candidate_datasets.setColumnCount(2)
+        # self.treeWidget_candidate_datasets.setHeaderLabels(['Key','Value'])
+
+        # Skins
+        self.skins = {"Dark": "style_Dark", "Black": "style_black", "DarkOrange": "style_DarkOrange", 
+                    "Gray": "style_gray", "Blue": "style_blue", "Navy": "style_navy", "Classic": "style_Classic"}
+        self.actionDark.triggered.connect(self.set_run_appearance)
+        self.actionBlack.triggered.connect(self.set_run_appearance)
+        self.actionDarkOrange.triggered.connect(self.set_run_appearance)
+        self.actionGray.triggered.connect(self.set_run_appearance)
+        self.actionBlue.triggered.connect(self.set_run_appearance)
+        self.actionNavy.triggered.connect(self.set_run_appearance)
+        self.actionClassic.triggered.connect(self.set_run_appearance)
+
+        # Set appearance
+        try:
+            self.set_run_appearance()
+        except ModuleNotFoundError:
+            pass
+
+        # Automatically load configuration
+        self.load_configuration()
 
     def set_run_appearance(self):
         """Set style_sheets
@@ -327,21 +334,22 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
         # Get current inputs before load configuration, so we can 
         # compare loaded configuration["machine_learning"] with the current self.machine_learning
 
-        # Scan the current GUI first and get current inputs
+        # Scan the current GUI first and get current inputs, so that to compare with loaded configuration
         self.get_current_inputs()
 
-        if not self.working_directory:
-            self.configuration_file, filetype = QFileDialog.getOpenFileName(
-                self,  
-                "Select configuration file",  
-                os.getcwd(), "Text Files (*.json);;All Files (*);;"
-            ) 
-        else:
-            self.configuration_file, filetype = QFileDialog.getOpenFileName(
-                self,  
-                "Select configuration file",  
-                self.working_directory, "Text Files (*.json);;All Files (*);;"
-            ) 
+        if self.configuration_file == "":
+            if not self.working_directory:
+                self.configuration_file, filetype = QFileDialog.getOpenFileName(
+                    self,  
+                    "Select configuration file",  
+                    os.getcwd(), "Text Files (*.json);;All Files (*);;"
+                ) 
+            else:
+                self.configuration_file, filetype = QFileDialog.getOpenFileName(
+                    self,  
+                    "Select configuration file",  
+                    self.working_directory, "Text Files (*.json);;All Files (*);;"
+                ) 
 
         # Read configuration_file if already selected
         if self.configuration_file != "": 

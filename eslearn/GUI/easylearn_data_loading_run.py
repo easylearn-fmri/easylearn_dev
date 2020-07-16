@@ -33,13 +33,14 @@ from easylearn_data_loading_gui import Ui_MainWindow
 
 
 class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
-    def __init__(self, working_directory=None):
+    def __init__(self, working_directory=None, configuration_file=""):
         QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
 
         # Set working_directory and debug
         self.working_directory = working_directory
+        self.configuration_file = configuration_file
         if self.working_directory:
             cgitb.enable(format="text", display=1, logdir=os.path.join(self.working_directory, "log_data_loading"))
         else:
@@ -47,7 +48,6 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         
         # initiating
         self.data_loading = {}
-        self.configuration_file = ""
         self.selected_group = None
         self.selected_modality = None
         self.selected_file = None
@@ -56,12 +56,6 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         self.slm_group = QStringListModel()
         self.slm_modality = QStringListModel()
         self.slm_file = QStringListModel()
-
-        # Set appearance
-        try:
-            self.set_run_appearance()
-        except ModuleNotFoundError:
-            pass
 
         # connections
         self.actionChoose_configuration_file.triggered.connect(self.load_configuration)
@@ -111,6 +105,15 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         self.actionClassic.triggered.connect(self.set_run_appearance)
         self.actionLight.triggered.connect(self.set_run_appearance)
 
+        # Set appearance
+        try:
+            self.set_run_appearance()
+        except ModuleNotFoundError:
+            pass
+
+        # Automatically load configuration
+        self.load_configuration()
+
     def set_run_appearance(self):
         """Set style_sheets
         """
@@ -137,19 +140,20 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
     def load_configuration(self):
         """Load configuration, and display groups
         """
-
-        if not self.working_directory:
-            self.configuration_file, filetype = QFileDialog.getOpenFileName(
-                self,  
-                "Select configuration file",  
-                os.getcwd(), "Text Files (*.json);;All Files (*);;"
-            ) 
-        else:
-            self.configuration_file, filetype = QFileDialog.getOpenFileName(
-                self,  
-                "Select configuration file",  
-                self.working_directory, "Text Files (*.json);;All Files (*);;"
-            ) 
+        if self.configuration_file == "":
+            if self.configuration_file == "":
+                if not self.working_directory:
+                    self.configuration_file, filetype = QFileDialog.getOpenFileName(
+                        self,  
+                        "Select configuration file",  
+                        os.getcwd(), "Text Files (*.json);;All Files (*);;"
+                    ) 
+                else:
+                    self.configuration_file, filetype = QFileDialog.getOpenFileName(
+                        self,  
+                        "Select configuration file",  
+                        self.working_directory, "Text Files (*.json);;All Files (*);;"
+                    ) 
 
         # Read configuration_file if already selected
         if self.configuration_file != "": 
@@ -435,7 +439,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         if (bool(self.selected_group) & bool(self.selected_modality)):
             loaded_file, filetype = QFileDialog.getOpenFileName(self,  
                                     "Select file",  os.getcwd(), 
-                                    "Nifti Files (*.nii);;Matlab Files (*.mat);;All Files (*)"
+                                    "Nifti Files (*.nii);;Matlab Files (*.mat);Text File (*.txt);All Files (*)"
             )
 
             if loaded_file != "":

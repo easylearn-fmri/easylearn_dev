@@ -31,25 +31,19 @@ from easylearn_feature_engineering_gui import Ui_MainWindow
 
 
 class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
-    def __init__(self, working_directory=None):
+    def __init__(self, working_directory=None, configuration_file=""):
         QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
 
         # Initialization
         self.feature_engineering = {}
-        self.configuration_file = ""
+        self.working_directory = working_directory
+        self.configuration_file = configuration_file
         self.all_available_inputs_fun()
-
-        # Set appearance
-        try:
-            self.set_run_appearance()
-        except ModuleNotFoundError:
-            pass
 
         # Debug
         # Set working_directory
-        self.working_directory = working_directory
         if self.working_directory:
             cgitb.enable(format="text", display=1, logdir=os.path.join(self.working_directory, "log_feature_engineering"))
         else:
@@ -109,6 +103,15 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
         self.actionBlue.triggered.connect(self.set_run_appearance)
         self.actionNavy.triggered.connect(self.set_run_appearance)
         self.actionClassic.triggered.connect(self.set_run_appearance)
+
+        # Set appearance
+        try:
+            self.set_run_appearance()
+        except ModuleNotFoundError:
+            pass
+
+        # Automatically load configuration
+        self.load_configuration()
         
     def set_run_appearance(self):
         """Set style_sheets
@@ -332,19 +335,20 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
         # Get current inputs before load configuration, so we can 
         # compare loaded configuration["feature_engineering"] with the current self.feature_engineering
         self.get_current_inputs()
-
-        if not self.working_directory:
-            self.configuration_file, filetype = QFileDialog.getOpenFileName(
-                self,  
-                "Select configuration file",  
-                os.getcwd(), "Text Files (*.json);;All Files (*);;"
-            ) 
-        else:
-            self.configuration_file, filetype = QFileDialog.getOpenFileName(
-                self,  
-                "Select configuration file",  
-                self.working_directory, "Text Files (*.json);;All Files (*);;"
-            ) 
+        
+        if self.configuration_file == "":
+            if not self.working_directory:
+                self.configuration_file, filetype = QFileDialog.getOpenFileName(
+                    self,  
+                    "Select configuration file",  
+                    os.getcwd(), "Text Files (*.json);;All Files (*);;"
+                ) 
+            else:
+                self.configuration_file, filetype = QFileDialog.getOpenFileName(
+                    self,  
+                    "Select configuration file",  
+                    self.working_directory, "Text Files (*.json);;All Files (*);;"
+                ) 
 
         # Read configuration_file if already selected
         if self.configuration_file != "": 
