@@ -1,7 +1,6 @@
 # <img src="./eslearn/logo/logo-lower.jpg" width = "200" height = "60" div align=left />  <font size=10>Make machine learning easy!</font>  
  
-Easylearn is designed for machine learning mainly in resting-state fMRI, radiomics and other fields (such as EEG). Easylearn is built on top of scikit-learn, pytorch and other packages. Easylearn can assist doctors and researchers who have limited coding experience to easily realize machine learning, e.g., (MR/CT/PET/EEG)imaging-marker- or other biomarker-based disease diagnosis and prediction, treatment response prediction, 
-disease subtyping, dimensional decoding for transdiagnostic psychiatric diseases or other diseases, disease mechanism exploration and etc.  
+Easylearn is designed for machine learning mainly in resting-state fMRI, radiomics and other fields (such as EEG). Easylearn is built on top of scikit-learn, pytorch and other packages. Easylearn can assist doctors and researchers who have limited coding experience to easily realize machine learning, e.g., (MR/CT/PET/EEG)imaging-marker- or other biomarker-based disease diagnosis and prediction, treatment response prediction, disease subtyping, dimensional decoding for transdiagnostic psychiatric diseases or other diseases, disease mechanism exploration and etc.  
 
 We focus on machine learning rather than data preprocessing. Many software, such as SPM, GRETNA, DPABI, REST, RESTPlus, CCS, FSL, Freesufer, nipy, nipype, nibabel, fmriprep and etc, can be used for data preprocessing.  
 
@@ -22,6 +21,8 @@ Citing link: https://github.com/easylearn-fmri/easylearn
 ![Featur engineering](./img/feature_selection.png)   
 #### <center> Feature engineering Interface (unbalance treatment) </center>
 ![Featur engineering](./img/unbalance_treatment.png) 
+#### <center> Machine learning Interface </center>
+![Machine learning](./img/machine_learning.png) 
 # Core Dependencies 
 The follows will be automatically install if you use "pip install -U easylearn" command    
 

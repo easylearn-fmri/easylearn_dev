@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'D:\My_Codes\easylearn-fmri\eslearn\gui_test\easylearn_data_loading_gui.ui'
+# Form implementation generated from reading ui file '.\easylearn_data_loading_gui.ui'
 #
 # Created by: PyQt5 UI code generator 5.11.3
 #
@@ -28,8 +28,12 @@ class Ui_MainWindow(object):
         self.label_group.setObjectName("label_group")
         self.verticalLayout_group.addWidget(self.label_group)
         self.listView_groups = QtWidgets.QListView(self.centralwidget)
+        self.listView_groups.setEnabled(True)
         self.listView_groups.setMinimumSize(QtCore.QSize(20, 10))
+        self.listView_groups.setAcceptDrops(False)
         self.listView_groups.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
+        self.listView_groups.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.listView_groups.setDragEnabled(False)
         self.listView_groups.setObjectName("listView_groups")
         self.verticalLayout_group.addWidget(self.listView_groups)
         self.group_btn = QtWidgets.QHBoxLayout()
@@ -58,8 +62,10 @@ class Ui_MainWindow(object):
         self.label_modalities.setObjectName("label_modalities")
         self.verticalLayout_modality.addWidget(self.label_modalities)
         self.listView_modalities = QtWidgets.QListView(self.centralwidget)
+        self.listView_modalities.setEnabled(True)
         self.listView_modalities.setMinimumSize(QtCore.QSize(20, 10))
         self.listView_modalities.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
+        self.listView_modalities.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.listView_modalities.setObjectName("listView_modalities")
         self.verticalLayout_modality.addWidget(self.listView_modalities)
         self.modality_btn = QtWidgets.QHBoxLayout()
@@ -90,9 +96,14 @@ class Ui_MainWindow(object):
         self.label_file.setObjectName("label_file")
         self.verticalLayout_file.addWidget(self.label_file)
         self.listView_files = QtWidgets.QListView(self.centralwidget)
+        self.listView_files.setEnabled(True)
         self.listView_files.setMinimumSize(QtCore.QSize(10, 200))
         self.listView_files.setBaseSize(QtCore.QSize(10, 10))
+        self.listView_files.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
+        self.listView_files.setAcceptDrops(False)
         self.listView_files.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
+        self.listView_files.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.listView_files.setDragEnabled(False)
         self.listView_files.setObjectName("listView_files")
         self.verticalLayout_file.addWidget(self.listView_files)
         self.file_btn = QtWidgets.QHBoxLayout()

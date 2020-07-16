@@ -65,18 +65,10 @@ class ViolinPlot(object):
             self.ax.set_ylabel(ylabel, fontsize=ylabelsize)
 
 class ViolinPlotMatplotlib(object):
-    """ ViolinPlot customization 
+    """ 
+    ViolinPlot customization 
 
     """
-
-
-    def adjacent_values(self, vals, q1, q3):
-        upper_adjacent_value = q3 + (q3 - q1) * 1.5
-        upper_adjacent_value = np.clip(upper_adjacent_value, q3, vals[-1])
-    
-        lower_adjacent_value = q1 - (q3 - q1) * 1.5
-        lower_adjacent_value = np.clip(lower_adjacent_value, vals[0], q1)
-        return lower_adjacent_value, upper_adjacent_value
 
     def plot(self, data, **kwargs):
         """ Plot violin
@@ -119,6 +111,15 @@ class ViolinPlotMatplotlib(object):
         plt.vlines(inds, quartile1, quartile3, color='k', linestyle='-', lw=5)
         plt.vlines(inds, whiskersMin, whiskersMax, color='k', linestyle='-', lw=1)
 
+    
+    def adjacent_values(self, vals, q1, q3):
+        upper_adjacent_value = q3 + (q3 - q1) * 1.5
+        upper_adjacent_value = np.clip(upper_adjacent_value, q3, vals[-1])
+    
+        lower_adjacent_value = q1 - (q3 - q1) * 1.5
+        lower_adjacent_value = np.clip(lower_adjacent_value, vals[0], q1)
+        return lower_adjacent_value, upper_adjacent_value
+
 if __name__ == "__main__":
     np.random.seed(666)
     data = [np.random.randn(100,), np.random.randn(100,), np.random.randn(100,), ]
@@ -131,4 +132,4 @@ if __name__ == "__main__":
     # plt.grid(axis='y')
     # ViolinPlotMatplotlib().plot([data[2]], positions=[2])
     # plt.grid(axis='y')
-    # plt.show()
+    plt.show()

@@ -20,6 +20,7 @@ from easylearn_main_gui import Ui_MainWindow
 from easylearn_data_loading_run import EasylearnDataLoadingRun
 from easylearn_feature_engineering_run import EasylearnFeatureEngineeringRun
 from easylearn_machine_learning_run import EasylearnMachineLearningRun
+from easylearn_model_evaluation_run import EasylearnModelEvaluationRun
 from eslearn.stylesheets.PyQt5_stylesheets import PyQt5_stylesheets
 
 
@@ -32,6 +33,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
         self.working_directory = None
+        self.configuration_file = ""
         self.textBrowser.setText("Hi~, I'm easylearn. I hope I can help you finish this project successfully\n")
 
         # Set working_directory and debug
@@ -60,6 +62,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         self.machine_learning.clicked.connect(self.machine_learning_fun)
         self.model_evaluation.clicked.connect(self.model_evaluation_fun)
         self.statistical_analysis.clicked.connect(self.statistical_analysis_fun)
+        self.Visualization.clicked.connect(self.visualization)
         self.run.clicked.connect(self.run_fun)
         self.quit.clicked.connect(self.closeEvent_button)
 
@@ -169,7 +172,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         Then, this function will process the data loading.
         """
 
-        self.data_loading = EasylearnDataLoadingRun(self.working_directory)
+        self.data_loading = EasylearnDataLoadingRun(self.working_directory, self.configuration_file)
         self.data_loading.show()
 
     def feature_engineering_fun(self):
@@ -177,7 +180,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
 
         Then, this function will process the feature_engineering.
         """
-        self.feature_engineering = EasylearnFeatureEngineeringRun(self.working_directory)
+        self.feature_engineering = EasylearnFeatureEngineeringRun(self.working_directory, self.configuration_file)
         self.feature_engineering.show()
 
     def machine_learning_fun(self):
@@ -185,7 +188,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
 
         Then, this function will process the data loading.
         """
-        self.machine_learning = EasylearnMachineLearningRun(self.working_directory)
+        self.machine_learning = EasylearnMachineLearningRun(self.working_directory, self.configuration_file)
         self.machine_learning.show()
 
     def model_evaluation_fun(self):
@@ -193,7 +196,8 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
 
         Then, this function will process the model evaluation.
         """
-        print('model_evaluation_fun')
+        self.model_evaluation = EasylearnModelEvaluationRun(self.working_directory, self.configuration_file)
+        self.model_evaluation.show()
 
     def statistical_analysis_fun(self):
         """This function is called when data_loading button is clicked.
@@ -202,12 +206,10 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         """
         print('statistical_analysis_fun')
 
-    def save_workflow_fun(self):
-        """This function is called when data_loading button is clicked.
-
-        Then, this function will process the data loading.
+    def visualization(self):
+        """This function is called when Visualization button is clicked..
         """
-        print('save_workflow_fun')
+        print('visualization')
 
     def run_fun(self):
         """This function is called when data_loading button is clicked.

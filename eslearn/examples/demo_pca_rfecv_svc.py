@@ -10,10 +10,10 @@ import eslearn.machine_learning.classfication.pca_rfe_svc_cv as pca_rfe_svc
 
 # =============================================================================
 # All inputs
-path_patients = r'D:\WorkStation_2018\Workstation_Old\WorkStation_2018-05_MVPA_insomnia_FCS\Degree\degree_gray_matter\Zdegree\Z_degree_patient\Weighted'  # All patients' image files, .nii format
-path_HC = r'D:\WorkStation_2018\Workstation_Old\WorkStation_2018-05_MVPA_insomnia_FCS\Degree\degree_gray_matter\Zdegree\Z_degree_control\Weighted'  # All HCs' image files, .nii format
-path_mask = r'G:\Softer_DataProcessing\spm12\spm12\tpm\Reslice3_TPM_greaterThan0.2.nii'  # Mask file for filter image
-path_out = r'D:\WorkStation_2018\Workstation_Old\WorkStation_2018-05_MVPA_insomnia_FCS\Degree\degree_gray_matter\Zdegree'  # Directory for saving results
+dataset_patients = r'D:\WorkStation_2018\Workstation_Old\WorkStation_2018-05_MVPA_insomnia_FCS\Degree\degree_gray_matter\Zdegree\Z_degree_patient\Weighted'  # All patients' image files, .nii format
+dataset_HC = r'D:\WorkStation_2018\Workstation_Old\WorkStation_2018-05_MVPA_insomnia_FCS\Degree\degree_gray_matter\Zdegree\Z_degree_control\Weighted'  # All HCs' image files, .nii format
+mask = r'G:\Softer_DataProcessing\spm12\spm12\tpm\Reslice3_TPM_greaterThan0.2.nii'  # Mask file for filter image
+outpath = r'D:\WorkStation_2018\Workstation_Old\WorkStation_2018-05_MVPA_insomnia_FCS\Degree\degree_gray_matter\Zdegree'  # Directory for saving results
 data_preprocess_method='StandardScaler'
 data_preprocess_level='group'  # In which level to preprocess data 'subject' or 'group'
 num_of_fold_outer = 5  # How many folds to perform cross validation
@@ -27,10 +27,10 @@ is_showfig_in_each_fold = False  # Whether show results in each fold.
 # =============================================================================
 
 clf = pca_rfe_svc.PcaRfeSvcCV(
-        path_patients=path_patients,
-        path_HC=path_HC,
-        path_mask=path_mask,
-        path_out=path_out,
+        dataset_patients=dataset_patients,
+        dataset_HC=dataset_HC,
+        mask=mask,
+        outpath=outpath,
         data_preprocess_method=data_preprocess_method,
         data_preprocess_level=data_preprocess_level,
         num_of_fold_outer=num_of_fold_outer, 

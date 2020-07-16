@@ -5,7 +5,7 @@ Classifier: linear SVC
 Dimension reduction: PCA
 Feature selection: RFE
 ------
-@author: LI Chao
+@author: LI Chao AND DONG Mengshi
 """
 
 import numpy as np
@@ -15,8 +15,8 @@ from sklearn import preprocessing
 import nibabel as nib
 import os
 
-from eslearn.utils.lc_evaluation_model_performances import eval_performance
-from eslearn.utils.lc_niiProcessor import NiiProcessor
+from eslearn.model_evaluation.el_evaluation_model_performances import eval_performance
+from eslearn.IO.el_niiProcessor import NiiProcessor
 from eslearn.feature_engineering.feature_selection.el_rfe import rfeCV
 import eslearn.feature_engineering.feature_preprocessing.el_preprocessing as elprep
 from eslearn.feature_engineering.feature_reduction.el_dimreduction import pca_apply
@@ -32,16 +32,16 @@ class PcaRfeSvcCV():
 
     Parameters
     ----------
-    path_patients :    
+    dataset_patients :    
         Path of the image files of patients
 
-    path_HC : 
+    dataset_HC : 
         Path of the image files of HC 
 
-    path_mask : 
+    mask : 
         Path of the mask
 
-    path_out : 
+    outpath : 
         Path to save results
 
     data_preprocess_method: str
@@ -81,10 +81,10 @@ class PcaRfeSvcCV():
     Save all classification results and figures to local disk.
     """
     def __init__(self,
-                 path_patients=None,
-                 path_HC=None,
-                 path_mask=None,
-                 path_out=None,
+                 dataset_patients=None,
+                 dataset_HC=None,
+                 mask=None,
+                 outpath=None,
                  data_preprocess_method='MinMaxScaler',
                  data_preprocess_level='subject',
                  num_of_fold_outer=5,
@@ -96,10 +96,10 @@ class PcaRfeSvcCV():
                  is_showfig_finally=True,
                  is_showfig_in_each_fold=False):
 
-         self.path_patients = path_patients
-         self.path_HC = path_HC
-         self.path_mask = path_mask
-         self.path_out = path_out
+         self.dataset_patients = dataset_patients
+         self.dataset_HC = dataset_HC
+         self.mask = mask
+         self.outpath = outpath
          self.data_preprocess_method = data_preprocess_method
          self.data_preprocess_level = data_preprocess_level
          self.num_of_fold_outer =  num_of_fold_outer
@@ -200,18 +200,18 @@ class PcaRfeSvcCV():
             """
             Load nii and generate label
             """
-            data1, _ = NiiProcessor().read_multi_nii(self.path_patients)
+            data1, _ = NiiProcessor().read_multi_nii(self.dataset_patients)
             data1 = np.squeeze(
                 np.array([np.array(data1).reshape(1, -1) for data1 in data1]))
     
-            data2, _ = NiiProcessor().read_multi_nii(self.path_HC)
+            data2, _ = NiiProcessor().read_multi_nii(self.dataset_HC)
             data2 = np.squeeze(
                 np.array([np.array(data2).reshape(1, -1) for data2 in data2]))
     
             data = np.vstack([data1, data2])
     
             # data in mask
-            mask, mask_obj = NiiProcessor().read_sigle_nii(self.path_mask)
+            mask, mask_obj = NiiProcessor().read_sigle_nii(self.mask)
             orig_shape = mask.shape
             mask = mask >= 0.2
             mask = np.array(mask).reshape(-1,)
@@ -233,28 +233,6 @@ class PcaRfeSvcCV():
         from collections import Counter
         print(f"After re-sampling, the sample size are: {sorted(Counter(label_resampled).items())}")
         return feature_resampled, label_resampled
-
-    def data_preprocess(sel, feature_train, feature_test, data_preprocess_method, data_preprocess_level):
-        '''
-        This function is used to preprocess features
-        Method 1: preprocess data in group level, one feature by one feature.
-        Method 2: preprocess data in subject level.
-        '''
-        # Method 1: Group level preprocessing.
-        if data_preprocess_level == 'group':
-            feature_train, model = elscaler.scaler(feature_train, data_preprocess_method)
-            feature_test = model.transform(feature_test)
-        elif data_preprocess_level == 'subject':
-            # Method 2: Subject level preprocessing.
-            scaler = preprocessing.StandardScaler().fit(feature_train.T)
-            feature_train = scaler.transform(feature_train.T) .T
-            scaler = preprocessing.StandardScaler().fit(feature_test.T)
-            feature_test = scaler.transform(feature_test.T) .T
-        else:
-            print('Please provide which level to preprocess features\n')
-            return
-
-        return feature_train, feature_test
     
     def feature_selection_relief(self, feature_train, label_train, feature_test, n_features_to_select=None):
         """
@@ -318,8 +296,8 @@ class PcaRfeSvcCV():
         performances_to_save = pd.DataFrame(performances_to_save, columns=[['Accuracy','Sensitivity', 'Specificity', 'AUC']])
         de_pred_label_to_save = pd.DataFrame(de_pred_label_to_save, columns=[['Decision','Prediction', 'Sorted_Real_Label']])
         
-        performances_to_save.to_csv(os.path.join(self.path_out, 'Performances.txt'), index=False, header=True)
-        de_pred_label_to_save.to_csv(os.path.join(self.path_out, 'Decision_prediction_label.txt'), index=False, header=True)
+        performances_to_save.to_csv(os.path.join(self.outpath, 'Performances.txt'), index=False, header=True)
+        de_pred_label_to_save.to_csv(os.path.join(self.outpath, 'Decision_prediction_label.txt'), index=False, header=True)
 
         
     def _weight2nii(self, dimension_nii_data=(61, 73, 61)):
@@ -336,35 +314,34 @@ class PcaRfeSvcCV():
         weight_mean_orig =  np.reshape(weight_mean_orig, dimension_nii_data)
         # save to nii
         weight_nii = nib.Nifti1Image(weight_mean_orig, affine=self.mask_obj.affine)
-        weight_nii.to_filename(os.path.join(self.path_out, 'weight.nii'))
+        weight_nii.to_filename(os.path.join(self.outpath, 'weight.nii'))
         
     def save_fig(self):
         # Save ROC and Classification 2D figure
         acc, sens, spec, auc = eval_performance(self.label_test_all, self.prediction, self.decision, 
                                                 self.accuracy, self.sensitivity, self.specificity, self.AUC,
                                                 verbose=0, is_showfig=self.is_showfig_finally, is_savefig=1, 
-                                                out_name=os.path.join(self.path_out, 'Classification_performances.pdf'))
+                                                out_name=os.path.join(self.outpath, 'Classification_performances.pdf'))
 
 #
 if __name__ == '__main__':
     # =============================================================================
     # All inputs
-    path_patients = r'D:\workstation_b\xiaowei\ToLC\training\BD_label1'  # 训练组病人
-    path_HC = r'D:\workstation_b\xiaowei\ToLC\training\MDD__label0' # 训练组正常人
-    path_mask = r'G:\Softer_DataProcessing\spm12\spm12\tpm\Reslice3_TPM_greaterThan0.2.nii'
-    path_out = r'D:\workstation_b\xiaowei\ToLC'
+    dataset_patients = r'D:\My_Codes\easylearn-fmri\eslearn\data\patients'  # 训练组病人
+    dataset_HC = r'D:\My_Codes\easylearn-fmri\eslearn\data\controls' # 训练组正常人
+    mask = r'D:\My_Codes\easylearn-fmri\eslearn\data\mask\Reslice3_TPM_greaterThan0.2.nii'
+    outpath = r'D:\My_Codes\easylearn-fmri\eslearn\data\results'
     # =============================================================================
     
-    clf = PcaRfeSvcCV(path_patients=path_patients,
-                        path_HC=path_HC,
-                        path_mask=path_mask,
-                        path_out=path_out,
+    clf = PcaRfeSvcCV(dataset_patients=dataset_patients,
+                        dataset_HC=dataset_HC,
+                        mask=mask,
+                        outpath=outpath,
                         is_dim_reduction=1,
                         components=0.95)
 
     clf.main_function()
 
-    print(clf.accuracy)
     
     print(f"mean accuracy = {np.mean(clf.accuracy)}")
     print(f"std of accuracy = {np.std(clf.accuracy)}")

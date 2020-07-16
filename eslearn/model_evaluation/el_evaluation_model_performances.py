@@ -66,7 +66,7 @@ def eval_performance(label_real=None, label_predict=None, decision=None,
         from matplotlib.backends.backend_pdf import PdfPages
         from matplotlib.pyplot import MultipleLocator
         
-        if all((accuracy_kfold) and all(sensitivity_kfold) and all(specificity_kfold)):
+        if (any(accuracy_kfold) and any(sensitivity_kfold) and any(specificity_kfold)):
             fig, ax = plt.subplots(1,3, figsize=(15,5))
         else:
             fig, ax = plt.subplots(1,2, figsize=(10,5))
@@ -111,7 +111,7 @@ def eval_performance(label_real=None, label_predict=None, decision=None,
         ax[1].plot(np.linspace(0, 1,10), np.linspace(0, 1,10), '--', color='k', linewidth=1)
         
         # Plot Bar
-        if ((accuracy_kfold) and (sensitivity_kfold) and (specificity_kfold)):
+        if (any(accuracy_kfold) and any(sensitivity_kfold) and any(specificity_kfold)):
             mean = [np.mean(accuracy_kfold), np.mean(sensitivity_kfold),np.mean(specificity_kfold),np.mean(AUC_kfold)]
             std = [np.std(accuracy_kfold), np.std(sensitivity_kfold), np.std(specificity_kfold), np.std(AUC_kfold)]
             # Plot
