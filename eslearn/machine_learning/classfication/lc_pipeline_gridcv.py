@@ -10,6 +10,7 @@ Email:lichao19870617@gmail.com
 
 import sys
 import os
+import time
 import numpy as np
 import pickle
 from sklearn.datasets import make_classification
@@ -23,13 +24,14 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.decomposition import PCA, NMF
 from sklearn.feature_selection import SelectKBest, f_classif, RFE
+from imblearn.over_sampling import RandomOverSampler
 from joblib import Memory
 from shutil import rmtree
 import nibabel as nib
 
 from eslearn.model_evaluation.el_evaluation_model_performances import eval_performance
 from eslearn.feature_engineering.feature_preprocessing.el_preprocessing import Preprocessing
-from eslearn.utils.lc_niiProcessor import NiiProcessor
+from eslearn.IO.el_niiProcessor import NiiProcessor
 
 
 class SvcForGivenTrAndTe():
@@ -49,20 +51,20 @@ class SvcForGivenTrAndTe():
                 suffix='.nii',  # 特征文件的尾缀
                 mask=r'G:\Softer_DataProcessing\spm12\spm12\tpm\Reslice3_TPM_greaterThan0.2.nii',  # mask
                 path_out=r'D:\workstation_b\xiaowei\ToLC2',
-                n_jobs=1,  # 并行处理使用的线程数目
+                n_jobs=2,  # 并行处理使用的线程数目
                 
                 # 以下参数可以调试
                 data_preprocess_method='StandardScaler', # 'MinMaxScaler' OR 'StandardScaler'
                 data_preprocess_level='group',  # 'group' OR 'subject'
                 mask_threshold=0.2,  # range=[0,1)
-                search_strategy='random', #  # OR 'grid', if your choose 'grid', then the running time is significantly greater than 'random'
+                search_strategy='grid', #  # OR 'grid', if your choose 'grid', then the running time is significantly greater than 'random'
                 k=5,  # range=(0, positive integer infinity); 网格搜索最佳参数时，用几折交叉验证
-                n_iter_of_randomedsearch=10,  # range=(0, positive integer infinity); When you used randomedSearchCV ('random'), how many iterations to perform random search.
+                n_iter_of_randomedsearch=1,  # range=(0, positive integer infinity); When you used randomedSearchCV ('random'), how many iterations to perform random search.
                 max_components=0.99,  # range= (0,1]; PCA参数：最大成分数目
                 min_components=0.3,  # range=(0,1]; PCA参数：最小成分数目
-                number_pc=10,  # range=(0, positive integer infinity); PCA参数：参数寻优的候选成分范围内的数目
+                number_pc=1,  # range=(0, positive integer infinity); PCA参数：参数寻优的候选成分范围内的数目
                 feature_selection_step=20,  # range=(0, positive integer infinity); 特征选择范围内的间隔，间隔越小搜索的特征组合越多
-                range_C=np.logspace(-2, 20, 20, base=2),  #  np.logspace(-2, 10, 5)=[1.e-02, 1.e+01, 1.e+04, 1.e+07, 1.e+10]; 超参数C的搜索范围，必须时正数
+                range_C=np.logspace(-2, 20, 1, base=2),  #  np.logspace(-2, 10, 5)=[1.e-02, 1.e+01, 1.e+04, 1.e+07, 1.e+10]; 超参数C的搜索范围，必须时正数
                 n_estimators=np.arange(5, 50, 5),
                 metric=precision_score
                 # =====================================================================
@@ -125,13 +127,14 @@ class SvcForGivenTrAndTe():
         # Make pipeline
 
         location = 'cachedir'
-        memory = Memory(location=location, verbose=10)
+        memory = Memory(location=location, verbose=100)
         pipe = Pipeline(steps=[
+            ('data_normalization', 'passthrough'),
                 ('reduce_dim', 'passthrough'),
                 ('feature_selection', 'passthrough'),
                 ('estimator', 'passthrough'),
             ], 
-            memory=memory
+            # memory=memory
         )
 
         # Feature reduction parameters
@@ -140,37 +143,37 @@ class SvcForGivenTrAndTe():
         
         # Set parameters of gridCV
         print("Setting parameters of gridCV...\n")
-        param_grid = [
-            {   
-                'reduce_dim':[PCA(), NMF()],
+        param_estimator = {
+                'reduce_dim':[PCA()],
                 'reduce_dim__n_components': range_dimreduction,
                 'estimator':[LinearSVC()],
-                'estimator__penalty': ['l1', 'l2'],
-                'estimator__C': self.range_C,
-                
-            }, 
-            {   
-                'feature_selection':[SelectKBest(f_classif)],
-                'feature_selection__k': range_k,
-                'estimator':[LinearSVC()],
-                'estimator__C': self.range_C,
-                
-            }, 
+                'estimator__penalty': ['l2'], 
+                'estimator__C': self.range_C
+        }
 
-            {   
-                'reduce_dim':[PCA()],
-                'estimator':[LogisticRegression()],
-                'estimator__penalty': ['l1', 'l2'],
-            }, 
+        param_grid = [
+            param_estimator, 
+            # {   
+            #     'feature_selection':[SelectKBest(f_classif)],
+            #     'feature_selection__k': range_k,
+            #     'estimator':[LinearSVC()],
+            #     'estimator__C': self.range_C,
+                
+            # }, 
 
-            {   
-                'reduce_dim':[PCA()],
-                'estimator': [RandomForestClassifier(random_state=0)],
-                'estimator__n_estimators': self.n_estimators,
-            }, 
+            # {   
+            #     'reduce_dim':[PCA()],
+            #     'estimator':[LogisticRegression()],
+            #     'estimator__penalty': ['l1', 'l2'],
+            # }, 
+
+            # {   
+            #     'reduce_dim':[PCA()],
+            #     'estimator': [RandomForestClassifier(random_state=0)],
+            #     'estimator__n_estimators': self.n_estimators,
+            # }, 
             
         ]
-        
         
         # Train
         cv = StratifiedKFold(n_splits=self.k)
@@ -294,7 +297,9 @@ class SvcForGivenTrAndTe():
         self.tr_te_ev()
     
 if __name__=="__main__":
+    st = time.time()
     svc=SvcForGivenTrAndTe()
     svc.main()
-    print("Done!\n")
+    et = time.time()
+    print(f"Done!\truntime={et-st}\n")
 
