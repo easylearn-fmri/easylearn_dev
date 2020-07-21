@@ -24,19 +24,36 @@ from imblearn.over_sampling import RandomOverSampler
 from joblib import Memory
 from shutil import rmtree
 import nibabel as nib
+from abc import abstractmethod, ABCMeta
 
-
-class Clf():
+class Clf(metaclass=ABCMeta):
     """Base class for classification"""
 
     def __init__(self):
         pass
-        
+    
+    @abstractmethod
+    def get_weights(self):
+        """
+        If the model is linear model, the weights are coefficients.
+        If the model is not the linear model, the weights are calculated by occlusion test <Transfer learning improves resting-state functional
+        connectivity pattern analysis using convolutional neural networks>.
+        """
+       
+    
 class _Pipeline(Clf):
     """Make pipeline"""
 
-    def __init__(self):
+    def __init__(self,search_strategy='random', k=5, 
+        metric=accuracy_score, n_iter_of_randomedsearch=10, n_jobs=1,
+        location='cachedir'):
         super().__init__()
+        self.search_strategy = search_strategy
+        self.k = k
+        self.metric = metric
+        self.n_iter_of_randomedsearch = n_iter_of_randomedsearch
+        self.n_jobs = n_jobs
+        self.location = location
 
     def _make_pipeline(self, method_dim_reduction=None, param_dim_reduction=None, 
                         method_feature_selection=None, param_feature_selection=None, 
@@ -70,10 +87,9 @@ class _Pipeline(Clf):
 
         """
 
-        location = 'cachedir'
-        self.memory = Memory(location=location, verbose=10)
+        
+        self.memory = Memory(location=self.location, verbose=10)
         self.pipe = Pipeline(steps=[
-                ('data_normalization', 'passthrough'),
                 ('dim_reduction', 'passthrough'),
                 ('feature_selection', 'passthrough'),
                 ('estimator', 'passthrough'),
@@ -96,19 +112,19 @@ class _Pipeline(Clf):
             self.param_grid.update({'estimator': type_estimator})
             self.param_grid.update(param_estimator)
         
-    def _fit_pipeline(self):
+    def _fit_pipeline(self, x, y):
         """Fit the pipeline"""
 
         cv = StratifiedKFold(n_splits=self.k)
         if self.search_strategy == 'grid':
-            model = GridSearchCV(
-                self.pipe, n_jobs=self.n_jobs, param_grid=self.self.param_grid, cv=cv, 
+            self.model = GridSearchCV(
+                self.pipe, n_jobs=self.n_jobs, param_grid=self.param_grid, cv=cv, 
                 scoring = make_scorer(self.metric), refit=True
             )
             # print(f"GridSearchCV fitting (about {iteration_num} times iteration)...\n")
 
         elif self.search_strategy == 'random':
-            model = RandomizedSearchCV(
+            self.model = RandomizedSearchCV(
                 self.pipe, n_jobs=self.n_jobs, param_distributions=self.param_grid, cv=cv, 
                 scoring = make_scorer(self.metric), refit=True, n_iter=self.n_iter_of_randomedsearch,
             )
@@ -119,20 +135,32 @@ class _Pipeline(Clf):
             return
 
         print("Fitting...")
-        model.fit(x_train, y_train)
+        self.model.fit(x, y)
 
         # Delete the temporary cache before exiting
         self.memory.clear(warn=False)
-        rmtree(location)
+        rmtree(self.location)
 
-        return model
+    def get_weights(self, x=None, y=None):
+        """
+        If the model is linear model, the weights are coefficients.
+        If the model is not the linear model, the weights are calculated by occlusion test <Transfer learning improves resting-state functional
+        connectivity pattern analysis using convolutional neural networks>.
+        """
+        
+        best_model = self.model.best_estimator_
+        estimator =  best_model['estimator']
+        dim_reduction = best_model['dim_reduction']
+        feature_selection =  best_model['feature_selection']
 
-if __name__ == "__main__":
-    pipeline = _Pipeline()
-    pipeline._make_pipeline(method_dim_reduction=[PCA()], 
-                        param_dim_reduction={'reduce_dim__n_components':[0.5,0.9]}, 
-                        method_feature_selection=[SelectKBest(f_classif)],
-                        param_feature_selection={'feature_selection__k': [0.5,0.9]},
-                        type_estimator=[LinearSVC()], 
-                        param_estimator={'estimator__C': [1,10]}
-    )
+        weight = np.zeros(np.size(feature_selection.get_support()))
+        
+        # Check if is linear model, namely have coef_
+        estimator_dict = dir(estimator)
+        if "coef_" in estimator_dict:
+            weight = estimator.coef_
+        else:
+            y_hat = self.model.predict(x)
+
+    def _predict(self,x):
+        pass
