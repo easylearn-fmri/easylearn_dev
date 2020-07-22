@@ -113,7 +113,7 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
             pass
 
         # Automatically load configuration
-        self.load_configuration()
+        # self.load_configuration()
 
     def set_run_appearance(self):
         """Set style_sheets
@@ -337,19 +337,18 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
         # Scan the current GUI first and get current inputs, so that to compare with loaded configuration
         self.get_current_inputs()
 
-        if self.configuration_file == "":
-            if not self.working_directory:
-                self.configuration_file, filetype = QFileDialog.getOpenFileName(
-                    self,  
-                    "Select configuration file",  
-                    os.getcwd(), "Text Files (*.json);;All Files (*);;"
-                ) 
-            else:
-                self.configuration_file, filetype = QFileDialog.getOpenFileName(
-                    self,  
-                    "Select configuration file",  
-                    self.working_directory, "Text Files (*.json);;All Files (*);;"
-                ) 
+        if not self.working_directory:
+            self.configuration_file, filetype = QFileDialog.getOpenFileName(
+                self,  
+                "Select configuration file",  
+                os.getcwd(), "Text Files (*.json);;All Files (*);;"
+            ) 
+        else:
+            self.configuration_file, filetype = QFileDialog.getOpenFileName(
+                self,  
+                "Select configuration file",  
+                self.working_directory, "Text Files (*.json);;All Files (*);;"
+            ) 
 
         # Read configuration_file if already selected
         if self.configuration_file != "": 
