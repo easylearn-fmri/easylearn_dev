@@ -26,27 +26,65 @@ from shutil import rmtree
 import nibabel as nib
 from abc import abstractmethod, ABCMeta
 
+
 class Clf(metaclass=ABCMeta):
     """Base class for classification"""
 
     def __init__(self):
         pass
     
-    @abstractmethod
-    def get_weights(self):
+    def get_weights(self, x=None, y=None):
         """
         If the model is linear model, the weights are coefficients.
         If the model is not the linear model, the weights are calculated by occlusion test <Transfer learning improves resting-state functional
         connectivity pattern analysis using convolutional neural networks>.
         """
-       
+        
+        best_model = self.model.best_estimator_
+        estimator =  best_model['estimator']
+        if "dim_reduction" in self.param_grid.keys():
+            dim_reduction = best_model['dim_reduction']
+        if "feature_selection" in self.param_grid.keys():
+            feature_selection =  best_model['feature_selection']
+
+        if "feature_selection" in self.param_grid.keys():
+            self.weight = [np.zeros(np.size(feature_selection.get_support())) for i in range(len(estimator.coef_))]
+        else:
+            self.weight = [[] for i in range(len(estimator.coef_))]
+
+        # Check if is linear model, namely have coef_
+        estimator_dict = dir(estimator)
+        if "coef_" in estimator_dict:
+            for i in range(len(estimator.coef_)):
+                if "feature_selection" in self.param_grid.keys():
+                    self.weight[i][feature_selection.get_support()] = estimator.coef_[i] 
+                else:
+                    self.weight[i] = estimator.coef_[i] 
+
+                 if "dim_reduction" in self.param_grid.keys():
+                    self.weight[i] = dim_reduction.inverse_transform(self.weight[i])
+        else:
+            y_hat = self.model.predict(x)
+            score_true = self.metric(y, y_hat)
+            len_feature = np.shape(x)[1]
+            for ifeature in range(len_feature):
+                x_ = np.array(x).copy()
+                x_[:,ifeature] = 0
+                y_hat = self.model.predict(x_)
+                self.weight.append(score_true-self.metric(y, y_hat))
+
     
 class _Pipeline(Clf):
     """Make pipeline"""
 
-    def __init__(self,search_strategy='random', k=5, 
-        metric=accuracy_score, n_iter_of_randomedsearch=10, n_jobs=1,
+    def __init__(self,
+        search_strategy='random', 
+        k=5, 
+        metric=accuracy_score, 
+        n_iter_of_randomedsearch=10, 
+        n_jobs=1,
         location='cachedir'):
+
         super().__init__()
         self.search_strategy = search_strategy
         self.k = k
@@ -140,27 +178,6 @@ class _Pipeline(Clf):
         # Delete the temporary cache before exiting
         self.memory.clear(warn=False)
         rmtree(self.location)
-
-    def get_weights(self, x=None, y=None):
-        """
-        If the model is linear model, the weights are coefficients.
-        If the model is not the linear model, the weights are calculated by occlusion test <Transfer learning improves resting-state functional
-        connectivity pattern analysis using convolutional neural networks>.
-        """
-        
-        best_model = self.model.best_estimator_
-        estimator =  best_model['estimator']
-        dim_reduction = best_model['dim_reduction']
-        feature_selection =  best_model['feature_selection']
-
-        weight = np.zeros(np.size(feature_selection.get_support()))
-        
-        # Check if is linear model, namely have coef_
-        estimator_dict = dir(estimator)
-        if "coef_" in estimator_dict:
-            weight = estimator.coef_
-        else:
-            y_hat = self.model.predict(x)
 
     def _predict(self,x):
         pass

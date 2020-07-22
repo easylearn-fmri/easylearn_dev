@@ -112,7 +112,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
             pass
 
         # Automatically load configuration
-        self.load_configuration()
+        # self.load_configuration()
 
     def set_run_appearance(self):
         """Set style_sheets
@@ -140,20 +140,20 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
     def load_configuration(self):
         """Load configuration, and display groups
         """
+        # if self.configuration_file == "":
         if self.configuration_file == "":
-            if self.configuration_file == "":
-                if not self.working_directory:
-                    self.configuration_file, filetype = QFileDialog.getOpenFileName(
-                        self,  
-                        "Select configuration file",  
-                        os.getcwd(), "Text Files (*.json);;All Files (*);;"
-                    ) 
-                else:
-                    self.configuration_file, filetype = QFileDialog.getOpenFileName(
-                        self,  
-                        "Select configuration file",  
-                        self.working_directory, "Text Files (*.json);;All Files (*);;"
-                    ) 
+            if not self.working_directory:
+                self.configuration_file, filetype = QFileDialog.getOpenFileName(
+                    self,  
+                    "Select configuration file",  
+                    os.getcwd(), "Text Files (*.json);;All Files (*);;"
+                ) 
+            else:
+                self.configuration_file, filetype = QFileDialog.getOpenFileName(
+                    self,  
+                    "Select configuration file",  
+                    self.working_directory, "Text Files (*.json);;All Files (*);;"
+                ) 
 
         # Read configuration_file if already selected
         if self.configuration_file != "": 
