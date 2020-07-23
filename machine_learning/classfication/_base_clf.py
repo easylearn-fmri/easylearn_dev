@@ -54,7 +54,7 @@ class Clf(metaclass=ABCMeta):
 
         # Check if is linear model, namely have coef_
         estimator_dict = dir(estimator)
-        if "coef_" in estimator_dict:
+        if "coef_" in estimator_dict:  # linear model
             for i in range(len(estimator.coef_)):
                 if "feature_selection" in self.param_grid.keys():
                     self.weight[i][feature_selection.get_support()] = estimator.coef_[i] 
@@ -63,7 +63,7 @@ class Clf(metaclass=ABCMeta):
 
                  if "dim_reduction" in self.param_grid.keys():
                     self.weight[i] = dim_reduction.inverse_transform(self.weight[i])
-        else:
+        else:  # nonlinear model
             y_hat = self.model.predict(x)
             score_true = self.metric(y, y_hat)
             len_feature = np.shape(x)[1]
