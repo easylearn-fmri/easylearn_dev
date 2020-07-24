@@ -162,7 +162,7 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
                 self.radioButton_classification_svm:{
                     "Support vector machine": {
                         "kernel": {"value": self.comboBox_clf_svm_kernel.currentText(), "wedget": self.comboBox_clf_svm_kernel},
-                        "c": {"value": self.lineEdit_clf_svm_c.text(), "wedget": self.lineEdit_clf_svm_c}, 
+                        "C": {"value": self.lineEdit_clf_svm_c.text(), "wedget": self.lineEdit_clf_svm_c}, 
                         "gamma": {"value": self.lineEdit_clf_svm_gamma.text(), "wedget": self.lineEdit_clf_svm_gamma},
                     },
                 },
@@ -405,9 +405,7 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
         # If already identified the configuration file, then excude saving logic.      
         if self.configuration_file != "":
             try:
-                # self.configuration = json.dumps(self.configuration, ensure_ascii=False)
                 self.configuration["machine_learning"] = self.machine_learning
-                # self.configuration = json.dumps(self.configuration, indent=4)
                 with open(self.configuration_file, 'w', encoding="utf-8") as config:   
                     config.write( json.dumps(self.configuration, ensure_ascii=False, indent=4) )
             except json.decoder.JSONDecodeError:

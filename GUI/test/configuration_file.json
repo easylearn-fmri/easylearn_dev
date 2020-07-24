@@ -40,38 +40,25 @@
         }
     },
     "feature_engineering": {
-        "feature_preprocessing": {
-            "Z-score normalization": {}
-        },
         "dimreduction": {
-            "Principal component analysis": {
+            "PCA()": {
                 "n_components": {
                     "value": "0.80, 0.90"
                 }
             }
-        },
-        "feature_selection": {
-            "Variance threshold": {
-                "threshold": {
-                    "value": "0.4, 0.6"
-                }
-            }
-        },
-        "unbalance_treatment": {
-            "randover": {}
         }
     },
     "machine_learning": {
         "Classification": {
-            "Support vector machine": {
-                "kernel": {
-                    "value": "linear"
+            "Logistic regression": {
+                "penalty": {
+                    "value": "elasticnet"
                 },
-                "c": {
+                "1ratio": {
+                    "value": "0.5"
+                },
+                "alpha": {
                     "value": "1"
-                },
-                "gamma": {
-                    "value": "scale"
                 }
             }
         }

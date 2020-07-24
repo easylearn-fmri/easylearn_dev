@@ -58,7 +58,6 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
         self.preprocessing_stackedwedge_dict = {"Z-score normalization": 0, "Scaling": 1, "De-mean": 2, "None": 3}
         self.radioButton_zscore.clicked.connect(self.switche_stacked_wedge_for_preprocessing)
         self.radioButton_scaling.clicked.connect(self.switche_stacked_wedge_for_preprocessing)
-        self.radioButton_demean.clicked.connect(self.switche_stacked_wedge_for_preprocessing)
         self.radioButton_none_methods.clicked.connect(self.switche_stacked_wedge_for_preprocessing)
         
         # connect dimreduction setting signal to slot: switche to corresponding stackedWidget
@@ -67,7 +66,6 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
             "Latent Dirichlet Allocation": 2, "Non-negative matrix factorization": 3, "None": 4
         }
         self.radioButton_pca.clicked.connect(self.switche_stacked_wedge_for_dimreduction)
-        self.radioButton_ica.clicked.connect(self.switche_stacked_wedge_for_dimreduction)
         self.radioButton_lda.clicked.connect(self.switche_stacked_wedge_for_dimreduction)
         self.radioButton_nmf.clicked.connect(self.switche_stacked_wedge_for_dimreduction)
         self.radioButton_none.clicked.connect(self.switche_stacked_wedge_for_dimreduction)
@@ -150,98 +148,95 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
 
         self.all_available_inputs = {
             "feature_preprocessing": {
-                self.radioButton_zscore : {"Z-score normalization": {}}, 
+                self.radioButton_zscore : {"StandardScaler()": {}}, 
                 self.radioButton_scaling: {
-                    "Scaling": {
+                    "MinMaxScaler()": {
                         "min": {"value": self.lineEdit_scaling_min.text(), "wedget": self.lineEdit_scaling_min}, 
                         "max": {"value": self.lineEdit_scaling_max.text(), "wedget": self.lineEdit_scaling_max},
                     }
                 }, 
 
-                self.radioButton_demean: {"demean": {}}, 
-                self.radioButton_none_methods: {"none": {}}, 
+                self.radioButton_none_methods: {"None": {}}, 
                 # self.radioButton_grouplevel: {"grouplevel": {}}, 
                 # self.radioButton_subjectlevel: {"subjectlevel": {}}
             },
 
             "dimreduction": {
                 self.radioButton_pca: {
-                    "Principal component analysis": {
+                    "PCA()": {
                         "n_components": {"value": self.lineEdit_pca_components.text(), "wedget": self.lineEdit_pca_components}, 
                     }, 
                 },
 
-                self.radioButton_ica: {
-                    "Independent component analysis": { 
-                            "n_components": {"value": self.lineEdit_ica_components.text(), "wedget": self.lineEdit_ica_components}, 
-                    }
-                },
-
-                self.radioButton_lda: {"lda": {}},
+                self.radioButton_lda: {"LatentDirichletAllocation()": {}},
 
                 self.radioButton_nmf: {
-                    "Non-negative matrix factorization": {
+                    "NMF()": {
                         "n_components": {"value": self.lineEdit_ida_components.text(), "wedget": self.lineEdit_ida_components}, 
                     }
                 },
 
-                self.radioButton_none: {"none": {}}
+                self.radioButton_none: {
+                    "None": {
+                        
+                    }
+                }
             },
 
             "feature_selection": {
                 self.radioButton_variance_threshold: {
-                    "Variance threshold": {
+                    "VarianceThreshold()": {
                         "threshold": {"value": self.lineEdit_variancethreshold_threshold.text(), "wedget": self.lineEdit_variancethreshold_threshold}, 
                     }
                 },
 
                 self.radioButton_correlation: {
-                    "Correlation": {
+                    "Correlation()": {
                         "abscoef": {"value": self.lineEdit_correlation_abscoef.text(), "wedget": self.lineEdit_correlation_abscoef}, 
                     }
                 }, 
 
                 self.radioButton_distancecorrelation: {
-                    "Distance correlation": {
+                    "DistanceCorrelation()": {
                         "abscoef": {"value": self.lineEdit_distancecorrelation_abscoef.text(), "wedget": self.lineEdit_distancecorrelation_abscoef}, 
                     }
                 },
 
                 self.radioButton_fscore: {
-                    "F-Score (classification)": {
+                    "FScoreClassification()": {
                         "topnum":{"value": self.lineEdit_fscore_topnum.text(), "wedget": self.lineEdit_fscore_topnum}, 
                     }
                 }, 
 
                 self.radioButton_mutualinfo_cls: {
-                    "Mutual information (classification)": {
+                    "mutual_info_classif()": {
                         "topnum": {"value": self.lineEdit_mutualinfocls_topnum.text(), "wedget": self.lineEdit_mutualinfocls_topnum}, 
                         "n_neighbors": {"value": self.spinBox_mutualinfocls_neighbors.text(), "wedget": self.spinBox_mutualinfocls_neighbors},
                     }
                 }, 
 
                 self.radioButton_mutualinfo_regression: {
-                    "Mutual information (regression)": {
+                    "mutual_info_regression()": {
                         "topnum": {"value": self.lineEdit_mutualinforeg_topnum.text(), "wedget": self.lineEdit_mutualinforeg_topnum}, 
                         "n_neighbors": {"value": self.spinBox_mutualinforeg_neighbors.text(), "wedget": self.spinBox_mutualinforeg_neighbors},
                     }
                 }, 
 
                 self.radioButton_relieff: {
-                    "ReliefF": {
+                    "ReliefF()": {
                         "topnum": {"value": self.lineEdit_relieff_topnum.text(), "wedget": self.lineEdit_relieff_topnum}, 
                     }
                 }, 
 
                 self.radioButton_anova: {
-                    "ANOVA": {
+                    "f_classif()": {
                         "topnum": {"value": self.lineEdit_anova_topnum.text(), "wedget": self.lineEdit_anova_topnum}, 
                         "multiple_correction": {"value": self.comboBox_anova_multicorrect.currentText(), "wedget": self.comboBox_anova_multicorrect},
                     }
                 }, 
 
                 self.radioButton_rfe: {
-                    "RFE": {
+                    "RFE()": {
                         "step": {"value": self.doubleSpinBox_rfe_step.text(), "wedget": self.doubleSpinBox_rfe_step}, 
                         "n_folds": {"value": self.spinBox_rfe_nfold.text(), "wedget":  self.spinBox_rfe_nfold}, 
                         "estimator": {"value": self.comboBox_rfe_estimator.currentText(), "wedget": self.comboBox_rfe_estimator}, 
@@ -250,13 +245,13 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
                 },
 
                 self.radioButton_l1: {
-                    "L1 regularization (Lasso)": {
+                    "Lasso()": {
                         "alpha": {"va1ue": self.lineEdit_l1_alpha.text(), "wedget": self.lineEdit_l1_alpha}, 
                     }
                 }, 
 
                 self.radioButton_elasticnet: {
-                    "L1 + L2 regularization (Elastic net regression)": {
+                    "ElasticNet()": {
                         "alpha": {"value": self.lineEdit_elasticnet_alpha.text(), "wedget": self.lineEdit_elasticnet_alpha}, 
                         "l1ratio": {"value": self.lineEdit_elasticnet_l1ratio.text(), "wedget": self.lineEdit_elasticnet_l1ratio}, 
                     }
@@ -363,14 +358,16 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
                     # Then ask if rewrite self.feature_engineering with self.configuration["feature_engineering"]
                     if (list(self.configuration["feature_engineering"].keys()) != []):
                         reply = QMessageBox.question(self, "Data loading configuration already exists", 
-                                                    "The feature_engineering configuration is already exists, do you want to rewrite it with the  loaded configuration?",
+                                                    "The feature_engineering configuration is already exists, do you want to rewrite it with the loaded configuration?",
                                                      QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
            
                         if reply == QMessageBox.Yes:  
                             self.feature_engineering = self.configuration["feature_engineering"]
                             self.refresh_gui()
+                        # else:
+                        #     self.configuration["feature_engineering"] = self.feature_engineering
                     # If the loaded self.configuration["feature_engineering"] is empty
-                     # Then assign self.configuration["feature_engineering"] with self.feature_engineering
+                    # Then assign self.configuration["feature_engineering"] with self.feature_engineering
                     else:
                         self.configuration["feature_engineering"] = self.feature_engineering
                 else:
@@ -441,8 +438,7 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
         
         if self.configuration_file != "":
             try:
-                # self.configuration = json.dumps(self.configuration, ensure_ascii=False)
-                # print(self.feature_engineering)
+                self.configuration["feature_engineering"] = self.feature_engineering
                 with open(self.configuration_file, 'w', encoding="utf-8") as config:    
                     config.write(json.dumps(self.configuration, ensure_ascii=False, indent=4))
             except json.decoder.JSONDecodeError:

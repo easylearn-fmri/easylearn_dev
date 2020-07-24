@@ -133,7 +133,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
             configuration_file_name, ok = QInputDialog.getText(self, "Initialize configuration", "Please name the configuration file:", QLineEdit.Normal, "configuration_file.json")
             self.configuration_file = os.path.join(self.working_directory, configuration_file_name)
             with open(self.configuration_file, 'w') as configuration_file:
-                config = {"data_loading": {}, "feature_engineering": {}, "machine_learning": {}, "model_evaluation": {}, "statistical_analysis": {}}
+                config = {"data_loading": {}, "feature_engineering": {}, "machine_learning": {}, "model_evaluation": {}, "statistical_analysis": {}, "visualization": {}}
                 config = json.dumps(config, indent=4)
                 configuration_file.write(config)
                 config_message = "Configuration file is " + self.configuration_file
