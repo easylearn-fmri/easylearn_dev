@@ -40,30 +40,12 @@
         }
     },
     "feature_engineering": {
-        "feature_preprocessing": {
-            "None": {}
-        },
         "dimreduction": {
-            "None": {}
-        },
-        "feature_selection": {
-            "RFE()": {
-                "step": {
-                    "value": "0.10"
-                },
-                "n_folds": {
-                    "value": "5"
-                },
-                "estimator": {
-                    "value": "SVM"
-                },
-                "n_jobs": {
-                    "value": "-1"
+            "PCA()": {
+                "n_components": {
+                    "value": "0.80, 0.90"
                 }
             }
-        },
-        "unbalance_treatment": {
-            "randover": {}
         }
     },
     "machine_learning": {
