@@ -41,19 +41,24 @@
     },
     "feature_engineering": {
         "feature_preprocessing": {
-            "Z-score normalization": {}
+            "None": {}
         },
         "dimreduction": {
-            "Principal component analysis": {
-                "n_components": {
-                    "value": "0.80, 0.90"
-                }
-            }
+            "None": {}
         },
         "feature_selection": {
-            "Variance threshold": {
-                "threshold": {
-                    "value": "0.4, 0.6"
+            "RFE()": {
+                "step": {
+                    "value": "0.10"
+                },
+                "n_folds": {
+                    "value": "5"
+                },
+                "estimator": {
+                    "value": "SVM"
+                },
+                "n_jobs": {
+                    "value": "-1"
                 }
             }
         },
@@ -63,15 +68,15 @@
     },
     "machine_learning": {
         "Classification": {
-            "Support vector machine": {
-                "kernel": {
-                    "value": "linear"
+            "Logistic regression": {
+                "penalty": {
+                    "value": "elasticnet"
                 },
-                "c": {
+                "1ratio": {
+                    "value": "0.5"
+                },
+                "alpha": {
                     "value": "1"
-                },
-                "gamma": {
-                    "value": "scale"
                 }
             }
         }

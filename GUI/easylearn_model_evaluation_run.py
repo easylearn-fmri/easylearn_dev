@@ -255,9 +255,7 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
         # If already identified the configuration file, then excude saving logic.      
         if self.configuration_file != "":
             try:
-                # self.configuration = json.dumps(self.configuration, ensure_ascii=False)
                 self.configuration["model_evaluation"] = self.model_evaluation
-                # self.configuration = json.dumps(self.configuration, indent=4)
                 with open(self.configuration_file, 'w', encoding="utf-8") as config:   
                     config.write( json.dumps(self.configuration, ensure_ascii=False, indent=4) )
             except json.decoder.JSONDecodeError:

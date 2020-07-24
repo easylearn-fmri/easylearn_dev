@@ -48,7 +48,7 @@
        <enum>QTabWidget::Triangular</enum>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tabWidget_itemsPage1">
        <attribute name="title">
@@ -104,7 +104,7 @@
               </sizepolicy>
              </property>
              <property name="currentIndex">
-              <number>0</number>
+              <number>2</number>
              </property>
              <widget class="QWidget" name="to_zscore">
               <layout class="QGridLayout" name="gridLayout_17">
@@ -149,7 +149,6 @@
                </item>
               </layout>
              </widget>
-             <widget class="QWidget" name="to_demean"/>
              <widget class="QWidget" name="to_none">
               <layout class="QGridLayout" name="gridLayout_19">
                <item row="0" column="0">
@@ -172,17 +171,10 @@
            <string>Methods</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_8">
-           <item row="3" column="0">
+           <item row="2" column="0">
             <widget class="QRadioButton" name="radioButton_none_methods">
              <property name="text">
               <string>None</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <widget class="QRadioButton" name="radioButton_demean">
-             <property name="text">
-              <string>De-mean</string>
              </property>
             </widget>
            </item>
@@ -216,7 +208,7 @@
            <string>Methods</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_28">
-           <item row="3" column="0">
+           <item row="2" column="0">
             <widget class="QRadioButton" name="radioButton_lda">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -230,19 +222,6 @@
             </widget>
            </item>
            <item row="1" column="0">
-            <widget class="QRadioButton" name="radioButton_ica">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>Independent component analysis</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
             <widget class="QRadioButton" name="radioButton_nmf">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -268,7 +247,7 @@
              </property>
             </widget>
            </item>
-           <item row="4" column="0">
+           <item row="3" column="0">
             <widget class="QRadioButton" name="radioButton_none">
              <property name="text">
               <string>None</string>
@@ -300,7 +279,7 @@
               </sizepolicy>
              </property>
              <property name="currentIndex">
-              <number>4</number>
+              <number>1</number>
              </property>
              <widget class="QWidget" name="to_pca">
               <layout class="QGridLayout" name="gridLayout_11">
@@ -315,30 +294,6 @@
                 <widget class="QLineEdit" name="lineEdit_pca_components">
                  <property name="text">
                   <string>0.80, 0.90</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-             <widget class="QWidget" name="to_ica">
-              <layout class="QGridLayout" name="gridLayout_6">
-               <item row="0" column="1">
-                <widget class="QLineEdit" name="lineEdit_ica_components">
-                 <property name="text">
-                  <string>0.80, 0.90</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="0">
-                <widget class="QLabel" name="label_ica_components">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="text">
-                  <string>Components</string>
                  </property>
                 </widget>
                </item>

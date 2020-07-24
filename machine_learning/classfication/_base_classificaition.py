@@ -32,16 +32,14 @@ from sklearn.exceptions import ConvergenceWarning
 warnings.filterwarnings("ignore", category=ConvergenceWarning, module="sklearn")
 
 
-class Clf(metaclass=ABCMeta):
+class BaseClassification(metaclass=ABCMeta):
     """Base class for classification"""
 
     def __init__(self):
         self.weights_ = None
         self.weights_norm_ = None
-        self.predict_proba_ = None
-        self.predict_ = None
     
-    def get_weights(self, x=None, y=None):
+    def get_weights_(self, x=None, y=None):
         """
         If the model is linear model, the weights are coefficients.
         If the model is not the linear model, the weights are calculated by occlusion test <Transfer learning improves resting-state functional
@@ -50,29 +48,26 @@ class Clf(metaclass=ABCMeta):
         
         best_model = self.model.best_estimator_
         estimator =  best_model['estimator']
-        if "dim_reduction" in self.param_grid.keys():
-            dim_reduction = best_model['dim_reduction']
-        if "feature_selection" in self.param_grid.keys():
-            feature_selection =  best_model['feature_selection']
-
+        dim_reduction = best_model.get_params().get('dim_reduction',None)
+        feature_selection =  best_model.get_params().get('feature_selection', None)
 
         # Get weight according to model type: linear model or nonlinear model
-        estimator_dict = dir(estimator)
-        if "coef_" in estimator_dict:
-            if "feature_selection" in self.param_grid.keys():
-                self.weights_ = [np.zeros(np.size(feature_selection.get_support())) for i in range(len(estimator.coef_))]
+        coef_ =  estimator.__dict__.get("coef_", None)
+        if coef_.any():  # Linear model
+            if feature_selection:
+                self.weights_ = [np.zeros(np.size(feature_selection.get_support())) for i in range(len(coef_))]
             else:
-                self.weights_ = [[] for i in range(len(estimator.coef_))]
+                self.weights_ = [[] for i in range(len(coef_))]
                 
-            for i in range(len(estimator.coef_)):
-                if "feature_selection" in self.param_grid.keys():
-                    self.weights_[i][feature_selection.get_support()] = estimator.coef_[i] 
+            for i, coef__ in enumerate(coef_):
+                if feature_selection:
+                    self.weights_[i][feature_selection.get_support()] = coef__
                 else:
-                    self.weights_[i] = estimator.coef_[i] 
+                    self.weights_[i] = coef__
 
-                if "dim_reduction" in self.param_grid.keys():
+                if dim_reduction:
                     self.weights_[i] = dim_reduction.inverse_transform(self.weights_[i])
-        else:
+        else:  # Nonlinear model
             self.weights_ = []
             y_hat = self.model.predict(x)
             score_true = self.metric(y, y_hat)
@@ -87,7 +82,7 @@ class Clf(metaclass=ABCMeta):
         self.weights_norm_ = [wei/np.sum(np.power(np.e,wei)) for wei in self.weights_]
         
     
-class _Pipeline(Clf):
+class PipelineSearch_(BaseClassification):
     """Make pipeline"""
 
     def __init__(self,
@@ -106,11 +101,9 @@ class _Pipeline(Clf):
         self.n_jobs = n_jobs
         self.location = location
 
-    def _make_pipeline(self, 
-                        method_unbalanced_treatment=None, 
-                        param_unbalanced_treatment=None,
-                        method_normalization=None, 
-                        parm_normalization=None,
+    def make_pipeline_(self, 
+                        method_feature_preprocessing=None, 
+                        param_feature_preprocessing=None,
                         method_dim_reduction=None, 
                         param_dim_reduction=None, 
                         method_feature_selection=None, 
@@ -125,16 +118,10 @@ class _Pipeline(Clf):
 
         Parameters:
         ----------
-            method_unbalanced_treatment: [list of] imblearn module, such as [RandomOverSampler()].
-                Method of how to treatment unbalanced samples.
-
-            param_unbalanced_treatment: dictionary [or list of dictionaries], such as {'unbalanced_treatment__n_components':[0.5,0.9]}, 
-                parameters of treatment unbalanced samples.
-
-            method_normalization: [list of] sklearn module, such as [PCA()]
+            method_feature_preprocessing: [list of] sklearn module, such as [PCA()]
                     method of dimension reduction.
 
-            parm_normalization: dictionary [or list of dictionaries], {'reduce_dim__n_components':[0.5,0.9]}, 
+            param_feature_preprocessing: dictionary [or list of dictionaries], {'reduce_dim__n_components':[0.5,0.9]}, 
                 parameters of dimension reduction, such as components of PCA.
 
             method_dim_reduction: [list of] sklearn module, such as [PCA()]
@@ -162,8 +149,7 @@ class _Pipeline(Clf):
         self.memory = Memory(location=self.location, verbose=0)
 
         self.pipe = Pipeline(steps=[
-                ('unbalanced_treatment', 'passthrough'),
-                ('normalization','passthrough'),
+                ('feature_preprocessing','passthrough'),
                 ('dim_reduction', 'passthrough'),
                 ('feature_selection', 'passthrough'),
                 ('estimator', 'passthrough'),
@@ -174,38 +160,47 @@ class _Pipeline(Clf):
         # Set parameters of gridCV
         print("Setting parameters of gridCV...\n")
         
-        self.param_grid = {}
+        self.param_search = {}
 
-        if method_unbalanced_treatment:
-            self.param_grid.update({'unbalanced_treatment':method_unbalanced_treatment})
-            self.param_grid.update(param_unbalanced_treatment)
-        if method_normalization:
-            self.param_grid.update({'normalization':method_normalization})
-            self.param_grid.update(parm_normalization)
+        if method_feature_preprocessing:
+            self.param_search.update({'feature_preprocessing':method_feature_preprocessing})
+        if param_feature_preprocessing:          
+            self.param_search.update(param_feature_preprocessing)
+            
         if method_dim_reduction:
-            self.param_grid.update({'dim_reduction':method_dim_reduction})
-            self.param_grid.update(param_dim_reduction)
+            self.param_search.update({'dim_reduction':method_dim_reduction})
+        if param_dim_reduction:
+            self.param_search.update(param_dim_reduction)
+            # Get number of features that pass the dimension reduction
+            # pca = method_dim_reduction[0]
+            # xx = pca.fit_transform(x)
+                
         if method_feature_selection:
-            self.param_grid.update({'feature_selection': method_feature_selection})
-            self.param_grid.update(param_feature_selection)
+            self.param_search.update({'feature_selection': method_feature_selection})
+        if param_feature_selection:
+            self.param_search.update(param_feature_selection)
+            
         if type_estimator:
-            self.param_grid.update({'estimator': type_estimator})
-            self.param_grid.update(param_estimator)
+            self.param_search.update({'estimator': type_estimator})
+        if param_estimator:
+            self.param_search.update(param_estimator)
+        
+        return self
     
-    def fit_pipeline(self, x=None, y=None):
+    def fit_pipeline_(self, x=None, y=None):
         """Fit the pipeline"""
 
         cv = StratifiedKFold(n_splits=self.k)  # Default is StratifiedKFold
         if self.search_strategy == 'grid':
             self.model = GridSearchCV(
-                self.pipe, n_jobs=self.n_jobs, param_grid=self.param_grid, cv=cv, 
+                self.pipe, n_jobs=self.n_jobs, param_grid=self.param_search, cv=cv, 
                 scoring = make_scorer(self.metric), refit=True
             )
             # print(f"GridSearchCV fitting (about {iteration_num} times iteration)...\n")
 
         elif self.search_strategy == 'random':
             self.model = RandomizedSearchCV(
-                self.pipe, n_jobs=self.n_jobs, param_distributions=self.param_grid, cv=cv, 
+                self.pipe, n_jobs=self.n_jobs, param_distributions=self.param_search, cv=cv, 
                 scoring = make_scorer(self.metric), refit=True, n_iter=self.n_iter_of_randomedsearch,
             )
         
@@ -221,5 +216,16 @@ class _Pipeline(Clf):
         self.memory.clear(warn=False)
         rmtree(self.location)
 
-    def _predict(self,x):
-        pass
+        return self
+
+    def predict(self, x):
+        y_hat = self.model.predict(x)
+        
+        # TODO
+        try:
+            y_prob = self.model.predict_proba(x)
+        except:
+            y_prob = []
+                
+        return y_hat, y_prob
+
