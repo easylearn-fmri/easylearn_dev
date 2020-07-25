@@ -53,7 +53,7 @@ class BaseClassification(metaclass=ABCMeta):
 
         # Get weight according to model type: linear model or nonlinear model
         coef_ =  estimator.__dict__.get("coef_", None)
-        if coef_.any():  # Linear model
+        if coef_ != None:  # Linear model
             if feature_selection:
                 self.weights_ = [np.zeros(np.size(feature_selection.get_support())) for i in range(len(coef_))]
             else:

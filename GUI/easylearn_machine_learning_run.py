@@ -152,7 +152,7 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
         self.all_available_inputs = {
             "Classification": {
                 self.radioButton_classification_lr:{
-                    "Logistic regression": {
+                    "LogisticRegression()": {
                         "penalty": {"value": self.comboBox_clf_lr_penalty.currentText(), "wedget": self.comboBox_clf_lr_penalty},
                         "1ratio": {"value": self.lineEdit_clf_lr_l1ratio.text(), "wedget": self.lineEdit_clf_lr_l1ratio},
                         "alpha": {"value": self.lineEdit_clf_lr_alpha.text(), "wedget": self.lineEdit_clf_lr_alpha},
@@ -160,7 +160,7 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
                 }, 
 
                 self.radioButton_classification_svm:{
-                    "Support vector machine": {
+                    "SVC": {
                         "kernel": {"value": self.comboBox_clf_svm_kernel.currentText(), "wedget": self.comboBox_clf_svm_kernel},
                         "C": {"value": self.lineEdit_clf_svm_c.text(), "wedget": self.lineEdit_clf_svm_c}, 
                         "gamma": {"value": self.lineEdit_clf_svm_gamma.text(), "wedget": self.lineEdit_clf_svm_gamma},
