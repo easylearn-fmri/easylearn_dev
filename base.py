@@ -5,8 +5,11 @@ Base class for all modules
 """
 
 import json
-from sklearn.svm import LinearSVC
+from sklearn.svm import LinearSVC, SVC
 from sklearn.linear_model import LogisticRegression, Lasso, BayesianRidge
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import KFold, StratifiedKFold, ShuffleSplit
+
 
 class BaseMachineLearning:
 
@@ -47,8 +50,7 @@ class BaseMachineLearning:
     def get_dimension_reduction_parameters(self):
         self.method_dimension_reduction = None
         self.param_dimension_reduction = {}
-        
-        
+                
         dimension_reduction = self.configuration.get('feature_engineering', {}).get('dimreduction', None)
         if dimension_reduction:
             self.method_dimension_reduction = (list(dimension_reduction.keys())[0] if list(dimension_reduction.keys())[0] != 'None' else None)
@@ -57,7 +59,12 @@ class BaseMachineLearning:
                 for key_ in dimension_reduction.get(key).keys():
                     if key_ != []:
                         for key__ in dimension_reduction.get(key).get(key_).keys():
-                             self.param_dimension_reduction.update({"dim_reduction__"+key_:eval(dimension_reduction.get(key).get(key_).get(key__))})
+
+                            param = dimension_reduction.get(key).get(key_).get(key__)
+                            # Parse parameters: if param is digits str or containing "(" and ")", we will eval the param
+                            if (param.isdigit() or ("(" in param) and (")" in param)):
+                                param = eval(param)
+                            self.param_dimension_reduction.update({"dim_reduction__"+key_: param})
              
         return self
         
@@ -75,14 +82,18 @@ class BaseMachineLearning:
                 for key_ in feature_selection.get(key).keys():
                     if key_ != []:
                         for key__ in feature_selection.get(key).get(key_).keys():
-                             self.param_feature_selection.update({"feature_selection__"+key_:eval(feature_selection.get(key).get(key_).get(key__))})
+
+                            param = feature_selection.get(key).get(key_).get(key__)
+                            # Parse parameters: if param is digits str or containing "(" and ")", we will eval the param
+                            if (param.isdigit() or ("(" in param) and (")" in param)):
+                                param = eval(param)
+                            self.param_feature_selection.update({"feature_selection__"+key_:param})
              
         return self
 
     def get_unbalance_treatment_parameters(self):
         self.method_unbalance_treatment = None
         self.param_unbalance_treatment = {}
-        
         
         unbalance_treatment = self.configuration.get('feature_engineering', {}).get('unbalance_treatment', None)
         if unbalance_treatment:
@@ -97,10 +108,60 @@ class BaseMachineLearning:
         return self
 
     def get_machine_learning_parameters(self):
-         self.configuration.get('machine_learning', None)
+        self.method_machine_learning = None
+        self.param_machine_learning = {}
+        
+        machine_learning = self.configuration.get('machine_learning', None)
+        keys = machine_learning.keys()
+        if len(keys) == []:
+            raise ValueError("There is no keys for machine_learning")
+        elif len(keys) > 1:
+            raise RuntimeError("Currently, easylearn only supports one type of machine learning")
+            
+        for keys in machine_learning:
+            machine_learning = machine_learning.get(keys, None)
+
+        if machine_learning:
+            self.method_machine_learning = (list(machine_learning.keys())[0] if list(machine_learning.keys())[0] != 'None' else None)
+    
+            for key in machine_learning.keys():
+                for key_ in machine_learning.get(key).keys():
+                    if key_ != []:
+                        for key__ in machine_learning.get(key).get(key_).keys():
+
+                            param = machine_learning.get(key).get(key_).get(key__)
+                            # Parse parameters: if param is digits str or containing "(" and ")", we will eval the param
+                            # for example, DecisionTreeClassifier(max_depth=1) is a parameter of AdaBoostClassifier()
+                            # Because a [sklearn] object has a
+                            if (param.isdigit() or ("(" in param) and (")" in param)):
+                                param = eval(param)
+                            self.param_machine_learning.update({"machine_learning__"+key_: param})
+             
+        return self
 
     def get_model_evaluation_parameters(self):
-        self.configuration.get('model_evaluation', None)
+        self.method_model_evaluation = None
+        self.param_model_evaluation = {}
+        
+        model_evaluation = self.configuration.get('model_evaluation', {})
+        if model_evaluation:
+            self.method_model_evaluation = (list(model_evaluation.keys())[0] if list(model_evaluation.keys())[0] != 'None' else None)
+    
+            for key in model_evaluation.keys():
+                for key_ in model_evaluation.get(key).keys():
+                    if key_ != []:
+                        for key__ in model_evaluation.get(key).get(key_).keys():
+                            
+                            param = model_evaluation.get(key).get(key_).get(key__)
+                            # Parse parameters: if param is digits str or containing "(" and ")", we will eval the param
+                            # for example, DecisionTreeClassifier(max_depth=1) is a parameter of AdaBoostClassifier()
+                            # Because a [sklearn] object has a
+                            if type(param) is str:
+                                if (param.isdigit() or ("(" in param) and (")" in param)):
+                                    param = eval(param)
+                            self.param_model_evaluation.update({"model_evaluation__"+key_: param})
+             
+        return self
 
     def get_statistical_analysis_parameters(self):
         self.configuration.get('statistical_analysis', None)
@@ -115,6 +176,8 @@ if __name__ == '__main__':
     base.get_dimension_reduction_parameters()
     base.get_feature_selection_parameters()
     base.get_unbalance_treatment_parameters()
+    base.get_machine_learning_parameters()
+    base.get_model_evaluation_parameters()
     
 
     print(base.method_feature_preprocessing)
@@ -129,4 +192,10 @@ if __name__ == '__main__':
     print(base.method_unbalance_treatment)
     print(base.param_unbalance_treatment)
     
+    print(base.method_machine_learning)
+    print(base.param_machine_learning)
+
+    print(base.method_model_evaluation)
+    print(base.param_model_evaluation)
+
     

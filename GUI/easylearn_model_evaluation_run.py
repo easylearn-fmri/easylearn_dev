@@ -57,7 +57,7 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
 
         # # Connect to radioButton of model evaluation type: switche to corresponding model evaluation type window
         self.model_evaluation_type_stackedwedge_dict = {
-            "K-fold": 0, "Stratified k-fold": 1, "Random splits": 2, "User-defined CV": 3,
+            "KFold()": 0, "StratifiedKFold()": 1, "ShuffleSplit()": 2, "User-defined CV": 3,
         }
       
         # Connect to remove selected datasets 
@@ -115,8 +115,8 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
 
         # # This dictionary is used to keep track of model_evaluation types
         self.model_evaluation_type_dict = {
-            0: "K-fold", 1: "Stratified k-fold",
-            2: "Random splits", 3: "User-defined CV",
+            0: "KFold()", 1: "StratifiedKFold()",
+            2: "ShuffleSplit()", 3: "User-defined CV",
         }
 
         # Get current selected datasets
@@ -128,22 +128,22 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
 
         # All available inputs
         self.all_available_inputs = {
-            "K-fold": {
+            "KFold()": {
                         "n_splits": {"value": self.lineEdit_kfold_n_splits.text(), "wedget": self.lineEdit_kfold_n_splits},
                         "shuffle": {"value": self.comboBox_kfold_shuffle.currentText(), "wedget": self.comboBox_kfold_shuffle},
                         "random_state": {"value": self.spinBox_kfold_randomstate.text(), "wedget": self.spinBox_kfold_randomstate},
             },
 
-            "Stratified k-fold": {
+            "StratifiedKFold()": {
                                     "n_splits": {"value": self.lineEdit_stratifiedkfold_n_splits.text(), "wedget": self.lineEdit_stratifiedkfold_n_splits},
                                     "shuffle": {"value": self.comboBox_stratifiedkfold_shuffle.currentText(), "wedget": self.comboBox_stratifiedkfold_shuffle},
                                     "random_state": {"value": self.spinBox_stratifiedkfold_randomstate.text(), "wedget": self.spinBox_stratifiedkfold_randomstate},
             },
 
-            "Random splits": {
+            "ShuffleSplit()": {
                                 "n_splits": {"value": self.lineEdit_randomsplits_n_splits.text(), "wedget": self.lineEdit_randomsplits_n_splits},
                                 "test_size": {"value": self.doubleSpinBox_randomsplits_testsize.text(), "wedget": self.doubleSpinBox_randomsplits_testsize},
-                                "test_size": {"value": self.doubleSpinBox_randomsplits_trainsize.text(), "wedget": self.doubleSpinBox_randomsplits_trainsize},
+                                "train_size": {"value": self.doubleSpinBox_randomsplits_trainsize.text(), "wedget": self.doubleSpinBox_randomsplits_trainsize},
                                 "random_state": {"value": self.spinBox_randomsplits_randomstate.text(), "wedget": self.spinBox_randomsplits_randomstate},
             },
 

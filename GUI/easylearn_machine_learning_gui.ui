@@ -62,7 +62,7 @@
        <enum>Qt::LeftToRight</enum>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="stackedWidgetPage_classification">
        <layout class="QGridLayout" name="gridLayout_12">
@@ -75,42 +75,42 @@
            <item row="3" column="0">
             <widget class="QRadioButton" name="radioButton_classification_gaussianprocess">
              <property name="text">
-              <string>Gaussian process</string>
+              <string>GaussianProcessClassifier()</string>
              </property>
             </widget>
            </item>
            <item row="5" column="0">
             <widget class="QRadioButton" name="radioButton_classification_randomforest">
              <property name="text">
-              <string>Random forest</string>
+              <string>RandomForestClassifier()</string>
              </property>
             </widget>
            </item>
            <item row="1" column="0">
             <widget class="QRadioButton" name="radioButton_classification_svm">
              <property name="text">
-              <string>Support vector machine</string>
+              <string>SVC()</string>
              </property>
             </widget>
            </item>
            <item row="0" column="0">
             <widget class="QRadioButton" name="radioButton_classification_lr">
              <property name="text">
-              <string>Logistic regression</string>
+              <string>LogisticRegression()</string>
              </property>
             </widget>
            </item>
            <item row="8" column="0">
             <widget class="QRadioButton" name="radioButton_classification_adaboost">
              <property name="text">
-              <string>AdaBoost</string>
+              <string>AdaBoostClassifier()</string>
              </property>
             </widget>
            </item>
            <item row="2" column="0">
             <widget class="QRadioButton" name="radioButton_classification_ridge">
              <property name="text">
-              <string>Ridge classification</string>
+              <string>RidgeClassifier()</string>
              </property>
             </widget>
            </item>
@@ -150,7 +150,7 @@
               </size>
              </property>
              <property name="currentIndex">
-              <number>6</number>
+              <number>5</number>
              </property>
              <widget class="QWidget" name="to_lr">
               <layout class="QGridLayout" name="gridLayout_11">
@@ -197,7 +197,7 @@
                 </widget>
                </item>
                <item row="2" column="1">
-                <widget class="QLineEdit" name="lineEdit_clf_lr_alpha">
+                <widget class="QLineEdit" name="lineEdit_clf_lr_C">
                  <property name="text">
                   <string>1</string>
                  </property>
@@ -330,7 +330,7 @@
                <item row="2" column="0">
                 <widget class="QLabel" name="label_24">
                  <property name="text">
-                  <string>Estimators</string>
+                  <string>N_estimators</string>
                  </property>
                 </widget>
                </item>
@@ -474,7 +474,7 @@
               </size>
              </property>
              <property name="currentIndex">
-              <number>0</number>
+              <number>6</number>
              </property>
              <widget class="QWidget" name="to_linearregression"/>
              <widget class="QWidget" name="to_lassoregression">
@@ -666,7 +666,7 @@
                <item row="1" column="0">
                 <widget class="QLabel" name="label_25">
                  <property name="text">
-                  <string>Estimators</string>
+                  <string>N_estimators</string>
                  </property>
                 </widget>
                </item>
@@ -707,49 +707,49 @@
            <item row="6" column="1">
             <widget class="QRadioButton" name="radioButton_regression_gaussianprocess">
              <property name="text">
-              <string>Gaussian process</string>
+              <string>GaussianProcessRegressor()</string>
              </property>
             </widget>
            </item>
            <item row="1" column="1">
             <widget class="QRadioButton" name="radioButton_regression_lasso">
              <property name="text">
-              <string>Lasso regression</string>
+              <string>LassoCV()</string>
              </property>
             </widget>
            </item>
            <item row="8" column="1">
             <widget class="QRadioButton" name="radioButton_regression_randomforest">
              <property name="text">
-              <string>Random forest</string>
+              <string>RandomForestRegressor()</string>
              </property>
             </widget>
            </item>
            <item row="2" column="1">
             <widget class="QRadioButton" name="radioButton_regression_ridge">
              <property name="text">
-              <string>Ridge regression</string>
+              <string>ridge_regression()</string>
              </property>
             </widget>
            </item>
            <item row="0" column="1">
             <widget class="QRadioButton" name="radioButton_regression_linearregression">
              <property name="text">
-              <string>Linear regression</string>
+              <string>LinearRegression()</string>
              </property>
             </widget>
            </item>
            <item row="4" column="1">
             <widget class="QRadioButton" name="radioButton_regression_svm">
              <property name="text">
-              <string>Support vector machine</string>
+              <string>SVR()</string>
              </property>
             </widget>
            </item>
            <item row="3" column="1">
             <widget class="QRadioButton" name="radioButton_regression_elasticnet">
              <property name="text">
-              <string>Elastic-Net regression</string>
+              <string>ElasticNetCV()</string>
              </property>
             </widget>
            </item>
@@ -868,28 +868,28 @@
            <item row="2" column="0">
             <widget class="QRadioButton" name="radioButton_hierarchical_clustering">
              <property name="text">
-              <string>Hierarchical clustering</string>
+              <string>AgglomerativeClustering()</string>
              </property>
             </widget>
            </item>
            <item row="1" column="0">
             <widget class="QRadioButton" name="radioButton_spectral_clustering">
              <property name="text">
-              <string> Spectral clustering</string>
+              <string>spectral_clustering()</string>
              </property>
             </widget>
            </item>
            <item row="0" column="0">
             <widget class="QRadioButton" name="radioButton_clustering_kmeans">
              <property name="text">
-              <string>K-means clustering</string>
+              <string>k_means()</string>
              </property>
             </widget>
            </item>
            <item row="3" column="0">
             <widget class="QRadioButton" name="radioButton_DBSCAN">
              <property name="text">
-              <string>DBSCAN</string>
+              <string>DBSCAN()</string>
              </property>
             </widget>
            </item>

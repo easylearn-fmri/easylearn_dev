@@ -26,7 +26,7 @@ time_start = time.time()
 class Classification(BaseMachineLearning):
     
     def __init__(self):
-        pass
+        super(Classification, self).__init__
 
     def classification(self, 
                        method_feature_preprocessing=None, 
@@ -64,6 +64,14 @@ class Classification(BaseMachineLearning):
 
 if __name__ == "__main__":
     clf = Classification()
+
+    clf.argparse_(configuration_file=r'F:\Python378\Lib\site-packages\eslearn\GUI\test\configuration_file.json')
+    clf.get_preprocessing_parameters()
+    clf.get_dimension_reduction_parameters()
+    clf.get_feature_selection_parameters()
+    clf.get_unbalance_treatment_parameters()
+    clf.get_machine_learning_parameters()
+    
     
     method_feature_preprocessing = eval("MinMaxScaler()")
     param_feature_preprocessing= {"feature_preprocessing__feature_range":[(0,1)]}
@@ -88,4 +96,5 @@ if __name__ == "__main__":
         param_feature_selection, 
         type_estimator, 
         param_estimator,
-        x, y)
+        x, y
+    )

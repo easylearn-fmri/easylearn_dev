@@ -40,6 +40,16 @@
         }
     },
     "feature_engineering": {
+        "feature_preprocessing": {
+            "StandardScaler()": {}
+        },
+        "dimreduction": {
+            "NMF()": {
+                "n_components": {
+                    "value": "0.80, 0.90"
+                }
+            }
+        },
         "feature_selection": {
             "RFECV()": {
                 "step": {
@@ -49,7 +59,7 @@
                     "value": "5"
                 },
                 "estimator": {
-                    "value": "BayesianRidge()"
+                    "value": "LogisticRegression()"
                 },
                 "n_jobs": {
                     "value": "-1"
@@ -62,26 +72,29 @@
     },
     "machine_learning": {
         "Classification": {
-            "Logistic regression": {
-                "penalty": {
-                    "value": "elasticnet"
+            "AdaBoostClassifier()": {
+                "n_estimator": {
+                    "value": "50"
                 },
-                "1ratio": {
-                    "value": "0.5"
+                "algorithm": {
+                    "value": "SAMME"
                 },
-                "alpha": {
-                    "value": "1"
+                "base_estimator": {
+                    "value": "DecisionTreeClassifier(max_depth=1)"
                 }
             }
         }
     },
     "model_evaluation": {
-        "Stratified k-fold": {
+        "ShuffleSplit": {
             "n_splits": {
                 "value": "10"
             },
-            "shuffle": {
-                "value": "False"
+            "test_size": {
+                "value": "0.20"
+            },
+            "train_size": {
+                "value": "0.80"
             },
             "random_state": {
                 "value": "0"
