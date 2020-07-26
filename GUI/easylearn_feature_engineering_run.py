@@ -40,6 +40,7 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
         self.feature_engineering = {}
         self.working_directory = working_directory
         self.configuration_file = configuration_file
+        self.configuration = {}
         self.all_available_inputs_fun()
 
         # Debug
@@ -145,8 +146,7 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
                 self.radioButton_zscore : {"StandardScaler()": {}}, 
                 self.radioButton_scaling: {
                     "MinMaxScaler()": {
-                        "min": {"value": self.lineEdit_scaling_min.text(), "wedget": self.lineEdit_scaling_min}, 
-                        "max": {"value": self.lineEdit_scaling_max.text(), "wedget": self.lineEdit_scaling_max},
+                        "feature_range": {"value": self.lineEdit_scaling_feature_range.text(), "wedget": self.lineEdit_scaling_feature_range}, 
                     }
                 }, 
 

@@ -35,8 +35,8 @@ class Classification(BaseMachineLearning):
                        param_dim_reduction=None,
                        method_feature_selection=None,
                        param_feature_selection=None,
-                       type_estimator=None,
-                       param_estimator=None,
+                       method_machine_learning=None,
+                       param_machine_learning=None,
                        x=None, 
                        y=None):
         
@@ -48,8 +48,8 @@ class Classification(BaseMachineLearning):
             param_dim_reduction=param_dim_reduction, 
             method_feature_selection=[method_feature_selection],
             param_feature_selection=param_feature_selection,
-            type_estimator=[type_estimator], 
-            param_estimator=param_estimator
+            method_machine_learning=[method_machine_learning], 
+            param_machine_learning=param_machine_learning
         )
 
         pipeline.fit_pipeline_(x, y)
@@ -65,27 +65,45 @@ class Classification(BaseMachineLearning):
 if __name__ == "__main__":
     clf = Classification()
 
-    clf.argparse_(configuration_file=r'F:\Python378\Lib\site-packages\eslearn\GUI\test\configuration_file.json')
+    clf.get_configuration_(configuration_file=r'F:\Python378\Lib\site-packages\eslearn\GUI\test\configuration_file.json')
     clf.get_preprocessing_parameters()
     clf.get_dimension_reduction_parameters()
     clf.get_feature_selection_parameters()
     clf.get_unbalance_treatment_parameters()
     clf.get_machine_learning_parameters()
+    clf.get_model_evaluation_parameters()
     
+    print(clf.method_feature_preprocessing)
+    print(clf.param_feature_preprocessing)
     
-    method_feature_preprocessing = eval("MinMaxScaler()")
-    param_feature_preprocessing= {"feature_preprocessing__feature_range":[(0,1)]}
+    print(clf.method_dim_reduction)
+    print(clf.param_dim_reduction)
+    
+    print(clf.method_feature_selection)
+    print(clf.param_feature_selection)
+    
+    print(clf.method_unbalance_treatment)
+    print(clf.param_unbalance_treatment)
+    
+    print(clf.method_machine_learning)
+    print(clf.param_machine_learning)
 
-    method_dim_reduction=eval("PCA()")
-    param_dim_reduction={'dim_reduction__n_components':[0.5, 0.9]}
+    print(clf.method_model_evaluation)
+    print(clf.param_model_evaluation)
 
-    method_feature_selection = eval("RFECV(estimator=LinearSVC())")
-    param_feature_selection={'feature_selection__estimator': [BayesianRidge()], 'feature_selection__step': [0.2]}
 
-    type_estimator = eval("SVC()")
-    param_estimator={
-        'estimator__C':[1,2,10]
-    }
+    
+    method_feature_preprocessing = clf.method_feature_preprocessing
+    param_feature_preprocessing= clf.param_feature_preprocessing
+
+    method_dim_reduction = clf.method_dim_reduction
+    param_dim_reduction = clf.param_dim_reduction
+
+    method_feature_selection = clf.method_feature_selection
+    param_feature_selection = clf.param_feature_selection
+
+    method_machine_learning = clf.method_machine_learning
+    param_machine_learning = clf.param_machine_learning
     
     clf.classification(
         method_feature_preprocessing, 
@@ -94,7 +112,7 @@ if __name__ == "__main__":
         param_dim_reduction,
         method_feature_selection,
         param_feature_selection, 
-        type_estimator, 
-        param_estimator,
+        method_machine_learning, 
+        param_machine_learning,
         x, y
     )

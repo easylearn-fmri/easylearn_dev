@@ -41,6 +41,7 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
         # Initialization
         self.working_directory = working_directory
         self.configuration_file = configuration_file
+        self.configuration = {}
         self.model_evaluation = {}
         self.all_inputs_fun()
 
@@ -209,6 +210,7 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
             # If the configuration is not valid JSON, then give configuration and configuration_file to ""
             try:
                 self.configuration = json.loads(self.configuration)
+                self.display_datasets()  # Display datasets in configuration no matter what if rewrite current inputs.
                 # If already exists self.model_evaluation
                 if (self.model_evaluation != {}):
                     # If the loaded self.configuration["model_evaluation"] is not empty
@@ -296,7 +298,9 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
                             # TODO: EXTENSION
                             print("Input wedget is not support now!\n")
 
-        # Display the datasets
+    def display_datasets(self):
+        """Display the datasets"""
+
         if self.configuration["data_loading"]:
             self.listWidget_candidate_datasets.clear()
             for candidate_dataset_group in self.configuration["data_loading"]:

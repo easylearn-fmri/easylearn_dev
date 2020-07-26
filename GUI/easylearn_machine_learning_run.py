@@ -41,6 +41,7 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
         self.machine_learning = {}
         self.working_directory = working_directory
         self.configuration_file = configuration_file
+        self.configuration = {}
         self.all_inputs_fun()
 
         # Debug
@@ -91,9 +92,15 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
         self.radioButton_regression_gaussianprocess.clicked.connect(self.switche_stacked_wedge_for_regression)
         self.radioButton_regression_randomforest.clicked.connect(self.switche_stacked_wedge_for_regression)
 
-        # # Datasets
-        # self.treeWidget_candidate_datasets.setColumnCount(2)
-        # self.treeWidget_candidate_datasets.setHeaderLabels(['Key','Value'])
+        # Connect clustering setting signal to slot: switche to corresponding clustering method
+        self.clustering_stackedwedge_dict = {
+            "KMeans()": 0, "SpectralClustering()": 1, 
+            "AgglomerativeClustering()": 2,"DBSCAN()": 3
+        }
+        self.radioButton_clustering_kmeans.clicked.connect(self.switche_stacked_wedge_for_clustering)
+        self.radioButton_spectral_clustering.clicked.connect(self.switche_stacked_wedge_for_clustering)
+        self.radioButton_hierarchical_clustering.clicked.connect(self.switche_stacked_wedge_for_clustering)
+        self.radioButton_DBSCAN.clicked.connect(self.switche_stacked_wedge_for_clustering)
 
         # Skins
         self.skins = {"Dark": "style_Dark", "Black": "style_black", "DarkOrange": "style_DarkOrange", 
@@ -254,13 +261,13 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
 
             "Clustering": {
                 self.radioButton_clustering_kmeans:{
-                    "k_means()": {
+                    "KMeans()": {
                         
                     },
                 }, 
 
                 self.radioButton_spectral_clustering:{
-                    "spectral_clustering()": {
+                    "SpectralClustering()": {
                         
                     },
                 },
@@ -524,11 +531,11 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
 
         if self.sender():
             if not method:
-                self.stackedWidget_classification_setting.setCurrentIndex(self.clustering_stackedwedge_dict[self.sender().text()])
+                self.stackedWidget_clustering.setCurrentIndex(self.clustering_stackedwedge_dict[self.sender().text()])
             else:
-                self.stackedWidget_classification_setting.setCurrentIndex(self.clustering_stackedwedge_dict[method])
+                self.stackedWidget_clustering.setCurrentIndex(self.clustering_stackedwedge_dict[method])
         else:
-            self.stackedWidget_classification_setting.setCurrentIndex(-1)
+            self.stackedWidget_clustering.setCurrentIndex(-1)
 
     def switche_stacked_wedge_for_deep_learning(self, signal_bool, method=None):
         """ Switch to corresponding deep learning model window

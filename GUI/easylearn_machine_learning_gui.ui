@@ -62,7 +62,7 @@
        <enum>Qt::LeftToRight</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="stackedWidgetPage_classification">
        <layout class="QGridLayout" name="gridLayout_12">
@@ -91,12 +91,18 @@
              <property name="text">
               <string>SVC()</string>
              </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
             </widget>
            </item>
            <item row="0" column="0">
             <widget class="QRadioButton" name="radioButton_classification_lr">
              <property name="text">
               <string>LogisticRegression()</string>
+             </property>
+             <property name="checked">
+              <bool>false</bool>
              </property>
             </widget>
            </item>
@@ -150,7 +156,7 @@
               </size>
              </property>
              <property name="currentIndex">
-              <number>5</number>
+              <number>1</number>
              </property>
              <widget class="QWidget" name="to_lr">
               <layout class="QGridLayout" name="gridLayout_11">
@@ -474,7 +480,7 @@
               </size>
              </property>
              <property name="currentIndex">
-              <number>6</number>
+              <number>4</number>
              </property>
              <widget class="QWidget" name="to_linearregression"/>
              <widget class="QWidget" name="to_lassoregression">
@@ -780,64 +786,238 @@
       <widget class="QWidget" name="stackedWidgetPage_clustering">
        <layout class="QGridLayout" name="gridLayout_3">
         <item row="0" column="3">
-         <widget class="QGroupBox" name="groupBox_settting">
+         <widget class="QGroupBox" name="GroupBox_Settting_clustering">
           <property name="title">
            <string>Setting</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_25">
-           <item row="1" column="0">
-            <widget class="QLabel" name="label_14">
-             <property name="text">
-              <string>init</string>
+           <item row="0" column="1">
+            <widget class="QStackedWidget" name="stackedWidget_clustering">
+             <property name="currentIndex">
+              <number>0</number>
              </property>
-            </widget>
-           </item>
-           <item row="0" column="2">
-            <widget class="QSpinBox" name="spinBox"/>
-           </item>
-           <item row="0" column="0">
-            <widget class="QLabel" name="label_13">
-             <property name="text">
-              <string>n_clusters</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="2">
-            <widget class="QComboBox" name="comboBox">
-             <item>
-              <property name="text">
-               <string>k-means++</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>random</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-           <item row="2" column="2">
-            <widget class="QLineEdit" name="lineEdit">
-             <property name="text">
-              <string>10</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="label_16">
-             <property name="text">
-              <string>n_init</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="2">
-            <widget class="QSpinBox" name="spinBox_2"/>
-           </item>
-           <item row="3" column="0">
-            <widget class="QLabel" name="label_18">
-             <property name="text">
-              <string>random_state</string>
-             </property>
+             <widget class="QWidget" name="to_kmeans">
+              <layout class="QGridLayout" name="gridLayout_26">
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_13">
+                 <property name="text">
+                  <string>n_clusters</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_14">
+                 <property name="text">
+                  <string>init</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_16">
+                 <property name="text">
+                  <string>n_init</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QLineEdit" name="lineEdit_clustering_kmeans_n_init">
+                 <property name="text">
+                  <string>10</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0">
+                <widget class="QLabel" name="label_18">
+                 <property name="text">
+                  <string>random_state</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QComboBox" name="comboBox_clustering_kmeans_init">
+                 <item>
+                  <property name="text">
+                   <string>k-means++</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>random</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QSpinBox" name="spinBox_clustering_kmeans_n_clusters">
+                 <property name="value">
+                  <number>2</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1">
+                <widget class="QSpinBox" name="spinBox_clustering_kmeans_random_state"/>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="to_spectralclustering">
+              <layout class="QGridLayout" name="gridLayout_27">
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_21">
+                 <property name="text">
+                  <string>n_clusters</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QSpinBox" name="comboBox_clustering_spectralclustering_n_clusters">
+                 <property name="value">
+                  <number>2</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_22">
+                 <property name="text">
+                  <string>n_init</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QLineEdit" name="lineEdit_clustering_kmeans_n_init_2">
+                 <property name="text">
+                  <string>10</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_19">
+                 <property name="text">
+                  <string>random_state</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QSpinBox" name="spinBox_clustering_spectralclustering_random_state"/>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="to_agglomerativeclustering">
+              <layout class="QGridLayout" name="gridLayout_28">
+               <item row="2" column="1" colspan="2">
+                <widget class="QComboBox" name="comboBoxit_comboBox_clustering_agglomerativeclustering_affinity">
+                 <item>
+                  <property name="text">
+                   <string>euclidean</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>l1</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>l2</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>manhattan</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>cosine</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_34">
+                 <property name="text">
+                  <string>n_clusters</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1" colspan="2">
+                <widget class="QSpinBox" name="comboBox_clustering_agglomerativeclustering_n_clusters">
+                 <property name="value">
+                  <number>2</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_32">
+                 <property name="text">
+                  <string>affinity</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="0">
+                <widget class="QLabel" name="label_33">
+                 <property name="text">
+                  <string>linkage</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="1" colspan="2">
+                <widget class="QComboBox" name="comboBoxit_comboBox_clustering_agglomerativeclustering_linkage">
+                 <item>
+                  <property name="text">
+                   <string>ward</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>complete</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>average</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>single</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="to_DBSCAN">
+              <layout class="QGridLayout" name="gridLayout_29">
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_35">
+                 <property name="text">
+                  <string>eps</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="0">
+                <widget class="QLabel" name="label_37">
+                 <property name="text">
+                  <string>min_samples</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QLineEdit" name="lineEdi_clustering_DBSCAN_eps">
+                 <property name="text">
+                  <string>0.5</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="1">
+                <widget class="QLineEdit" name="lineEdi_clustering_DBSCAN_min_samples">
+                 <property name="text">
+                  <string>5</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
             </widget>
            </item>
           </layout>
@@ -875,14 +1055,14 @@
            <item row="1" column="0">
             <widget class="QRadioButton" name="radioButton_spectral_clustering">
              <property name="text">
-              <string>spectral_clustering()</string>
+              <string>SpectralClustering()</string>
              </property>
             </widget>
            </item>
            <item row="0" column="0">
             <widget class="QRadioButton" name="radioButton_clustering_kmeans">
              <property name="text">
-              <string>k_means()</string>
+              <string>KMeans()</string>
              </property>
             </widget>
            </item>

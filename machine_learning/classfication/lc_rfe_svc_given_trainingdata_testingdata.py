@@ -21,6 +21,7 @@ from eslearn.utils.lc_niiProcessor import NiiProcessor
 from lc_svc_rfe_cv_V2 import SVCRefCv
 from eslearn.model_evaluation.el_evaluation_model_performances import eval_performance
 
+
 class SvcForGivenTrAndTe(SVCRefCv):
     """
     Training model on given training data.

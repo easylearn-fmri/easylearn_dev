@@ -41,6 +41,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         # Set working_directory and debug
         self.working_directory = working_directory
         self.configuration_file = configuration_file
+        self.configuration = {}
         if self.working_directory:
             cgitb.enable(format="text", display=1, logdir=os.path.join(self.working_directory, "log_data_loading"))
         else:
@@ -51,6 +52,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         self.selected_group = None
         self.selected_modality = None
         self.selected_file = None
+        self.loaded_files = None
 
         # initialize list_view for groups, modalities and files
         self.slm_group = QStringListModel()
@@ -351,9 +353,13 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
     def add_files(self):
         """Add files for selected modality of selected group.
         """
+        if self.loaded_files:
+            old_dir = os.path.dirname(self.loaded_files[0])
+        else:
+            old_dir = os.getcwd()
         if (bool(self.selected_group) & bool(self.selected_modality)):
             self.loaded_files, filetype = QFileDialog.getOpenFileNames(self,  
-                                    "Select files",  os.getcwd(), 
+                                    "Select files",  old_dir, 
                                     "Nifti Files (*.nii);;Matlab Files (*.mat);;Excel Files (*.xlsx);;Excel Files (*.xls);;Text Files (*.txt);;All Files (*)"
             )
             
@@ -373,12 +379,15 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         """
         This function is used to remove selected file for selected modality of selected group
         """
+
         if (bool(self.selected_group) & bool(self.selected_modality) & bool(self.selected_file)):  
 
             reply = QMessageBox.question(self, "QListView", "Remove this file: " + self.selected_file + "?",
                                          QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-            if reply == QMessageBox.Yes:     
+            if reply == QMessageBox.Yes:
+                old_files = self.data_loading[self.selected_group][self.selected_modality]["file"]     
                 self.data_loading[self.selected_group][self.selected_modality]["file"] = list(set(self.data_loading[self.selected_group][self.selected_modality]["file"]) - set([self.selected_file]))
+                self.data_loading[self.selected_group][self.selected_modality]["file"].sort(key=old_files.index)
                 self.selected_file = None
                 self.display_files()
         else:

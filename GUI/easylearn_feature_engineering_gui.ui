@@ -48,7 +48,7 @@
        <enum>QTabWidget::Triangular</enum>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tabWidget_itemsPage1">
        <attribute name="title">
@@ -104,7 +104,7 @@
               </sizepolicy>
              </property>
              <property name="currentIndex">
-              <number>2</number>
+              <number>1</number>
              </property>
              <widget class="QWidget" name="to_zscore">
               <layout class="QGridLayout" name="gridLayout_17">
@@ -119,31 +119,17 @@
              </widget>
              <widget class="QWidget" name="to_scaling">
               <layout class="QGridLayout" name="gridLayout_10">
-               <item row="1" column="1">
-                <widget class="QLineEdit" name="lineEdit_scaling_min">
+               <item row="0" column="1">
+                <widget class="QLineEdit" name="lineEdit_scaling_feature_range">
                  <property name="text">
-                  <string>0</string>
+                  <string>(0,1)</string>
                  </property>
                 </widget>
                </item>
                <item row="0" column="0">
-                <widget class="QLabel" name="label_scaling_max">
+                <widget class="QLabel" name="label_scaling_feature_range">
                  <property name="text">
-                  <string>Max</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="1">
-                <widget class="QLineEdit" name="lineEdit_scaling_max">
-                 <property name="text">
-                  <string>1</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="0">
-                <widget class="QLabel" name="label_scaling_min">
-                 <property name="text">
-                  <string>Min</string>
+                  <string>feature_range</string>
                  </property>
                 </widget>
                </item>

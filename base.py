@@ -5,9 +5,14 @@ Base class for all modules
 """
 
 import json
+import re
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
+from sklearn.decomposition import PCA
+from sklearn.feature_selection import SelectPercentile, SelectKBest, f_classif, RFE,RFECV, VarianceThreshold, mutual_info_classif
 from sklearn.svm import LinearSVC, SVC
 from sklearn.linear_model import LogisticRegression, Lasso, BayesianRidge
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import KFold, StratifiedKFold, ShuffleSplit
 
 
@@ -16,7 +21,7 @@ class BaseMachineLearning:
     def __init__(self):
         pass
 
-    def argparse_(self, configuration_file):
+    def get_configuration_(self, configuration_file):
         """Parse the configuration file
         """
 
@@ -31,29 +36,11 @@ class BaseMachineLearning:
 
     def get_preprocessing_parameters(self):
         self.method_feature_preprocessing = None
-        self.param_feature_preprocessing = []
-        
-        preprocessing = self.configuration.get('feature_engineering', {}).get('feature_preprocessing', None)
-        if preprocessing:
-            self.method_feature_preprocessing = (list(preprocessing.keys())[0] if list(preprocessing.keys())[0] != 'None' else None)
-    
-            for key in preprocessing.keys():
-                for key_ in preprocessing.get(key).keys():
-                    if key_ != []:
-                        for key__ in preprocessing.get(key).get(key_).keys():
-                             self.param_feature_preprocessing.append(eval(preprocessing.get(key).get(key_).get(key__)))
-             
-            self.param_feature_preprocessing = (tuple(self.param_feature_preprocessing) if self.param_feature_preprocessing != [] else None)
-        
-        return self
-
-    def get_dimension_reduction_parameters(self):
-        self.method_dimension_reduction = None
-        self.param_dimension_reduction = {}
+        self.param_feature_preprocessing = {}
                 
-        dimension_reduction = self.configuration.get('feature_engineering', {}).get('dimreduction', None)
+        dimension_reduction = self.configuration.get('feature_engineering', {}).get('feature_preprocessing', None)
         if dimension_reduction:
-            self.method_dimension_reduction = (list(dimension_reduction.keys())[0] if list(dimension_reduction.keys())[0] != 'None' else None)
+            self.method_feature_preprocessing = eval(list(dimension_reduction.keys())[0] if list(dimension_reduction.keys())[0] != 'None' else None)
     
             for key in dimension_reduction.keys():
                 for key_ in dimension_reduction.get(key).keys():
@@ -62,10 +49,36 @@ class BaseMachineLearning:
 
                             param = dimension_reduction.get(key).get(key_).get(key__)
                             # Parse parameters: if param is digits str or containing "(" and ")", we will eval the param
-                            if (param.isdigit() or ("(" in param) and (")" in param)):
+                            if bool(re.search(r'\d', param)) or (bool(re.search(r'\(', param)) and bool(re.search(r'\)', param))):
                                 param = eval(param)
-                            self.param_dimension_reduction.update({"dim_reduction__"+key_: param})
+                            self.param_feature_preprocessing.update({"feature_preprocessing__"+key_: [param]})
+
+        self.param_feature_preprocessing = None if self.param_feature_preprocessing == {} else self.param_feature_preprocessing
              
+        return self
+
+    def get_dimension_reduction_parameters(self):
+        self.method_dim_reduction = None
+        self.param_dim_reduction = {}
+                
+        dimension_reduction = self.configuration.get('feature_engineering', {}).get('dimreduction', None)
+        if dimension_reduction:
+            self.method_dim_reduction = eval(list(dimension_reduction.keys())[0] if list(dimension_reduction.keys())[0] != 'None' else None)
+    
+            for key in dimension_reduction.keys():
+                for key_ in dimension_reduction.get(key).keys():
+                    if key_ != []:
+                        for key__ in dimension_reduction.get(key).get(key_).keys():
+
+                            param = dimension_reduction.get(key).get(key_).get(key__)
+                            # Parse parameters: if param is digits str or containing "(" and ")", we will eval the param
+                            if bool(re.search(r'\d', param)) or (bool(re.search(r'\(', param)) and bool(re.search(r'\)', param))):
+                                param = eval(param)
+                            if not (isinstance(param, list) or isinstance(param, tuple)):
+                                param = [param]
+                            self.param_dim_reduction.update({"dim_reduction__"+key_: param})
+             
+        self.param_dim_reduction = None if self.param_dim_reduction == {} else self.param_dim_reduction
         return self
         
 
@@ -76,7 +89,9 @@ class BaseMachineLearning:
         
         feature_selection = self.configuration.get('feature_engineering', {}).get('feature_selection', None)
         if feature_selection:
-            self.method_feature_selection = (list(feature_selection.keys())[0] if list(feature_selection.keys())[0] != 'None' else None)
+            self.method_feature_selection = list(feature_selection.keys())[0] if list(feature_selection.keys())[0] != 'None' else None
+            self.method_feature_selection = 'RFECV(estimator=LinearSVC())' if self.method_feature_selection == 'RFECV()' else self.method_feature_selection
+            self.method_feature_selection = eval(self.method_feature_selection)
     
             for key in feature_selection.keys():
                 for key_ in feature_selection.get(key).keys():
@@ -85,15 +100,19 @@ class BaseMachineLearning:
 
                             param = feature_selection.get(key).get(key_).get(key__)
                             # Parse parameters: if param is digits str or containing "(" and ")", we will eval the param
-                            if (param.isdigit() or ("(" in param) and (")" in param)):
+                            if bool(re.search(r'\d', param)) or (bool(re.search(r'\(', param)) and bool(re.search(r'\)', param))):
                                 param = eval(param)
+                            if not (isinstance(param, list) or isinstance(param, tuple)):
+                                param = [param]
                             self.param_feature_selection.update({"feature_selection__"+key_:param})
              
+        self.param_feature_selection = None if self.param_feature_selection == {} else self.param_feature_selection
         return self
 
     def get_unbalance_treatment_parameters(self):
         self.method_unbalance_treatment = None
         self.param_unbalance_treatment = {}
+        
         
         unbalance_treatment = self.configuration.get('feature_engineering', {}).get('unbalance_treatment', None)
         if unbalance_treatment:
@@ -103,8 +122,16 @@ class BaseMachineLearning:
                 for key_ in unbalance_treatment.get(key).keys():
                     if key_ != []:
                         for key__ in unbalance_treatment.get(key).get(key_).keys():
-                             self.param_unbalance_treatment.update({"unbalance_treatment__"+key_:eval(unbalance_treatment.get(key).get(key_).get(key__))})
+
+                            param = unbalance_treatment.get(key).get(key_).get(key__)
+                            # Parse parameters: if param is digits str or containing "(" and ")", we will eval the param
+                            if bool(re.search(r'\d', param)) or (bool(re.search(r'\(', param)) and bool(re.search(r'\)', param))):
+                                param = eval(param)
+                            if not (isinstance(param, list) or isinstance(param, tuple)):
+                                param = [param]
+                            self.param_unbalance_treatment.update({"unbalance_treatment__"+key_:param})
              
+        self.param_unbalance_treatment = None if self.param_unbalance_treatment == {} else self.param_unbalance_treatment
         return self
 
     def get_machine_learning_parameters(self):
@@ -122,7 +149,8 @@ class BaseMachineLearning:
             machine_learning = machine_learning.get(keys, None)
 
         if machine_learning:
-            self.method_machine_learning = (list(machine_learning.keys())[0] if list(machine_learning.keys())[0] != 'None' else None)
+            # This place will update for supportting multiple estimators
+            self.method_machine_learning = eval(list(machine_learning.keys())[0] if list(machine_learning.keys())[0] != 'None' else None)
     
             for key in machine_learning.keys():
                 for key_ in machine_learning.get(key).keys():
@@ -133,10 +161,13 @@ class BaseMachineLearning:
                             # Parse parameters: if param is digits str or containing "(" and ")", we will eval the param
                             # for example, DecisionTreeClassifier(max_depth=1) is a parameter of AdaBoostClassifier()
                             # Because a [sklearn] object has a
-                            if (param.isdigit() or ("(" in param) and (")" in param)):
+                            if bool(re.search(r'\d', param)) or (bool(re.search(r'\(', param)) and bool(re.search(r'\)', param))) or (param == 'None'):
                                 param = eval(param)
-                            self.param_machine_learning.update({"machine_learning__"+key_: param})
+                            if not (isinstance(param, list) or isinstance(param, tuple)):
+                                param = [param]
+                            self.param_machine_learning.update({"estimator__"+key_: param})
              
+        self.param_machine_learning = None if self.param_machine_learning == {} else self.param_machine_learning
         return self
 
     def get_model_evaluation_parameters(self):
@@ -145,7 +176,7 @@ class BaseMachineLearning:
         
         model_evaluation = self.configuration.get('model_evaluation', {})
         if model_evaluation:
-            self.method_model_evaluation = (list(model_evaluation.keys())[0] if list(model_evaluation.keys())[0] != 'None' else None)
+            self.method_model_evaluation = eval(list(model_evaluation.keys())[0] if list(model_evaluation.keys())[0] != 'None' else None)
     
             for key in model_evaluation.keys():
                 for key_ in model_evaluation.get(key).keys():
@@ -156,11 +187,14 @@ class BaseMachineLearning:
                             # Parse parameters: if param is digits str or containing "(" and ")", we will eval the param
                             # for example, DecisionTreeClassifier(max_depth=1) is a parameter of AdaBoostClassifier()
                             # Because a [sklearn] object has a
-                            if type(param) is str:
-                                if (param.isdigit() or ("(" in param) and (")" in param)):
+                            if type(param) is str:  # selected_dataset is list
+                                if bool(re.search(r'\d', param)) or (bool(re.search(r'\(', param)) and bool(re.search(r'\)', param))):
                                     param = eval(param)
+                            if not (isinstance(param, list) or isinstance(param, tuple)):
+                                param = [param]
                             self.param_model_evaluation.update({"model_evaluation__"+key_: param})
              
+        self.param_model_evaluation = None if self.param_model_evaluation == {} else self.param_model_evaluation
         return self
 
     def get_statistical_analysis_parameters(self):
@@ -171,7 +205,7 @@ class BaseMachineLearning:
 
 if __name__ == '__main__':
     base = BaseMachineLearning()
-    base.argparse_(configuration_file=r'F:\Python378\Lib\site-packages\eslearn\GUI\test\configuration_file.json')
+    base.get_configuration_(configuration_file=r'F:\Python378\Lib\site-packages\eslearn\GUI\test\configuration_file.json')
     base.get_preprocessing_parameters()
     base.get_dimension_reduction_parameters()
     base.get_feature_selection_parameters()
@@ -183,8 +217,8 @@ if __name__ == '__main__':
     print(base.method_feature_preprocessing)
     print(base.param_feature_preprocessing)
     
-    print(base.method_dimension_reduction)
-    print(base.param_dimension_reduction)
+    print(base.method_dim_reduction)
+    print(base.param_dim_reduction)
     
     print(base.method_feature_selection)
     print(base.param_feature_selection)
