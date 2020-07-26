@@ -3,18 +3,33 @@
         "group_1": {
             "modality_1": {
                 "file": [
-                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_patient/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub008.nii",
-                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_patient/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub005.nii",
-                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_patient/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub004.nii",
-                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_patient/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub006.nii",
                     "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_patient/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub001.nii",
-                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_patient/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub003.nii",
-                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_patient/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub007.nii",
-                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_patient/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub010.nii",
                     "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_patient/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub002.nii",
-                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_patient/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub009.nii"
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_patient/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub003.nii",
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_patient/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub004.nii",
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_patient/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub005.nii",
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_patient/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub006.nii",
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_patient/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub007.nii",
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_patient/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub008.nii",
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_patient/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub009.nii",
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_patient/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub010.nii",
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_patient/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub011.nii",
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_patient/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub012.nii",
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_patient/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub013.nii",
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_patient/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub014.nii",
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_patient/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub015.nii",
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_patient/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub016.nii",
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_patient/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub017.nii",
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_patient/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub018.nii",
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_patient/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub019.nii",
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_patient/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub020.nii",
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_patient/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub021.nii",
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_patient/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub022.nii",
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_patient/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub023.nii",
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_patient/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub024.nii",
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_patient/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub025.nii"
                 ],
-                "mask": "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/Reslice_THALAMUS.nii",
+                "mask": "G:/Softer_DataProcessing/spm12/spm12/tpm/Reslice3_TPM_greaterThan0.2.nii",
                 "targets": "1",
                 "covariates": []
             }
@@ -31,40 +46,82 @@
                     "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_control/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub007.nii",
                     "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_control/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub008.nii",
                     "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_control/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub009.nii",
-                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_control/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub010.nii"
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_control/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub010.nii",
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_control/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub011.nii",
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_control/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub012.nii",
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_control/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub013.nii",
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_control/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub014.nii",
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_control/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub015.nii",
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_control/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub016.nii",
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_control/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub017.nii",
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_control/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub018.nii",
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_control/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub019.nii",
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_control/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub020.nii",
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_control/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub021.nii",
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_control/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub022.nii",
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_control/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub023.nii",
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_control/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub024.nii",
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_control/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub025.nii",
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_control/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub026.nii"
                 ],
-                "mask": "",
+                "mask": "G:/Softer_DataProcessing/spm12/spm12/tpm/Reslice3_TPM_greaterThan0.2.nii",
                 "targets": "0",
                 "covariates": []
             }
         }
     },
     "feature_engineering": {
+        "feature_preprocessing": {
+            "MinMaxScaler()": {
+                "feature_range": {
+                    "value": "(0,1)"
+                }
+            }
+        },
         "dimreduction": {
             "PCA()": {
                 "n_components": {
                     "value": "0.80, 0.90"
                 }
             }
+        },
+        "feature_selection": {
+            "RFECV()": {
+                "step": {
+                    "value": "0.10"
+                },
+                "cv": {
+                    "value": "5"
+                },
+                "estimator": {
+                    "value": "LinearSVC()"
+                },
+                "n_jobs": {
+                    "value": "-1"
+                }
+            }
+        },
+        "unbalance_treatment": {
+            "randover": {}
         }
     },
     "machine_learning": {
         "Classification": {
-            "Logistic regression": {
-                "penalty": {
-                    "value": "elasticnet"
+            "SVC()": {
+                "kernel": {
+                    "value": "linear"
                 },
-                "1ratio": {
-                    "value": "0.5"
+                "C": {
+                    "value": "1, 10"
                 },
-                "alpha": {
-                    "value": "1"
+                "gamma": {
+                    "value": "scale"
                 }
             }
         }
     },
     "model_evaluation": {
-        "Stratified k-fold": {
+        "StratifiedKFold()": {
             "n_splits": {
                 "value": "10"
             },
@@ -84,5 +141,6 @@
             }
         }
     },
-    "statistical_analysis": {}
+    "statistical_analysis": {},
+    "visualization": {}
 }

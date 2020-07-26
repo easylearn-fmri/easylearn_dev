@@ -41,6 +41,7 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
         self.machine_learning = {}
         self.working_directory = working_directory
         self.configuration_file = configuration_file
+        self.configuration = {}
         self.all_inputs_fun()
 
         # Debug
@@ -67,8 +68,8 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
 
         # Connect classification setting signal to slot: switche to corresponding classification model
         self.classification_stackedwedge_dict = {
-            "Logistic regression": 0, "Support vector machine": 1, "Ridge classification": 2,
-            "Gaussian process": 3, "Random forest": 4, "AdaBoost": 5
+            "LogisticRegression()": 0, "SVC()": 1, "RidgeClassifier()": 2,
+            "GaussianProcessClassifier()": 3, "RandomForestClassifier()": 4, "AdaBoostClassifier()": 5
         }
         self.radioButton_classification_lr.clicked.connect(self.switche_stacked_wedge_for_classification)
         self.radioButton_classification_svm.clicked.connect(self.switche_stacked_wedge_for_classification)
@@ -79,9 +80,9 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
         
         # Connect regression setting signal to slot: switche to corresponding regression method
         self.regression_stackedwedge_dict = {
-            "Linear regression": 0, "Lasso regression": 1, "Ridge regression": 2,
-            "Elastic-Net regression": 3, "Support vector machine": 4, "Gaussian process": 5,
-            "Random forest": 6
+            "LinearRegression()": 0, "LassoCV()": 1, "ridge_regression()": 2,
+            "ElasticNetCV()": 3, "SVR()": 4, "GaussianProcessRegressor()": 5,
+            "RandomForestRegressor()": 6
         }
         self.radioButton_regression_linearregression.clicked.connect(self.switche_stacked_wedge_for_regression)
         self.radioButton_regression_lasso.clicked.connect(self.switche_stacked_wedge_for_regression)
@@ -91,9 +92,15 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
         self.radioButton_regression_gaussianprocess.clicked.connect(self.switche_stacked_wedge_for_regression)
         self.radioButton_regression_randomforest.clicked.connect(self.switche_stacked_wedge_for_regression)
 
-        # # Datasets
-        # self.treeWidget_candidate_datasets.setColumnCount(2)
-        # self.treeWidget_candidate_datasets.setHeaderLabels(['Key','Value'])
+        # Connect clustering setting signal to slot: switche to corresponding clustering method
+        self.clustering_stackedwedge_dict = {
+            "KMeans()": 0, "SpectralClustering()": 1, 
+            "AgglomerativeClustering()": 2,"DBSCAN()": 3
+        }
+        self.radioButton_clustering_kmeans.clicked.connect(self.switche_stacked_wedge_for_clustering)
+        self.radioButton_spectral_clustering.clicked.connect(self.switche_stacked_wedge_for_clustering)
+        self.radioButton_hierarchical_clustering.clicked.connect(self.switche_stacked_wedge_for_clustering)
+        self.radioButton_DBSCAN.clicked.connect(self.switche_stacked_wedge_for_clustering)
 
         # Skins
         self.skins = {"Dark": "style_Dark", "Black": "style_black", "DarkOrange": "style_DarkOrange", 
@@ -152,15 +159,15 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
         self.all_available_inputs = {
             "Classification": {
                 self.radioButton_classification_lr:{
-                    "Logistic regression": {
+                    "LogisticRegression()": {
                         "penalty": {"value": self.comboBox_clf_lr_penalty.currentText(), "wedget": self.comboBox_clf_lr_penalty},
-                        "1ratio": {"value": self.lineEdit_clf_lr_l1ratio.text(), "wedget": self.lineEdit_clf_lr_l1ratio},
-                        "alpha": {"value": self.lineEdit_clf_lr_alpha.text(), "wedget": self.lineEdit_clf_lr_alpha},
+                        "l1_ratio": {"value": self.lineEdit_clf_lr_l1ratio.text(), "wedget": self.lineEdit_clf_lr_l1ratio},
+                        "C": {"value": self.lineEdit_clf_lr_C.text(), "wedget": self.lineEdit_clf_lr_C},
                     },
                 }, 
 
                 self.radioButton_classification_svm:{
-                    "Support vector machine": {
+                    "SVC()": {
                         "kernel": {"value": self.comboBox_clf_svm_kernel.currentText(), "wedget": self.comboBox_clf_svm_kernel},
                         "C": {"value": self.lineEdit_clf_svm_c.text(), "wedget": self.lineEdit_clf_svm_c}, 
                         "gamma": {"value": self.lineEdit_clf_svm_gamma.text(), "wedget": self.lineEdit_clf_svm_gamma},
@@ -168,72 +175,73 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
                 },
 
                 self.radioButton_classification_ridge:{
-                    "Ridge classification": {
+                    "RidgeClassifier()": {
                         "alpha": {"value": self.lineEdit_clf_ridgeclf_alpha.text(), "wedget": self.lineEdit_clf_ridgeclf_alpha}, 
                     },
                 },
 
                 self.radioButton_classification_gaussianprocess:{
-                    "Gaussian process": {
+                    "GaussianProcessClassifier()": {
                         "kernel": {"value": self.lineEdit_clf_gaussianprocess_kernel.text(), "wedget": self.lineEdit_clf_gaussianprocess_kernel}, 
-                        "multiclass": {"value": self.comboBox_clf_gaussianprocess_multiclass.currentText(), "wedget": self.comboBox_clf_gaussianprocess_multiclass}, 
+                        "multi_class": {"value": self.comboBox_clf_gaussianprocess_multiclass.currentText(), "wedget": self.comboBox_clf_gaussianprocess_multiclass}, 
                     },
                 },
 
                 self.radioButton_classification_randomforest:{
-                    "Random forest": {
-                        "estimators": {"value": self.lineEdit_clf_randomforest_estimators.text(), "wedget": self.lineEdit_clf_randomforest_estimators}, 
-                        "maxdepth": {"value": self.lineEdit_clf_randomforest_maxdepth.text(), "wedget": self.lineEdit_clf_randomforest_maxdepth},
+                    "RandomForestClassifier()": {
+                        "criterion": {"value": self.comboBox_clf_randomforest_criterion.currentText(), "wedget": self.comboBox_clf_randomforest_criterion},
+                        "max_depth": {"value": self.lineEdit_clf_randomforest_maxdepth.text(), "wedget": self.lineEdit_clf_randomforest_maxdepth},
+                        "n_estimators": {"value": self.lineEdit_clf_randomforest_estimators.text(), "wedget": self.lineEdit_clf_randomforest_estimators}, 
                     },
                 },
 
                 self.radioButton_classification_adaboost:{
-                    "AdaBoost": {
-                        "estimators": {"value": self.lineEdit_clf_adaboost_estimators.text(), "wedget": self.lineEdit_clf_adaboost_estimators}, 
-                        "algoritm": {"value": self.comboBox_clf_adaboost_algoritm.currentText(), "wedget": self.comboBox_clf_adaboost_algoritm}, 
-                        "baseestimator": {"value": self.comboBox_clf_adaboost_baseesitmator.currentText(), "wedget": self.comboBox_clf_adaboost_baseesitmator},                         
+                    "AdaBoostClassifier()": {
+                        "n_estimator": {"value": self.lineEdit_clf_adaboost_estimators.text(), "wedget": self.lineEdit_clf_adaboost_estimators}, 
+                        "algorithm": {"value": self.comboBox_clf_adaboost_algoritm.currentText(), "wedget": self.comboBox_clf_adaboost_algoritm}, 
+                        "base_estimator": {"value": self.comboBox_clf_adaboost_baseesitmator.currentText(), "wedget": self.comboBox_clf_adaboost_baseesitmator},                         
                     },
                 },
             },
 
             "Regression": {
                 self.radioButton_regression_linearregression:{
-                    "Linear regression": {
+                    "LinearRegression()": {
                         
                     },
                 }, 
                 self.radioButton_regression_lasso: {
-                    "Lasso regression":{
-                        "alpha": {"value": self.lineEdit_regression_lasso_alpha.text(), "wedget": self.lineEdit_regression_lasso_alpha}, 
+                    "LassoCV()":{
+                        "alphas": {"value": self.lineEdit_regression_lasso_alpha.text(), "wedget": self.lineEdit_regression_lasso_alpha}, 
                     }
 
                 },
                 self.radioButton_regression_ridge: {
-                    "Ridge regression":{
+                    "ridge_regression()":{
                         "alpha": {"value": self.lineEdit_regression_ridge_alpha.text(), "wedget": self.lineEdit_regression_ridge_alpha}, 
                     }
 
                 },
 
                 self.radioButton_regression_elasticnet: {
-                    "Elastic-Net regression":{
-                        "l1ratio": {"value": self.lineEdit_regression_elasticnet_l1ratio.text(), "wedget": self.lineEdit_regression_elasticnet_l1ratio}, 
-                        "alpha": {"value": self.lineEdit_regression_elasticnet_alpha.text(), "wedget": self.lineEdit_regression_elasticnet_alpha}, 
+                    "ElasticNetCV()":{
+                        "l1_ratio": {"value": self.lineEdit_regression_elasticnet_l1ratio.text(), "wedget": self.lineEdit_regression_elasticnet_l1ratio}, 
+                        "alphas": {"value": self.lineEdit_regression_elasticnet_alpha.text(), "wedget": self.lineEdit_regression_elasticnet_alpha}, 
                     }
 
                 },
 
                 self.radioButton_regression_svm: {
-                    "Support vector machine":{
-                        "l1ratio": {"value": self.lineEdit_regression_elasticnet_l1ratio.text(), "wedget": self.lineEdit_regression_elasticnet_l1ratio}, 
-                        "alpha": {"value": self.lineEdit_regression_elasticnet_alpha.text(), "wedget": self.lineEdit_regression_elasticnet_alpha}, 
+                    "SVR()":{
+                        "kernel": {"value": self.comboBox_regression_svm_kernel.currentText(), "wedget": self.comboBox_regression_svm_kernel}, 
+                        "C": {"value": self.lineEdit_regression_svm_c.text(), "wedget": self.lineEdit_regression_svm_c}, 
                         "gamma": {"value": self.lineEdit_regression_svm_gamma.text(), "wedget": self.lineEdit_regression_svm_gamma},
                     }
 
                 },
 
                 self.radioButton_regression_gaussianprocess: {
-                    "Gaussian process":{
+                    "GaussianProcessRegressor()":{
                         "kernel": {"value": self.lineEdit_regression_gaussianprocess_kernel.text(), "wedget": self.lineEdit_regression_gaussianprocess_kernel}, 
                         "alpha": {"value": self.lineEdit_regression_gaussianprocess_alpha.text(), "wedget": self.lineEdit_regression_gaussianprocess_alpha}, 
                     }
@@ -241,10 +249,10 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
                 },
 
                 self.radioButton_regression_randomforest: {
-                    "Random forest":{
+                    "RandomForestRegressor()":{
                         "criterion": {"value": self.comboBox_regression_randomforest_criterion.currentText(), "wedget": self.comboBox_regression_randomforest_criterion}, 
-                        "estimators": {"value": self.lineEdit_regression_randomforest_estimators.text(), "wedget": self.lineEdit_regression_randomforest_estimators}, 
-                        "maxdepth": {"value": self.lineEdit_regression_randomforest_maxdepth.text(), "wedget": self.lineEdit_regression_randomforest_maxdepth}, 
+                        "n_estimators": {"value": self.lineEdit_regression_randomforest_estimators.text(), "wedget": self.lineEdit_regression_randomforest_estimators}, 
+                        "max_depth": {"value": self.lineEdit_regression_randomforest_maxdepth.text(), "wedget": self.lineEdit_regression_randomforest_maxdepth}, 
                     }
 
                 },
@@ -253,10 +261,28 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
 
             "Clustering": {
                 self.radioButton_clustering_kmeans:{
-                    "K-means clustering": {
+                    "KMeans()": {
                         
                     },
                 }, 
+
+                self.radioButton_spectral_clustering:{
+                    "SpectralClustering()": {
+                        
+                    },
+                },
+
+                self.radioButton_hierarchical_clustering:{
+                    "AgglomerativeClustering()": {
+                        
+                    },
+                },
+
+                self.radioButton_DBSCAN:{
+                    "DBSCAN()": {
+                        
+                    },
+                },
             },
 
 
@@ -505,11 +531,11 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
 
         if self.sender():
             if not method:
-                self.stackedWidget_classification_setting.setCurrentIndex(self.clustering_stackedwedge_dict[self.sender().text()])
+                self.stackedWidget_clustering.setCurrentIndex(self.clustering_stackedwedge_dict[self.sender().text()])
             else:
-                self.stackedWidget_classification_setting.setCurrentIndex(self.clustering_stackedwedge_dict[method])
+                self.stackedWidget_clustering.setCurrentIndex(self.clustering_stackedwedge_dict[method])
         else:
-            self.stackedWidget_classification_setting.setCurrentIndex(-1)
+            self.stackedWidget_clustering.setCurrentIndex(-1)
 
     def switche_stacked_wedge_for_deep_learning(self, signal_bool, method=None):
         """ Switch to corresponding deep learning model window

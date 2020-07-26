@@ -23,7 +23,7 @@ from sklearn.svm import LinearSVC  # NOTE. If using SVC, then search C will very
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.decomposition import PCA, NMF
-from sklearn.feature_selection import SelectKBest, f_classif, RFE
+from sklearn.feature_selection import SelectPercentile, f_classif, RFE
 from imblearn.over_sampling import RandomOverSampler
 from joblib import Memory
 from shutil import rmtree

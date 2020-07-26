@@ -3,6 +3,9 @@
 """
 This class is the base class for classification
 """
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
+from imblearn.over_sampling import RandomOverSampler
+from sklearn.decomposition import PCA
 
 
 import sys
@@ -11,6 +14,7 @@ import numpy as np
 import pickle
 from sklearn.datasets import make_classification
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
+from sklearn.feature_selection import SelectPercentile, SelectKBest, f_classif, RFE,RFECV, VarianceThreshold, mutual_info_classif
 from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import make_scorer
 from sklearn.metrics import accuracy_score, f1_score, recall_score, roc_auc_score, precision_score
@@ -53,7 +57,7 @@ class BaseClassification(metaclass=ABCMeta):
 
         # Get weight according to model type: linear model or nonlinear model
         coef_ =  estimator.__dict__.get("coef_", None)
-        if coef_.any():  # Linear model
+        if coef_ != None:  # Linear model
             if feature_selection:
                 self.weights_ = [np.zeros(np.size(feature_selection.get_support())) for i in range(len(coef_))]
             else:
@@ -108,8 +112,8 @@ class PipelineSearch_(BaseClassification):
                         param_dim_reduction=None, 
                         method_feature_selection=None, 
                         param_feature_selection=None, 
-                        type_estimator=None, 
-                        param_estimator=None):
+                        method_machine_learning=None, 
+                        param_machine_learning=None):
         """Construct pipeline
 
         Currently, the pipeline only supports one specific method for corresponding method, 
@@ -136,10 +140,10 @@ class PipelineSearch_(BaseClassification):
             param_feature_selection: dictionary [or list of dictionaries], {'feature_selection__k': [0.5,0.9]},
                 parameters of feature selection, such as How many features to be kept.
 
-            type_estimator: [list of] sklearn module, such as [LinearSVC()]
+            method_machine_learning: [list of] sklearn module, such as [LinearSVC()]
                 method of feature selection.
 
-            param_estimator: dictionary [or list of dictionaries], such as 
+            param_machine_learning: dictionary [or list of dictionaries], such as 
             {'estimator__penalty': ['l1', 'l2'], 'estimator__C': [10]}
                 parameters of feature selection.
 
@@ -180,10 +184,29 @@ class PipelineSearch_(BaseClassification):
         if param_feature_selection:
             self.param_search.update(param_feature_selection)
             
-        if type_estimator:
-            self.param_search.update({'estimator': type_estimator})
-        if param_estimator:
-            self.param_search.update(param_estimator)
+        if method_machine_learning:
+            self.param_search.update({'estimator': method_machine_learning})
+        if param_machine_learning:
+            self.param_search.update(param_machine_learning)
+
+        print(self.param_search)
+            
+            
+        # self.param_search = {
+        #     'feature_preprocessing': [MinMaxScaler()], 
+        #     'feature_preprocessing__feature_range': [(0, 1)], 
+        #     'dim_reduction': [PCA()], 
+        #     'dim_reduction__n_components': [0.8, 0.9], 
+        #     'feature_selection': [RFECV(estimator=LinearSVC())], 
+        #     'feature_selection__step': [0.1], 
+        #     'feature_selection__cv': [5], 
+        #     'feature_selection__estimator': [LinearSVC()], 
+        #     'feature_selection__n_jobs': [-1], 
+        #     'estimator': [RandomForestClassifier()], 
+        #     'estimator__criterion': ['entropy'], 
+        #     'estimator__max_depth': [None], 
+        #     'estimator__n_estimators': [100]
+        # }
         
         return self
     
@@ -221,11 +244,11 @@ class PipelineSearch_(BaseClassification):
     def predict(self, x):
         y_hat = self.model.predict(x)
         
-        # TODO
-        try:
-            y_prob = self.model.predict_proba(x)
-        except:
-            y_prob = []
+        # TODO?
+        if hasattr(self.model, 'decision_function'):
+            y_prob = self.model.decision_function(x)
+        elif hasattr(self.model, 'predict_proba'):
+            y_prob = self.model.predict_proba(x)[:,1]
                 
         return y_hat, y_prob
 

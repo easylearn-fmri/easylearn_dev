@@ -40,6 +40,7 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
         self.feature_engineering = {}
         self.working_directory = working_directory
         self.configuration_file = configuration_file
+        self.configuration = {}
         self.all_available_inputs_fun()
 
         # Debug
@@ -55,36 +56,30 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
         self.actionGet_all_available_configuraton.triggered.connect(self._get_all_available_inputs)
 
         # connect preprocessing setting signal to slot: switche to corresponding stackedWidget
-        self.preprocessing_stackedwedge_dict = {"Z-score normalization": 0, "Scaling": 1, "De-mean": 2, "None": 3}
+        self.preprocessing_stackedwedge_dict = {"StandardScaler()": 0, "MinMaxScaler()": 1, "None": 2}
         self.radioButton_zscore.clicked.connect(self.switche_stacked_wedge_for_preprocessing)
         self.radioButton_scaling.clicked.connect(self.switche_stacked_wedge_for_preprocessing)
         self.radioButton_none_methods.clicked.connect(self.switche_stacked_wedge_for_preprocessing)
         
         # connect dimreduction setting signal to slot: switche to corresponding stackedWidget
-        self.dimreduction_stackedwedge_dict = {
-            "Principal component analysis": 0, "Independent component analysis": 1, 
-            "Latent Dirichlet Allocation": 2, "Non-negative matrix factorization": 3, "None": 4
-        }
+        self.dimreduction_stackedwedge_dict = {"PCA()": 0, "NMF()": 1, "None": 2}
         self.radioButton_pca.clicked.connect(self.switche_stacked_wedge_for_dimreduction)
-        self.radioButton_lda.clicked.connect(self.switche_stacked_wedge_for_dimreduction)
         self.radioButton_nmf.clicked.connect(self.switche_stacked_wedge_for_dimreduction)
         self.radioButton_none.clicked.connect(self.switche_stacked_wedge_for_dimreduction)
         
         # connect feature selection setting signal to slot: switche to corresponding stackedWidget
+
         self.feature_selection_stackedwedge_dict = {
-            "Variance threshold": 0, "Correlation": 1, "Distance correlation": 2, "F-Score (classification)": 3, 
-            "Mutual information (classification)": 4, "Mutual information (regression)": 5, "ReliefF": 6, "ANOVA/Ttest2 (classification)": 7, 
-            "RFE": 8, 
-            "L1 regularization (Lasso)": 9, "L1 + L2 regularization (Elastic net regression)": 10, 
-            "None": 11
+            "VarianceThreshold()": 0, "SelectPercentile(f_regression)": 1, "SelectPercentile(mutual_info_classif)": 2, 
+            "SelectPercentile(mutual_info_regression)": 3, "SelectPercentile(f_classif)": 4, 
+            "RFECV()": 5, 
+            "LassoCV()": 6, "ElasticNetCV()": 7, 
+            "None": 8
         }
         self.radioButton_variance_threshold.clicked.connect(self.switche_stacked_wedge_for_feature_selection)
         self.radioButton_correlation.clicked.connect(self.switche_stacked_wedge_for_feature_selection)
-        self.radioButton_distancecorrelation.clicked.connect(self.switche_stacked_wedge_for_feature_selection)
-        self.radioButton_fscore.clicked.connect(self.switche_stacked_wedge_for_feature_selection)
         self.radioButton_mutualinfo_cls.clicked.connect(self.switche_stacked_wedge_for_feature_selection)
         self.radioButton_mutualinfo_regression.clicked.connect(self.switche_stacked_wedge_for_feature_selection)
-        self.radioButton_relieff.clicked.connect(self.switche_stacked_wedge_for_feature_selection)
         self.radioButton_anova.clicked.connect(self.switche_stacked_wedge_for_feature_selection)
         self.radioButton_rfe.clicked.connect(self.switche_stacked_wedge_for_feature_selection)
         self.radioButton_l1.clicked.connect(self.switche_stacked_wedge_for_feature_selection)
@@ -151,8 +146,7 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
                 self.radioButton_zscore : {"StandardScaler()": {}}, 
                 self.radioButton_scaling: {
                     "MinMaxScaler()": {
-                        "min": {"value": self.lineEdit_scaling_min.text(), "wedget": self.lineEdit_scaling_min}, 
-                        "max": {"value": self.lineEdit_scaling_max.text(), "wedget": self.lineEdit_scaling_max},
+                        "feature_range": {"value": self.lineEdit_scaling_feature_range.text(), "wedget": self.lineEdit_scaling_feature_range}, 
                     }
                 }, 
 
@@ -168,11 +162,9 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
                     }, 
                 },
 
-                self.radioButton_lda: {"LatentDirichletAllocation()": {}},
-
                 self.radioButton_nmf: {
                     "NMF()": {
-                        "n_components": {"value": self.lineEdit_ida_components.text(), "wedget": self.lineEdit_ida_components}, 
+                        "n_components": {"value": self.lineEdit_nmf_components.text(), "wedget": self.lineEdit_nmf_components}, 
                     }
                 },
 
@@ -191,69 +183,48 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
                 },
 
                 self.radioButton_correlation: {
-                    "Correlation()": {
-                        "abscoef": {"value": self.lineEdit_correlation_abscoef.text(), "wedget": self.lineEdit_correlation_abscoef}, 
-                    }
-                }, 
-
-                self.radioButton_distancecorrelation: {
-                    "DistanceCorrelation()": {
-                        "abscoef": {"value": self.lineEdit_distancecorrelation_abscoef.text(), "wedget": self.lineEdit_distancecorrelation_abscoef}, 
-                    }
-                },
-
-                self.radioButton_fscore: {
-                    "FScoreClassification()": {
-                        "topnum":{"value": self.lineEdit_fscore_topnum.text(), "wedget": self.lineEdit_fscore_topnum}, 
+                    "SelectPercentile(f_regression)": {
+                        "percentile": {"value": self.lineEdit_correlation_abscoef.text(), "wedget": self.lineEdit_correlation_abscoef}, 
                     }
                 }, 
 
                 self.radioButton_mutualinfo_cls: {
-                    "mutual_info_classif()": {
-                        "topnum": {"value": self.lineEdit_mutualinfocls_topnum.text(), "wedget": self.lineEdit_mutualinfocls_topnum}, 
-                        "n_neighbors": {"value": self.spinBox_mutualinfocls_neighbors.text(), "wedget": self.spinBox_mutualinfocls_neighbors},
+                    "SelectPercentile(mutual_info_classif)": {
+                        "percentile": {"value": self.lineEdit_mutualinfocls_topnum.text(), "wedget": self.lineEdit_mutualinfocls_topnum}, 
                     }
                 }, 
 
                 self.radioButton_mutualinfo_regression: {
-                    "mutual_info_regression()": {
-                        "topnum": {"value": self.lineEdit_mutualinforeg_topnum.text(), "wedget": self.lineEdit_mutualinforeg_topnum}, 
-                        "n_neighbors": {"value": self.spinBox_mutualinforeg_neighbors.text(), "wedget": self.spinBox_mutualinforeg_neighbors},
-                    }
-                }, 
-
-                self.radioButton_relieff: {
-                    "ReliefF()": {
-                        "topnum": {"value": self.lineEdit_relieff_topnum.text(), "wedget": self.lineEdit_relieff_topnum}, 
+                    "SelectPercentile(mutual_info_regression)": {
+                        "percentile": {"value": self.lineEdit_mutualinforeg_topnum.text(), "wedget": self.lineEdit_mutualinforeg_topnum}, 
                     }
                 }, 
 
                 self.radioButton_anova: {
-                    "f_classif()": {
-                        "topnum": {"value": self.lineEdit_anova_topnum.text(), "wedget": self.lineEdit_anova_topnum}, 
-                        "multiple_correction": {"value": self.comboBox_anova_multicorrect.currentText(), "wedget": self.comboBox_anova_multicorrect},
+                    "SelectPercentile(f_classif)": {
+                        "percentile": {"value": self.lineEdit_anova_topnum.text(), "wedget": self.lineEdit_anova_topnum}, 
                     }
                 }, 
 
                 self.radioButton_rfe: {
-                    "RFE()": {
+                    "RFECV()": {
                         "step": {"value": self.doubleSpinBox_rfe_step.text(), "wedget": self.doubleSpinBox_rfe_step}, 
-                        "n_folds": {"value": self.spinBox_rfe_nfold.text(), "wedget":  self.spinBox_rfe_nfold}, 
+                        "cv": {"value": self.spinBox_rfe_nfold.text(), "wedget":  self.spinBox_rfe_nfold}, 
                         "estimator": {"value": self.comboBox_rfe_estimator.currentText(), "wedget": self.comboBox_rfe_estimator}, 
                         "n_jobs": {"value": self.spinBox_rfe_njobs.text(), "wedget": self.spinBox_rfe_njobs}
                     }
                 },
 
                 self.radioButton_l1: {
-                    "Lasso()": {
-                        "alpha": {"va1ue": self.lineEdit_l1_alpha.text(), "wedget": self.lineEdit_l1_alpha}, 
+                    "LassoCV()": {
+                        "alphas": {"va1ue": self.lineEdit_l1_alpha.text(), "wedget": self.lineEdit_l1_alpha}, 
                     }
                 }, 
 
                 self.radioButton_elasticnet: {
-                    "ElasticNet()": {
-                        "alpha": {"value": self.lineEdit_elasticnet_alpha.text(), "wedget": self.lineEdit_elasticnet_alpha}, 
-                        "l1ratio": {"value": self.lineEdit_elasticnet_l1ratio.text(), "wedget": self.lineEdit_elasticnet_l1ratio}, 
+                    "ElasticNetCV()": {
+                        "alphas": {"value": self.lineEdit_elasticnet_alpha.text(), "wedget": self.lineEdit_elasticnet_alpha}, 
+                        "l1_ratio": {"value": self.lineEdit_elasticnet_l1ratio.text(), "wedget": self.lineEdit_elasticnet_l1ratio}, 
                     }
                 }
             },
