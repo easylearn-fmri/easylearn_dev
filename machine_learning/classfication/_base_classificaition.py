@@ -3,33 +3,15 @@
 """
 This class is the base class for classification
 """
-from sklearn.preprocessing import StandardScaler, MinMaxScaler
-from imblearn.over_sampling import RandomOverSampler
-from sklearn.decomposition import PCA
 
-
-import sys
-import os
 import numpy as np
-import pickle
-from sklearn.datasets import make_classification
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
-from sklearn.feature_selection import SelectPercentile, SelectKBest, f_classif, RFE,RFECV, VarianceThreshold, mutual_info_classif
 from sklearn.model_selection import StratifiedKFold
-from sklearn.metrics import make_scorer
-from sklearn.metrics import accuracy_score, f1_score, recall_score, roc_auc_score, precision_score
+from sklearn.metrics import make_scorer, accuracy_score
 from sklearn.pipeline import Pipeline
-from sklearn.svm import LinearSVC  # NOTE. If using SVC, then search C will very slow.
-from sklearn.linear_model import LogisticRegression
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.decomposition import PCA, NMF
-from sklearn.feature_selection import SelectKBest, f_classif, RFE
-from imblearn.over_sampling import RandomOverSampler
 from joblib import Memory
 from shutil import rmtree
 from abc import abstractmethod, ABCMeta
-
-from sklearn.utils.testing import ignore_warnings
 import warnings
 from sklearn.exceptions import ConvergenceWarning
 
@@ -40,9 +22,10 @@ class BaseClassification(metaclass=ABCMeta):
     """Base class for classification"""
 
     def __init__(self):
+        self.model = None
         self.weights_ = None
         self.weights_norm_ = None
-    
+
     def get_weights_(self, x=None, y=None):
         """
         If the model is linear model, the weights are coefficients.
@@ -56,20 +39,20 @@ class BaseClassification(metaclass=ABCMeta):
         feature_selection =  best_model.get_params().get('feature_selection', None)
 
         # Get weight according to model type: linear model or nonlinear model
-        coef_ =  estimator.__dict__.get("coef_", None)
-        if coef_ != None:  # Linear model
+        if hasattr(estimator, "coef_"):
+            coef =  estimator.coef_
             if feature_selection:
-                self.weights_ = [np.zeros(np.size(feature_selection.get_support())) for i in range(len(coef_))]
+                self.weights_ = [np.zeros(np.size(feature_selection.get_support())) for i in range(len(coef))]
             else:
-                self.weights_ = [[] for i in range(len(coef_))]
+                self.weights_ = [[] for i in range(len(coef))]
                 
-            for i, coef__ in enumerate(coef_):
+            for i, coef_ in enumerate(coef):
                 if feature_selection:
-                    self.weights_[i][feature_selection.get_support()] = coef__
+                    self.weights_[i][feature_selection.get_support()] = coef_
                 else:
-                    self.weights_[i] = coef__
+                    self.weights_[i] = coef_
 
-                if dim_reduction:
+                if dim_reduction and (dim_reduction != "passthrough"):
                     self.weights_[i] = dim_reduction.inverse_transform(self.weights_[i])
         else:  # Nonlinear model
             self.weights_ = []
@@ -87,15 +70,15 @@ class BaseClassification(metaclass=ABCMeta):
         
     
 class PipelineSearch_(BaseClassification):
-    """Make pipeline"""
+    """Make pipeline_"""
 
-    def __init__(self,
-        search_strategy='random', 
-        k=5, 
-        metric=accuracy_score, 
-        n_iter_of_randomedsearch=10, 
-        n_jobs=1,
-        location='cachedir'):
+    def __init__(self, 
+                 search_strategy='random', 
+                 k=5, metric=accuracy_score, 
+                 n_iter_of_randomedsearch=10, 
+                 n_jobs=1, 
+                 location='cachedir'
+    ):
 
         super().__init__()
         self.search_strategy = search_strategy
@@ -104,6 +87,8 @@ class PipelineSearch_(BaseClassification):
         self.n_iter_of_randomedsearch = n_iter_of_randomedsearch
         self.n_jobs = n_jobs
         self.location = location
+        self.pipeline_ = None
+        self.param_search_ = None
 
     def make_pipeline_(self, 
                         method_feature_preprocessing=None, 
@@ -114,11 +99,12 @@ class PipelineSearch_(BaseClassification):
                         param_feature_selection=None, 
                         method_machine_learning=None, 
                         param_machine_learning=None):
-        """Construct pipeline
+        
+        """Construct pipeline_
 
-        Currently, the pipeline only supports one specific method for corresponding method, 
+        Currently, the pipeline_ only supports one specific method for corresponding method, 
         e.g., only supports one dimension reduction method for dimension reduction.
-        In the next version, the pipeline will support multiple methods for each corresponding method.
+        In the next version, the pipeline_ will support multiple methods for each corresponding method.
 
         Parameters:
         ----------
@@ -150,9 +136,9 @@ class PipelineSearch_(BaseClassification):
         """
 
         
-        self.memory = Memory(location=self.location, verbose=0)
+        self.memory = Memory(location=self.location, verbose=False)
 
-        self.pipe = Pipeline(steps=[
+        self.pipeline_ = Pipeline(steps=[
                 ('feature_preprocessing','passthrough'),
                 ('dim_reduction', 'passthrough'),
                 ('feature_selection', 'passthrough'),
@@ -164,56 +150,55 @@ class PipelineSearch_(BaseClassification):
         # Set parameters of gridCV
         print("Setting parameters of gridCV...\n")
         
-        self.param_search = {}
+        self.param_search_ = {}
 
         if method_feature_preprocessing:
-            self.param_search.update({'feature_preprocessing':method_feature_preprocessing})
+            self.param_search_.update({'feature_preprocessing':method_feature_preprocessing})
         if param_feature_preprocessing:          
-            self.param_search.update(param_feature_preprocessing)
+            self.param_search_.update(param_feature_preprocessing)
             
         if method_dim_reduction:
-            self.param_search.update({'dim_reduction':method_dim_reduction})
+            self.param_search_.update({'dim_reduction':method_dim_reduction})
         if param_dim_reduction:
-            self.param_search.update(param_dim_reduction)
+            self.param_search_.update(param_dim_reduction)
             # Get number of features that pass the dimension reduction
             # pca = method_dim_reduction[0]
             # xx = pca.fit_transform(x)
                 
         if method_feature_selection:
-            self.param_search.update({'feature_selection': method_feature_selection})
+            self.param_search_.update({'feature_selection': method_feature_selection})
         if param_feature_selection:
-            self.param_search.update(param_feature_selection)
+            self.param_search_.update(param_feature_selection)
             
         if method_machine_learning:
-            self.param_search.update({'estimator': method_machine_learning})
+            self.param_search_.update({'estimator': method_machine_learning})
         if param_machine_learning:
-            self.param_search.update(param_machine_learning)
-
-        print(self.param_search)
+            self.param_search_.update(param_machine_learning)
             
-        
+
         return self
     
     def fit_pipeline_(self, x=None, y=None):
-        """Fit the pipeline"""
-
+        """Fit the pipeline_"""
+        
+        # TODO: Extending to other CV methods
         cv = StratifiedKFold(n_splits=self.k)  # Default is StratifiedKFold
         if self.search_strategy == 'grid':
             self.model = GridSearchCV(
-                self.pipe, n_jobs=self.n_jobs, param_grid=self.param_search, cv=cv, 
+                self.pipeline_, n_jobs=self.n_jobs, param_grid=self.param_search_, cv=cv, 
                 scoring = make_scorer(self.metric), refit=True
             )
             # print(f"GridSearchCV fitting (about {iteration_num} times iteration)...\n")
 
         elif self.search_strategy == 'random':
             self.model = RandomizedSearchCV(
-                self.pipe, n_jobs=self.n_jobs, param_distributions=self.param_search, cv=cv, 
+                self.pipeline_, n_jobs=self.n_jobs, param_distributions=self.param_search_, cv=cv, 
                 scoring = make_scorer(self.metric), refit=True, n_iter=self.n_iter_of_randomedsearch,
             )
         
             # print(f"RandomizedSearchCV fitting (about {iteration_num} times iteration)...\n")
         else:
-            print(f"Please specify which search strategy!\n")
+            print("Please specify which search strategy!\n")
             return
 
         print("Fitting...")
@@ -222,7 +207,6 @@ class PipelineSearch_(BaseClassification):
         # Delete the temporary cache before exiting
         self.memory.clear(warn=False)
         rmtree(self.location)
-
         return self
 
     def predict(self, x):

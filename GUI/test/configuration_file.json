@@ -72,7 +72,7 @@
     },
     "feature_engineering": {
         "feature_preprocessing": {
-            "None": {}
+            "StandardScaler()": {}
         },
         "dimreduction": {
             "None": {}
@@ -80,16 +80,16 @@
         "feature_selection": {
             "RFECV()": {
                 "step": {
-                    "value": "0.20"
+                    "value": "0.30"
                 },
                 "cv": {
                     "value": "5"
                 },
                 "estimator": {
-                    "value": "LinearSVC()"
+                    "value": "LogisticRegression()"
                 },
                 "n_jobs": {
-                    "value": "2"
+                    "value": "-1"
                 }
             }
         },

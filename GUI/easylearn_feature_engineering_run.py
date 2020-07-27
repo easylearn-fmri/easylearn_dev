@@ -70,10 +70,10 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
         # connect feature selection setting signal to slot: switche to corresponding stackedWidget
 
         self.feature_selection_stackedwedge_dict = {
-            "VarianceThreshold()": 0, "SelectPercentile(f_regression)": 1, "SelectPercentile(mutual_info_classif)": 2, 
-            "SelectPercentile(mutual_info_regression)": 3, "SelectPercentile(f_classif)": 4, 
+            "VarianceThreshold()": 0, "SelectPercentile(f_classif)": 1, "SelectPercentile(f_regression)": 2, 
+            "SelectPercentile(mutual_info_classif)": 3, "SelectPercentile(mutual_info_regression)": 4,  
             "RFECV()": 5, 
-            "LassoCV()": 6, "ElasticNetCV()": 7, 
+            "SelectFromModel(LassoCV())": 6, "SelectFromModel(ElasticNetCV())": 7, 
             "None": 8
         }
         self.radioButton_variance_threshold.clicked.connect(self.switche_stacked_wedge_for_feature_selection)
@@ -184,7 +184,7 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
 
                 self.radioButton_correlation: {
                     "SelectPercentile(f_regression)": {
-                        "percentile": {"value": self.lineEdit_correlation_abscoef.text(), "wedget": self.lineEdit_correlation_abscoef}, 
+                        "percentile": {"value": self.lineEdit_correlation_percentile.text(), "wedget": self.lineEdit_correlation_percentile}, 
                     }
                 }, 
 
@@ -216,15 +216,18 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
                 },
 
                 self.radioButton_l1: {
-                    "LassoCV()": {
-                        "alphas": {"va1ue": self.lineEdit_l1_alpha.text(), "wedget": self.lineEdit_l1_alpha}, 
+                    "SelectFromModel(LassoCV())": {
                     }
                 }, 
 
                 self.radioButton_elasticnet: {
-                    "ElasticNetCV()": {
-                        "alphas": {"value": self.lineEdit_elasticnet_alpha.text(), "wedget": self.lineEdit_elasticnet_alpha}, 
+                    "SelectFromModel(ElasticNetCV())": {
                         "l1_ratio": {"value": self.lineEdit_elasticnet_l1ratio.text(), "wedget": self.lineEdit_elasticnet_l1ratio}, 
+                    }
+                },
+
+                self.radioButton_featureselection_none: {
+                    "None": {
                     }
                 }
             },
@@ -287,6 +290,7 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
         self.all_available_inputs_fun()
         
         # Get current inputs
+        self.feature_engineering = {}  # Remember clear self.feature_engineering before give values to it.
         for key_feature_engineering in self.all_available_inputs:
             for keys_one_feature_engineering in self.all_available_inputs[key_feature_engineering]:
                 if keys_one_feature_engineering.isChecked():

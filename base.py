@@ -7,13 +7,13 @@ Base class for all modules
 import json
 import re
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
-from sklearn.decomposition import PCA
-from sklearn.feature_selection import SelectPercentile, SelectKBest, f_classif, RFE,RFECV, VarianceThreshold, mutual_info_classif
+from sklearn.decomposition import PCA, NMF
+from sklearn.feature_selection import SelectPercentile, SelectKBest, SelectFromModel, f_classif,f_regression, RFE,RFECV, VarianceThreshold, mutual_info_classif, SelectFromModel
 from sklearn.svm import LinearSVC, SVC
-from sklearn.linear_model import LogisticRegression, Lasso, BayesianRidge
+from sklearn.linear_model import LogisticRegression, Lasso, LassoCV, BayesianRidge, ElasticNetCV
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import KFold, StratifiedKFold, ShuffleSplit
+from sklearn.model_selection import KFold, StratifiedKFold,  ShuffleSplit
 
 
 class BaseMachineLearning:
@@ -48,8 +48,9 @@ class BaseMachineLearning:
                         for key__ in feature_preprocessing.get(key).get(key_).keys():
 
                             param = feature_preprocessing.get(key).get(key_).get(key__)
+                            param = 'None' if param == '' else param
                             # Parse parameters: if param is digits str or containing "(" and ")", we will eval the param
-                            if bool(re.search(r'\d', param)) or (bool(re.search(r'\(', param)) and bool(re.search(r'\)', param))):
+                            if bool(re.search(r'\d', param)) or (param == 'None') or (bool(re.search(r'\(', param)) and bool(re.search(r'\)', param))):
                                 param = eval(param)
                             self.param_feature_preprocessing.update({"feature_preprocessing__"+key_: [param]})
 
@@ -71,8 +72,9 @@ class BaseMachineLearning:
                         for key__ in dimension_reduction.get(key).get(key_).keys():
 
                             param = dimension_reduction.get(key).get(key_).get(key__)
+                            param = 'None' if param == '' else param
                             # Parse parameters: if param is digits str or containing "(" and ")", we will eval the param
-                            if bool(re.search(r'\d', param)) or (bool(re.search(r'\(', param)) and bool(re.search(r'\)', param))):
+                            if bool(re.search(r'\d', param)) or (param == 'None') or (bool(re.search(r'\(', param)) and bool(re.search(r'\)', param))):
                                 param = eval(param)
                             if not (isinstance(param, list) or isinstance(param, tuple)):
                                 param = [param]
@@ -89,23 +91,42 @@ class BaseMachineLearning:
         
         feature_selection = self.configuration.get('feature_engineering', {}).get('feature_selection', None)
         if feature_selection and (list(feature_selection.keys())[0] != 'None'):
-            self.method_feature_selection = list(feature_selection.keys())[0] if list(feature_selection.keys())[0] != 'None' else None
-            self.method_feature_selection = 'RFECV(estimator=LinearSVC())' if self.method_feature_selection == 'RFECV()' else self.method_feature_selection
-            self.method_feature_selection = [eval(self.method_feature_selection)]
-    
+            
             for key in feature_selection.keys():
                 for key_ in feature_selection.get(key).keys():
                     if key_ != []:
                         for key__ in feature_selection.get(key).get(key_).keys():
 
                             param = feature_selection.get(key).get(key_).get(key__)
+                            param = 'None' if param == '' else param
                             # Parse parameters: if param is digits str or containing "(" and ")", we will eval the param
-                            if bool(re.search(r'\d', param)) or (bool(re.search(r'\(', param)) and bool(re.search(r'\)', param))):
+                            if bool(re.search(r'\d', param)) or (param == 'None') or (bool(re.search(r'\(', param)) and bool(re.search(r'\)', param))):
                                 param = eval(param)
                             if not (isinstance(param, list) or isinstance(param, tuple)):
                                 param = [param]
                             self.param_feature_selection.update({"feature_selection__"+key_:param})
-             
+
+            # Methods
+            self.method_feature_selection = list(feature_selection.keys())[0] if list(feature_selection.keys())[0] != 'None' else None
+            # Update point
+            if self.method_feature_selection == 'RFECV()':
+                self.method_feature_selection = 'RFECV(estimator=LinearSVC())' 
+            
+            if self.method_feature_selection == 'SelectFromModel(LassoCV())':
+                self.method_feature_selection = f'SelectFromModel(LassoCV())'  
+                self.param_feature_selection = None
+            
+            if self.method_feature_selection == 'SelectFromModel(ElasticNetCV())':
+                self.method_feature_selection = 'SelectFromModel(ElasticNetCV('
+                for keys in list(self.param_feature_selection.keys()):
+                    param_ = keys.split('__')[1]
+                    value_ = self.param_feature_selection[keys]
+                    self.method_feature_selection = self.method_feature_selection+ f'{param_}={value_},'  
+                self.method_feature_selection = self.method_feature_selection + '))'
+                self.param_feature_selection = None
+                
+            self.method_feature_selection = [eval(self.method_feature_selection)]
+        
         self.param_feature_selection = None if self.param_feature_selection == {} else self.param_feature_selection
         return self
 
@@ -124,8 +145,9 @@ class BaseMachineLearning:
                         for key__ in unbalance_treatment.get(key).get(key_).keys():
 
                             param = unbalance_treatment.get(key).get(key_).get(key__)
+                            param = 'None' if param == '' else param
                             # Parse parameters: if param is digits str or containing "(" and ")", we will eval the param
-                            if bool(re.search(r'\d', param)) or (bool(re.search(r'\(', param)) and bool(re.search(r'\)', param))):
+                            if bool(re.search(r'\d', param)) or (param == 'None') or (bool(re.search(r'\(', param)) and bool(re.search(r'\)', param))):
                                 param = eval(param)
                             if not (isinstance(param, list) or isinstance(param, tuple)):
                                 param = [param]
@@ -158,10 +180,11 @@ class BaseMachineLearning:
                         for key__ in machine_learning.get(key).get(key_).keys():
 
                             param = machine_learning.get(key).get(key_).get(key__)
+                            param = 'None' if param == '' else param
                             # Parse parameters: if param is digits str or containing "(" and ")", we will eval the param
                             # for example, DecisionTreeClassifier(max_depth=1) is a parameter of AdaBoostClassifier()
                             # Because a [sklearn] object has a
-                            if bool(re.search(r'\d', param)) or (bool(re.search(r'\(', param)) and bool(re.search(r'\)', param))) or (param == 'None'):
+                            if bool(re.search(r'\d', param)) or (param == 'None') or (bool(re.search(r'\(', param)) and bool(re.search(r'\)', param))) or (param == 'None'):
                                 param = eval(param)
                             if not (isinstance(param, list) or isinstance(param, tuple)):
                                 param = [param]
@@ -184,11 +207,12 @@ class BaseMachineLearning:
                         for key__ in model_evaluation.get(key).get(key_).keys():
                             
                             param = model_evaluation.get(key).get(key_).get(key__)
+                            param = 'None' if param == '' else param
                             # Parse parameters: if param is digits str or containing "(" and ")", we will eval the param
                             # for example, DecisionTreeClassifier(max_depth=1) is a parameter of AdaBoostClassifier()
                             # Because a [sklearn] object has a
                             if type(param) is str:  # selected_dataset is list
-                                if bool(re.search(r'\d', param)) or (bool(re.search(r'\(', param)) and bool(re.search(r'\)', param))):
+                                if bool(re.search(r'\d', param)) or (param == 'None') or (bool(re.search(r'\(', param)) and bool(re.search(r'\)', param))):
                                     param = eval(param)
                             if not (isinstance(param, list) or isinstance(param, tuple)):
                                 param = [param]

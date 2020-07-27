@@ -48,7 +48,7 @@
        <enum>QTabWidget::Triangular</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tabWidget_itemsPage1">
        <attribute name="title">
@@ -104,7 +104,7 @@
               </sizepolicy>
              </property>
              <property name="currentIndex">
-              <number>1</number>
+              <number>2</number>
              </property>
              <widget class="QWidget" name="to_zscore">
               <layout class="QGridLayout" name="gridLayout_17">
@@ -252,7 +252,7 @@
               </sizepolicy>
              </property>
              <property name="currentIndex">
-              <number>1</number>
+              <number>2</number>
              </property>
              <widget class="QWidget" name="to_pca">
               <layout class="QGridLayout" name="gridLayout_11">
@@ -277,7 +277,7 @@
                <item row="0" column="1">
                 <widget class="QLineEdit" name="lineEdit_nmf_components">
                  <property name="text">
-                  <string>0.80, 0.90</string>
+                  <string>10</string>
                  </property>
                 </widget>
                </item>
@@ -327,38 +327,113 @@
            <string>Methods</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_4">
-           <item row="11" column="0">
-            <widget class="QRadioButton" name="radioButton_l1">
-             <property name="text">
-              <string>LassoCV()</string>
+           <item row="10" column="0">
+            <widget class="Line" name="line_2">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
              </property>
             </widget>
            </item>
-           <item row="15" column="0">
+           <item row="7" column="0">
+            <widget class="Line" name="line">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item row="16" column="0">
             <widget class="Line" name="line_5">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
             </widget>
            </item>
-           <item row="13" column="0">
+           <item row="3" column="0">
+            <widget class="QRadioButton" name="radioButton_correlation">
+             <property name="text">
+              <string>SelectPercentile(f_regression)</string>
+             </property>
+            </widget>
+           </item>
+           <item row="14" column="0">
             <widget class="Line" name="line_4">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
             </widget>
            </item>
-           <item row="12" column="0">
-            <widget class="QRadioButton" name="radioButton_elasticnet">
+           <item row="9" column="0">
+            <widget class="QRadioButton" name="radioButton_rfe">
              <property name="text">
-              <string>ElasticNetCV()</string>
+              <string>RFECV()</string>
              </property>
             </widget>
            </item>
-           <item row="14" column="0">
+           <item row="8" column="0">
+            <widget class="QLabel" name="label_wrapper">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Wrapper</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QRadioButton" name="radioButton_variance_threshold">
+             <property name="text">
+              <string>VarianceThreshold()</string>
+             </property>
+            </widget>
+           </item>
+           <item row="12" column="0">
+            <widget class="QRadioButton" name="radioButton_l1">
+             <property name="text">
+              <string>SelectFromModel(LassoCV())</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QRadioButton" name="radioButton_mutualinfo_cls">
+             <property name="text">
+              <string>SelectPercentile(mutual_info_classif)</string>
+             </property>
+            </widget>
+           </item>
+           <item row="15" column="0">
             <widget class="QRadioButton" name="radioButton_featureselection_none">
              <property name="text">
               <string>None</string>
+             </property>
+            </widget>
+           </item>
+           <item row="13" column="0">
+            <widget class="QRadioButton" name="radioButton_elasticnet">
+             <property name="text">
+              <string>SelectFromModel(ElasticNetCV())</string>
+             </property>
+            </widget>
+           </item>
+           <item row="11" column="0">
+            <widget class="QLabel" name="label_embedded">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Embedded</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="0">
+            <widget class="QRadioButton" name="radioButton_mutualinfo_regression">
+             <property name="text">
+              <string>SelectPercentile(mutual_info_regression)</string>
              </property>
             </widget>
            </item>
@@ -376,84 +451,9 @@
             </widget>
            </item>
            <item row="2" column="0">
-            <widget class="QRadioButton" name="radioButton_correlation">
-             <property name="text">
-              <string>SelectPercentile(f_regression)</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="0">
-            <widget class="QRadioButton" name="radioButton_mutualinfo_cls">
-             <property name="text">
-              <string>SelectPercentile(mutual_info_classif)</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QRadioButton" name="radioButton_variance_threshold">
-             <property name="text">
-              <string>VarianceThreshold()</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="0">
-            <widget class="QRadioButton" name="radioButton_mutualinfo_regression">
-             <property name="text">
-              <string>SelectPercentile(mutual_info_regression)</string>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="0">
             <widget class="QRadioButton" name="radioButton_anova">
              <property name="text">
               <string>SelectPercentile(f_classif)</string>
-             </property>
-            </widget>
-           </item>
-           <item row="6" column="0">
-            <widget class="Line" name="line">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="7" column="0">
-            <widget class="QLabel" name="label_wrapper">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>Wrapper</string>
-             </property>
-            </widget>
-           </item>
-           <item row="8" column="0">
-            <widget class="QRadioButton" name="radioButton_rfe">
-             <property name="text">
-              <string>RFECV()</string>
-             </property>
-            </widget>
-           </item>
-           <item row="9" column="0">
-            <widget class="Line" name="line_2">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="10" column="0">
-            <widget class="QLabel" name="label_embedded">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>Embedded</string>
              </property>
             </widget>
            </item>
@@ -469,7 +469,7 @@
            <item row="0" column="1">
             <widget class="QStackedWidget" name="stackedWidget_feature_selection">
              <property name="currentIndex">
-              <number>5</number>
+              <number>8</number>
              </property>
              <widget class="QWidget" name="to_variance_threshold">
               <layout class="QGridLayout" name="gridLayout_15">
@@ -489,17 +489,35 @@
                </item>
               </layout>
              </widget>
-             <widget class="QWidget" name="correlation">
+             <widget class="QWidget" name="to_selectpercentitle_f_classif">
+              <layout class="QGridLayout" name="gridLayout_23">
+               <item row="0" column="2">
+                <widget class="QLineEdit" name="lineEdit_anova_topnum">
+                 <property name="text">
+                  <string>0.4, 0.6</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_17">
+                 <property name="text">
+                  <string>percentile</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="to_selectpercentitle_f_regression">
               <layout class="QGridLayout" name="gridLayout_16">
                <item row="0" column="0">
-                <widget class="QLabel" name="label_correlation_abscoef">
+                <widget class="QLabel" name="label_correlation_percentile">
                  <property name="text">
-                  <string>Abs_coef</string>
+                  <string>percentile</string>
                  </property>
                 </widget>
                </item>
                <item row="0" column="1">
-                <widget class="QLineEdit" name="lineEdit_correlation_abscoef">
+                <widget class="QLineEdit" name="lineEdit_correlation_percentile">
                  <property name="text">
                   <string>0.2, 0.4</string>
                  </property>
@@ -507,7 +525,7 @@
                </item>
               </layout>
              </widget>
-             <widget class="QWidget" name="to_mutualinfo_cls">
+             <widget class="QWidget" name="to_mutualinfo_classif">
               <layout class="QGridLayout" name="gridLayout_22">
                <item row="2" column="0">
                 <widget class="QLabel" name="label_mutualinfocls_topnum">
@@ -571,25 +589,7 @@
                </item>
               </layout>
              </widget>
-             <widget class="QWidget" name="to_anova">
-              <layout class="QGridLayout" name="gridLayout_23">
-               <item row="0" column="2">
-                <widget class="QLineEdit" name="lineEdit_anova_topnum">
-                 <property name="text">
-                  <string>0.4, 0.6</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="0">
-                <widget class="QLabel" name="label_17">
-                 <property name="text">
-                  <string>percentile</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-             <widget class="QWidget" name="to_rfe">
+             <widget class="QWidget" name="to_rfecv">
               <layout class="QGridLayout" name="gridLayout_20">
                <item row="3" column="0">
                 <widget class="QLabel" name="label_19">
@@ -681,62 +681,29 @@
                </item>
               </layout>
              </widget>
-             <widget class="QWidget" name="to_l1">
-              <layout class="QGridLayout" name="gridLayout_24">
-               <item row="0" column="0">
-                <widget class="QLabel" name="label_40">
-                 <property name="text">
-                  <string>Alphas</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="1">
-                <widget class="QLineEdit" name="lineEdit_l1_alpha"/>
-               </item>
-              </layout>
+             <widget class="QWidget" name="to_lassocv">
+              <layout class="QGridLayout" name="gridLayout_24"/>
              </widget>
-             <widget class="QWidget" name="to_elasticnet">
+             <widget class="QWidget" name="to_elasticnetcv">
               <layout class="QGridLayout" name="gridLayout_25">
-               <item row="2" column="0">
-                <widget class="QLabel" name="label_46">
-                 <property name="text">
-                  <string>L1_ratio</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="1">
+               <item row="1" column="1">
                 <widget class="QLineEdit" name="lineEdit_elasticnet_l1ratio">
                  <property name="text">
                   <string>0.5</string>
                  </property>
                 </widget>
                </item>
-               <item row="0" column="0">
-                <widget class="QLabel" name="label_44">
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_46">
                  <property name="text">
-                  <string>Alphas</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="1">
-                <widget class="QLineEdit" name="lineEdit_elasticnet_alpha">
-                 <property name="text">
-                  <string>None</string>
+                  <string>L1_ratio</string>
                  </property>
                 </widget>
                </item>
               </layout>
              </widget>
              <widget class="QWidget" name="to_none_featureselection">
-              <layout class="QGridLayout" name="gridLayout_27">
-               <item row="0" column="0">
-                <widget class="QLabel" name="label_none_featureselection">
-                 <property name="text">
-                  <string/>
-                 </property>
-                </widget>
-               </item>
-              </layout>
+              <layout class="QGridLayout" name="gridLayout_27"/>
              </widget>
             </widget>
            </item>
