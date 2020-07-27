@@ -225,7 +225,7 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
 
                 self.radioButton_regression_elasticnet: {
                     "ElasticNetCV()":{
-                        "l1_ratio": {"value": self.lineEdit_regression_elasticnet_l1ratio.text(), "wedget": self.lineEdit_regression_elasticnet_l1ratio}, 
+                        "l1_ratios": {"value": self.lineEdit_regression_elasticnet_l1ratio.text(), "wedget": self.lineEdit_regression_elasticnet_l1ratio}, 
                         "alphas": {"value": self.lineEdit_regression_elasticnet_alpha.text(), "wedget": self.lineEdit_regression_elasticnet_alpha}, 
                     }
 
