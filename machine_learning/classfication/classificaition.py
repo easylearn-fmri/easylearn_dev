@@ -17,7 +17,7 @@ from sklearn import datasets
 from eslearn.base import BaseMachineLearning
 from eslearn.machine_learning.classfication._base_classificaition import PipelineSearch_
 
-x, y = datasets.make_classification(n_samples=200, n_classes=3,
+x, y = datasets.make_classification(n_samples=200, n_classes=2,
                                     n_informative=50, n_redundant=3,
                                     n_features=100, random_state=1)
 
@@ -42,25 +42,26 @@ class Classification(BaseMachineLearning):
         
         pipeline = PipelineSearch_(search_strategy='grid', n_jobs=2)
         pipeline.make_pipeline_(
-            method_feature_preprocessing=[method_feature_preprocessing], 
+            method_feature_preprocessing=method_feature_preprocessing, 
             param_feature_preprocessing=param_feature_preprocessing, 
-            method_dim_reduction=[method_dim_reduction], 
+            method_dim_reduction=method_dim_reduction, 
             param_dim_reduction=param_dim_reduction, 
-            method_feature_selection=[method_feature_selection],
+            method_feature_selection=method_feature_selection,
             param_feature_selection=param_feature_selection,
-            method_machine_learning=[method_machine_learning], 
+            method_machine_learning=method_machine_learning, 
             param_machine_learning=param_machine_learning
         )
 
         pipeline.fit_pipeline_(x, y)
         pipeline.get_weights_(x, y)
-        yhat, y_porb = pipeline.predict(x)
+        yhat, y_prob = pipeline.predict(x)
+        accuracy = accuracy_score(yhat, y)
 
         time_end = time.time()
 
         print(f"Running time = {time_end-time_start}\n")
         print("="*50)
-
+        return yhat, y_prob, accuracy
 
 if __name__ == "__main__":
     clf = Classification()
@@ -105,14 +106,15 @@ if __name__ == "__main__":
     method_machine_learning = clf.method_machine_learning
     param_machine_learning = clf.param_machine_learning
     
-    clf.classification(
-        method_feature_preprocessing, 
-        param_feature_preprocessing,
-        method_dim_reduction,
-        param_dim_reduction,
-        method_feature_selection,
-        param_feature_selection, 
-        method_machine_learning, 
-        param_machine_learning,
-        x, y
+    yhat, y_prob, accuracy = clf.classification(
+        method_feature_preprocessing=method_feature_preprocessing, 
+        param_feature_preprocessing=param_feature_preprocessing,
+        method_dim_reduction=method_dim_reduction,
+        param_dim_reduction=param_dim_reduction,
+        method_feature_selection=method_feature_selection,
+        param_feature_selection=param_feature_selection, 
+        method_machine_learning=method_machine_learning, 
+        param_machine_learning=param_machine_learning,
+        x=x, 
+        y=y
     )

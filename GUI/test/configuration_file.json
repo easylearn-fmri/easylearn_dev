@@ -72,23 +72,15 @@
     },
     "feature_engineering": {
         "feature_preprocessing": {
-            "MinMaxScaler()": {
-                "feature_range": {
-                    "value": "(0,1)"
-                }
-            }
+            "None": {}
         },
         "dimreduction": {
-            "PCA()": {
-                "n_components": {
-                    "value": "0.80, 0.90"
-                }
-            }
+            "None": {}
         },
         "feature_selection": {
             "RFECV()": {
                 "step": {
-                    "value": "0.10"
+                    "value": "0.20"
                 },
                 "cv": {
                     "value": "5"
@@ -97,7 +89,7 @@
                     "value": "LinearSVC()"
                 },
                 "n_jobs": {
-                    "value": "-1"
+                    "value": "2"
                 }
             }
         },

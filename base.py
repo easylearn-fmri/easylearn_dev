@@ -38,16 +38,16 @@ class BaseMachineLearning:
         self.method_feature_preprocessing = None
         self.param_feature_preprocessing = {}
                 
-        dimension_reduction = self.configuration.get('feature_engineering', {}).get('feature_preprocessing', None)
-        if dimension_reduction:
-            self.method_feature_preprocessing = eval(list(dimension_reduction.keys())[0] if list(dimension_reduction.keys())[0] != 'None' else None)
+        feature_preprocessing = self.configuration.get('feature_engineering', {}).get('feature_preprocessing', None)
+        if feature_preprocessing and (list(feature_preprocessing.keys())[0] != 'None'):
+            self.method_feature_preprocessing = [eval(list(feature_preprocessing.keys())[0] if list(feature_preprocessing.keys())[0] != 'None' else None)]
     
-            for key in dimension_reduction.keys():
-                for key_ in dimension_reduction.get(key).keys():
+            for key in feature_preprocessing.keys():
+                for key_ in feature_preprocessing.get(key).keys():
                     if key_ != []:
-                        for key__ in dimension_reduction.get(key).get(key_).keys():
+                        for key__ in feature_preprocessing.get(key).get(key_).keys():
 
-                            param = dimension_reduction.get(key).get(key_).get(key__)
+                            param = feature_preprocessing.get(key).get(key_).get(key__)
                             # Parse parameters: if param is digits str or containing "(" and ")", we will eval the param
                             if bool(re.search(r'\d', param)) or (bool(re.search(r'\(', param)) and bool(re.search(r'\)', param))):
                                 param = eval(param)
@@ -62,8 +62,8 @@ class BaseMachineLearning:
         self.param_dim_reduction = {}
                 
         dimension_reduction = self.configuration.get('feature_engineering', {}).get('dimreduction', None)
-        if dimension_reduction:
-            self.method_dim_reduction = eval(list(dimension_reduction.keys())[0] if list(dimension_reduction.keys())[0] != 'None' else None)
+        if dimension_reduction and (list(dimension_reduction.keys())[0] != 'None'):
+            self.method_dim_reduction = [eval(list(dimension_reduction.keys())[0] if list(dimension_reduction.keys())[0] != 'None' else None)]
     
             for key in dimension_reduction.keys():
                 for key_ in dimension_reduction.get(key).keys():
@@ -88,10 +88,10 @@ class BaseMachineLearning:
         
         
         feature_selection = self.configuration.get('feature_engineering', {}).get('feature_selection', None)
-        if feature_selection:
+        if feature_selection and (list(feature_selection.keys())[0] != 'None'):
             self.method_feature_selection = list(feature_selection.keys())[0] if list(feature_selection.keys())[0] != 'None' else None
             self.method_feature_selection = 'RFECV(estimator=LinearSVC())' if self.method_feature_selection == 'RFECV()' else self.method_feature_selection
-            self.method_feature_selection = eval(self.method_feature_selection)
+            self.method_feature_selection = [eval(self.method_feature_selection)]
     
             for key in feature_selection.keys():
                 for key_ in feature_selection.get(key).keys():
@@ -115,8 +115,8 @@ class BaseMachineLearning:
         
         
         unbalance_treatment = self.configuration.get('feature_engineering', {}).get('unbalance_treatment', None)
-        if unbalance_treatment:
-            self.method_unbalance_treatment = (list(unbalance_treatment.keys())[0] if list(unbalance_treatment.keys())[0] != 'None' else None)
+        if unbalance_treatment and (list(unbalance_treatment.keys())[0] != 'None'):
+            self.method_unbalance_treatment = [(list(unbalance_treatment.keys())[0] if list(unbalance_treatment.keys())[0] != 'None' else None)]
     
             for key in unbalance_treatment.keys():
                 for key_ in unbalance_treatment.get(key).keys():
@@ -148,9 +148,9 @@ class BaseMachineLearning:
         for keys in machine_learning:
             machine_learning = machine_learning.get(keys, None)
 
-        if machine_learning:
+        if machine_learning and (list(machine_learning.keys())[0] != 'None'):
             # This place will update for supportting multiple estimators
-            self.method_machine_learning = eval(list(machine_learning.keys())[0] if list(machine_learning.keys())[0] != 'None' else None)
+            self.method_machine_learning = [eval(list(machine_learning.keys())[0] if list(machine_learning.keys())[0] != 'None' else None)]
     
             for key in machine_learning.keys():
                 for key_ in machine_learning.get(key).keys():
@@ -175,8 +175,8 @@ class BaseMachineLearning:
         self.param_model_evaluation = {}
         
         model_evaluation = self.configuration.get('model_evaluation', {})
-        if model_evaluation:
-            self.method_model_evaluation = eval(list(model_evaluation.keys())[0] if list(model_evaluation.keys())[0] != 'None' else None)
+        if model_evaluation and (list(model_evaluation.keys())[0] != 'None'):
+            self.method_model_evaluation = [eval(list(model_evaluation.keys())[0] if list(model_evaluation.keys())[0] != 'None' else None)]
     
             for key in model_evaluation.keys():
                 for key_ in model_evaluation.get(key).keys():

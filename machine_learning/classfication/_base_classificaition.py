@@ -191,22 +191,6 @@ class PipelineSearch_(BaseClassification):
 
         print(self.param_search)
             
-            
-        # self.param_search = {
-        #     'feature_preprocessing': [MinMaxScaler()], 
-        #     'feature_preprocessing__feature_range': [(0, 1)], 
-        #     'dim_reduction': [PCA()], 
-        #     'dim_reduction__n_components': [0.8, 0.9], 
-        #     'feature_selection': [RFECV(estimator=LinearSVC())], 
-        #     'feature_selection__step': [0.1], 
-        #     'feature_selection__cv': [5], 
-        #     'feature_selection__estimator': [LinearSVC()], 
-        #     'feature_selection__n_jobs': [-1], 
-        #     'estimator': [RandomForestClassifier()], 
-        #     'estimator__criterion': ['entropy'], 
-        #     'estimator__max_depth': [None], 
-        #     'estimator__n_estimators': [100]
-        # }
         
         return self
     
