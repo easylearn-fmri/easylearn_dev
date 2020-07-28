@@ -6,25 +6,17 @@ from sklearn import datasets
 from sklearn.datasets import load_digits
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import make_scorer, mean_squared_error, mean_absolute_error
 
 from eslearn.base import BaseMachineLearning
-from eslearn.machine_learning.classfication._base_classificaition import PipelineSearch_
-
-# x, y = datasets.make_classification(n_samples=200, n_classes=2,
-#                                     n_informative=50, n_redundant=3,
-#                                     n_features=100, random_state=1)
-
+from eslearn.machine_learning.regression._base_regression import PipelineSearch_
 
 
 x, y = datasets.make_regression(n_samples=200, n_informative=50, n_features=100, random_state=1)
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.30, random_state=42)
 
 
-# x, y = load_digits(return_X_y=True)
-
-x_train, x_test, y_train, y_test = train_test_split(
-    x, y, test_size=0.30, random_state=42)
-
-class Classification(BaseMachineLearning, PipelineSearch_):
+class Regression(BaseMachineLearning, PipelineSearch_):
     
     def __init__(self):
         super(BaseMachineLearning, self).__init__()
@@ -45,8 +37,6 @@ class Classification(BaseMachineLearning, PipelineSearch_):
                        param_machine_learning=None,
     ):
         
-        
-        
         self.make_pipeline_(
             method_feature_preprocessing=method_feature_preprocessing, 
             param_feature_preprocessing=param_feature_preprocessing, 
@@ -61,13 +51,13 @@ class Classification(BaseMachineLearning, PipelineSearch_):
         self.fit_pipeline_(x_train, y_train)
         self.get_weights_(x_train, y_train)
         yhat, y_prob = self.predict(x_test)
-        accuracy = accuracy_score(yhat, y_test)
+        accuracy = mean_absolute_error(yhat, y_test)
         return yhat, y_prob, accuracy
 
 
 if __name__ == "__main__":
     time_start = time.time()
-    clf = Classification()
+    clf = Regression()
     clf.get_configuration_(configuration_file=r'F:\Python378\Lib\site-packages\eslearn\GUI\test\configuration_file.json')
     clf.get_preprocessing_parameters()
     clf.get_dimension_reduction_parameters()

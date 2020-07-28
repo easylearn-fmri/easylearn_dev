@@ -13,7 +13,7 @@ from sklearn.svm import LinearSVC, SVC
 from sklearn.linear_model import LinearRegression, LogisticRegression, Lasso, LassoCV, RidgeClassifier, BayesianRidge, ElasticNetCV
 from sklearn.gaussian_process import  GaussianProcessClassifier, GaussianProcessRegressor
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from sklearn.model_selection import KFold, StratifiedKFold,  ShuffleSplit
 
 

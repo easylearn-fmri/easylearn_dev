@@ -86,16 +86,20 @@
     },
     "machine_learning": {
         "Regression": {
-            "LinearRegression()": {}
+            "LassoCV()": {
+                "alphas": {
+                    "value": "1"
+                }
+            }
         }
     },
     "model_evaluation": {
-        "StratifiedKFold()": {
+        "KFold()": {
             "n_splits": {
-                "value": "10"
+                "value": "5"
             },
             "shuffle": {
-                "value": "False"
+                "value": "True"
             },
             "random_state": {
                 "value": "0"

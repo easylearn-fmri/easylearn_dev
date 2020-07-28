@@ -6,8 +6,8 @@ This class is the base class for classification
 
 import numpy as np
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
-from sklearn.model_selection import StratifiedKFold, KFold
-from sklearn.metrics import make_scorer, accuracy_score, auc, f1_score
+from sklearn.model_selection import KFold
+from sklearn.metrics import make_scorer, mean_squared_error, mean_absolute_error
 from sklearn.pipeline import Pipeline
 from joblib import Memory
 from shutil import rmtree
@@ -18,7 +18,7 @@ from sklearn.exceptions import ConvergenceWarning
 warnings.filterwarnings("ignore", category=ConvergenceWarning, module="sklearn")
 
 
-class BaseClassification(metaclass=ABCMeta):
+class BaseRegression(metaclass=ABCMeta):
     """Base class for classification"""
 
     def __init__(self):
@@ -79,7 +79,7 @@ class BaseClassification(metaclass=ABCMeta):
                 x_ = np.array(x_reduced_selected).copy()
                 x_[:,ifeature] = 0
                 y_hat = estimator.predict(x_)
-                self.weights_.append(score_true-self.metric(y, y_hat))
+                self.weights_.append(self.metric(y, y_hat) - score_true)
             
             # Back to original space
             self.weights_ = np.reshape(self.weights_, [1, -1])
@@ -93,13 +93,13 @@ class BaseClassification(metaclass=ABCMeta):
         self.weights_norm_ = [wei/np.sum(np.power(np.e,wei)) for wei in self.weights_]
         
     
-class PipelineSearch_(BaseClassification):
+class PipelineSearch_(BaseRegression):
     """Make pipeline_"""
 
     def __init__(self, 
                  search_strategy='random', 
                  k=5, 
-                 metric=accuracy_score, 
+                 metric=mean_squared_error, 
                  n_iter_of_randomedsearch=10, 
                  n_jobs=1, 
                  location='cachedir',
@@ -210,7 +210,7 @@ class PipelineSearch_(BaseClassification):
         """Fit the pipeline_"""
         
         # TODO: Extending to other CV methods
-        cv = StratifiedKFold(n_splits=self.k)  # Default is StratifiedKFold
+        cv = KFold(n_splits=self.k)  # Default is StratifiedKFold
         if self.search_strategy == 'grid':
             self.model = GridSearchCV(
                 self.pipeline_, n_jobs=self.n_jobs, param_grid=self.param_search_, cv=cv, 

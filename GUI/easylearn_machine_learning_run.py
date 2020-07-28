@@ -206,7 +206,7 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
 
                 self.radioButton_classification_adaboost:{
                     "AdaBoostClassifier()": {
-                        "n_estimator": {"value": self.lineEdit_clf_adaboost_estimators.text(), "wedget": self.lineEdit_clf_adaboost_estimators}, 
+                        "n_estimators": {"value": self.lineEdit_clf_adaboost_estimators.text(), "wedget": self.lineEdit_clf_adaboost_estimators}, 
                         "algorithm": {"value": self.comboBox_clf_adaboost_algoritm.currentText(), "wedget": self.comboBox_clf_adaboost_algoritm}, 
                         "base_estimator": {"value": self.comboBox_clf_adaboost_baseesitmator.currentText(), "wedget": self.comboBox_clf_adaboost_baseesitmator},                         
                     },
@@ -464,13 +464,17 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
         }
 
         for machine_learning_type in list(self.all_available_inputs.keys()):
-            for method in self.all_available_inputs[machine_learning_type].keys():  
-                if machine_learning_type in self.machine_learning.keys():  # Avoiding duplicate machine_learning_type selection, because users may clicked multiple methods in different machine_learning_type
-                    # Click the input machine_learning_type wedget
-                    self.machine_learning_type_dict[machine_learning_type].setChecked(True)
+            if machine_learning_type in self.machine_learning.keys():  # Avoiding duplicate machine_learning_type selection, because users may clicked multiple methods in different machine_learning_type
+                # Click the input machine_learning_type wedget
+                self.switche_stacked_wedge_for_machine_learning_type(True, machine_learning_type)
+                self.machine_learning_type_dict[machine_learning_type].setChecked(True)  
+                
+                for method in self.all_available_inputs[machine_learning_type].keys():  
                     
                     if method.text() in list(self.machine_learning[machine_learning_type].keys()):  # TODO: Is it necessary to use "if"
                         # Click the input method wedget
+                        # Switch stacked wedget
+                        method_switch_dict[machine_learning_type](True, method.text())
                         method.setChecked(True) 
                         
                         # Click the input setting wedget
@@ -478,7 +482,9 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
                             if "wedget" in list(self.all_available_inputs[machine_learning_type][method][method.text()][key_setting].keys()):
                                 loaded_text = self.machine_learning[machine_learning_type][method.text()][key_setting]["value"]
                                 # Identify wedget type, then using different methods to "setText"
-                                # NOTE. 所有控件在设计时，尽量保留原控件的名字在命名的前部分，这样下面才好确定时哪一种类型的控件，从而用不同的赋值方式！
+                                # In the design of all wedgets, try to keep the name of the original control in the front part of the name, 
+                                # so that it is easy to determine which type of control to use different assignment methods!
+                                # TODO: Update point
                                 if "lineEdit" in self.all_available_inputs[machine_learning_type][method][method.text()][key_setting]["wedget"].objectName():
                                     self.all_available_inputs[machine_learning_type][method][method.text()][key_setting]["wedget"].setText(loaded_text)
                                 elif "doubleSpinBox" in self.all_available_inputs[machine_learning_type][method][method.text()][key_setting]["wedget"].objectName():
@@ -487,10 +493,8 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
                                     self.all_available_inputs[machine_learning_type][method][method.text()][key_setting]["wedget"].setValue(int(loaded_text))
                                 elif "comboBox" in self.all_available_inputs[machine_learning_type][method][method.text()][key_setting]["wedget"].objectName():
                                     self.all_available_inputs[machine_learning_type][method][method.text()][key_setting]["wedget"].setCurrentText(loaded_text)
-
-                                # Switch stacked wedget
-                                self.switche_stacked_wedge_for_machine_learning_type(True, machine_learning_type)
-                                method_switch_dict[machine_learning_type](True, method.text())
+                break
+                
 
 
     def switche_stacked_wedge_for_machine_learning_type(self, signal_bool, machine_learning_type=None):

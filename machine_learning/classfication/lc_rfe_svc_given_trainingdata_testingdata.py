@@ -29,7 +29,7 @@ class ClassificationXiaowei(BaseMachineLearning, PipelineSearch_):
                  val_label=r'D:\workstation_b\xiaowei\ToLC\testing_label.txt',  # 验证数据的label文件
                  suffix='.nii',
                  mask=r'D:\workstation_b\xiaowei\TOLC3\dFC\TRA\MDD\StdzFC_ROI1_01367_resting7000.nii',
-                 k=3  # 训练集内部进行RFE时，用的kfold CV
+                 k=3
                  # =====================================================================
                  ):
         
@@ -38,7 +38,7 @@ class ClassificationXiaowei(BaseMachineLearning, PipelineSearch_):
         self.search_strategy = 'grid'
         self.n_jobs = 2
         self.k=k
-        self.verbose=False
+        self.verbose=True
         
         self.patients_path=patients_path
         self.hc_path=hc_path
@@ -160,3 +160,9 @@ if __name__=="__main__":
     )
     time_end = time.time()
     print(f"Running time = {time_end-time_start}\n")
+    
+    
+    best_model = clf.model.best_estimator_
+
+    feature_selection =  best_model.get_params().get('feature_selection', None)
+    
