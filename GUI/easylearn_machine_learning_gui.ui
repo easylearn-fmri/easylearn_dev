@@ -62,7 +62,7 @@
        <enum>Qt::LeftToRight</enum>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="stackedWidgetPage_classification">
        <layout class="QGridLayout" name="gridLayout_12">
@@ -72,51 +72,61 @@
            <string>Model</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_5">
-           <item row="3" column="0">
+           <item row="4" column="0">
             <widget class="QRadioButton" name="radioButton_classification_gaussianprocess">
              <property name="text">
               <string>GaussianProcessClassifier()</string>
              </property>
             </widget>
            </item>
-           <item row="5" column="0">
+           <item row="6" column="0">
             <widget class="QRadioButton" name="radioButton_classification_randomforest">
              <property name="text">
               <string>RandomForestClassifier()</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="0">
+           <item row="2" column="0">
             <widget class="QRadioButton" name="radioButton_classification_svm">
              <property name="text">
               <string>SVC()</string>
-             </property>
-             <property name="checked">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="0">
-            <widget class="QRadioButton" name="radioButton_classification_lr">
-             <property name="text">
-              <string>LogisticRegression()</string>
              </property>
              <property name="checked">
               <bool>false</bool>
              </property>
             </widget>
            </item>
-           <item row="8" column="0">
+           <item row="0" column="0">
+            <widget class="QRadioButton" name="radioButton_classification_lr">
+             <property name="text">
+              <string>LogisticRegression(solver='saga')</string>
+             </property>
+             <property name="checked">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="9" column="0">
             <widget class="QRadioButton" name="radioButton_classification_adaboost">
              <property name="text">
               <string>AdaBoostClassifier()</string>
              </property>
             </widget>
            </item>
-           <item row="2" column="0">
+           <item row="3" column="0">
             <widget class="QRadioButton" name="radioButton_classification_ridge">
              <property name="text">
               <string>RidgeClassifier()</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QRadioButton" name="radioButton_classification_linearsvc">
+             <property name="text">
+              <string>LinearSVC()</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -211,7 +221,67 @@
                </item>
               </layout>
              </widget>
-             <widget class="QWidget" name="to_svm">
+             <widget class="QWidget" name="to_linearSVC">
+              <layout class="QGridLayout" name="gridLayout_30">
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_clf_svm_kernel_2">
+                 <property name="text">
+                  <string>penalty</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QComboBox" name="comboBox_clf_linearsvc_penalty">
+                 <item>
+                  <property name="text">
+                   <string>l2</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>l1</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_C_2">
+                 <property name="text">
+                  <string>C</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QLineEdit" name="lineEdit_clf_linearsvc_c">
+                 <property name="text">
+                  <string>1</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QComboBox" name="comboBox_clf_linearsvc_multiclass">
+                 <item>
+                  <property name="text">
+                   <string>ovr</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>crammer_singer</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_36">
+                 <property name="text">
+                  <string>multi_class</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="to_svc">
               <layout class="QGridLayout" name="gridLayout_10">
                <item row="3" column="0">
                 <widget class="QLabel" name="label_gamma">

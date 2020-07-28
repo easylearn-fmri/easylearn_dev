@@ -68,10 +68,11 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
 
         # Connect classification setting signal to slot: switche to corresponding classification model
         self.classification_stackedwedge_dict = {
-            "LogisticRegression()": 0, "SVC()": 1, "RidgeClassifier()": 2,
-            "GaussianProcessClassifier()": 3, "RandomForestClassifier()": 4, "AdaBoostClassifier()": 5
+            "LogisticRegression(solver='saga')": 0, "LinearSVC()":1, "SVC()": 2, "RidgeClassifier()": 3,
+            "GaussianProcessClassifier()": 4, "RandomForestClassifier()": 5, "AdaBoostClassifier()": 6
         }
         self.radioButton_classification_lr.clicked.connect(self.switche_stacked_wedge_for_classification)
+        self.radioButton_classification_linearsvc.clicked.connect(self.switche_stacked_wedge_for_classification)
         self.radioButton_classification_svm.clicked.connect(self.switche_stacked_wedge_for_classification)
         self.radioButton_classification_ridge.clicked.connect(self.switche_stacked_wedge_for_classification)
         self.radioButton_classification_gaussianprocess.clicked.connect(self.switche_stacked_wedge_for_classification)
@@ -159,12 +160,20 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
         self.all_available_inputs = {
             "Classification": {
                 self.radioButton_classification_lr:{
-                    "LogisticRegression()": {
+                    "LogisticRegression(solver='saga')": {
                         "penalty": {"value": self.comboBox_clf_lr_penalty.currentText(), "wedget": self.comboBox_clf_lr_penalty},
                         "l1_ratio": {"value": self.lineEdit_clf_lr_l1ratio.text(), "wedget": self.lineEdit_clf_lr_l1ratio},
                         "C": {"value": self.lineEdit_clf_lr_C.text(), "wedget": self.lineEdit_clf_lr_C},
                     },
                 }, 
+
+                self.radioButton_classification_linearsvc:{
+                    "LinearSVC()": {
+                        "penalty": {"value": self.comboBox_clf_linearsvc_penalty.currentText(), "wedget": self.comboBox_clf_linearsvc_penalty},
+                        "C": {"value": self.lineEdit_clf_linearsvc_c.text(), "wedget": self.lineEdit_clf_linearsvc_c},
+                        "multi_class": {"value": self.comboBox_clf_linearsvc_multiclass.currentText(), "wedget": self.comboBox_clf_linearsvc_multiclass},                    
+                    },
+                },
 
                 self.radioButton_classification_svm:{
                     "SVC()": {

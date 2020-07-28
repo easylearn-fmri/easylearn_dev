@@ -7,7 +7,7 @@ This class is the base class for classification
 import numpy as np
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
 from sklearn.model_selection import StratifiedKFold
-from sklearn.metrics import make_scorer, accuracy_score
+from sklearn.metrics import make_scorer, max_error
 from sklearn.pipeline import Pipeline
 from joblib import Memory
 from shutil import rmtree
@@ -41,13 +41,13 @@ class BaseClassification(metaclass=ABCMeta):
         # Get weight according to model type: linear model or nonlinear model
         if hasattr(estimator, "coef_"):
             coef =  estimator.coef_
-            if feature_selection:
+            if feature_selection and (feature_selection != "passthrough"):
                 self.weights_ = [np.zeros(np.size(feature_selection.get_support())) for i in range(len(coef))]
             else:
                 self.weights_ = [[] for i in range(len(coef))]
                 
             for i, coef_ in enumerate(coef):
-                if feature_selection:
+                if feature_selection and (feature_selection != "passthrough"):
                     self.weights_[i][feature_selection.get_support()] = coef_
                 else:
                     self.weights_[i] = coef_
@@ -74,10 +74,11 @@ class PipelineSearch_(BaseClassification):
 
     def __init__(self, 
                  search_strategy='random', 
-                 k=5, metric=accuracy_score, 
+                 k=5, metric=max_error, 
                  n_iter_of_randomedsearch=10, 
                  n_jobs=1, 
-                 location='cachedir'
+                 location='cachedir',
+                 verbose=False
     ):
 
         super().__init__()
@@ -87,6 +88,8 @@ class PipelineSearch_(BaseClassification):
         self.n_iter_of_randomedsearch = n_iter_of_randomedsearch
         self.n_jobs = n_jobs
         self.location = location
+        self.verbose = verbose
+        
         self.pipeline_ = None
         self.param_search_ = None
 
@@ -136,7 +139,7 @@ class PipelineSearch_(BaseClassification):
         """
 
         
-        self.memory = Memory(location=self.location, verbose=False)
+        self.memory = Memory(location=self.location, verbose=self.verbose)
 
         self.pipeline_ = Pipeline(steps=[
                 ('feature_preprocessing','passthrough'),
@@ -201,7 +204,6 @@ class PipelineSearch_(BaseClassification):
             print("Please specify which search strategy!\n")
             return
 
-        print("Fitting...")
         self.model.fit(x, y)
 
         # Delete the temporary cache before exiting
@@ -217,6 +219,8 @@ class PipelineSearch_(BaseClassification):
             y_prob = self.model.decision_function(x)
         elif hasattr(self.model, 'predict_proba'):
             y_prob = self.model.predict_proba(x)[:,1]
+        else:
+            y_prob = y_hat
                 
         return y_hat, y_prob
 
