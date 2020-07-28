@@ -10,7 +10,8 @@ from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.decomposition import PCA, NMF
 from sklearn.feature_selection import SelectPercentile, SelectKBest, SelectFromModel, f_classif,f_regression, RFE,RFECV, VarianceThreshold, mutual_info_classif, SelectFromModel
 from sklearn.svm import LinearSVC, SVC
-from sklearn.linear_model import LogisticRegression, Lasso, LassoCV, BayesianRidge, ElasticNetCV
+from sklearn.linear_model import LogisticRegression, Lasso, LassoCV, RidgeClassifier, BayesianRidge, ElasticNetCV
+from sklearn.gaussian_process import  GaussianProcessClassifier, GaussianProcessRegressor
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import KFold, StratifiedKFold,  ShuffleSplit
@@ -50,7 +51,7 @@ class BaseMachineLearning:
                             param = feature_preprocessing.get(key).get(key_).get(key__)
                             param = 'None' if param == '' else param
                             # Parse parameters: if param is digits str or containing "(" and ")", we will eval the param
-                            if bool(re.search(r'\d', param)) or (param == 'None') or (bool(re.search(r'\(', param)) and bool(re.search(r'\)', param))):
+                            if self.criteria_of_eval_parameters(param):
                                 param = eval(param)
                             self.param_feature_preprocessing.update({"feature_preprocessing__"+key_: [param]})
 
@@ -74,7 +75,7 @@ class BaseMachineLearning:
                             param = dimension_reduction.get(key).get(key_).get(key__)
                             param = 'None' if param == '' else param
                             # Parse parameters: if param is digits str or containing "(" and ")", we will eval the param
-                            if bool(re.search(r'\d', param)) or (param == 'None') or (bool(re.search(r'\(', param)) and bool(re.search(r'\)', param))):
+                            if self.criteria_of_eval_parameters(param):
                                 param = eval(param)
                             if not (isinstance(param, list) or isinstance(param, tuple)):
                                 param = [param]
@@ -100,7 +101,7 @@ class BaseMachineLearning:
                             param = feature_selection.get(key).get(key_).get(key__)
                             param = 'None' if param == '' else param
                             # Parse parameters: if param is digits str or containing "(" and ")", we will eval the param
-                            if bool(re.search(r'\d', param)) or (param == 'None') or (bool(re.search(r'\(', param)) and bool(re.search(r'\)', param))):
+                            if self.criteria_of_eval_parameters(param):
                                 param = eval(param)
                             if not (isinstance(param, list) or isinstance(param, tuple)):
                                 param = [param]
@@ -147,7 +148,7 @@ class BaseMachineLearning:
                             param = unbalance_treatment.get(key).get(key_).get(key__)
                             param = 'None' if param == '' else param
                             # Parse parameters: if param is digits str or containing "(" and ")", we will eval the param
-                            if bool(re.search(r'\d', param)) or (param == 'None') or (bool(re.search(r'\(', param)) and bool(re.search(r'\)', param))):
+                            if self.criteria_of_eval_parameters(param):
                                 param = eval(param)
                             if not (isinstance(param, list) or isinstance(param, tuple)):
                                 param = [param]
@@ -184,7 +185,7 @@ class BaseMachineLearning:
                             # Parse parameters: if param is digits str or containing "(" and ")", we will eval the param
                             # for example, DecisionTreeClassifier(max_depth=1) is a parameter of AdaBoostClassifier()
                             # Because a [sklearn] object has a
-                            if bool(re.search(r'\d', param)) or (param == 'None') or (bool(re.search(r'\(', param)) and bool(re.search(r'\)', param))) or (param == 'None'):
+                            if self.criteria_of_eval_parameters(param):
                                 param = eval(param)
                             if not (isinstance(param, list) or isinstance(param, tuple)):
                                 param = [param]
@@ -212,7 +213,7 @@ class BaseMachineLearning:
                             # for example, DecisionTreeClassifier(max_depth=1) is a parameter of AdaBoostClassifier()
                             # Because a [sklearn] object has a
                             if type(param) is str:  # selected_dataset is list
-                                if bool(re.search(r'\d', param)) or (param == 'None') or (bool(re.search(r'\(', param)) and bool(re.search(r'\)', param))):
+                                if self.criteria_of_eval_parameters(param):
                                     param = eval(param)
                             if not (isinstance(param, list) or isinstance(param, tuple)):
                                 param = [param]
@@ -226,6 +227,21 @@ class BaseMachineLearning:
 
     def get_visualization_parameters(self):
         self.configuration.get('visualization', None)
+
+    @staticmethod
+    def criteria_of_eval_parameters(param):
+        iseval = (
+                    (
+                        bool(re.search(r'\d', param)) or 
+                        (param == 'None') or 
+                        (bool(re.search(r'\(', param)) and bool(re.search(r'\)', param))) or
+                        param == "None"
+                    ) and
+                    (
+                        param != 'l1' and param != 'l2'
+                    )
+        )
+        return iseval
 
 if __name__ == '__main__':
     base = BaseMachineLearning()

@@ -358,7 +358,7 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
             QMessageBox.warning( self, 'Warning', 'Configuration file was not selected')
 
     def refresh_gui(self):
-        """ Refresh gui the display the loaded configuration in the GUI
+        """ Refresh gui to display the loaded configuration in the GUI
         """
 
         # Generate a dict for switch stacked wedgets

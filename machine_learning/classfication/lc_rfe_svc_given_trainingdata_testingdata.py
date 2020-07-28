@@ -3,26 +3,17 @@
 Created on Fri Apr 12 16:25:57 2019
 @author: LI Chao
 """
-import sys
+
 import numpy as np
-import numpy as np
-from sklearn.datasets import make_classification
-from sklearn.model_selection import GridSearchCV
-from sklearn.pipeline import Pipeline
-from sklearn.svm import LinearSVC
-from sklearn.linear_model import LogisticRegression
-from sklearn.decomposition import PCA
-from sklearn.feature_selection import SelectKBest, SelectPercentile, f_classif
-from joblib import Memory
-from shutil import rmtree
+import time
 
 from eslearn.model_evaluation.el_evaluation_model_performances import eval_performance
 from eslearn.utils.lc_niiProcessor import NiiProcessor
-from lc_svc_rfe_cv_V2 import SVCRefCv
-from eslearn.model_evaluation.el_evaluation_model_performances import eval_performance
+from eslearn.base import BaseMachineLearning
+from eslearn.machine_learning.classfication._base_classificaition import BaseClassification, PipelineSearch_
 
 
-class SvcForGivenTrAndTe(SVCRefCv):
+class ClassificationXiaowei(BaseMachineLearning, PipelineSearch_):
     """
     Training model on given training data.
     Then apply this mode to another testing data.
@@ -32,24 +23,29 @@ class SvcForGivenTrAndTe(SVCRefCv):
     def __init__(self,
                  # =====================================================================
                  # all inputs are follows
-                 patients_path=r'D:\workstation_b\xiaowei\ToLC2\TRAINING\BD',  # 训练组病人
-                 hc_path=r'D:\workstation_b\xiaowei\ToLC2\TRAINING\MDD',  # 训练组正常人
-                 val_path=r'D:\workstation_b\xiaowei\ToLC2\PREDICTING\mixed',  # 验证集数据
-                 val_label=r'D:\workstation_b\xiaowei\ToLC2\PREDICTING\mixed_label.txt',  # 验证数据的label文件
+                 patients_path=r'D:\workstation_b\xiaowei\ToLC\training\BD_label1',  # 训练组病人
+                 hc_path=r'D:\workstation_b\xiaowei\ToLC\training\MDD__label0',  # 训练组正常人
+                 val_path=r'D:\workstation_b\xiaowei\ToLC\testing',  # 验证集数据
+                 val_label=r'D:\workstation_b\xiaowei\ToLC\testing_label.txt',  # 验证数据的label文件
                  suffix='.nii',
-                 mask=r'D:\workstation_b\xiaowei\ToLC2\TRAINING\BD\zFCMap_01059.nii',
-                 k=2  # 训练集内部进行RFE时，用的kfold CV
+                 mask=r'D:\workstation_b\xiaowei\TOLC3\dFC\TRA\MDD\StdzFC_ROI1_01367_resting7000.nii',
+                 k=3  # 训练集内部进行RFE时，用的kfold CV
                  # =====================================================================
                  ):
         
-        super().__init__()
+        super(BaseMachineLearning, self).__init__()
+        super(PipelineSearch_, self).__init__()
+        self.search_strategy = 'grid'
+        self.n_jobs = 2
+        self.k=k
+        self.verbose=False
+        
         self.patients_path=patients_path
         self.hc_path=hc_path
         self.val_path=val_path
         self.val_label=val_label
         self.suffix=suffix
         self.mask=mask
-        self.k=k
         print("SvcForGivenTrAndTe initiated")
         
     def _load_data_infolder(self):
@@ -63,141 +59,104 @@ class SvcForGivenTrAndTe(SVCRefCv):
         data = np.vstack([data1,data2])
         
         # validation data
-        data_validation,self.name_val=NiiProcessor().read_multi_nii(self.val_path, self.suffix)
-        data_validation=np.squeeze(np.array([np.array(data_validation).reshape(1,-1) for data_validation in data_validation]))
+        data_validation, self.name_val = NiiProcessor().read_multi_nii(self.val_path, self.suffix)
+        data_validation = np.squeeze(np.array([np.array(data_validation).reshape(1,-1) for data_validation in data_validation]))
         
         # data in mask
         mask, _ = NiiProcessor().read_sigle_nii(self.mask)
-        self.mask_orig = mask>=0.2
+        self.mask_orig = mask>=0.1
         self.mask_1d = np.array(self.mask_orig).reshape(-1,)
         
         self.data_train = data[:,self.mask_1d]
         self.data_validation = data_validation[:,self.mask_1d]
         
         # label_tr
-        self.label_tr=np.hstack([np.ones([len(data1),]),np.ones([len(data2),]) - 1])
+        self.label_train=np.hstack([np.ones([len(data1),]),np.ones([len(data2),]) - 1])
+        self.label_validation = np.loadtxt(self.val_label)
         print("loaded")
         return self
 
-    def pipeline_grid(self, x_train, y_train):
-        # Make pipeline
-        location = 'cachedir'
-        memory = Memory(location=location, verbose=10)
-        pipe = Pipeline([
-                ('reduce_dim', PCA()),
-                ('feature_selection', SelectPercentile(f_classif)),
-                ('classify', LinearSVC())
-            ], 
-            memory=memory
+    def pipeline_grid(self, 
+                       method_feature_preprocessing=None, 
+                       param_feature_preprocessing=None,
+                       method_dim_reduction=None,
+                       param_dim_reduction=None,
+                       method_feature_selection=None,
+                       param_feature_selection=None,
+                       method_machine_learning=None,
+                       param_machine_learning=None
+    ):
+
+        self.make_pipeline_(
+            method_feature_preprocessing=method_feature_preprocessing, 
+            param_feature_preprocessing=param_feature_preprocessing, 
+            method_dim_reduction=method_dim_reduction, 
+            param_dim_reduction=param_dim_reduction, 
+            method_feature_selection=method_feature_selection,
+            param_feature_selection=param_feature_selection,
+            method_machine_learning=method_machine_learning, 
+            param_machine_learning=param_machine_learning
         )
 
-
-        # In[6]:
-
-        # Set paramters according to users inputs
-        # PCA参数
-        max_components = 0.99
-        min_components = 0.3
-        number_pc = 10
-        range_dimreduction = np.linspace(min_components, max_components, number_pc).reshape(number_pc,)
-        
-        # ANOVA参数
-        max_percentile = 0.99
-        min_percentile = 0.3
-        number_k = 10
-        range_feature_selection = np.linspace(min_percentile, max_percentile, number_k).reshape(number_k,)
-
-        # 分类器参数
-        max_l1_ratio = 1
-        min_l1_ratio = 0.5
-        number_l1_ratio = 2
-        range_l1_ratio = np.linspace(min_l1_ratio, max_l1_ratio, number_l1_ratio).reshape(number_l1_ratio,)
-
-        # 整体grid search设置
-        param_grid = [
-            {
-                'reduce_dim__n_components': range_dimreduction,
-                'feature_selection__percentile': range_feature_selection,
-                'classify__C': [1,10,100],
-            },
-        ]
-
-        # In[ ]:
-
+        print(self.param_search_)
         # Train
-        grid = GridSearchCV(pipe, n_jobs=-1, param_grid=param_grid)
-        grid.fit(x_train, y_train)
-
-        # In[8]:
-        # Delete the temporary cache before exiting
-        memory.clear(warn=False)
-        rmtree(location)
-
-        # In[9]:
-        return grid
-
-    def tr_te_ev(self):
-        """训练，测试，评估
-        """
+        self.fit_pipeline_(self.data_train, self.label_train)
         
-        # scale
-        data_train,data_validation=self.scaler(self.data_train,self.data_validation,self.scale_method)
-
-        #%% training
-        print("training...\nYou need to wait for a while")
-        grid = self.pipeline_grid(data_train, self.label_tr)
+        # Get weights
+        self.get_weights_(self.data_train, self.label_train)
         
-        pred_train = grid.predict(data_train)
-        if hasattr(grid, 'decision_function'):
-            dec_train = grid.decision_function(data_train)
-        elif hasattr(grid, 'predict_proba'):
-            dec_train = grid.predict_proba(data_train)[:,1]
-            
-        # fetch orignal weight
-        estimator = grid.best_estimator_
-        clf = estimator['classify']
-        pca_model = estimator['reduce_dim']
-        select_model = estimator['feature_selection']
+        # Predict
+        pred_train, dec_train = self.predict(self.data_train)
+        self.predict_validation, self.decision = self.predict(self.data_validation)
         
-        weight = np.zeros(np.size(select_model.get_support()))
-        weight[select_model.get_support()] = clf.coef_[0]
-        weight = pca_model.inverse_transform(weight)
-        self.weight_3d = np.zeros(self.mask_orig.shape)
-        self.weight_3d[self.mask_orig] = weight
-        
-        # testing
-        print("testing...")
-        self.predict = grid.predict(data_validation)
-
-        if hasattr(grid, 'decision_function'):
-            self.decision = grid.decision_function(data_validation)
-        elif hasattr(grid, 'predict_proba'):
-            self.decision = grid.predict_proba(data_validation)[:,1]
-
-        # eval performances
+         # Eval performances
         acc, sens, spec, auc = eval_performance(
-            self.label_tr,pred_train,dec_train, 
+            self.label_train,pred_train,dec_train, 
             accuracy_kfold=None, sensitivity_kfold=None, specificity_kfold=None, AUC_kfold=None,
             verbose=1, is_showfig=False,
         )
 
         self.val_label=np.loadtxt(self.val_label)
-        # eval_performance(label_real=None, label_predict=None, decision=None,
-        #             accuracy_kfold=None, sensitivity_kfold=None, specificity_kfold=None, AUC_kfold=None,
-        #             verbose=True, is_showfig=True, legend1='HC', legend2='Patients', is_savefig=False, out_name=None):
-            
         acc, sens, spec, auc = eval_performance(
-            self.val_label, self.predict,self.decision, 
+            self.val_label, self.predict_validation ,self.decision, 
             accuracy_kfold=None, sensitivity_kfold=None, specificity_kfold=None, AUC_kfold=None,
             verbose=1, is_showfig=False,
         )
-
     
-    def main(self):
-        self._load_data_infolder()
-        self.tr_te_ev()
     
 if __name__=="__main__":
-    svc=SvcForGivenTrAndTe()
-    svc.main()
-    print("Done!\n")
+    time_start = time.time()
+    clf = ClassificationXiaowei()
+    clf.get_configuration_(configuration_file=r'F:\Python378\Lib\site-packages\eslearn\GUI\test\configuration_file.json')
+    clf.get_preprocessing_parameters()
+    clf.get_dimension_reduction_parameters()
+    clf.get_feature_selection_parameters()
+    clf.get_unbalance_treatment_parameters()
+    clf.get_machine_learning_parameters()
+    clf.get_model_evaluation_parameters()
+    
+    method_feature_preprocessing = clf.method_feature_preprocessing
+    param_feature_preprocessing= clf.param_feature_preprocessing
+
+    method_dim_reduction = clf.method_dim_reduction
+    param_dim_reduction = clf.param_dim_reduction
+
+    method_feature_selection = clf.method_feature_selection
+    param_feature_selection = clf.param_feature_selection
+
+    method_machine_learning = clf.method_machine_learning
+    param_machine_learning = clf.param_machine_learning
+    
+    clf._load_data_infolder()
+    clf.pipeline_grid(
+        method_feature_preprocessing=method_feature_preprocessing, 
+        param_feature_preprocessing=param_feature_preprocessing,
+        method_dim_reduction=method_dim_reduction,
+        param_dim_reduction=param_dim_reduction,
+        method_feature_selection=method_feature_selection,
+        param_feature_selection=param_feature_selection, 
+        method_machine_learning=method_machine_learning, 
+        param_machine_learning=param_machine_learning,
+    )
+    time_end = time.time()
+    print(f"Running time = {time_end-time_start}\n")

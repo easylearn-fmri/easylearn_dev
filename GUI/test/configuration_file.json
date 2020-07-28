@@ -78,20 +78,7 @@
             "None": {}
         },
         "feature_selection": {
-            "RFECV()": {
-                "step": {
-                    "value": "0.30"
-                },
-                "cv": {
-                    "value": "5"
-                },
-                "estimator": {
-                    "value": "LogisticRegression()"
-                },
-                "n_jobs": {
-                    "value": "-1"
-                }
-            }
+            "None": {}
         },
         "unbalance_treatment": {
             "randover": {}
@@ -104,7 +91,7 @@
                     "value": "linear"
                 },
                 "C": {
-                    "value": "1, 10"
+                    "value": "1"
                 },
                 "gamma": {
                     "value": "scale"
