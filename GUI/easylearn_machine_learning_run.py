@@ -482,6 +482,7 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
                             if "wedget" in list(self.all_available_inputs[machine_learning_type][method][method.text()][key_setting].keys()):
                                 loaded_text = self.machine_learning[machine_learning_type][method.text()][key_setting]["value"]
                                 # Identify wedget type, then using different methods to "setText"
+
                                 # In the design of all wedgets, try to keep the name of the original control in the front part of the name, 
                                 # so that it is easy to determine which type of control to use different assignment methods!
                                 # TODO: Update point
