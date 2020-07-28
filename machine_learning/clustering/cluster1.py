@@ -50,7 +50,7 @@ def plot_clustering(X_red, X, labels, title=None):
     plt.yticks([])
     if title is not None:
         plt.title(title, size=17)
-    plt.axis('off')
+    # plt.axis('off')
     plt.tight_layout()
 
 #----------------------------------------------------------------------

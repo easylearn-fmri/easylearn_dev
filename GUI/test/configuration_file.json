@@ -85,18 +85,8 @@
         }
     },
     "machine_learning": {
-        "Classification": {
-            "SVC()": {
-                "kernel": {
-                    "value": "linear"
-                },
-                "C": {
-                    "value": "1"
-                },
-                "gamma": {
-                    "value": "scale"
-                }
-            }
+        "Regression": {
+            "LinearRegression()": {}
         }
     },
     "model_evaluation": {

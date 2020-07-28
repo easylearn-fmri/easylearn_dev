@@ -7,7 +7,7 @@ This class is the base class for classification
 import numpy as np
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
 from sklearn.model_selection import StratifiedKFold
-from sklearn.metrics import make_scorer, accuracy_score
+from sklearn.metrics import make_scorer, max_error
 from sklearn.pipeline import Pipeline
 from joblib import Memory
 from shutil import rmtree
@@ -74,7 +74,7 @@ class PipelineSearch_(BaseClassification):
 
     def __init__(self, 
                  search_strategy='random', 
-                 k=5, metric=accuracy_score, 
+                 k=5, metric=max_error, 
                  n_iter_of_randomedsearch=10, 
                  n_jobs=1, 
                  location='cachedir',
@@ -219,6 +219,8 @@ class PipelineSearch_(BaseClassification):
             y_prob = self.model.decision_function(x)
         elif hasattr(self.model, 'predict_proba'):
             y_prob = self.model.predict_proba(x)[:,1]
+        else:
+            y_prob = y_hat
                 
         return y_hat, y_prob
 

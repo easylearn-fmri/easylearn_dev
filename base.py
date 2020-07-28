@@ -10,7 +10,7 @@ from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.decomposition import PCA, NMF
 from sklearn.feature_selection import SelectPercentile, SelectKBest, SelectFromModel, f_classif,f_regression, RFE,RFECV, VarianceThreshold, mutual_info_classif, SelectFromModel
 from sklearn.svm import LinearSVC, SVC
-from sklearn.linear_model import LogisticRegression, Lasso, LassoCV, RidgeClassifier, BayesianRidge, ElasticNetCV
+from sklearn.linear_model import LinearRegression, LogisticRegression, Lasso, LassoCV, RidgeClassifier, BayesianRidge, ElasticNetCV
 from sklearn.gaussian_process import  GaussianProcessClassifier, GaussianProcessRegressor
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
