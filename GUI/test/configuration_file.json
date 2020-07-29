@@ -86,7 +86,7 @@
     },
     "machine_learning": {
         "Regression": {
-            "RidgeCV()": {}
+            "LinearRegression()": {}
         }
     },
     "model_evaluation": {
