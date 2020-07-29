@@ -9,7 +9,7 @@ from sklearn import datasets
 from sklearn.datasets import load_digits
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import make_scorer, mean_squared_error, mean_absolute_error
+from sklearn.metrics import make_scorer, mean_squared_error, mean_absolute_error, max_error
 
 from eslearn.base import BaseMachineLearning
 from eslearn.machine_learning.regression._base_regression import PipelineSearch_
@@ -26,6 +26,7 @@ class Regression(BaseMachineLearning, PipelineSearch_):
         super(PipelineSearch_, self).__init__()
         self.search_strategy = 'grid'
         self.n_jobs = 2
+        self.metric = mean_absolute_error
 
     def regression(self, 
                        x=None, 
@@ -54,7 +55,7 @@ class Regression(BaseMachineLearning, PipelineSearch_):
         self.fit_pipeline_(x_train, y_train)
         self.get_weights_(x_train, y_train)
         yhat = self.predict(x_test)
-        score = mean_absolute_error(yhat, y_test)
+        score = self.metric(yhat, y_test)
         return yhat, score
 
     def run(self):

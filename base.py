@@ -33,7 +33,7 @@ class BaseMachineLearning:
         return self
 
     def load_data(self):
-        pass
+        data_loading = self.configuration.get('data_loading', None)
 
     def get_preprocessing_parameters(self):
         self.method_feature_preprocessing = None
@@ -248,6 +248,7 @@ class BaseMachineLearning:
 if __name__ == '__main__':
     base = BaseMachineLearning()
     base.get_configuration_(configuration_file=r'F:\Python378\Lib\site-packages\eslearn\GUI\test\configuration_file.json')
+    base.load_data()
     base.get_preprocessing_parameters()
     base.get_dimension_reduction_parameters()
     base.get_feature_selection_parameters()

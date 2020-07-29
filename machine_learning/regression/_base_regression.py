@@ -46,16 +46,14 @@ class BaseRegression(metaclass=ABCMeta):
 
         # Get weight according to model type: linear model or nonlinear model
         if hasattr(estimator, "coef_"):
-            coef =  estimator.coef_                
+            coef =  estimator.coef_.reshape(1,-1)                
             if feature_selection and (feature_selection != "passthrough"):
-                self.weights_[feature_selection.get_support()] = coef
+                self.weights_ = feature_selection.inverse_transform(coef.reshape(1,-1))
             else:
                 self.weights_ = coef
 
             if dim_reduction and (dim_reduction != "passthrough"):
                 self.weights_ = dim_reduction.inverse_transform(self.weights_)
-                    
-            self.weights_ = np.reshape(self.weights_, [1, -1])
             
         else:  # Nonlinear model
         # TODO: Consider the problem of slow speed caused by a large number of features
