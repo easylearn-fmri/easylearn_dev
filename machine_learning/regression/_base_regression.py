@@ -1,7 +1,8 @@
 #!/usr/bin/env python 
 # -*- coding: utf-8 -*-
 """
-This class is the base class for classification
+This class is the base class for regression
+Author: Mengshi dong <dongmengshi1990@163.com>
 """
 
 import numpy as np
