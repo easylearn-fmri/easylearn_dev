@@ -81,7 +81,7 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
         
         # Connect regression setting signal to slot: switche to corresponding regression method
         self.regression_stackedwedge_dict = {
-            "LinearRegression()": 0, "LassoCV()": 1, "ridge_regression()": 2,
+            "LinearRegression()": 0, "LassoCV()": 1, "RidgeCV()": 2,
             "ElasticNetCV()": 3, "SVR()": 4, "GaussianProcessRegressor()": 5,
             "RandomForestRegressor()": 6
         }
@@ -226,15 +226,14 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
 
                 },
                 self.radioButton_regression_ridge: {
-                    "ridge_regression()":{
-                        "alpha": {"value": self.lineEdit_regression_ridge_alpha.text(), "wedget": self.lineEdit_regression_ridge_alpha}, 
+                    "RidgeCV()":{
                     }
 
                 },
 
                 self.radioButton_regression_elasticnet: {
                     "ElasticNetCV()":{
-                        "l1_ratios": {"value": self.lineEdit_regression_elasticnet_l1ratio.text(), "wedget": self.lineEdit_regression_elasticnet_l1ratio}, 
+                        "l1_ratio": {"value": self.lineEdit_regression_elasticnet_l1ratio.text(), "wedget": self.lineEdit_regression_elasticnet_l1ratio}, 
                         "alphas": {"value": self.lineEdit_regression_elasticnet_alpha.text(), "wedget": self.lineEdit_regression_elasticnet_alpha}, 
                     }
 

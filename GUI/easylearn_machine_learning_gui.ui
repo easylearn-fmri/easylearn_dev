@@ -62,7 +62,7 @@
        <enum>Qt::LeftToRight</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="stackedWidgetPage_classification">
        <layout class="QGridLayout" name="gridLayout_12">
@@ -550,7 +550,7 @@
               </size>
              </property>
              <property name="currentIndex">
-              <number>4</number>
+              <number>2</number>
              </property>
              <widget class="QWidget" name="to_linearregression"/>
              <widget class="QWidget" name="to_lassoregression">
@@ -565,29 +565,14 @@
                <item row="0" column="1">
                 <widget class="QLineEdit" name="lineEdit_regression_lasso_alpha">
                  <property name="text">
-                  <string>1</string>
+                  <string>None</string>
                  </property>
                 </widget>
                </item>
               </layout>
              </widget>
              <widget class="QWidget" name="to_ridgeregression">
-              <layout class="QGridLayout" name="gridLayout_18">
-               <item row="0" column="0">
-                <widget class="QLabel" name="label_15">
-                 <property name="text">
-                  <string>Alpha</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="1">
-                <widget class="QLineEdit" name="lineEdit_regression_ridge_alpha">
-                 <property name="text">
-                  <string>1</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
+              <layout class="QGridLayout" name="gridLayout_18"/>
              </widget>
              <widget class="QWidget" name="to_elasticnet">
               <layout class="QGridLayout" name="gridLayout_20">
@@ -615,7 +600,7 @@
                <item row="2" column="1">
                 <widget class="QLineEdit" name="lineEdit_regression_elasticnet_alpha">
                  <property name="text">
-                  <string>1</string>
+                  <string>None</string>
                  </property>
                 </widget>
                </item>
@@ -804,7 +789,7 @@
            <item row="2" column="1">
             <widget class="QRadioButton" name="radioButton_regression_ridge">
              <property name="text">
-              <string>ridge_regression()</string>
+              <string>RidgeCV()</string>
              </property>
             </widget>
            </item>

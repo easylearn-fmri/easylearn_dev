@@ -24,7 +24,7 @@ class Regression(BaseMachineLearning, PipelineSearch_):
         self.search_strategy = 'grid'
         self.n_jobs = 2
 
-    def classification(self, 
+    def regression(self, 
                        x=None, 
                        y=None,
                        method_feature_preprocessing=None, 
@@ -50,52 +50,53 @@ class Regression(BaseMachineLearning, PipelineSearch_):
         print(self.param_search_)
         self.fit_pipeline_(x_train, y_train)
         self.get_weights_(x_train, y_train)
-        yhat, y_prob = self.predict(x_test)
-        accuracy = mean_absolute_error(yhat, y_test)
-        return yhat, y_prob, accuracy
+        yhat = self.predict(x_test)
+        score = mean_absolute_error(yhat, y_test)
+        return yhat, score
 
+    def run(self):
+        self.get_configuration_(configuration_file=r'F:\Python378\Lib\site-packages\eslearn\GUI\test\configuration_file.json')
+        self.get_preprocessing_parameters()
+        self.get_dimension_reduction_parameters()
+        self.get_feature_selection_parameters()
+        self.get_unbalance_treatment_parameters()
+        self.get_machine_learning_parameters()
+        self.get_model_evaluation_parameters()
+        
+        method_feature_preprocessing = self.method_feature_preprocessing
+        param_feature_preprocessing= self.param_feature_preprocessing
+
+        method_dim_reduction = self.method_dim_reduction
+        param_dim_reduction = self.param_dim_reduction
+
+        method_feature_selection = self.method_feature_selection
+        param_feature_selection = self.param_feature_selection
+
+        method_machine_learning = self.method_machine_learning
+        param_machine_learning = self.param_machine_learning
+        
+        yhat, score = self.regression(
+            method_feature_preprocessing=method_feature_preprocessing, 
+            param_feature_preprocessing=param_feature_preprocessing,
+            method_dim_reduction=method_dim_reduction,
+            param_dim_reduction=param_dim_reduction,
+            method_feature_selection=method_feature_selection,
+            param_feature_selection=param_feature_selection, 
+            method_machine_learning=method_machine_learning, 
+            param_machine_learning=param_machine_learning,
+            x=x, 
+            y=y
+        )
+        
+        print(clf.param_search_)
+        print(clf.pipeline_)
+        print(f"score = {score}")
+        
 
 if __name__ == "__main__":
     time_start = time.time()
     clf = Regression()
-    clf.get_configuration_(configuration_file=r'F:\Python378\Lib\site-packages\eslearn\GUI\test\configuration_file.json')
-    clf.get_preprocessing_parameters()
-    clf.get_dimension_reduction_parameters()
-    clf.get_feature_selection_parameters()
-    clf.get_unbalance_treatment_parameters()
-    clf.get_machine_learning_parameters()
-    clf.get_model_evaluation_parameters()
-    
-    method_feature_preprocessing = clf.method_feature_preprocessing
-    param_feature_preprocessing= clf.param_feature_preprocessing
-
-    method_dim_reduction = clf.method_dim_reduction
-    param_dim_reduction = clf.param_dim_reduction
-
-    method_feature_selection = clf.method_feature_selection
-    param_feature_selection = clf.param_feature_selection
-
-    method_machine_learning = clf.method_machine_learning
-    param_machine_learning = clf.param_machine_learning
-    
-    yhat, y_prob, accuracy = clf.classification(
-        method_feature_preprocessing=method_feature_preprocessing, 
-        param_feature_preprocessing=param_feature_preprocessing,
-        method_dim_reduction=method_dim_reduction,
-        param_dim_reduction=param_dim_reduction,
-        method_feature_selection=method_feature_selection,
-        param_feature_selection=param_feature_selection, 
-        method_machine_learning=method_machine_learning, 
-        param_machine_learning=param_machine_learning,
-        x=x, 
-        y=y
-    )
-    
-    
-    
+    clf.run()
     time_end = time.time()
-    print(clf.param_search_)
-    print(clf.pipeline_)
-    print(f"accuracy = {accuracy}")
     print(f"Running time = {time_end-time_start}\n")
     print("="*50)

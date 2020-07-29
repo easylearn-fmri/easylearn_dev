@@ -5,6 +5,7 @@ This class is the base class for classification
 """
 
 import numpy as np
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
 from sklearn.model_selection import KFold
 from sklearn.metrics import make_scorer, mean_squared_error, mean_absolute_error
@@ -21,7 +22,10 @@ warnings.filterwarnings("ignore", category=ConvergenceWarning, module="sklearn")
 class BaseRegression(metaclass=ABCMeta):
     """Base class for classification"""
 
-    def __init__(self):
+    def __init__(self,
+                 metric=mean_squared_error):
+        
+        self.metric = metric
         self.model = None
         self.weights_ = None
         self.weights_norm_ = None
@@ -41,21 +45,17 @@ class BaseRegression(metaclass=ABCMeta):
 
         # Get weight according to model type: linear model or nonlinear model
         if hasattr(estimator, "coef_"):
-            coef =  estimator.coef_
+            coef =  estimator.coef_                
             if feature_selection and (feature_selection != "passthrough"):
-                self.weights_ = [np.zeros(np.size(feature_selection.get_support())) for i in range(len(coef))]
+                self.weights_[feature_selection.get_support()] = coef
             else:
-                self.weights_ = [[] for i in range(len(coef))]
-                
-            for i, coef_ in enumerate(coef):
-                if feature_selection and (feature_selection != "passthrough"):
-                    self.weights_[i][feature_selection.get_support()] = coef_
-                else:
-                    self.weights_[i] = coef_
+                self.weights_ = coef
 
-                if dim_reduction and (dim_reduction != "passthrough"):
-                    self.weights_[i] = dim_reduction.inverse_transform(self.weights_[i])
-        
+            if dim_reduction and (dim_reduction != "passthrough"):
+                self.weights_ = dim_reduction.inverse_transform(self.weights_)
+                    
+            self.weights_ = np.reshape(self.weights_, [1, -1])
+            
         else:  # Nonlinear model
         # TODO: Consider the problem of slow speed caused by a large number of features
             x_reduced_selected = x.copy()
@@ -65,21 +65,22 @@ class BaseRegression(metaclass=ABCMeta):
                 x_reduced_selected = dim_reduction.fit_transform(x_reduced_selected)
             if feature_selection and (feature_selection != "passthrough"):
                 x_reduced_selected = feature_selection.fit_transform(x_reduced_selected, y)
-            self.weights_ = []
+
             y_hat = self.model.predict(x)
             score_true = self.metric(y, y_hat)
             len_feature = np.shape(x_reduced_selected)[1]
             
             if len_feature > 1000:
-                 print(f"***There are {len_feature} features, it may take a long time to get the weight!***\n")
-                 print(f"***I suggest that you reduce the dimension of features***\n")
-                 
+                 print("***There are {len_feature} features, it may take a long time to get the weight!***\n")
+                 print("***I suggest that you reduce the dimension of features***\n")
+            
+            self.weights_ = np.zeros([1,len_feature])
             for ifeature in range(len_feature):
                 print(f"Getting weight for the {ifeature+1}th feature...\n")
                 x_ = np.array(x_reduced_selected).copy()
                 x_[:,ifeature] = 0
                 y_hat = estimator.predict(x_)
-                self.weights_.append(self.metric(y, y_hat) - score_true)
+                self.weights_[0, ifeature] = self.metric(y, y_hat) - score_true
             
             # Back to original space
             self.weights_ = np.reshape(self.weights_, [1, -1])
@@ -89,8 +90,9 @@ class BaseRegression(metaclass=ABCMeta):
                 self.weights_  = dim_reduction.inverse_transform(self.weights_)
             
                 
-        # Normalize weights
-        self.weights_norm_ = [wei/np.sum(np.power(np.e,wei)) for wei in self.weights_]
+        # Normalize weights using z-score method
+        self.weights_norm_ = StandardScaler().fit_transform(self.weights_.T).T
+        # self.weights_norm_ = [np.power(np.e, wei)/np.sum(np.power(np.e,self.weights_)) for wei in self.weights_]
         
     
 class PipelineSearch_(BaseRegression):
@@ -99,7 +101,6 @@ class PipelineSearch_(BaseRegression):
     def __init__(self, 
                  search_strategy='random', 
                  k=5, 
-                 metric=mean_squared_error, 
                  n_iter_of_randomedsearch=10, 
                  n_jobs=1, 
                  location='cachedir',
@@ -109,7 +110,6 @@ class PipelineSearch_(BaseRegression):
         super().__init__()
         self.search_strategy = search_strategy
         self.k = k
-        self.metric = metric
         self.n_iter_of_randomedsearch = n_iter_of_randomedsearch
         self.n_jobs = n_jobs
         self.location = location
@@ -238,14 +238,5 @@ class PipelineSearch_(BaseRegression):
 
     def predict(self, x):
         y_hat = self.model.predict(x)
-        
-        # TODO?
-        if hasattr(self.model, 'decision_function'):
-            y_prob = self.model.decision_function(x)
-        elif hasattr(self.model, 'predict_proba'):
-            y_prob = self.model.predict_proba(x)[:,1]
-        else:
-            y_prob = y_hat
-                
-        return y_hat, y_prob
+        return y_hat
 

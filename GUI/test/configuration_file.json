@@ -86,11 +86,7 @@
     },
     "machine_learning": {
         "Regression": {
-            "LassoCV()": {
-                "alphas": {
-                    "value": "1"
-                }
-            }
+            "RidgeCV()": {}
         }
     },
     "model_evaluation": {
