@@ -58,7 +58,7 @@ def eval_performance(label_real=None, label_predict=None, decision=None,
         if not np.isnan(auc):
             print('auc={:.2f}\n'.format(auc))
         else:
-            print('Multi-Classification can not calculate the AUC\n')
+            print('Multi-Classification or only one class can not calculate the AUC\n')
 
     if is_showfig and auc:
         # Import modules

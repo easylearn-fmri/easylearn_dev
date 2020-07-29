@@ -8,11 +8,15 @@ from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 
 from eslearn.base import BaseMachineLearning
-from eslearn.machine_learning.classfication._base_classificaition import BaseClassification, PipelineSearch_
+from eslearn.machine_learning.classfication._base_classificaition import PipelineSearch_
 
-x, y = datasets.make_classification(n_samples=200, n_classes=2,
-                                    n_informative=50, n_redundant=3,
-                                    n_features=100, random_state=1)
+# x, y = datasets.make_classification(n_samples=200, n_classes=2,
+#                                     n_informative=50, n_redundant=3,
+#                                     n_features=100, random_state=1)
+
+
+
+x, y = datasets.make_regression(n_samples=200, n_informative=50, n_features=100, random_state=1)
 
 
 # x, y = load_digits(return_X_y=True)
@@ -53,7 +57,7 @@ class Classification(BaseMachineLearning, PipelineSearch_):
             method_machine_learning=method_machine_learning, 
             param_machine_learning=param_machine_learning
         )
-
+        print(self.param_search_)
         self.fit_pipeline_(x_train, y_train)
         self.get_weights_(x_train, y_train)
         yhat, y_prob = self.predict(x_test)

@@ -9,11 +9,11 @@ import re
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.decomposition import PCA, NMF
 from sklearn.feature_selection import SelectPercentile, SelectKBest, SelectFromModel, f_classif,f_regression, RFE,RFECV, VarianceThreshold, mutual_info_classif, SelectFromModel
-from sklearn.svm import LinearSVC, SVC
-from sklearn.linear_model import LinearRegression, LogisticRegression, Lasso, LassoCV, RidgeClassifier, BayesianRidge, ElasticNetCV
+from sklearn.svm import LinearSVC, SVC, SVR
+from sklearn.linear_model import LinearRegression, LogisticRegression, Lasso, LassoCV, RidgeCV, RidgeClassifier, BayesianRidge, ElasticNetCV
 from sklearn.gaussian_process import  GaussianProcessClassifier, GaussianProcessRegressor
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor, AdaBoostClassifier
 from sklearn.model_selection import KFold, StratifiedKFold,  ShuffleSplit
 
 
@@ -172,7 +172,7 @@ class BaseMachineLearning:
             machine_learning = machine_learning.get(keys, None)
 
         if machine_learning and (list(machine_learning.keys())[0] != 'None'):
-            # This place will update for supportting multiple estimators
+            # TODO: This place will update for supportting multiple estimators
             self.method_machine_learning = [eval(list(machine_learning.keys())[0] if list(machine_learning.keys())[0] != 'None' else None)]
     
             for key in machine_learning.keys():
@@ -189,6 +189,8 @@ class BaseMachineLearning:
                                 param = eval(param)
                             if not (isinstance(param, list) or isinstance(param, tuple)):
                                 param = [param]
+                            
+                            # TODO: Design a method to set params
                             self.param_machine_learning.update({"estimator__"+key_: param})
              
         self.param_machine_learning = None if self.param_machine_learning == {} else self.param_machine_learning

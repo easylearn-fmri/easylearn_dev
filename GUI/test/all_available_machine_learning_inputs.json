@@ -1,0 +1,128 @@
+{
+    "Classification": {
+        "LogisticRegression(solver='saga')": {
+            "penalty": {
+                "value": "elasticnet"
+            },
+            "l1_ratio": {
+                "value": "0.5"
+            },
+            "C": {
+                "value": "1"
+            }
+        },
+        "LinearSVC()": {
+            "penalty": {
+                "value": "l2"
+            },
+            "C": {
+                "value": "1"
+            },
+            "multi_class": {
+                "value": "ovr"
+            }
+        },
+        "SVC()": {
+            "kernel": {
+                "value": "linear"
+            },
+            "C": {
+                "value": "1"
+            },
+            "gamma": {
+                "value": "scale"
+            }
+        },
+        "RidgeClassifier()": {
+            "alpha": {
+                "value": "1"
+            }
+        },
+        "GaussianProcessClassifier()": {
+            "kernel": {
+                "value": "None"
+            },
+            "multi_class": {
+                "value": "one_vs_rest"
+            }
+        },
+        "RandomForestClassifier()": {
+            "criterion": {
+                "value": "gini"
+            },
+            "max_depth": {
+                "value": "None"
+            },
+            "n_estimators": {
+                "value": "100"
+            }
+        },
+        "AdaBoostClassifier()": {
+            "n_estimators": {
+                "value": "50"
+            },
+            "algorithm": {
+                "value": "SAMME"
+            },
+            "base_estimator": {
+                "value": "DecisionTreeClassifier(max_depth=1)"
+            }
+        }
+    },
+    "Regression": {
+        "LinearRegression()": {},
+        "LassoCV()": {
+            "alphas": {
+                "value": "None"
+            }
+        },
+        "RidgeCV()": {},
+        "ElasticNetCV()": {
+            "l1_ratio": {
+                "value": "0.5"
+            },
+            "alphas": {
+                "value": "None"
+            }
+        },
+        "SVR()": {
+            "kernel": {
+                "value": "linear"
+            },
+            "C": {
+                "value": "1"
+            },
+            "gamma": {
+                "value": "scale"
+            }
+        },
+        "GaussianProcessRegressor()": {
+            "kernel": {
+                "value": "None"
+            },
+            "alpha": {
+                "value": "1e-10"
+            }
+        },
+        "RandomForestRegressor()": {
+            "criterion": {
+                "value": "mse"
+            },
+            "n_estimators": {
+                "value": "100"
+            },
+            "max_depth": {
+                "value": "None"
+            }
+        }
+    },
+    "Clustering": {
+        "KMeans()": {},
+        "SpectralClustering()": {},
+        "AgglomerativeClustering()": {},
+        "DBSCAN()": {}
+    },
+    "Deep learning": {
+        "Linear regression": {}
+    }
+}

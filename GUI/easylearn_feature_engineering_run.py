@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+ # -*- coding: utf-8 -*-
 """The GUI of the feature_engineering module of easylearn
 
 Created on 2020/04/12
@@ -369,12 +369,15 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
         }
 
         for keys_one_feature_engineering in self.all_available_inputs:  # 4 feature eng module loop
-            for wedget in self.all_available_inputs[keys_one_feature_engineering].keys():  # all wedgets in one feature eng loop
-                for method in self.all_available_inputs[keys_one_feature_engineering][wedget].keys():
-                    if keys_one_feature_engineering in self.feature_engineering.keys():
+            if keys_one_feature_engineering in self.feature_engineering.keys():
+                for wedget in self.all_available_inputs[keys_one_feature_engineering].keys():  # all wedgets in one feature eng loop
+                    for method in self.all_available_inputs[keys_one_feature_engineering][wedget].keys():
                         if method in list(self.feature_engineering[keys_one_feature_engineering].keys()):
                             # Make the radiobutton wedget checked according loaded param
-                            wedget.setChecked(True)   
+                            wedget.setChecked(True) 
+                            if self.feature_engineering[keys_one_feature_engineering][method] != {}:
+                                switch_dict[keys_one_feature_engineering](True, method)
+                                
                             # Make setting to loaded text
                             for key_setting in self.feature_engineering[keys_one_feature_engineering][method]:
                                 if "wedget" in list(self.all_available_inputs[keys_one_feature_engineering][wedget][method][key_setting].keys()):
@@ -392,9 +395,6 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
                                         self.all_available_inputs[keys_one_feature_engineering][wedget][method][key_setting]["wedget"].setValue(int(loaded_text))
                                     elif "comboBox" in self.all_available_inputs[keys_one_feature_engineering][wedget][method][key_setting]["wedget"].objectName():
                                         self.all_available_inputs[keys_one_feature_engineering][wedget][method][key_setting]["wedget"].setCurrentText(loaded_text)
-                                    
-                                # Switch stacked wedget
-                                switch_dict[keys_one_feature_engineering](True, method)
 
     def save_configuration(self):
         """Save configuration

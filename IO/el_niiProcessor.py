@@ -27,7 +27,11 @@ class NiiProcessor():
     
     
     def read_multi_nii(self, img_folder, suffix='.nii'):
-        """load多个影像，当是img/hdr形式文件时，需要筛除重复文件名"""
+        """load multiple image
+
+        When files are img/hdr format, function will delete duplicates.
+        """
+
         img_name = os.listdir(img_folder)
         img_name_uni = [os.path.splitext(name)[0] for name in img_name]
         img_name_uni = pd.DataFrame(img_name_uni).drop_duplicates()
@@ -42,10 +46,11 @@ class NiiProcessor():
     
     
     def save_nii(self, img, save_filename):
-        """将img数据写入到save_filename图像中"""
+        """save data to nii"""
+
         img.to_filename(save_filename)
     #    print (img)
-    #    print (img.header['db_name'])   #输出头信息
+    #    print (img.header['db_name']) 
     
     
     def main(self, img_folder, suffix='.nii'):

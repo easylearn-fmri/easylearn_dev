@@ -6,8 +6,8 @@ This class is the base class for classification
 
 import numpy as np
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
-from sklearn.model_selection import StratifiedKFold
-from sklearn.metrics import make_scorer, max_error
+from sklearn.model_selection import StratifiedKFold, KFold
+from sklearn.metrics import make_scorer, accuracy_score, auc, f1_score
 from sklearn.pipeline import Pipeline
 from joblib import Memory
 from shutil import rmtree
@@ -34,9 +34,10 @@ class BaseClassification(metaclass=ABCMeta):
         """
         
         best_model = self.model.best_estimator_
-        estimator =  best_model['estimator']
+        feature_preprocessing = best_model['feature_preprocessing']
         dim_reduction = best_model.get_params().get('dim_reduction',None)
         feature_selection =  best_model.get_params().get('feature_selection', None)
+        estimator =  best_model['estimator']
 
         # Get weight according to model type: linear model or nonlinear model
         if hasattr(estimator, "coef_"):
@@ -54,16 +55,39 @@ class BaseClassification(metaclass=ABCMeta):
 
                 if dim_reduction and (dim_reduction != "passthrough"):
                     self.weights_[i] = dim_reduction.inverse_transform(self.weights_[i])
+        
         else:  # Nonlinear model
+        # TODO: Consider the problem of slow speed caused by a large number of features
+            x_reduced_selected = x.copy()
+            if feature_preprocessing and (feature_preprocessing != "passthrough"):
+                x_reduced_selected = feature_preprocessing.fit_transform(x_reduced_selected)
+            if dim_reduction and (dim_reduction != "passthrough"):
+                x_reduced_selected = dim_reduction.fit_transform(x_reduced_selected)
+            if feature_selection and (feature_selection != "passthrough"):
+                x_reduced_selected = feature_selection.fit_transform(x_reduced_selected, y)
             self.weights_ = []
             y_hat = self.model.predict(x)
             score_true = self.metric(y, y_hat)
-            len_feature = np.shape(x)[1]
+            len_feature = np.shape(x_reduced_selected)[1]
+            
+            if len_feature > 1000:
+                 print(f"***There are {len_feature} features, it may take a long time to get the weight!***\n")
+                 print(f"***I suggest that you reduce the dimension of features***\n")
+                 
             for ifeature in range(len_feature):
-                x_ = np.array(x).copy()
+                print(f"Getting weight for the {ifeature+1}th feature...\n")
+                x_ = np.array(x_reduced_selected).copy()
                 x_[:,ifeature] = 0
-                y_hat = self.model.predict(x_)
+                y_hat = estimator.predict(x_)
                 self.weights_.append(score_true-self.metric(y, y_hat))
+            
+            # Back to original space
+            self.weights_ = np.reshape(self.weights_, [1, -1])
+            if feature_selection and (feature_selection != "passthrough"):
+                self.weights_ = feature_selection.inverse_transform(self.weights_)
+            if dim_reduction and (dim_reduction != "passthrough"):
+                self.weights_  = dim_reduction.inverse_transform(self.weights_)
+            
                 
         # Normalize weights
         self.weights_norm_ = [wei/np.sum(np.power(np.e,wei)) for wei in self.weights_]
@@ -74,7 +98,8 @@ class PipelineSearch_(BaseClassification):
 
     def __init__(self, 
                  search_strategy='random', 
-                 k=5, metric=max_error, 
+                 k=5, 
+                 metric=accuracy_score, 
                  n_iter_of_randomedsearch=10, 
                  n_jobs=1, 
                  location='cachedir',
