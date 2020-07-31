@@ -62,9 +62,14 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
         }
       
         # Connect to remove selected datasets 
-        self.listWidget_selected_datasets.doubleClicked.connect(self.remove_selected_datasets)
-        self.listWidget_selected_datasets.customContextMenuRequested.connect(self.remove_selected_datasets)
-        self.listWidget_selected_datasets.itemChanged.connect(self.del_repeated_items)
+        # self.listWidget_selected_datasets.doubleClicked.connect(self.remove_selected_datasets)
+        # self.listWidget_selected_datasets.customContextMenuRequested.connect(self.remove_selected_datasets)
+        # self.listWidget_selected_datasets.itemChanged.connect(self.del_repeated_items)
+
+        # connect to statistical_analysis 
+        self.statistical_analysis_method_stackedwedge_dict = {"Binomial test": 0, "Permutation test": 1}
+        self.radioButton_binomialtest.clicked.connect(self.statistical_analysis_setting)
+        self.radioButton_permutationtest.clicked.connect(self.statistical_analysis_setting)
 
         # Skins
         self.skins = {"Dark": "style_Dark", "Black": "style_black", "DarkOrange": "style_DarkOrange", 
@@ -121,10 +126,10 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
         }
 
         # Get current selected datasets
-        count = self.listWidget_selected_datasets.count()
-        selected_datasets = []
-        for i in range(count):
-            selected_datasets.append(self.listWidget_selected_datasets.item(i).text())
+        # count = self.listWidget_selected_datasets.count()
+        # selected_datasets = []
+        # for i in range(count):
+        #     selected_datasets.append(self.listWidget_selected_datasets.item(i).text())
 
 
         # All available inputs
@@ -152,10 +157,16 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
                                
             },
 
-            "Datasets":{
-                            "selected_datasets": {"value":selected_datasets, "wedget": self.listWidget_selected_datasets},
+            self.radioButton_binomialtest: {
+                "Binomial test":{}
+            },
 
-            }
+            self.radioButton_permutationtest: {
+                "Permutation test":{
+                    "N":{"value":self.spinBox_permutaiontest_n.text(), "wedget":self.spinBox_permutaiontest_n}
+                }
+            },
+
         }
 
     def get_current_inputs(self):
@@ -172,11 +183,16 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
         # Scan the current inputs
         self.all_inputs_fun()
         
-        # Get current inputs
+        # Get current model evaluation
         self.model_evaluation = {}
         model_evaluation_type = self.model_evaluation_type_dict[self.tabWidget_CV.currentIndex()]
         self.model_evaluation[model_evaluation_type] = self.all_available_inputs[model_evaluation_type]
-        self.model_evaluation["Datasets"] = self.all_available_inputs["Datasets"]
+        
+        # Get current statistical analysis
+        stat_list = [self.radioButton_permutationtest, self.radioButton_binomialtest]
+        for stat in stat_list:
+            if stat.isChecked():
+                self.model_evaluation["Statistical_analysis"] = self.all_available_inputs[stat]
 
     def load_configuration(self):
         """Load configuration, and display_loaded_inputs_in_gui configuration in GUI (removed to get_current_inputs method)
@@ -210,7 +226,7 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
             # If the configuration is not valid JSON, then give configuration and configuration_file to ""
             try:
                 self.configuration = json.loads(self.configuration)
-                self.display_datasets()  # Display datasets in configuration no matter what if rewrite current inputs.
+                # self.display_datasets()  # Display datasets in configuration no matter what if rewrite current inputs.
                 # If already exists self.model_evaluation
                 if (self.model_evaluation != {}):
                     # If the loaded self.configuration["model_evaluation"] is not empty
@@ -253,6 +269,16 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
                 for content in list(self.model_evaluation[model_evaluation_name][setting].keys()):
                     if "wedget" in list(self.model_evaluation[model_evaluation_name][setting].keys()):
                         self.model_evaluation[model_evaluation_name][setting].pop("wedget")
+            
+            # Get statistical analysis
+            if "Statistical_analysis" == model_evaluation_name:
+                for setting in list(self.model_evaluation[model_evaluation_name].keys()):
+                    for content in list(self.model_evaluation[model_evaluation_name][setting].keys()):
+                        if "wedget" in list(self.model_evaluation[model_evaluation_name][setting].keys()):
+                            self.model_evaluation[model_evaluation_name][setting].pop("wedget")
+                        if "N" in list(self.model_evaluation[model_evaluation_name][setting].keys()):
+                            if "wedget" in list(self.model_evaluation[model_evaluation_name][setting][content].keys()):
+                                self.model_evaluation[model_evaluation_name][setting][content].pop("wedget")
         
         # If already identified the configuration file, then excude saving logic.      
         if self.configuration_file != "":
@@ -276,13 +302,11 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
         for model_evaluation_type in list(self.all_available_inputs.keys()):
             if model_evaluation_type in self.model_evaluation.keys():
                 # Switch to model_evaluation_type tabwedget
-                if model_evaluation_type != "Datasets":  # Because "Datasets" is not tabWidget_CV
-                    self.tabWidget_CV.setCurrentIndex(self.model_evaluation_type_stackedwedge_dict[model_evaluation_type])
+                self.tabWidget_CV.setCurrentIndex(self.model_evaluation_type_stackedwedge_dict[model_evaluation_type])
                 for setting in list(self.all_available_inputs[model_evaluation_type].keys()):
                     if "wedget" in list(self.all_available_inputs[model_evaluation_type][setting].keys()):
                         loaded_text = self.model_evaluation[model_evaluation_type][setting]["value"]
                         # Identify wedget type, then using different methods to "setText"
-                        # NOTE. 所有控件在设计时，尽量保留原控件的名字在命名的前部分，这样下面才好确定时哪一种类型的控件，从而用不同的赋值方式！
                         if "lineEdit" in self.all_available_inputs[model_evaluation_type][setting]["wedget"].objectName():
                             self.all_available_inputs[model_evaluation_type][setting]["wedget"].setText(loaded_text)
                         elif "doubleSpinBox" in self.all_available_inputs[model_evaluation_type][setting]["wedget"].objectName():
@@ -297,6 +321,44 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
                         else:
                             # TODO: EXTENSION
                             print("Input wedget is not support now!\n")
+                
+            if not isinstance(model_evaluation_type, str):
+                if model_evaluation_type.text() in self.model_evaluation.get("Statistical_analysis", {}).keys():
+                    # Set checked
+                    model_evaluation_type.setChecked(True)
+                    self.statistical_analysis_setting(True, model_evaluation_type.text())
+                    # Switch to stat radiobutton
+                    for setting in list(self.all_available_inputs[model_evaluation_type].keys()):
+                        for value_wedget in list(self.all_available_inputs[model_evaluation_type][setting].keys()):
+                            if "wedget" in list(self.all_available_inputs[model_evaluation_type][setting][value_wedget].keys()):
+                                loaded_text = self.model_evaluation["Statistical_analysis"][setting][value_wedget]["value"]
+                                # Identify wedget type, then using different methods to "setText"
+                                if "lineEdit" in self.all_available_inputs[model_evaluation_type][setting][value_wedget]["wedget"].objectName():
+                                    self.all_available_inputs[model_evaluation_type][setting][value_wedget]["wedget"].setText(loaded_text)
+                                elif "doubleSpinBox" in self.all_available_inputs[model_evaluation_type][setting][value_wedget]["wedget"].objectName():
+                                    self.all_available_inputs[model_evaluation_type][setting][value_wedget]["wedget"].setValue(float(loaded_text))
+                                elif "spinBox" in self.all_available_inputs[model_evaluation_type][setting][value_wedget]["wedget"].objectName():
+                                    self.all_available_inputs[model_evaluation_type][setting][value_wedget]["wedget"].setValue(int(loaded_text))
+                                elif "comboBox" in self.all_available_inputs[model_evaluation_type][setting][value_wedget]["wedget"].objectName():
+                                    self.all_available_inputs[model_evaluation_type][setting][value_wedget]["wedget"].setCurrentText(loaded_text)
+                                elif "listWidget" in self.all_available_inputs[model_evaluation_type][setting][value_wedget]["wedget"].objectName():
+                                    self.all_available_inputs[model_evaluation_type][setting][value_wedget]["wedget"].clear()  # To avoid repeated items
+                                    self.all_available_inputs[model_evaluation_type][setting][value_wedget]["wedget"].addItems(loaded_text)
+                                else:
+                                    # TODO: EXTENSION
+                                    print("Input wedget is not support now!\n")
+
+    def statistical_analysis_setting(self, signal_bool, statistical_analysis_method=None):
+        """ Switch to corresponding statistical_analysis_setting wedget
+        """
+
+        if self.sender():
+            if not statistical_analysis_method:
+                self.stackedWidget_statisticalanalysissetting.setCurrentIndex(self.statistical_analysis_method_stackedwedge_dict[self.sender().text()])
+            else:
+                self.stackedWidget_statisticalanalysissetting.setCurrentIndex(self.statistical_analysis_method_stackedwedge_dict[statistical_analysis_method])
+        else:
+            self.stackedWidget_statisticalanalysissetting.setCurrentIndex(-1)
 
     def display_datasets(self):
         """Display the datasets"""
@@ -305,7 +367,7 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
             self.listWidget_candidate_datasets.clear()
             for candidate_dataset_group in self.configuration["data_loading"]:
                 for candidate_dataset_modality in self.configuration["data_loading"][candidate_dataset_group]:
-                    display_datasets = candidate_dataset_group + ": " + candidate_dataset_modality
+                    display_datasets = candidate_dataset_group + ":" + candidate_dataset_modality
                     self.listWidget_candidate_datasets.addItem(display_datasets)
     
     def del_repeated_items(self):

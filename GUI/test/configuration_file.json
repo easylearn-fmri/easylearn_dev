@@ -32,6 +32,17 @@
                 "mask": "G:/Softer_DataProcessing/spm12/spm12/tpm/Reslice3_TPM_greaterThan0.2.nii",
                 "targets": "1",
                 "covariates": []
+            },
+            "ALFF": {
+                "file": [
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_control/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub001.nii",
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_control/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub002.nii",
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_control/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub003.nii",
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_control/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub004.nii"
+                ],
+                "mask": "",
+                "targets": [],
+                "covariates": []
             }
         },
         "group_2": {
@@ -101,13 +112,8 @@
                 "value": "0"
             }
         },
-        "Datasets": {
-            "selected_datasets": {
-                "value": [
-                    "group_1: modality_1",
-                    "group_2: modality_1"
-                ]
-            }
+        "Statistical_analysis": {
+            "Binomial test": {}
         }
     },
     "statistical_analysis": {},

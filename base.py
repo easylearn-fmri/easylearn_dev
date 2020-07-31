@@ -33,7 +33,18 @@ class BaseMachineLearning:
         return self
 
     def load_data(self):
-        data_loading = self.configuration.get('data_loading', None)
+        self.data_loading = self.configuration.get('data_loading', None)
+        self.get_model_evaluation_parameters()
+        
+        # Get selected datasets
+        for key in self.param_model_evaluation.items():
+            if "selected_datasets" in key[0].split("__")[1]:
+                selected_datasets_name = key[1]
+        
+        selected_datasets = []
+        for g in selected_datasets_name:
+            selected_datasets.append(self.data_loading.get(g.split(":")[0]).get(g.split(":")[1]))
+        
 
     def get_preprocessing_parameters(self):
         self.method_feature_preprocessing = None
@@ -202,7 +213,7 @@ class BaseMachineLearning:
         
         model_evaluation = self.configuration.get('model_evaluation', {})
         if model_evaluation and (list(model_evaluation.keys())[0] != 'None'):
-            self.method_model_evaluation = [eval(list(model_evaluation.keys())[0] if list(model_evaluation.keys())[0] != 'None' else None)]
+            self.method_model_evaluation = eval(list(model_evaluation.keys())[0] if list(model_evaluation.keys())[0] != 'None' else None)
     
             for key in model_evaluation.keys():
                 for key_ in model_evaluation.get(key).keys():

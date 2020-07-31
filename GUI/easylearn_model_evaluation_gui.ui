@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>778</width>
-    <height>761</height>
+    <width>580</width>
+    <height>762</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,33 +15,102 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_4">
-    <item row="2" column="1">
-     <widget class="QGroupBox" name="groupBox_selected">
-      <property name="title">
-       <string>Selected datasets</string>
+    <item row="2" column="0" colspan="2">
+     <widget class="QGroupBox" name="groupBox_statisticalanalysis">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>100</height>
+       </size>
       </property>
-      <layout class="QGridLayout" name="gridLayout_6">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>200</height>
+       </size>
+      </property>
+      <property name="title">
+       <string>Statistical analysis</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_9">
        <item row="0" column="0">
-        <widget class="QListWidget" name="listWidget_selected_datasets">
-         <property name="contextMenuPolicy">
-          <enum>Qt::CustomContextMenu</enum>
+        <widget class="QGroupBox" name="groupBox_2">
+         <property name="title">
+          <string>Methods</string>
          </property>
-         <property name="acceptDrops">
-          <bool>true</bool>
+         <layout class="QGridLayout" name="gridLayout_5">
+          <item row="0" column="0">
+           <widget class="QRadioButton" name="radioButton_binomialtest">
+            <property name="text">
+             <string>Binomial test</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QRadioButton" name="radioButton_permutationtest">
+            <property name="text">
+             <string>Permutation test</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QGroupBox" name="groupBox">
+         <property name="title">
+          <string>Setting</string>
          </property>
-         <property name="dragEnabled">
-          <bool>false</bool>
-         </property>
-         <property name="dragDropMode">
-          <enum>QAbstractItemView::DropOnly</enum>
-         </property>
+         <layout class="QGridLayout" name="gridLayout_8">
+          <item row="0" column="0">
+           <widget class="QStackedWidget" name="stackedWidget_statisticalanalysissetting">
+            <property name="currentIndex">
+             <number>0</number>
+            </property>
+            <widget class="QWidget" name="to_binomialtest"/>
+            <widget class="QWidget" name="to_permutationtest">
+             <layout class="QGridLayout" name="gridLayout_6">
+              <item row="0" column="1">
+               <widget class="QSpinBox" name="spinBox_permutaiontest_n">
+                <property name="maximum">
+                 <number>10000</number>
+                </property>
+                <property name="singleStep">
+                 <number>100</number>
+                </property>
+                <property name="value">
+                 <number>1000</number>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_4">
+                <property name="maximumSize">
+                 <size>
+                  <width>10</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>N</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
       </layout>
      </widget>
     </item>
     <item row="0" column="0" colspan="2">
-     <widget class="QGroupBox" name="groupBox_3">
+     <widget class="QGroupBox" name="groupBox_CV">
       <property name="minimumSize">
        <size>
         <width>0</width>
@@ -78,24 +147,17 @@
              </property>
             </widget>
            </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="label_7">
-             <property name="text">
-              <string>shuffle</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="0">
-            <widget class="QLabel" name="label">
-             <property name="text">
-              <string>n_splits</string>
-             </property>
-            </widget>
-           </item>
            <item row="0" column="2">
             <widget class="QLineEdit" name="lineEdit_kfold_n_splits">
              <property name="text">
               <string>10</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="2">
+            <widget class="QSpinBox" name="spinBox_kfold_randomstate">
+             <property name="maximum">
+              <number>10000</number>
              </property>
             </widget>
            </item>
@@ -113,10 +175,17 @@
              </item>
             </widget>
            </item>
-           <item row="2" column="2">
-            <widget class="QSpinBox" name="spinBox_kfold_randomstate">
-             <property name="maximum">
-              <number>10000</number>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_7">
+             <property name="text">
+              <string>shuffle</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>n_splits</string>
              </property>
             </widget>
            </item>
@@ -285,31 +354,6 @@
       </layout>
      </widget>
     </item>
-    <item row="2" column="0">
-     <widget class="QGroupBox" name="groupBox_candidate">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>200</height>
-       </size>
-      </property>
-      <property name="title">
-       <string>Candidate datasets</string>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <widget class="QListWidget" name="listWidget_candidate_datasets">
-         <property name="acceptDrops">
-          <bool>false</bool>
-         </property>
-         <property name="dragEnabled">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -317,7 +361,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>778</width>
+     <width>580</width>
      <height>26</height>
     </rect>
    </property>
