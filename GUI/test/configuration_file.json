@@ -86,18 +86,29 @@
             "StandardScaler()": {}
         },
         "dimreduction": {
-            "None": {}
+            "PCA()": {
+                "n_components": {
+                    "value": "0.80, 0.90"
+                }
+            }
         },
         "feature_selection": {
-            "None": {}
-        },
-        "unbalance_treatment": {
-            "randover": {}
+            "SelectFromModel(LassoCV())": {}
         }
     },
     "machine_learning": {
-        "Regression": {
-            "RidgeCV()": {}
+        "Classification": {
+            "LinearSVC()": {
+                "penalty": {
+                    "value": "l2"
+                },
+                "C": {
+                    "value": "1"
+                },
+                "multi_class": {
+                    "value": "ovr"
+                }
+            }
         }
     },
     "model_evaluation": {
@@ -113,7 +124,11 @@
             }
         },
         "Statistical_analysis": {
-            "Binomial test": {}
+            "Permutation test": {
+                "N": {
+                    "value": "500"
+                }
+            }
         }
     },
     "statistical_analysis": {},

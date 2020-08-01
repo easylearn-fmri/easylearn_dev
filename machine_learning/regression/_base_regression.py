@@ -48,7 +48,7 @@ class BaseRegression(metaclass=ABCMeta):
         if hasattr(estimator, "coef_"):
             coef =  estimator.coef_.reshape(1,-1)                
             if feature_selection and (feature_selection != "passthrough"):
-                self.weights_ = feature_selection.inverse_transform(coef.reshape(1,-1))
+                self.weights_ = feature_selection.inverse_transform(coef)
             else:
                 self.weights_ = coef
 

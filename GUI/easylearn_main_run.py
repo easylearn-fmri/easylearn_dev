@@ -194,26 +194,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         Then, this function will process the data loading.
         """
         self.machine_learning = EasylearnMachineLearningRun(self.working_directory, self.configuration_file)
-        self.machine_learning.show()\
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        self.machine_learning.show()
 
     def model_evaluation_fun(self):
         """This function is called when model_evaluation button is clicked.

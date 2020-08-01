@@ -5,6 +5,7 @@ This class is the base class for classification
 """
 
 import numpy as np
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
 from sklearn.model_selection import StratifiedKFold, KFold
 from sklearn.metrics import make_scorer, accuracy_score, auc, f1_score
@@ -15,14 +16,31 @@ from abc import abstractmethod, ABCMeta
 import warnings
 from sklearn.exceptions import ConvergenceWarning
 
+
 warnings.filterwarnings("ignore", category=ConvergenceWarning, module="sklearn")
 
 
 class BaseClassification(metaclass=ABCMeta):
-    """Base class for classification"""
+    """Base class for classification
+
+    Parameters
+    ----------
+    None
+
+    Attributes
+    ----------
+    model_: Fited model object, default None
+
+    weights_: ndarray of shape(n_class, n_features) if the model is linear model, else shape(1,n_features), default None
+        Feature weights of the fited model
+
+    weights_norm_: ndarray of shape(n_class, n_features) if the model is linear model, else shape(1,n_features), default None
+        Normalized feature weights. Using StandardScaler (z-score) to get the normalized feature weights.
+
+    """
 
     def __init__(self):
-        self.model = None
+        self.model_ = None
         self.weights_ = None
         self.weights_norm_ = None
 
@@ -33,7 +51,7 @@ class BaseClassification(metaclass=ABCMeta):
         connectivity pattern analysis using convolutional neural networks>.
         """
         
-        best_model = self.model.best_estimator_
+        best_model = self.model_.best_estimator_
         feature_preprocessing = best_model['feature_preprocessing']
         dim_reduction = best_model.get_params().get('dim_reduction',None)
         feature_selection =  best_model.get_params().get('feature_selection', None)
@@ -43,18 +61,12 @@ class BaseClassification(metaclass=ABCMeta):
         if hasattr(estimator, "coef_"):
             coef =  estimator.coef_
             if feature_selection and (feature_selection != "passthrough"):
-                self.weights_ = [np.zeros(np.size(feature_selection.get_support())) for i in range(len(coef))]
+                self.weights_ = feature_selection.inverse_transform(coef)
             else:
-                self.weights_ = [[] for i in range(len(coef))]
+                self.weights_ = coef
                 
-            for i, coef_ in enumerate(coef):
-                if feature_selection and (feature_selection != "passthrough"):
-                    self.weights_[i][feature_selection.get_support()] = coef_
-                else:
-                    self.weights_[i] = coef_
-
-                if dim_reduction and (dim_reduction != "passthrough"):
-                    self.weights_[i] = dim_reduction.inverse_transform(self.weights_[i])
+            if dim_reduction and (dim_reduction != "passthrough"):
+                self.weights_ = dim_reduction.inverse_transform(self.weights_)
         
         else:  # Nonlinear model
         # TODO: Consider the problem of slow speed caused by a large number of features
@@ -65,10 +77,11 @@ class BaseClassification(metaclass=ABCMeta):
                 x_reduced_selected = dim_reduction.fit_transform(x_reduced_selected)
             if feature_selection and (feature_selection != "passthrough"):
                 x_reduced_selected = feature_selection.fit_transform(x_reduced_selected, y)
-            self.weights_ = []
-            y_hat = self.model.predict(x)
+            
+            y_hat = self.model_.predict(x)
             score_true = self.metric(y, y_hat)
-            len_feature = np.shape(x_reduced_selected)[1]
+            len_feature = x_reduced_selected.shape[1]
+            self.weights_ = np.zeros([1,len_feature])
             
             if len_feature > 1000:
                  print(f"***There are {len_feature} features, it may take a long time to get the weight!***\n")
@@ -76,13 +89,12 @@ class BaseClassification(metaclass=ABCMeta):
                  
             for ifeature in range(len_feature):
                 print(f"Getting weight for the {ifeature+1}th feature...\n")
-                x_ = np.array(x_reduced_selected).copy()
+                x_ = x_reduced_selected.copy()
                 x_[:,ifeature] = 0
                 y_hat = estimator.predict(x_)
-                self.weights_.append(score_true-self.metric(y, y_hat))
+                self.weights_[0, ifeature] = score_true-self.metric(y, y_hat)
             
             # Back to original space
-            self.weights_ = np.reshape(self.weights_, [1, -1])
             if feature_selection and (feature_selection != "passthrough"):
                 self.weights_ = feature_selection.inverse_transform(self.weights_)
             if dim_reduction and (dim_reduction != "passthrough"):
@@ -90,14 +102,14 @@ class BaseClassification(metaclass=ABCMeta):
             
                 
         # Normalize weights
-        self.weights_norm_ = [wei/np.sum(np.power(np.e,wei)) for wei in self.weights_]
+        self.weights_norm_ = StandardScaler().fit_transform(self.weights_.T).T
         
     
 class PipelineSearch_(BaseClassification):
     """Make pipeline_"""
 
     def __init__(self, 
-                 search_strategy='random', 
+                 search_strategy='grid', 
                  k=5, 
                  metric=accuracy_score, 
                  n_iter_of_randomedsearch=10, 
@@ -167,10 +179,10 @@ class PipelineSearch_(BaseClassification):
         self.memory = Memory(location=self.location, verbose=self.verbose)
 
         self.pipeline_ = Pipeline(steps=[
-                ('feature_preprocessing','passthrough'),
-                ('dim_reduction', 'passthrough'),
-                ('feature_selection', 'passthrough'),
-                ('estimator', 'passthrough'),
+            ('feature_preprocessing','passthrough'),
+            ('dim_reduction', 'passthrough'),
+            ('feature_selection', 'passthrough'),
+            ('estimator', 'passthrough'),
             ], 
             memory=self.memory
         )
@@ -189,9 +201,6 @@ class PipelineSearch_(BaseClassification):
             self.param_search_.update({'dim_reduction':method_dim_reduction})
         if param_dim_reduction:
             self.param_search_.update(param_dim_reduction)
-            # Get number of features that pass the dimension reduction
-            # pca = method_dim_reduction[0]
-            # xx = pca.fit_transform(x)
                 
         if method_feature_selection:
             self.param_search_.update({'feature_selection': method_feature_selection})
@@ -212,14 +221,14 @@ class PipelineSearch_(BaseClassification):
         # TODO: Extending to other CV methods
         cv = StratifiedKFold(n_splits=self.k)  # Default is StratifiedKFold
         if self.search_strategy == 'grid':
-            self.model = GridSearchCV(
+            self.model_ = GridSearchCV(
                 self.pipeline_, n_jobs=self.n_jobs, param_grid=self.param_search_, cv=cv, 
                 scoring = make_scorer(self.metric), refit=True
             )
             # print(f"GridSearchCV fitting (about {iteration_num} times iteration)...\n")
 
         elif self.search_strategy == 'random':
-            self.model = RandomizedSearchCV(
+            self.model_ = RandomizedSearchCV(
                 self.pipeline_, n_jobs=self.n_jobs, param_distributions=self.param_search_, cv=cv, 
                 scoring = make_scorer(self.metric), refit=True, n_iter=self.n_iter_of_randomedsearch,
             )
@@ -229,7 +238,7 @@ class PipelineSearch_(BaseClassification):
             print("Please specify which search strategy!\n")
             return
 
-        self.model.fit(x, y)
+        self.model_.fit(x, y)
 
         # Delete the temporary cache before exiting
         self.memory.clear(warn=False)
@@ -237,13 +246,13 @@ class PipelineSearch_(BaseClassification):
         return self
 
     def predict(self, x):
-        y_hat = self.model.predict(x)
+        y_hat = self.model_.predict(x)
         
         # TODO?
-        if hasattr(self.model, 'decision_function'):
-            y_prob = self.model.decision_function(x)
-        elif hasattr(self.model, 'predict_proba'):
-            y_prob = self.model.predict_proba(x)[:,1]
+        if hasattr(self.model_, 'decision_function'):
+            y_prob = self.model_.decision_function(x)
+        elif hasattr(self.model_, 'predict_proba'):
+            y_prob = self.model_.predict_proba(x)[:,1]
         else:
             y_prob = y_hat
                 

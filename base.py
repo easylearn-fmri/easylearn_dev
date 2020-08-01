@@ -37,13 +37,13 @@ class BaseMachineLearning:
         self.get_model_evaluation_parameters()
         
         # Get selected datasets
-        for key in self.param_model_evaluation.items():
-            if "selected_datasets" in key[0].split("__")[1]:
-                selected_datasets_name = key[1]
-        
-        selected_datasets = []
-        for g in selected_datasets_name:
-            selected_datasets.append(self.data_loading.get(g.split(":")[0]).get(g.split(":")[1]))
+        for gk  in self.data_loading.keys():
+             for mk in self.data_loading.get(gk).keys():
+                 modality = self.data_loading.get(gk).get(mk)
+                 modality.get("file")
+                 modality.get("targets")
+                 modality.get("mask")
+                 modality.get("covariates")
         
 
     def get_preprocessing_parameters(self):

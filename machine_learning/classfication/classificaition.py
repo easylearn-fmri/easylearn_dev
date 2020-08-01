@@ -10,19 +10,15 @@ from sklearn.model_selection import train_test_split
 from eslearn.base import BaseMachineLearning
 from eslearn.machine_learning.classfication._base_classificaition import PipelineSearch_
 
-# x, y = datasets.make_classification(n_samples=200, n_classes=2,
-#                                     n_informative=50, n_redundant=3,
-#                                     n_features=100, random_state=1)
+x, y = datasets.make_classification(n_samples=200, n_classes=3,
+                                    n_informative=50, n_redundant=3,
+                                    n_features=100, random_state=1)
 
-
-
-x, y = datasets.make_regression(n_samples=200, n_informative=50, n_features=100, random_state=1)
 
 
 # x, y = load_digits(return_X_y=True)
 
-x_train, x_test, y_train, y_test = train_test_split(
-    x, y, test_size=0.30, random_state=42)
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.30, random_state=42)
 
 class Classification(BaseMachineLearning, PipelineSearch_):
     
@@ -31,6 +27,7 @@ class Classification(BaseMachineLearning, PipelineSearch_):
         super(PipelineSearch_, self).__init__()
         self.search_strategy = 'grid'
         self.n_jobs = 2
+        self.k = 3
 
     def classification(self, 
                        x=None, 
