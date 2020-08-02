@@ -86,27 +86,36 @@
             "StandardScaler()": {}
         },
         "dimreduction": {
-            "PCA()": {
-                "n_components": {
-                    "value": "0.80, 0.90"
-                }
-            }
+            "None": {}
         },
         "feature_selection": {
-            "SelectFromModel(LassoCV())": {}
+            "RFECV()": {
+                "step": {
+                    "value": "0.10"
+                },
+                "cv": {
+                    "value": "5"
+                },
+                "estimator": {
+                    "value": "LogisticRegression()"
+                },
+                "n_jobs": {
+                    "value": "-1"
+                }
+            }
         }
     },
     "machine_learning": {
         "Classification": {
-            "LinearSVC()": {
+            "LogisticRegression(solver='saga')": {
                 "penalty": {
-                    "value": "l2"
+                    "value": "elasticnet"
+                },
+                "l1_ratio": {
+                    "value": "0.5"
                 },
                 "C": {
                     "value": "1"
-                },
-                "multi_class": {
-                    "value": "ovr"
                 }
             }
         }

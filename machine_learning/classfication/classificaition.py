@@ -10,7 +10,7 @@ from sklearn.model_selection import train_test_split
 from eslearn.base import BaseMachineLearning
 from eslearn.machine_learning.classfication._base_classificaition import PipelineSearch_
 
-x, y = datasets.make_classification(n_samples=200, n_classes=3,
+x, y = datasets.make_classification(n_samples=300, n_classes=2,
                                     n_informative=50, n_redundant=3,
                                     n_features=100, random_state=1)
 
@@ -97,8 +97,6 @@ if __name__ == "__main__":
         x=x, 
         y=y
     )
-    
-    
     
     time_end = time.time()
     print(clf.param_search_)

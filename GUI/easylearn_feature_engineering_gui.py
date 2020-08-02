@@ -516,10 +516,10 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuSkin.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.tabWidget_items.setCurrentIndex(0)
+        self.tabWidget_items.setCurrentIndex(2)
         self.stackedWidget_preprocessing_methods.setCurrentIndex(2)
         self.stackedWidget_dimreduction.setCurrentIndex(2)
-        self.stackedWidget_feature_selection.setCurrentIndex(8)
+        self.stackedWidget_feature_selection.setCurrentIndex(5)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -573,7 +573,7 @@ class Ui_MainWindow(object):
         self.lineEdit_mutualinforeg_topnum.setText(_translate("MainWindow", "0.4, 0.6"))
         self.label_19.setText(_translate("MainWindow", "N_jobs"))
         self.label_16.setText(_translate("MainWindow", "Estimator"))
-        self.comboBox_rfe_estimator.setItemText(0, _translate("MainWindow", "LinearSVC()"))
+        self.comboBox_rfe_estimator.setItemText(0, _translate("MainWindow", "SVC(kernel=\'linear\')"))
         self.comboBox_rfe_estimator.setItemText(1, _translate("MainWindow", "LogisticRegression()"))
         self.comboBox_rfe_estimator.setItemText(2, _translate("MainWindow", "Lasso()"))
         self.comboBox_rfe_estimator.setItemText(3, _translate("MainWindow", "BayesianRidge()"))
