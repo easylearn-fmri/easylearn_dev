@@ -10,9 +10,9 @@ from sklearn.model_selection import train_test_split
 from eslearn.base import BaseMachineLearning
 from eslearn.machine_learning.classfication._base_classificaition import PipelineSearch_
 
-x, y = datasets.make_classification(n_samples=300, n_classes=2,
+x, y = datasets.make_classification(n_samples=500, n_classes=2,
                                     n_informative=50, n_redundant=3,
-                                    n_features=100, random_state=1)
+                                    n_features=1000, random_state=1)
 
 
 
@@ -54,7 +54,6 @@ class Classification(BaseMachineLearning, PipelineSearch_):
             method_machine_learning=method_machine_learning, 
             param_machine_learning=param_machine_learning
         )
-        print(self.param_search_)
         self.fit_pipeline_(x_train, y_train)
         self.get_weights_(x_train, y_train)
         yhat, y_prob = self.predict(x_test)
@@ -100,7 +99,7 @@ if __name__ == "__main__":
     
     time_end = time.time()
     print(clf.param_search_)
-    print(clf.pipeline_)
+    # print(clf.pipeline_)
     print(f"accuracy = {accuracy}")
     print(f"Running time = {time_end-time_start}\n")
     print("="*50)

@@ -2,10 +2,130 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c79f847a-5bd3-4488-991e-10fdd1c001b7" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/GUI/easylearn_feature_engineering_gui.py" afterPath="$PROJECT_DIR$/GUI/easylearn_feature_engineering_gui.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/GUI/easylearn_feature_engineering_gui.ui" afterPath="$PROJECT_DIR$/GUI/easylearn_feature_engineering_gui.ui" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/.gitignore" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/LICENSE" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/.gitignore" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/DarkOrange_rc/checkbox.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/DarkOrange_rc/down_arrow.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/DarkOrange_rc/handle.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/Dark_rc/Hmovetoolbar.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/Dark_rc/Hsepartoolbar.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/Dark_rc/Vmovetoolbar.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/Dark_rc/Vsepartoolbar.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/Dark_rc/branch_closed-on.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/Dark_rc/branch_closed.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/Dark_rc/branch_open-on.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/Dark_rc/branch_open.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/Dark_rc/checkbox_checked.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/Dark_rc/checkbox_checked_disabled.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/Dark_rc/checkbox_checked_focus.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/Dark_rc/checkbox_indeterminate.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/Dark_rc/checkbox_indeterminate_disabled.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/Dark_rc/checkbox_indeterminate_focus.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/Dark_rc/checkbox_unchecked.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/Dark_rc/checkbox_unchecked_disabled.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/Dark_rc/checkbox_unchecked_focus.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/Dark_rc/close-hover.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/Dark_rc/close-pressed.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/Dark_rc/close.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/Dark_rc/down_arrow.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/Dark_rc/down_arrow_disabled.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/Dark_rc/left_arrow.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/Dark_rc/left_arrow_disabled.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/Dark_rc/radio_checked.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/Dark_rc/radio_checked_disabled.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/Dark_rc/radio_checked_focus.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/Dark_rc/radio_unchecked.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/Dark_rc/radio_unchecked_disabled.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/Dark_rc/radio_unchecked_focus.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/Dark_rc/right_arrow.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/Dark_rc/right_arrow_disabled.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/Dark_rc/sizegrip.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/Dark_rc/stylesheet-branch-end.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/Dark_rc/stylesheet-branch-more.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/Dark_rc/stylesheet-vline.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/Dark_rc/transparent.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/Dark_rc/undock.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/Dark_rc/up_arrow.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/Dark_rc/up_arrow_disabled.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/compile_qrc.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/img_rc/add-line_horizontal.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/img_rc/add-line_vertical.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/img_rc/array_down.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/img_rc/checkbox_checked.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/img_rc/checkbox_unchecked.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/img_rc/radio_normal.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/img_rc/radio_selected.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/img_rc/sub-line_horizontal.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/img_rc/sub-line_vertical.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/pyqt5_style_Classic_rc.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/pyqt5_style_DarkOrange_rc.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/pyqt5_style_Dark_rc.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/pyqt5_style_black_rc.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/pyqt5_style_blue_rc.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/pyqt5_style_gray_rc.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/pyqt5_style_navy_rc.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/style_Classic.qrc" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/style_Classic.qss" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/style_Dark.qrc" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/style_Dark.qss" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/style_DarkOrange.qrc" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/style_DarkOrange.qss" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/style_black.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/style_black.qrc" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/style_blue.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/style_blue.qrc" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/style_gray.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/style_gray.qrc" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/style_navy.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/PyQt5_stylesheets/style_navy.qrc" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/README.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/example/example_pyqt.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/example/example_pyqt5.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/example/example_pyside.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/example/ui/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/example/ui/compile_ui.sh" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/example/ui/example.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/example/ui/example.ui" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/example/ui/example_pyqt5_ui.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/example/ui/example_pyqt_ui.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/example/ui/example_pyside_ui.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/screenshots/example.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/screenshots/example1.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/screenshots/example2.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/screenshots/example3.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/screenshots/example4.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/screenshots/example5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/setup.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/svg/checkbox_checked.svg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/svg/checkbox_checked_disabled.svg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/svg/checkbox_checked_focus.svg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/svg/checkbox_indeterminate.svg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/svg/checkbox_indeterminate_disabled.svg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/svg/checkbox_indeterminate_focus.svg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/svg/checkbox_unchecked.svg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/svg/checkbox_unchecked_disabled.svg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/svg/checkbox_unchecked_focus.svg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/svg/radio_checked.svg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/svg/radio_checked_disabled.svg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/svg/radio_checked_focus.svg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/svg/radio_unchecked.svg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/svg/radio_unchecked_disabled.svg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/PyQt5_stylesheets/svg/radio_unchecked_focus.svg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/REAMDE.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stylesheets/__init__.py" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/eslearn.iml" afterPath="$PROJECT_DIR$/.idea/eslearn.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/GUI/easylearn_main_run.py" afterPath="$PROJECT_DIR$/GUI/easylearn_main_run.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/GUI/test/configuration_file.json" afterPath="$PROJECT_DIR$/GUI/test/configuration_file.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base.py" afterPath="$PROJECT_DIR$/base.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/machine_learning/classfication/_base_classificaition.py" afterPath="$PROJECT_DIR$/machine_learning/classfication/_base_classificaition.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/machine_learning/classfication/classificaition.py" afterPath="$PROJECT_DIR$/machine_learning/classfication/classificaition.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/machine_learning/classfication/lc_rfe_svc_given_trainingdata_testingdata.py" afterPath="$PROJECT_DIR$/machine_learning/classfication/lc_rfe_svc_given_trainingdata_testingdata.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model_evaluation/el_evaluation_model_performances.py" afterPath="$PROJECT_DIR$/model_evaluation/el_evaluation_model_performances.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -15,11 +135,14 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/eslearn$classificaition.coverage" NAME="classificaition Coverage Results" MODIFIED="1596378888578" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/machine_learning/classfication" />
+    <SUITE FILE_PATH="coverage/eslearn$classificaition.coverage" NAME="classificaition Coverage Results" MODIFIED="1596468360600" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/machine_learning/classfication" />
+    <SUITE FILE_PATH="coverage/eslearn$base.coverage" NAME="base Coverage Results" MODIFIED="1596468418776" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/eslearn$lc_ui2py_for_feature_engineering.coverage" NAME="lc_ui2py_for_feature_engineering Coverage Results" MODIFIED="1596377826239" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/GUI" />
-    <SUITE FILE_PATH="coverage/eslearn$easylearn_main_run.coverage" NAME="easylearn_main_run Coverage Results" MODIFIED="1596378153688" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/GUI" />
+    <SUITE FILE_PATH="coverage/eslearn$easylearn_main_run.coverage" NAME="easylearn_main_run Coverage Results" MODIFIED="1596468606321" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/GUI" />
+    <SUITE FILE_PATH="coverage/eslearn$lc_rfe_svc_given_trainingdata_testingdata.coverage" NAME="lc_rfe_svc_given_trainingdata_testingdata Coverage Results" MODIFIED="1596463483954" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/machine_learning/classfication" />
     <SUITE FILE_PATH="coverage/eslearn$test_pipeline.coverage" NAME="test_pipeline Coverage Results" MODIFIED="1596378103069" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/GUI" />
-    <SUITE FILE_PATH="coverage/eslearn$concat_table.coverage" NAME="concat_table Coverage Results" MODIFIED="1596375945527" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="D:/My_Codes/lc_private_codes/finacial" />
+    <SUITE FILE_PATH="coverage/eslearn$concat_table.coverage" NAME="concat_table Coverage Results" MODIFIED="1596375945527" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../../../../lc_private_codes/finacial" />
+    <SUITE FILE_PATH="coverage/eslearn$el_evaluation_model_performances.coverage" NAME="el_evaluation_model_performances Coverage Results" MODIFIED="1596444858944" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/model_evaluation" />
   </component>
   <component name="DatabaseView">
     <option name="SHOW_INTERMEDIATE" value="true" />
@@ -31,27 +154,59 @@
     <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
-  <component name="FavoritesManager">
-    <favorites_list name="eslearn" />
-  </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="classificaition.py" pinned="false" current-in-tab="true">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
+      <file leaf-file-name="classificaition.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/machine_learning/classfication/classificaition.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="203">
-              <caret line="7" column="52" lean-forward="true" selection-start-line="7" selection-start-column="52" selection-end-line="7" selection-end-column="52" />
+            <state relative-caret-position="1914">
+              <caret line="73" column="4" lean-forward="false" selection-start-line="73" selection-start-column="4" selection-end-line="73" selection-end-column="4" />
+              <folding>
+                <element signature="e#48#59#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="_base_classificaition.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/machine_learning/classfication/_base_classificaition.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="5655">
+              <caret line="207" column="21" lean-forward="false" selection-start-line="207" selection-start-column="17" selection-end-line="207" selection-end-column="30" />
+              <caret line="210" column="21" lean-forward="false" selection-start-line="210" selection-start-column="17" selection-end-line="210" selection-end-column="30" />
+              <caret line="212" column="21" lean-forward="false" selection-start-line="212" selection-start-column="17" selection-end-line="212" selection-end-column="30" />
+              <caret line="224" column="72" lean-forward="false" selection-start-line="224" selection-start-column="68" selection-end-line="224" selection-end-column="81" />
+              <caret line="231" column="81" lean-forward="false" selection-start-line="231" selection-start-column="77" selection-end-line="231" selection-end-column="90" />
+              <caret line="130" column="17" lean-forward="false" selection-start-line="130" selection-start-column="13" selection-end-line="130" selection-end-column="26" />
+              <caret line="192" column="17" lean-forward="false" selection-start-line="192" selection-start-column="13" selection-end-line="192" selection-end-column="26" />
+              <caret line="195" column="21" lean-forward="false" selection-start-line="195" selection-start-column="17" selection-end-line="195" selection-end-column="30" />
+              <caret line="197" column="21" lean-forward="false" selection-start-line="197" selection-start-column="17" selection-end-line="197" selection-end-column="30" />
+              <caret line="200" column="21" lean-forward="false" selection-start-line="200" selection-start-column="17" selection-end-line="200" selection-end-column="30" />
+              <caret line="202" column="21" lean-forward="false" selection-start-line="202" selection-start-column="17" selection-end-line="202" selection-end-column="30" />
+              <caret line="205" column="21" lean-forward="false" selection-start-line="205" selection-start-column="17" selection-end-line="205" selection-end-column="30" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="easylearn_main_run.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="base.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/base.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1334">
+              <caret line="56" column="52" lean-forward="false" selection-start-line="56" selection-start-column="52" selection-end-line="56" selection-end-column="52" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="easylearn_main_run.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/GUI/easylearn_main_run.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="116">
-              <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="478">
+              <caret line="249" column="25" lean-forward="false" selection-start-line="249" selection-start-column="25" selection-end-line="249" selection-end-column="25" />
+              <folding>
+                <element signature="e#183#193#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -64,9 +219,14 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="D:/My_Codes/lc_private_codes/finacial/concat_table.py" />
+        <option value="$PROJECT_DIR$/../../../../lc_private_codes/finacial/concat_table.py" />
         <option value="$PROJECT_DIR$/GUI/test_pipeline" />
+        <option value="$PROJECT_DIR$/machine_learning/classfication/_base_classificaition.py" />
+        <option value="$PROJECT_DIR$/machine_learning/classfication/lc_rfe_svc_given_trainingdata_testingdata.py" />
+        <option value="$PROJECT_DIR$/model_evaluation/el_evaluation_model_performances.py" />
+        <option value="$PROJECT_DIR$/base.py" />
         <option value="$PROJECT_DIR$/machine_learning/classfication/classificaition.py" />
+        <option value="$PROJECT_DIR$/GUI/easylearn_main_run.py" />
       </list>
     </option>
   </component>
@@ -83,7 +243,7 @@
     <option name="height" value="1048" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
+    <navigator proportions="" version="1">
       <flattenPackages />
       <showMembers />
       <showModules />
@@ -96,15 +256,11 @@
       <manualOrder />
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes>
-      <pane id="Scratches" />
-      <pane id="Scope" />
-      <pane id="ProjectPane" />
-    </panes>
+    <panes />
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Font" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RunDashboard">
@@ -119,7 +275,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.classificaition">
+  <component name="RunManager" selected="Python.easylearn_main_run">
     <configuration default="false" name="easylearn_main_run" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -136,25 +292,6 @@
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/GUI/easylearn_main_run.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="concat_table" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="F:\Python378\python.exe" />
-      <option name="WORKING_DIRECTORY" value="D:/My_Codes/lc_private_codes/finacial" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="eslearn" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="D:/My_Codes/lc_private_codes/finacial/concat_table.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
       <method />
     </configuration>
@@ -177,39 +314,58 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <method />
     </configuration>
-    <configuration default="false" name="lc_ui2py_for_feature_engineering" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration default="false" name="lc_rfe_svc_given_trainingdata_testingdata" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/GUI" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/machine_learning/classfication" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="eslearn" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/GUI/lc_ui2py_for_feature_engineering.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/machine_learning/classfication/lc_rfe_svc_given_trainingdata_testingdata.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <method />
     </configuration>
-    <configuration default="false" name="test_pipeline" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration default="false" name="el_evaluation_model_performances" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/GUI" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/model_evaluation" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="eslearn" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/GUI/test_pipeline.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/model_evaluation/el_evaluation_model_performances.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="base" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="eslearn" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/base.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -365,18 +521,18 @@
     </configuration>
     <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Python.easylearn_main_run" />
-      <item index="1" class="java.lang.String" itemvalue="Python.concat_table" />
-      <item index="2" class="java.lang.String" itemvalue="Python.classificaition" />
-      <item index="3" class="java.lang.String" itemvalue="Python.lc_ui2py_for_feature_engineering" />
-      <item index="4" class="java.lang.String" itemvalue="Python.test_pipeline" />
+      <item index="1" class="java.lang.String" itemvalue="Python.classificaition" />
+      <item index="2" class="java.lang.String" itemvalue="Python.lc_rfe_svc_given_trainingdata_testingdata" />
+      <item index="3" class="java.lang.String" itemvalue="Python.el_evaluation_model_performances" />
+      <item index="4" class="java.lang.String" itemvalue="Python.base" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.classificaition" />
-        <item index="1" class="java.lang.String" itemvalue="Python.easylearn_main_run" />
-        <item index="2" class="java.lang.String" itemvalue="Python.test_pipeline" />
-        <item index="3" class="java.lang.String" itemvalue="Python.lc_ui2py_for_feature_engineering" />
-        <item index="4" class="java.lang.String" itemvalue="Python.concat_table" />
+        <item index="0" class="java.lang.String" itemvalue="Python.easylearn_main_run" />
+        <item index="1" class="java.lang.String" itemvalue="Python.base" />
+        <item index="2" class="java.lang.String" itemvalue="Python.classificaition" />
+        <item index="3" class="java.lang.String" itemvalue="Python.lc_rfe_svc_given_trainingdata_testingdata" />
+        <item index="4" class="java.lang.String" itemvalue="Python.el_evaluation_model_performances" />
       </list>
     </recent_temporary>
   </component>
@@ -403,29 +559,29 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
+    <frame x="-9" y="-9" width="1938" height="1048" extended-state="0" />
     <layout>
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295583" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3272933" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295583" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3272933" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3272933" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32930845" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39956093" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15677084" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295583" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.398641" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3299356" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.7001073" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32930845" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Concurrent Activities Diagram" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32930845" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Concurrent Activities Diagram" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32842582" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -439,15 +595,161 @@
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="6" />
+      <option name="time" value="26" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
-        <watch expression="data" language="Python" />
+        <watch expression="fpr" language="Python" />
+        <watch expression="tpr" language="Python" />
       </configuration>
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/machine_learning/classfication/classificaition.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#48#59#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/machine_learning/classfication/_base_classificaition.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5945">
+          <caret line="207" column="21" lean-forward="false" selection-start-line="207" selection-start-column="17" selection-end-line="207" selection-end-column="30" />
+          <caret line="210" column="21" lean-forward="false" selection-start-line="210" selection-start-column="17" selection-end-line="210" selection-end-column="30" />
+          <caret line="212" column="21" lean-forward="false" selection-start-line="212" selection-start-column="17" selection-end-line="212" selection-end-column="30" />
+          <caret line="224" column="72" lean-forward="false" selection-start-line="224" selection-start-column="68" selection-end-line="224" selection-end-column="81" />
+          <caret line="231" column="81" lean-forward="false" selection-start-line="231" selection-start-column="77" selection-end-line="231" selection-end-column="90" />
+          <caret line="130" column="17" lean-forward="false" selection-start-line="130" selection-start-column="13" selection-end-line="130" selection-end-column="26" />
+          <caret line="192" column="17" lean-forward="false" selection-start-line="192" selection-start-column="13" selection-end-line="192" selection-end-column="26" />
+          <caret line="195" column="21" lean-forward="false" selection-start-line="195" selection-start-column="17" selection-end-line="195" selection-end-column="30" />
+          <caret line="197" column="21" lean-forward="false" selection-start-line="197" selection-start-column="17" selection-end-line="197" selection-end-column="30" />
+          <caret line="200" column="21" lean-forward="false" selection-start-line="200" selection-start-column="17" selection-end-line="200" selection-end-column="30" />
+          <caret line="202" column="21" lean-forward="false" selection-start-line="202" selection-start-column="17" selection-end-line="202" selection-end-column="30" />
+          <caret line="205" column="21" lean-forward="false" selection-start-line="205" selection-start-column="17" selection-end-line="205" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1334">
+          <caret line="56" column="52" lean-forward="false" selection-start-line="56" selection-start-column="52" selection-end-line="56" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GUI/easylearn_main_run.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6844">
+          <caret line="249" column="25" lean-forward="false" selection-start-line="249" selection-start-column="25" selection-end-line="249" selection-end-column="25" />
+          <folding>
+            <element signature="e#183#193#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/machine_learning/classfication/classificaition.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#48#59#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/machine_learning/classfication/_base_classificaition.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5655">
+          <caret line="207" column="21" lean-forward="false" selection-start-line="207" selection-start-column="17" selection-end-line="207" selection-end-column="30" />
+          <caret line="210" column="21" lean-forward="false" selection-start-line="210" selection-start-column="17" selection-end-line="210" selection-end-column="30" />
+          <caret line="212" column="21" lean-forward="false" selection-start-line="212" selection-start-column="17" selection-end-line="212" selection-end-column="30" />
+          <caret line="224" column="72" lean-forward="false" selection-start-line="224" selection-start-column="68" selection-end-line="224" selection-end-column="81" />
+          <caret line="231" column="81" lean-forward="false" selection-start-line="231" selection-start-column="77" selection-end-line="231" selection-end-column="90" />
+          <caret line="130" column="17" lean-forward="false" selection-start-line="130" selection-start-column="13" selection-end-line="130" selection-end-column="26" />
+          <caret line="192" column="17" lean-forward="false" selection-start-line="192" selection-start-column="13" selection-end-line="192" selection-end-column="26" />
+          <caret line="195" column="21" lean-forward="false" selection-start-line="195" selection-start-column="17" selection-end-line="195" selection-end-column="30" />
+          <caret line="197" column="21" lean-forward="false" selection-start-line="197" selection-start-column="17" selection-end-line="197" selection-end-column="30" />
+          <caret line="200" column="21" lean-forward="false" selection-start-line="200" selection-start-column="17" selection-end-line="200" selection-end-column="30" />
+          <caret line="202" column="21" lean-forward="false" selection-start-line="202" selection-start-column="17" selection-end-line="202" selection-end-column="30" />
+          <caret line="205" column="21" lean-forward="false" selection-start-line="205" selection-start-column="17" selection-end-line="205" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GUI/easylearn_main_run.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="29">
+          <caret line="1" column="18" lean-forward="false" selection-start-line="1" selection-start-column="18" selection-end-line="1" selection-end-column="18" />
+          <folding>
+            <element signature="e#183#193#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/machine_learning/classfication/classificaition.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#48#59#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/machine_learning/classfication/_base_classificaition.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5655">
+          <caret line="207" column="21" lean-forward="false" selection-start-line="207" selection-start-column="17" selection-end-line="207" selection-end-column="30" />
+          <caret line="210" column="21" lean-forward="false" selection-start-line="210" selection-start-column="17" selection-end-line="210" selection-end-column="30" />
+          <caret line="212" column="21" lean-forward="false" selection-start-line="212" selection-start-column="17" selection-end-line="212" selection-end-column="30" />
+          <caret line="224" column="72" lean-forward="false" selection-start-line="224" selection-start-column="68" selection-end-line="224" selection-end-column="81" />
+          <caret line="231" column="81" lean-forward="false" selection-start-line="231" selection-start-column="77" selection-end-line="231" selection-end-column="90" />
+          <caret line="130" column="17" lean-forward="false" selection-start-line="130" selection-start-column="13" selection-end-line="130" selection-end-column="26" />
+          <caret line="192" column="17" lean-forward="false" selection-start-line="192" selection-start-column="13" selection-end-line="192" selection-end-column="26" />
+          <caret line="195" column="21" lean-forward="false" selection-start-line="195" selection-start-column="17" selection-end-line="195" selection-end-column="30" />
+          <caret line="197" column="21" lean-forward="false" selection-start-line="197" selection-start-column="17" selection-end-line="197" selection-end-column="30" />
+          <caret line="200" column="21" lean-forward="false" selection-start-line="200" selection-start-column="17" selection-end-line="200" selection-end-column="30" />
+          <caret line="202" column="21" lean-forward="false" selection-start-line="202" selection-start-column="17" selection-end-line="202" selection-end-column="30" />
+          <caret line="205" column="21" lean-forward="false" selection-start-line="205" selection-start-column="17" selection-end-line="205" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GUI/easylearn_main_run.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="29">
+          <caret line="1" column="18" lean-forward="false" selection-start-line="1" selection-start-column="18" selection-end-line="1" selection-end-column="18" />
+          <folding>
+            <element signature="e#183#193#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/machine_learning/classfication/classificaition.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#48#59#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GUI/easylearn_main_run.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="116">
+          <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+          <folding>
+            <element signature="e#183#193#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydev_imps/_pydev_execfile.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
@@ -462,7 +764,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://D:/My_Codes/lc_private_codes/finacial/concat_table.py">
+    <entry file="file://$PROJECT_DIR$/../../../../lc_private_codes/finacial/concat_table.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="231">
           <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
@@ -473,7 +775,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1584">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -481,33 +782,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="203">
-          <caret line="7" column="9" lean-forward="true" selection-start-line="7" selection-start-column="9" selection-end-line="7" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/GUI/test_pipeline">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="6" column="9" lean-forward="false" selection-start-line="6" selection-start-column="9" selection-end-line="6" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/GUI/test_pipeline" />
     <entry file="file://$PROJECT_DIR$/GUI/test_pipeline.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="290">
           <caret line="10" column="17" lean-forward="true" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#43#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -515,17 +797,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="188">
           <caret line="530" column="0" lean-forward="false" selection-start-line="530" selection-start-column="0" selection-end-line="530" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/machine_learning/classfication/_base_classificaition.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="667">
-          <caret line="38" column="0" lean-forward="false" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
-          <folding>
-            <element signature="e#104#122#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -533,25 +804,67 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/GUI/easylearn_main_run.py">
+    <entry file="file://$PROJECT_DIR$/model_evaluation/el_evaluation_model_performances.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="116">
-          <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="58">
+          <caret line="47" column="39" lean-forward="true" selection-start-line="47" selection-start-column="39" selection-end-line="47" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/machine_learning/classfication/lc_rfe_svc_given_trainingdata_testingdata.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3596">
+          <caret line="124" column="4" lean-forward="true" selection-start-line="124" selection-start-column="4" selection-end-line="124" selection-end-column="4" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/machine_learning/classfication/classificaition.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="203">
-          <caret line="7" column="52" lean-forward="true" selection-start-line="7" selection-start-column="52" selection-end-line="7" selection-end-column="52" />
+        <state relative-caret-position="1914">
+          <caret line="73" column="4" lean-forward="false" selection-start-line="73" selection-start-column="4" selection-end-line="73" selection-end-column="4" />
+          <folding>
+            <element signature="e#48#59#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/machine_learning/classfication/_base_classificaition.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5655">
+          <caret line="207" column="21" lean-forward="false" selection-start-line="207" selection-start-column="17" selection-end-line="207" selection-end-column="30" />
+          <caret line="210" column="21" lean-forward="false" selection-start-line="210" selection-start-column="17" selection-end-line="210" selection-end-column="30" />
+          <caret line="212" column="21" lean-forward="false" selection-start-line="212" selection-start-column="17" selection-end-line="212" selection-end-column="30" />
+          <caret line="224" column="72" lean-forward="false" selection-start-line="224" selection-start-column="68" selection-end-line="224" selection-end-column="81" />
+          <caret line="231" column="81" lean-forward="false" selection-start-line="231" selection-start-column="77" selection-end-line="231" selection-end-column="90" />
+          <caret line="130" column="17" lean-forward="false" selection-start-line="130" selection-start-column="13" selection-end-line="130" selection-end-column="26" />
+          <caret line="192" column="17" lean-forward="false" selection-start-line="192" selection-start-column="13" selection-end-line="192" selection-end-column="26" />
+          <caret line="195" column="21" lean-forward="false" selection-start-line="195" selection-start-column="17" selection-end-line="195" selection-end-column="30" />
+          <caret line="197" column="21" lean-forward="false" selection-start-line="197" selection-start-column="17" selection-end-line="197" selection-end-column="30" />
+          <caret line="200" column="21" lean-forward="false" selection-start-line="200" selection-start-column="17" selection-end-line="200" selection-end-column="30" />
+          <caret line="202" column="21" lean-forward="false" selection-start-line="202" selection-start-column="17" selection-end-line="202" selection-end-column="30" />
+          <caret line="205" column="21" lean-forward="false" selection-start-line="205" selection-start-column="17" selection-end-line="205" selection-end-column="30" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1334">
+          <caret line="56" column="52" lean-forward="false" selection-start-line="56" selection-start-column="52" selection-end-line="56" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GUI/easylearn_main_run.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="478">
+          <caret line="249" column="25" lean-forward="false" selection-start-line="249" selection-start-column="25" selection-end-line="249" selection-end-column="25" />
+          <folding>
+            <element signature="e#183#193#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

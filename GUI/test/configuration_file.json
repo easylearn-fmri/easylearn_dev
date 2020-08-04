@@ -86,36 +86,31 @@
             "StandardScaler()": {}
         },
         "dimreduction": {
-            "None": {}
+            "PCA()": {
+                "n_components": {
+                    "value": "0.80, 0.90"
+                }
+            }
         },
         "feature_selection": {
-            "RFECV()": {
-                "step": {
-                    "value": "0.10"
-                },
-                "cv": {
-                    "value": "5"
-                },
-                "estimator": {
-                    "value": "LogisticRegression()"
-                },
-                "n_jobs": {
-                    "value": "-1"
+            "SelectPercentile(f_classif)": {
+                "percentile": {
+                    "value": "0.2, 0.4"
                 }
             }
         }
     },
     "machine_learning": {
         "Classification": {
-            "LogisticRegression(solver='saga')": {
+            "LinearSVC()": {
                 "penalty": {
-                    "value": "elasticnet"
-                },
-                "l1_ratio": {
-                    "value": "0.5"
+                    "value": "l2"
                 },
                 "C": {
                     "value": "1"
+                },
+                "multi_class": {
+                    "value": "ovr"
                 }
             }
         }

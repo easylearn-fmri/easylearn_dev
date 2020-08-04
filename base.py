@@ -122,10 +122,10 @@ class BaseMachineLearning:
             self.method_feature_selection = list(feature_selection.keys())[0] if list(feature_selection.keys())[0] != 'None' else None
             # Update point
             if self.method_feature_selection == 'RFECV()':
-                self.method_feature_selection = 'RFECV(estimator=LinearSVC())' 
+                self.method_feature_selection = "RFECV(estimator=SVC(kernel='linear'))"
             
             if self.method_feature_selection == 'SelectFromModel(LassoCV())':
-                self.method_feature_selection = f'SelectFromModel(LassoCV())'  
+                self.method_feature_selection = 'SelectFromModel(LassoCV())'
                 self.param_feature_selection = None
             
             if self.method_feature_selection == 'SelectFromModel(ElasticNetCV())':
@@ -145,8 +145,7 @@ class BaseMachineLearning:
     def get_unbalance_treatment_parameters(self):
         self.method_unbalance_treatment = None
         self.param_unbalance_treatment = {}
-        
-        
+
         unbalance_treatment = self.configuration.get('feature_engineering', {}).get('unbalance_treatment', None)
         if unbalance_treatment and (list(unbalance_treatment.keys())[0] != 'None'):
             self.method_unbalance_treatment = [(list(unbalance_treatment.keys())[0] if list(unbalance_treatment.keys())[0] != 'None' else None)]
@@ -183,7 +182,7 @@ class BaseMachineLearning:
             machine_learning = machine_learning.get(keys, None)
 
         if machine_learning and (list(machine_learning.keys())[0] != 'None'):
-            # TODO: This place will update for supportting multiple estimators
+            # TODO: This place will update for supporting multiple estimators
             self.method_machine_learning = [eval(list(machine_learning.keys())[0] if list(machine_learning.keys())[0] != 'None' else None)]
     
             for key in machine_learning.keys():

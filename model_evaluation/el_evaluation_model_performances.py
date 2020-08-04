@@ -11,18 +11,19 @@ def eval_performance(label_real=None, label_predict=None, decision=None,
     This function is used to evaluate performance of the classification model.
     Parameters:
     ----------
-        label_real: real label
-        label_predict: predicted label
-        decision: model output decision
-        accuracy_kfold: accuracy of k-fold cross validation
-        sensitivity_kfold: sensitivity of k-fold cross validation
-        specificity_kfold: specificity of k-fold cross validation
-        AUC_kfold; AUC of k-fold cross validation
-        verbose: if print performances
-        is_showfig: if show figure
-        legend1, legend2: scatter figure legends,
-        is_savefig: if save figure to local disk
-        out_name: save name of the figure
+    label_real: real label
+    label_predict: predicted label
+    decision: output decision of model
+    accuracy_kfold: accuracy of k-fold cross validation
+    sensitivity_kfold: sensitivity of k-fold cross validation
+    specificity_kfold: specificity of k-fold cross validation
+    AUC_kfold; AUC of k-fold cross validation
+    verbose: if print performances
+    is_showfig: if show figure
+    legend1, legend2: scatter figure legends,
+    is_savefig: if save figure to local disk
+    out_name: save name of the figure
+
     TODO: Generate to multiple classification.
     """
 
@@ -48,28 +49,29 @@ def eval_performance(label_real=None, label_predict=None, decision=None,
         fpr, tpr, thresh = roc_curve(label_real, decision)
         auc = roc_auc_score(label_real, decision)
     else:
-        auc = np.nan
+        auc = None
 
     # print performances
     if verbose:
         print('\naccuracy={:.2f}\n'.format(accuracy))
         print('sensitivity={:.2f}\n'.format(sensitivity))
         print('specificity={:.2f}\n'.format(specificity))
-        if not np.isnan(auc):
+        if auc is not None:
             print('auc={:.2f}\n'.format(auc))
         else:
             print('Multi-Classification or only one class can not calculate the AUC\n')
 
-    if is_showfig and auc:
+    if is_showfig and auc is not None:
         # Import modules
         import matplotlib.pyplot as plt
         from matplotlib.backends.backend_pdf import PdfPages
         from matplotlib.pyplot import MultipleLocator
-        
-        if (any(accuracy_kfold) and any(sensitivity_kfold) and any(specificity_kfold)):
+
+        if (accuracy_kfold != None) and (sensitivity_kfold != None) and (specificity_kfold != None):
             fig, ax = plt.subplots(1,3, figsize=(15,5))
         else:
             fig, ax = plt.subplots(1,2, figsize=(10,5))
+
         # Plot classification 2d figure
         decision_0 = decision[label_real == 0]
         decision_1 = decision[label_real == 1]
@@ -88,8 +90,7 @@ def eval_performance(label_real=None, label_predict=None, decision=None,
         ax[0].set_xlabel('Decision values', fontsize=15)
         ax[0].set_ylabel('Subjects', fontsize=15)
         num1, num2, num3, num4 = 0, 1.01, 3, 0
-        ax[0].legend(['Discriminant line', legend1, legend2],
-                  bbox_to_anchor=(num1, num2), loc=num3, borderaxespad=num4)
+        ax[0].legend(['Discriminant line', legend1, legend2], bbox_to_anchor=(num1, num2), loc=num3, borderaxespad=num4)
 
         # Plot ROC
         auc = '{:.2f}'.format(auc)
@@ -111,7 +112,7 @@ def eval_performance(label_real=None, label_predict=None, decision=None,
         ax[1].plot(np.linspace(0, 1,10), np.linspace(0, 1,10), '--', color='k', linewidth=1)
         
         # Plot Bar
-        if (any(accuracy_kfold) and any(sensitivity_kfold) and any(specificity_kfold)):
+        if (accuracy_kfold is not None) and (sensitivity_kfold is not None) and (specificity_kfold is not None):
             mean = [np.mean(accuracy_kfold), np.mean(sensitivity_kfold),np.mean(specificity_kfold),np.mean(AUC_kfold)]
             std = [np.std(accuracy_kfold), np.std(sensitivity_kfold), np.std(specificity_kfold), np.std(AUC_kfold)]
             # Plot

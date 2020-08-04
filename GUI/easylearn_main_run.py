@@ -3,8 +3,12 @@
 """
 Main GUI of the easylearn
 
-# Author: Chao Li <lichao19870617@gmail.com>
-# License: MIT
+Author:
+------
+Chao Li <lichao19870617@gmail.com>
+Mengshi Dong <dongmengshi1990@163.com>
+
+License: MIT
 """
 
 
@@ -24,11 +28,13 @@ from easylearn_model_evaluation_run import EasylearnModelEvaluationRun
 from eslearn.stylesheets.PyQt5_stylesheets import PyQt5_stylesheets
 
 
+
 class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
     """This class is used to display the main GUI of the easylearn.
     """
     
     def __init__(self):
+        print("Initializing easylearn_main_gui...")
         QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
@@ -66,6 +72,11 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
 
 
         # Skins
+        with open(r'D:\My_Codes\ virtualenv_eslearn\Lib\site-packages\eslearn\stylesheets\pyqt-stylesheets-master\pyqtcss\src\dark_blue\style.qss', 'r') as f:
+            sheet = f.read()
+        self.setStyleSheet(sheet)
+
+
         self.skins = {"Dark": "style_Dark", "Black": "style_black", "DarkOrange": "style_DarkOrange", 
                     "Gray": "style_gray", "Blue": "style_blue", "Navy": "style_navy", "Classic": "style_Classic"}
         self.actionDark.triggered.connect(self.set_run_appearance)
@@ -244,3 +255,5 @@ if __name__=='__main__':
     md=EasylearnMainGUI()
     md.show()
     sys.exit(app.exec_())
+    input()
+

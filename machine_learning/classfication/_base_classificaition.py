@@ -218,7 +218,7 @@ class PipelineSearch_(BaseClassification):
     def fit_pipeline_(self, x=None, y=None):
         """Fit the pipeline_"""
         
-        # TODO: Extending to other CV methods
+        # TODO: Extending to other cross-validation methods
         cv = StratifiedKFold(n_splits=self.k)  # Default is StratifiedKFold
         if self.search_strategy == 'grid':
             self.model_ = GridSearchCV(

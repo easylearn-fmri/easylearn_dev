@@ -113,14 +113,14 @@ class ClassificationXiaowei(BaseMachineLearning, PipelineSearch_):
         acc, sens, spec, auc = eval_performance(
             self.label_train,pred_train,dec_train, 
             accuracy_kfold=None, sensitivity_kfold=None, specificity_kfold=None, AUC_kfold=None,
-            verbose=1, is_showfig=False,
+            verbose=1, is_showfig=True,
         )
 
         self.val_label=np.loadtxt(self.val_label)
         acc, sens, spec, auc = eval_performance(
             self.val_label, self.predict_validation ,self.decision, 
             accuracy_kfold=None, sensitivity_kfold=None, specificity_kfold=None, AUC_kfold=None,
-            verbose=1, is_showfig=False,
+            verbose=1, is_showfig=True,
         )
     
     
@@ -162,7 +162,7 @@ if __name__=="__main__":
     print(f"Running time = {time_end-time_start}\n")
     
     
-    best_model = clf.model.best_estimator_
+    best_model = clf.model_.best_estimator_
 
     feature_selection =  best_model.get_params().get('feature_selection', None)
     
