@@ -45,7 +45,6 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         self.textBrowser.setText("Hi~, I'm easylearn. I hope I can help you finish this project successfully\n")
 
         # Display start progress
-        # self.show()
         self.start_process()
 
         # Set working_directory and debug
@@ -59,7 +58,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
             self.set_run_appearance()
         except ModuleNotFoundError:
             lib_root = os.path.dirname(os.__file__)
-            pyqt5_stylesheets_file  = r"site-packages\eslearn\stylesheets\PyQt5_stylesheets"
+            pyqt5_stylesheets_file  = "../stylesheets/PyQt5_stylesheets"
             pyqt5_stylesheets_path = os.path.join(lib_root, pyqt5_stylesheets_file)
             QMessageBox.warning(
                 self, "Warning", f"Skin can not be used due to you did not install PyQt5_stylesheets!\nOpen terminal in the follow directory\n<{pyqt5_stylesheets_path}>, then input command 'python setup.py install' to install PyQt5_stylesheets"
@@ -93,20 +92,20 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         self.actionClassic.triggered.connect(self.set_run_appearance)
 
     def start_process(self):
-        splash = QSplashScreen(QtGui.QPixmap("'../logo/logo-dms.png'"))
+        splash = QSplashScreen(QtGui.QPixmap("../logo/logo-upper.ico"))
         splash.showMessage("... 0%", QtCore.Qt.AlignHCenter | QtCore.Qt.AlignBottom, QtCore.Qt.black)
-        splash.show()                          
-        QtWidgets.qApp.processEvents()         
-        self.load_data(splash)              
-        self.show()
-        splash.finish(self)   
+        splash.resize(300,100)
+        splash.show()
+        QtWidgets.qApp.processEvents()
+        self.load_data(splash)
+        splash.show()
+        splash.finish(self)
 
     def load_data(self, sp):
-        for i in range(1, 5):            
-            time.sleep(0.5)                  
-            sp.showMessage("Initializing easylearn_main_gui... {0}%".format(i * 10), QtCore.Qt.AlignHCenter |QtCore.Qt.AlignBottom, QtCore.Qt.black)
-            QtWidgets.qApp.processEvents()  
-
+        for i in range(1, 5):
+            time.sleep(0.5)
+            sp.showMessage(f"Initializing... {(i+1)*20}%", QtCore.Qt.AlignHCenter |QtCore.Qt.AlignBottom, QtCore.Qt.black)
+            QtWidgets.qApp.processEvents()
 
     def set_run_appearance(self):
         qss_logo = """#logo{background-color: black;

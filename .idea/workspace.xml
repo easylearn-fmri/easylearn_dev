@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c79f847a-5bd3-4488-991e-10fdd1c001b7" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/eslearn.iml" afterPath="$PROJECT_DIR$/.idea/eslearn.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/logo/logo-easylearn - 副本.ai" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/GUI/easylearn_main_run.py" afterPath="$PROJECT_DIR$/GUI/easylearn_main_run.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/GUI/test/configuration_file.json" afterPath="$PROJECT_DIR$/GUI/test/configuration_file.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base.py" afterPath="$PROJECT_DIR$/base.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -18,9 +14,10 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/eslearn$classificaition.coverage" NAME="classificaition Coverage Results" MODIFIED="1596468360600" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/machine_learning/classfication" />
-    <SUITE FILE_PATH="coverage/eslearn$base.coverage" NAME="base Coverage Results" MODIFIED="1596860580491" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/eslearn$base.coverage" NAME="base Coverage Results" MODIFIED="1596938601152" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/eslearn$lc_ui2py_for_feature_engineering.coverage" NAME="lc_ui2py_for_feature_engineering Coverage Results" MODIFIED="1596377826239" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/GUI" />
-    <SUITE FILE_PATH="coverage/eslearn$easylearn_main_run.coverage" NAME="easylearn_main_run Coverage Results" MODIFIED="1596860188780" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/GUI" />
+    <SUITE FILE_PATH="coverage/eslearn$start_.coverage" NAME="start_ Coverage Results" MODIFIED="1596939467529" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/GUI" />
+    <SUITE FILE_PATH="coverage/eslearn$easylearn_main_run.coverage" NAME="easylearn_main_run Coverage Results" MODIFIED="1596940004177" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/GUI" />
     <SUITE FILE_PATH="coverage/eslearn$lc_rfe_svc_given_trainingdata_testingdata.coverage" NAME="lc_rfe_svc_given_trainingdata_testingdata Coverage Results" MODIFIED="1596463483954" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/machine_learning/classfication" />
     <SUITE FILE_PATH="coverage/eslearn$lc_pipeline_test.coverage" NAME="lc_pipeline_test Coverage Results" MODIFIED="1596865416066" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/machine_learning/classfication" />
     <SUITE FILE_PATH="coverage/eslearn$test_pipeline.coverage" NAME="test_pipeline Coverage Results" MODIFIED="1596378103069" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/GUI" />
@@ -51,11 +48,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="lc_pipeline_test.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="lc_pipeline_test.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/machine_learning/classfication/lc_pipeline_test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="464">
-              <caret line="16" column="66" lean-forward="true" selection-start-line="16" selection-start-column="66" selection-end-line="16" selection-end-column="66" />
+            <state relative-caret-position="-2726">
+              <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
               <folding>
                 <element signature="e#86#104#0" expanded="true" />
               </folding>
@@ -63,13 +60,25 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="easylearn_main_run.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="easylearn_main_run.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/GUI/easylearn_main_run.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1798">
-              <caret line="77" column="0" lean-forward="false" selection-start-line="77" selection-start-column="0" selection-end-line="77" selection-end-column="0" />
+            <state relative-caret-position="2262">
+              <caret line="102" column="0" lean-forward="true" selection-start-line="102" selection-start-column="0" selection-end-line="102" selection-end-column="0" />
               <folding>
                 <element signature="e#183#193#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="start_.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/GUI/start_.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-116">
+              <caret line="10" column="17" lean-forward="false" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="17" />
+              <folding>
+                <element signature="e#0#42#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -78,8 +87,8 @@
       <file leaf-file-name="base.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/base.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="261">
-              <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+            <state relative-caret-position="232">
+              <caret line="8" column="19" lean-forward="false" selection-start-line="8" selection-start-column="19" selection-end-line="8" selection-end-column="19" />
               <folding />
             </state>
           </provider>
@@ -99,9 +108,10 @@
         <option value="$PROJECT_DIR$/machine_learning/classfication/lc_rfe_svc_given_trainingdata_testingdata.py" />
         <option value="$PROJECT_DIR$/model_evaluation/el_evaluation_model_performances.py" />
         <option value="$PROJECT_DIR$/machine_learning/classfication/classificaition.py" />
-        <option value="$PROJECT_DIR$/GUI/easylearn_main_run.py" />
         <option value="$PROJECT_DIR$/base.py" />
         <option value="$PROJECT_DIR$/machine_learning/classfication/lc_pipeline_test.py" />
+        <option value="$PROJECT_DIR$/GUI/start_.py" />
+        <option value="$PROJECT_DIR$/GUI/easylearn_main_run.py" />
       </list>
     </option>
   </component>
@@ -150,7 +160,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.lc_pipeline_test">
+  <component name="RunManager" selected="Python.easylearn_main_run">
     <configuration default="false" name="easylearn_main_run" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -189,25 +199,6 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <method />
     </configuration>
-    <configuration default="false" name="lc_rfe_svc_given_trainingdata_testingdata" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/machine_learning/classfication" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="eslearn" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/machine_learning/classfication/lc_rfe_svc_given_trainingdata_testingdata.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <method />
-    </configuration>
     <configuration default="false" name="base" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -241,6 +232,25 @@
       <module name="eslearn" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/machine_learning/classfication/lc_pipeline_test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="start_" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/GUI" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="eslearn" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/GUI/start_.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -397,17 +407,17 @@
     <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Python.easylearn_main_run" />
       <item index="1" class="java.lang.String" itemvalue="Python.classificaition" />
-      <item index="2" class="java.lang.String" itemvalue="Python.lc_rfe_svc_given_trainingdata_testingdata" />
-      <item index="3" class="java.lang.String" itemvalue="Python.base" />
-      <item index="4" class="java.lang.String" itemvalue="Python.lc_pipeline_test" />
+      <item index="2" class="java.lang.String" itemvalue="Python.base" />
+      <item index="3" class="java.lang.String" itemvalue="Python.lc_pipeline_test" />
+      <item index="4" class="java.lang.String" itemvalue="Python.start_" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.lc_pipeline_test" />
-        <item index="1" class="java.lang.String" itemvalue="Python.base" />
-        <item index="2" class="java.lang.String" itemvalue="Python.easylearn_main_run" />
-        <item index="3" class="java.lang.String" itemvalue="Python.classificaition" />
-        <item index="4" class="java.lang.String" itemvalue="Python.lc_rfe_svc_given_trainingdata_testingdata" />
+        <item index="0" class="java.lang.String" itemvalue="Python.easylearn_main_run" />
+        <item index="1" class="java.lang.String" itemvalue="Python.start_" />
+        <item index="2" class="java.lang.String" itemvalue="Python.base" />
+        <item index="3" class="java.lang.String" itemvalue="Python.lc_pipeline_test" />
+        <item index="4" class="java.lang.String" itemvalue="Python.classificaition" />
       </list>
     </recent_temporary>
   </component>
@@ -434,14 +444,14 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-9" y="-9" width="1938" height="1048" extended-state="7" />
+    <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295583" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3272933" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3272933" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295583" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3272933" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -539,6 +549,7 @@
           <caret line="200" column="21" lean-forward="false" selection-start-line="200" selection-start-column="17" selection-end-line="200" selection-end-column="30" />
           <caret line="202" column="21" lean-forward="false" selection-start-line="202" selection-start-column="17" selection-end-line="202" selection-end-column="30" />
           <caret line="205" column="21" lean-forward="false" selection-start-line="205" selection-start-column="17" selection-end-line="205" selection-end-column="30" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -595,6 +606,7 @@
           <caret line="200" column="21" lean-forward="false" selection-start-line="200" selection-start-column="17" selection-end-line="200" selection-end-column="30" />
           <caret line="202" column="21" lean-forward="false" selection-start-line="202" selection-start-column="17" selection-end-line="202" selection-end-column="30" />
           <caret line="205" column="21" lean-forward="false" selection-start-line="205" selection-start-column="17" selection-end-line="205" selection-end-column="30" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -641,6 +653,7 @@
           <caret line="200" column="21" lean-forward="false" selection-start-line="200" selection-start-column="17" selection-end-line="200" selection-end-column="30" />
           <caret line="202" column="21" lean-forward="false" selection-start-line="202" selection-start-column="17" selection-end-line="202" selection-end-column="30" />
           <caret line="205" column="21" lean-forward="false" selection-start-line="205" selection-start-column="17" selection-end-line="205" selection-end-column="30" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -687,6 +700,7 @@
           <caret line="200" column="21" lean-forward="false" selection-start-line="200" selection-start-column="17" selection-end-line="200" selection-end-column="30" />
           <caret line="202" column="21" lean-forward="false" selection-start-line="202" selection-start-column="17" selection-end-line="202" selection-end-column="30" />
           <caret line="205" column="21" lean-forward="false" selection-start-line="205" selection-start-column="17" selection-end-line="205" selection-end-column="30" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -725,6 +739,7 @@
           <caret line="200" column="21" lean-forward="false" selection-start-line="200" selection-start-column="17" selection-end-line="200" selection-end-column="30" />
           <caret line="202" column="21" lean-forward="false" selection-start-line="202" selection-start-column="17" selection-end-line="202" selection-end-column="30" />
           <caret line="205" column="21" lean-forward="false" selection-start-line="205" selection-start-column="17" selection-end-line="205" selection-end-column="30" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -844,6 +859,7 @@
           <caret line="200" column="21" lean-forward="false" selection-start-line="200" selection-start-column="17" selection-end-line="200" selection-end-column="30" />
           <caret line="202" column="21" lean-forward="false" selection-start-line="202" selection-start-column="17" selection-end-line="202" selection-end-column="30" />
           <caret line="205" column="21" lean-forward="false" selection-start-line="205" selection-start-column="17" selection-end-line="205" selection-end-column="30" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -866,15 +882,8 @@
         <state relative-caret-position="372">
           <caret line="9" column="18" lean-forward="false" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="19" />
           <caret line="32" column="24" lean-forward="false" selection-start-line="32" selection-start-column="23" selection-end-line="32" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/GUI/easylearn_main_run.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1798">
-          <caret line="77" column="0" lean-forward="false" selection-start-line="77" selection-start-column="0" selection-end-line="77" selection-end-column="0" />
           <folding>
-            <element signature="e#183#193#0" expanded="true" />
+            <element signature="e#118#139#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -891,18 +900,38 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/base.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="261">
-          <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+        <state relative-caret-position="232">
+          <caret line="8" column="19" lean-forward="false" selection-start-line="8" selection-start-column="19" selection-end-line="8" selection-end-column="19" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/machine_learning/classfication/lc_pipeline_test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="464">
-          <caret line="16" column="66" lean-forward="true" selection-start-line="16" selection-start-column="66" selection-end-line="16" selection-end-column="66" />
+        <state relative-caret-position="-2726">
+          <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
           <folding>
             <element signature="e#86#104#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GUI/start_.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-116">
+          <caret line="10" column="17" lean-forward="false" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="17" />
+          <folding>
+            <element signature="e#0#42#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GUI/easylearn_main_run.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2262">
+          <caret line="102" column="0" lean-forward="true" selection-start-line="102" selection-start-column="0" selection-end-line="102" selection-end-column="0" />
+          <folding>
+            <element signature="e#183#193#0" expanded="true" />
           </folding>
         </state>
       </provider>
