@@ -13,10 +13,12 @@ License: MIT
 
 
 import sys
+import time
 import os
 import json
 import cgitb
-from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QFileDialog, QInputDialog, QLineEdit
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QApplication, qApp, QMainWindow, QMessageBox, QFileDialog, QInputDialog, QLineEdit, QSplashScreen
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.Qt import QCoreApplication
 
@@ -41,6 +43,10 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         self.working_directory = None
         self.configuration_file = ""
         self.textBrowser.setText("Hi~, I'm easylearn. I hope I can help you finish this project successfully\n")
+
+        # Display start progress
+        # self.show()
+        self.start_process()
 
         # Set working_directory and debug
         if self.working_directory:
@@ -70,9 +76,8 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         self.run.clicked.connect(self.run_fun)
         self.quit.clicked.connect(self.closeEvent_button)
 
-
         # Skins
-        with open(r'D:\My_Codes\ virtualenv_eslearn\Lib\site-packages\eslearn\stylesheets\pyqt-stylesheets-master\pyqtcss\src\dark_blue\style.qss', 'r') as f:
+        with open(r'D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\stylesheets\pyqt-stylesheets-master\pyqtcss\src\dark_blue\style.qss', 'r') as f:
             sheet = f.read()
         self.setStyleSheet(sheet)
 
@@ -86,6 +91,22 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         self.actionBlue.triggered.connect(self.set_run_appearance)
         self.actionNavy.triggered.connect(self.set_run_appearance)
         self.actionClassic.triggered.connect(self.set_run_appearance)
+
+    def start_process(self):
+        splash = QSplashScreen(QtGui.QPixmap("'../logo/logo-dms.png'"))
+        splash.showMessage("... 0%", QtCore.Qt.AlignHCenter | QtCore.Qt.AlignBottom, QtCore.Qt.black)
+        splash.show()                          
+        QtWidgets.qApp.processEvents()         
+        self.load_data(splash)              
+        self.show()
+        splash.finish(self)   
+
+    def load_data(self, sp):
+        for i in range(1, 5):            
+            time.sleep(0.5)                  
+            sp.showMessage("Initializing easylearn_main_gui... {0}%".format(i * 10), QtCore.Qt.AlignHCenter |QtCore.Qt.AlignBottom, QtCore.Qt.black)
+            QtWidgets.qApp.processEvents()  
+
 
     def set_run_appearance(self):
         qss_logo = """#logo{background-color: black;

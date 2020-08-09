@@ -86,16 +86,12 @@
             "StandardScaler()": {}
         },
         "dimreduction": {
-            "PCA()": {
-                "n_components": {
-                    "value": "0.80, 0.90"
-                }
-            }
+            "None": {}
         },
         "feature_selection": {
-            "SelectPercentile(f_classif)": {
+            "SelectPercentile(mutual_info_classif)": {
                 "percentile": {
-                    "value": "0.2, 0.4"
+                    "value": "0.5,0.7,0.8"
                 }
             }
         }
