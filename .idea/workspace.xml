@@ -2,8 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c79f847a-5bd3-4488-991e-10fdd1c001b7" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/logo/logo-easylearn - 副本.ai" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/machine_learning/classfication/cachedir/joblib/sklearn/pipeline/_fit_transform_one/2a20c91eaad9d36976d7d30b5b793dc3/output.pkl" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/machine_learning/classfication/cachedir/joblib/sklearn/pipeline/_fit_transform_one/74790542ea2c6906e9ce18443ae3aedc/output.pkl" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/machine_learning/classfication/cachedir/joblib/sklearn/pipeline/_fit_transform_one/8e1ce4d449f740904e3298964d7ea174/metadata.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/machine_learning/classfication/cachedir/joblib/sklearn/pipeline/_fit_transform_one/db275cdc02a97659c44d9550d37ed522/metadata.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/machine_learning/classfication/cachedir/joblib/sklearn/pipeline/_fit_transform_one/func_code.py" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/GUI/easylearn_main_run.py" afterPath="$PROJECT_DIR$/GUI/easylearn_main_run.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/GUI/test/configuration_file.json" afterPath="$PROJECT_DIR$/GUI/test/configuration_file.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/machine_learning/classfication/lc_pipeline_test.py" afterPath="$PROJECT_DIR$/machine_learning/classfication/lc_pipeline_test.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -17,9 +24,9 @@
     <SUITE FILE_PATH="coverage/eslearn$base.coverage" NAME="base Coverage Results" MODIFIED="1596938601152" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/eslearn$lc_ui2py_for_feature_engineering.coverage" NAME="lc_ui2py_for_feature_engineering Coverage Results" MODIFIED="1596377826239" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/GUI" />
     <SUITE FILE_PATH="coverage/eslearn$start_.coverage" NAME="start_ Coverage Results" MODIFIED="1596939467529" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/GUI" />
-    <SUITE FILE_PATH="coverage/eslearn$easylearn_main_run.coverage" NAME="easylearn_main_run Coverage Results" MODIFIED="1596940004177" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/GUI" />
+    <SUITE FILE_PATH="coverage/eslearn$easylearn_main_run.coverage" NAME="easylearn_main_run Coverage Results" MODIFIED="1596949101377" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/GUI" />
     <SUITE FILE_PATH="coverage/eslearn$lc_rfe_svc_given_trainingdata_testingdata.coverage" NAME="lc_rfe_svc_given_trainingdata_testingdata Coverage Results" MODIFIED="1596463483954" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/machine_learning/classfication" />
-    <SUITE FILE_PATH="coverage/eslearn$lc_pipeline_test.coverage" NAME="lc_pipeline_test Coverage Results" MODIFIED="1596865416066" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/machine_learning/classfication" />
+    <SUITE FILE_PATH="coverage/eslearn$lc_pipeline_test.coverage" NAME="lc_pipeline_test Coverage Results" MODIFIED="1596948585807" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/machine_learning/classfication" />
     <SUITE FILE_PATH="coverage/eslearn$test_pipeline.coverage" NAME="test_pipeline Coverage Results" MODIFIED="1596378103069" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/GUI" />
     <SUITE FILE_PATH="coverage/eslearn$concat_table.coverage" NAME="concat_table Coverage Results" MODIFIED="1596375945527" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../../../../lc_private_codes/finacial" />
     <SUITE FILE_PATH="coverage/eslearn$el_evaluation_model_performances.coverage" NAME="el_evaluation_model_performances Coverage Results" MODIFIED="1596444858944" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/model_evaluation" />
@@ -39,10 +46,20 @@
       <file leaf-file-name="classificaition.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/machine_learning/classfication/classificaition.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="377">
-              <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="90" />
+            <state relative-caret-position="87">
+              <caret line="3" column="11" lean-forward="false" selection-start-line="3" selection-start-column="11" selection-end-line="3" selection-end-column="11" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pca_rfe_svc_cv.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/machine_learning/classfication/pca_rfe_svc_cv.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="6467">
+              <caret line="234" column="49" lean-forward="false" selection-start-line="229" selection-start-column="8" selection-end-line="234" selection-end-column="49" />
               <folding>
-                <element signature="e#48#59#0" expanded="true" />
+                <element signature="e#167#185#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -51,8 +68,8 @@
       <file leaf-file-name="lc_pipeline_test.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/machine_learning/classfication/lc_pipeline_test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2726">
-              <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+            <state relative-caret-position="638">
+              <caret line="32" column="86" lean-forward="false" selection-start-line="32" selection-start-column="86" selection-end-line="32" selection-end-column="86" />
               <folding>
                 <element signature="e#86#104#0" expanded="true" />
               </folding>
@@ -63,33 +80,11 @@
       <file leaf-file-name="easylearn_main_run.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/GUI/easylearn_main_run.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2262">
-              <caret line="102" column="0" lean-forward="true" selection-start-line="102" selection-start-column="0" selection-end-line="102" selection-end-column="0" />
+            <state relative-caret-position="159">
+              <caret line="103" column="28" lean-forward="false" selection-start-line="103" selection-start-column="28" selection-end-line="103" selection-end-column="28" />
               <folding>
                 <element signature="e#183#193#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="start_.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/GUI/start_.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-116">
-              <caret line="10" column="17" lean-forward="false" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="17" />
-              <folding>
-                <element signature="e#0#42#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="base.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/base.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="232">
-              <caret line="8" column="19" lean-forward="false" selection-start-line="8" selection-start-column="19" selection-end-line="8" selection-end-column="19" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -109,8 +104,8 @@
         <option value="$PROJECT_DIR$/model_evaluation/el_evaluation_model_performances.py" />
         <option value="$PROJECT_DIR$/machine_learning/classfication/classificaition.py" />
         <option value="$PROJECT_DIR$/base.py" />
-        <option value="$PROJECT_DIR$/machine_learning/classfication/lc_pipeline_test.py" />
         <option value="$PROJECT_DIR$/GUI/start_.py" />
+        <option value="$PROJECT_DIR$/machine_learning/classfication/lc_pipeline_test.py" />
         <option value="$PROJECT_DIR$/GUI/easylearn_main_run.py" />
       </list>
     </option>
@@ -414,9 +409,9 @@
     <recent_temporary>
       <list size="5">
         <item index="0" class="java.lang.String" itemvalue="Python.easylearn_main_run" />
-        <item index="1" class="java.lang.String" itemvalue="Python.start_" />
-        <item index="2" class="java.lang.String" itemvalue="Python.base" />
-        <item index="3" class="java.lang.String" itemvalue="Python.lc_pipeline_test" />
+        <item index="1" class="java.lang.String" itemvalue="Python.lc_pipeline_test" />
+        <item index="2" class="java.lang.String" itemvalue="Python.start_" />
+        <item index="3" class="java.lang.String" itemvalue="Python.base" />
         <item index="4" class="java.lang.String" itemvalue="Python.classificaition" />
       </list>
     </recent_temporary>
@@ -445,18 +440,17 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295583" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295583" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3272933" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2785957" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295583" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3272933" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295583" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3567384" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39071348" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3299356" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.7001073" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -481,18 +475,58 @@
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="31" />
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
+      <option name="time" value="38" />
     </breakpoint-manager>
-    <watches-manager />
+    <watches-manager>
+      <configuration name="PythonConfigurationType">
+        <watch expression="test_index" language="Python" />
+        <watch expression="train_index" language="Python" />
+        <watch expression="self.data_train" language="Python" />
+        <watch expression="self.data_test" language="Python" />
+      </configuration>
+    </watches-manager>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/machine_learning/classfication/classificaition.py">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/machine_learning/classfication/pca_rfe_svc_cv.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6786">
+          <caret line="234" column="49" lean-forward="false" selection-start-line="229" selection-start-column="8" selection-end-line="234" selection-end-column="49" />
+          <folding>
+            <element signature="e#167#185#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/machine_learning/classfication/lc_pipeline_test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="638">
+          <caret line="32" column="86" lean-forward="true" selection-start-line="32" selection-start-column="86" selection-end-line="32" selection-end-column="86" />
+          <folding>
+            <element signature="e#86#104#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/machine_learning/classfication/classificaition.py">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="377">
           <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="90" />
-          <folding>
-            <element signature="e#48#59#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -510,7 +544,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="261">
           <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -528,9 +561,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1914">
           <caret line="73" column="4" lean-forward="false" selection-start-line="73" selection-start-column="4" selection-end-line="73" selection-end-column="4" />
-          <folding>
-            <element signature="e#48#59#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -549,7 +580,6 @@
           <caret line="200" column="21" lean-forward="false" selection-start-line="200" selection-start-column="17" selection-end-line="200" selection-end-column="30" />
           <caret line="202" column="21" lean-forward="false" selection-start-line="202" selection-start-column="17" selection-end-line="202" selection-end-column="30" />
           <caret line="205" column="21" lean-forward="false" selection-start-line="205" selection-start-column="17" selection-end-line="205" selection-end-column="30" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -557,7 +587,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1334">
           <caret line="56" column="52" lean-forward="false" selection-start-line="56" selection-start-column="52" selection-end-line="56" selection-end-column="52" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -585,9 +614,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1914">
           <caret line="73" column="4" lean-forward="false" selection-start-line="73" selection-start-column="4" selection-end-line="73" selection-end-column="4" />
-          <folding>
-            <element signature="e#48#59#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -606,7 +633,6 @@
           <caret line="200" column="21" lean-forward="false" selection-start-line="200" selection-start-column="17" selection-end-line="200" selection-end-column="30" />
           <caret line="202" column="21" lean-forward="false" selection-start-line="202" selection-start-column="17" selection-end-line="202" selection-end-column="30" />
           <caret line="205" column="21" lean-forward="false" selection-start-line="205" selection-start-column="17" selection-end-line="205" selection-end-column="30" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -614,7 +640,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1334">
           <caret line="56" column="52" lean-forward="false" selection-start-line="56" selection-start-column="52" selection-end-line="56" selection-end-column="52" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -632,9 +657,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#48#59#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -653,7 +676,6 @@
           <caret line="200" column="21" lean-forward="false" selection-start-line="200" selection-start-column="17" selection-end-line="200" selection-end-column="30" />
           <caret line="202" column="21" lean-forward="false" selection-start-line="202" selection-start-column="17" selection-end-line="202" selection-end-column="30" />
           <caret line="205" column="21" lean-forward="false" selection-start-line="205" selection-start-column="17" selection-end-line="205" selection-end-column="30" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -661,7 +683,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1334">
           <caret line="56" column="52" lean-forward="false" selection-start-line="56" selection-start-column="52" selection-end-line="56" selection-end-column="52" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -679,9 +700,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#48#59#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -700,7 +719,6 @@
           <caret line="200" column="21" lean-forward="false" selection-start-line="200" selection-start-column="17" selection-end-line="200" selection-end-column="30" />
           <caret line="202" column="21" lean-forward="false" selection-start-line="202" selection-start-column="17" selection-end-line="202" selection-end-column="30" />
           <caret line="205" column="21" lean-forward="false" selection-start-line="205" selection-start-column="17" selection-end-line="205" selection-end-column="30" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -718,9 +736,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#48#59#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -739,7 +755,6 @@
           <caret line="200" column="21" lean-forward="false" selection-start-line="200" selection-start-column="17" selection-end-line="200" selection-end-column="30" />
           <caret line="202" column="21" lean-forward="false" selection-start-line="202" selection-start-column="17" selection-end-line="202" selection-end-column="30" />
           <caret line="205" column="21" lean-forward="false" selection-start-line="205" selection-start-column="17" selection-end-line="205" selection-end-column="30" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -757,9 +772,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#48#59#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -844,25 +857,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/machine_learning/classfication/_base_classificaition.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="757">
-          <caret line="207" column="21" lean-forward="false" selection-start-line="207" selection-start-column="17" selection-end-line="207" selection-end-column="30" />
-          <caret line="210" column="21" lean-forward="false" selection-start-line="210" selection-start-column="17" selection-end-line="210" selection-end-column="30" />
-          <caret line="212" column="21" lean-forward="false" selection-start-line="212" selection-start-column="17" selection-end-line="212" selection-end-column="30" />
-          <caret line="224" column="72" lean-forward="false" selection-start-line="224" selection-start-column="68" selection-end-line="224" selection-end-column="81" />
-          <caret line="231" column="81" lean-forward="false" selection-start-line="231" selection-start-column="77" selection-end-line="231" selection-end-column="90" />
-          <caret line="130" column="17" lean-forward="false" selection-start-line="130" selection-start-column="13" selection-end-line="130" selection-end-column="26" />
-          <caret line="192" column="17" lean-forward="false" selection-start-line="192" selection-start-column="13" selection-end-line="192" selection-end-column="26" />
-          <caret line="195" column="21" lean-forward="false" selection-start-line="195" selection-start-column="17" selection-end-line="195" selection-end-column="30" />
-          <caret line="197" column="21" lean-forward="false" selection-start-line="197" selection-start-column="17" selection-end-line="197" selection-end-column="30" />
-          <caret line="200" column="21" lean-forward="false" selection-start-line="200" selection-start-column="17" selection-end-line="200" selection-end-column="30" />
-          <caret line="202" column="21" lean-forward="false" selection-start-line="202" selection-start-column="17" selection-end-line="202" selection-end-column="30" />
-          <caret line="205" column="21" lean-forward="false" selection-start-line="205" selection-start-column="17" selection-end-line="205" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://F:/Python378/Lib/codecs.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="176">
@@ -882,19 +876,6 @@
         <state relative-caret-position="372">
           <caret line="9" column="18" lean-forward="false" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="19" />
           <caret line="32" column="24" lean-forward="false" selection-start-line="32" selection-start-column="23" selection-end-line="32" selection-end-column="25" />
-          <folding>
-            <element signature="e#118#139#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/machine_learning/classfication/classificaition.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="377">
-          <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="90" />
-          <folding>
-            <element signature="e#48#59#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -902,17 +883,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="232">
           <caret line="8" column="19" lean-forward="false" selection-start-line="8" selection-start-column="19" selection-end-line="8" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/machine_learning/classfication/lc_pipeline_test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2726">
-          <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding>
-            <element signature="e#86#104#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -920,16 +890,48 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-116">
           <caret line="10" column="17" lean-forward="false" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/machine_learning/classfication/_base_classificaition.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="322">
+          <caret line="221" column="75" lean-forward="true" selection-start-line="221" selection-start-column="8" selection-end-line="221" selection-end-column="75" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/machine_learning/classfication/classificaition.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="87">
+          <caret line="3" column="11" lean-forward="false" selection-start-line="3" selection-start-column="11" selection-end-line="3" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/machine_learning/classfication/pca_rfe_svc_cv.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6467">
+          <caret line="234" column="49" lean-forward="false" selection-start-line="229" selection-start-column="8" selection-end-line="234" selection-end-column="49" />
           <folding>
-            <element signature="e#0#42#0" expanded="true" />
+            <element signature="e#167#185#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/machine_learning/classfication/lc_pipeline_test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="638">
+          <caret line="32" column="86" lean-forward="false" selection-start-line="32" selection-start-column="86" selection-end-line="32" selection-end-column="86" />
+          <folding>
+            <element signature="e#86#104#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/GUI/easylearn_main_run.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2262">
-          <caret line="102" column="0" lean-forward="true" selection-start-line="102" selection-start-column="0" selection-end-line="102" selection-end-column="0" />
+        <state relative-caret-position="159">
+          <caret line="103" column="28" lean-forward="false" selection-start-line="103" selection-start-column="28" selection-end-line="103" selection-end-column="28" />
           <folding>
             <element signature="e#183#193#0" expanded="true" />
           </folding>

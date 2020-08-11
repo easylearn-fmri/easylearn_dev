@@ -32,7 +32,7 @@ for image in client.images.list():
 #image = client.images.pull("alpine")
 # print(image.id)
 
-docker run - ti - -rm - v F: / Docker / data: / data: ro - v F: / Docker / data: / out poldracklab / fmriprep / data / out / out participant
-docker run poldracklab / fmriprep F: \Docker\data F: \Docker\data participant
+# docker run - ti - -rm - v F: / Docker / data: / data: ro - v F: / Docker / data: / out poldracklab / fmriprep / data / out / out participant
+# docker run poldracklab / fmriprep F: \Docker\data F: \Docker\data participant
 
-docker run poldracklab / fmriprep data data participant
+# docker run poldracklab / fmriprep data data participant

@@ -13,8 +13,8 @@ from setuptools import setup, find_packages
 #     long_description = fh.read()
 
 setup(
-    name='easylearn',
-    version='0.1.14.alpha',
+    name='eslearn',
+    version='0.1.15.alpha',
     description=(
         'This project is designed for machine learning in resting-state fMRI field'
     ),
@@ -39,18 +39,4 @@ setup(
         'Operating System :: OS Independent',
     ],
     python_requires='>=3.5',
-    install_requires=[
-        'joblib',
-        'numpy',
-        'pandas',
-        'python-dateutil',
-        'pytz',
-        'scikit-learn',
-        'scipy',
-        'six',
-        'nibabel',
-        'imbalanced-learn',
-        'skrebate',
-        'matplotlib',
-        ],
 )

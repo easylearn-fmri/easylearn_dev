@@ -57,6 +57,11 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         try:
             self.set_run_appearance()
         except ModuleNotFoundError:
+            # Using other style
+            with open(r'..\stylesheets\pyqt-stylesheets-master\pyqtcss\src\dark_blue\style.qss', 'r') as f:
+                sheet = f.read()
+            self.setStyleSheet(sheet)
+            # Warning users
             lib_root = os.path.dirname(os.__file__)
             pyqt5_stylesheets_file  = "../stylesheets/PyQt5_stylesheets"
             pyqt5_stylesheets_path = os.path.join(lib_root, pyqt5_stylesheets_file)
@@ -75,12 +80,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         self.run.clicked.connect(self.run_fun)
         self.quit.clicked.connect(self.closeEvent_button)
 
-        # Skins
-        with open(r'D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\stylesheets\pyqt-stylesheets-master\pyqtcss\src\dark_blue\style.qss', 'r') as f:
-            sheet = f.read()
-        self.setStyleSheet(sheet)
-
-
+        # Skin
         self.skins = {"Dark": "style_Dark", "Black": "style_black", "DarkOrange": "style_DarkOrange", 
                     "Gray": "style_gray", "Blue": "style_blue", "Navy": "style_navy", "Classic": "style_Classic"}
         self.actionDark.triggered.connect(self.set_run_appearance)
@@ -102,9 +102,9 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         splash.finish(self)
 
     def load_data(self, sp):
-        for i in range(1, 5):
-            time.sleep(0.5)
-            sp.showMessage(f"Initializing... {(i+1)*20}%", QtCore.Qt.AlignHCenter |QtCore.Qt.AlignBottom, QtCore.Qt.black)
+        for i in range(1, 10):
+            time.sleep(0.2)
+            sp.showMessage(f"Initializing... {(i+1)*10}%", QtCore.Qt.AlignHCenter |QtCore.Qt.AlignBottom, QtCore.Qt.black)
             QtWidgets.qApp.processEvents()
 
     def set_run_appearance(self):
