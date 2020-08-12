@@ -5,9 +5,11 @@ Created on Fri Apr 12 16:25:57 2019
 """
 
 import numpy as np
+import nibabel as nib
+import os
 import time
 
-from eslearn.model_evaluation.el_evaluation_model_performances import eval_performance
+from eslearn.model_evaluator import ModelEvaluator
 from eslearn.utils.lc_niiProcessor import NiiProcessor
 from eslearn.base import BaseMachineLearning
 from eslearn.machine_learning.classfication._base_classificaition import BaseClassification, PipelineSearch_
@@ -22,14 +24,14 @@ class ClassificationXiaowei(BaseMachineLearning, PipelineSearch_):
     """
     def __init__(self,
                  # =====================================================================
-                 # all inputs are follows
-                 patients_path=r'D:\workstation_b\xiaowei\ToLC\training\BD_label1',  # 训练组病人
-                 hc_path=r'D:\workstation_b\xiaowei\ToLC\training\MDD__label0',  # 训练组正常人
-                 val_path=r'D:\workstation_b\xiaowei\ToLC\testing',  # 验证集数据
-                 val_label=r'D:\workstation_b\xiaowei\ToLC\testing_label.txt',  # 验证数据的label文件
+                 patients_path=r'D:\workstation_b\xiaowei\TOLC_20200811\training\BD_label1',  # 训练组病人
+                 hc_path=r'D:\workstation_b\xiaowei\TOLC_20200811\training\MDD_label0',  # 训练组正常人
+                 val_path=r'D:\workstation_b\xiaowei\TOLC_20200811\mix6',  # 验证集数据
+                 val_label=r'D:\workstation_b\xiaowei\TOLC_20200811\mix6_label.txt',  # 验证数据的label文件
                  suffix='.nii',
                  mask=r'D:\workstation_b\xiaowei\TOLC3\dFC\TRA\MDD\StdzFC_ROI1_01367_resting7000.nii',
-                 k=3
+                 k=3,
+                 save_directory = r'D:\workstation_b\xiaowei\TOLC_20200811'
                  # =====================================================================
                  ):
         
@@ -38,7 +40,7 @@ class ClassificationXiaowei(BaseMachineLearning, PipelineSearch_):
         self.search_strategy = 'grid'
         self.n_jobs = 2
         self.k=k
-        self.verbose=True
+        self.verbose=False
         
         self.patients_path=patients_path
         self.hc_path=hc_path
@@ -46,6 +48,7 @@ class ClassificationXiaowei(BaseMachineLearning, PipelineSearch_):
         self.val_label=val_label
         self.suffix=suffix
         self.mask=mask
+        self.save_directory = save_directory
         print("SvcForGivenTrAndTe initiated")
         
     def _load_data_infolder(self):
@@ -63,7 +66,7 @@ class ClassificationXiaowei(BaseMachineLearning, PipelineSearch_):
         data_validation = np.squeeze(np.array([np.array(data_validation).reshape(1,-1) for data_validation in data_validation]))
         
         # data in mask
-        mask, _ = NiiProcessor().read_sigle_nii(self.mask)
+        mask, self.mask_obj =  NiiProcessor().read_sigle_nii(self.mask)
         self.mask_orig = mask>=0.1
         self.mask_1d = np.array(self.mask_orig).reshape(-1,)
         
@@ -104,30 +107,50 @@ class ClassificationXiaowei(BaseMachineLearning, PipelineSearch_):
         
         # Get weights
         self.get_weights_(self.data_train, self.label_train)
+        self._weight2nii(self.weights_)
         
         # Predict
         pred_train, dec_train = self.predict(self.data_train)
         self.predict_validation, self.decision = self.predict(self.data_validation)
         
-         # Eval performances
-        acc, sens, spec, auc = eval_performance(
+        # Eval performances
+        print("Evaluating training data...")
+        bi_evaluator = ModelEvaluator().binary_evaluator
+        acc, sens, spec, auc = bi_evaluator(
             self.label_train,pred_train,dec_train, 
             accuracy_kfold=None, sensitivity_kfold=None, specificity_kfold=None, AUC_kfold=None,
-            verbose=1, is_showfig=True,
+            verbose=1, is_showfig=False,is_savefig=True, out_name=os.path.join(self.save_directory, "performances_train.pdf")
         )
-
+        
+        print("Evaluating test data...")
         self.val_label=np.loadtxt(self.val_label)
-        acc, sens, spec, auc = eval_performance(
+        acc, sens, spec, auc = bi_evaluator(
             self.val_label, self.predict_validation ,self.decision, 
             accuracy_kfold=None, sensitivity_kfold=None, specificity_kfold=None, AUC_kfold=None,
-            verbose=1, is_showfig=True,
+            verbose=1, is_showfig=False, is_savefig=True, out_name=os.path.join(self.save_directory, "performances_test.pdf")
         )
     
+    def _weight2nii(self, weights, dimension_nii_data=(61, 73, 61)):
+        """
+        Transfer weight matrix to nii file
+        I used the mask file as reference to generate the nii file
+        """
+
+        weight = np.squeeze(weights)
+        # weight_mean = np.mean(weight, axis=0)
+
+        # to orignal space
+        weight_mean_orig = np.zeros(dimension_nii_data)
+        weight_mean_orig[self.mask_orig] = weight
+        # save to nii
+        weight_nii = nib.Nifti1Image(weight_mean_orig, affine=self.mask_obj.affine)
+        weight_nii.to_filename(os.path.join(self.save_directory, "weight.nii"))
+
     
 if __name__=="__main__":
     time_start = time.time()
     clf = ClassificationXiaowei()
-    clf.get_configuration_(configuration_file=r'F:\Python378\Lib\site-packages\eslearn\GUI\test\configuration_file.json')
+    clf.get_configuration_(configuration_file=r'D:\workstation_b\xiaowei\TOLC_20200811\configuration_file.json')
     clf.get_preprocessing_parameters()
     clf.get_dimension_reduction_parameters()
     clf.get_feature_selection_parameters()
@@ -160,9 +183,3 @@ if __name__=="__main__":
     )
     time_end = time.time()
     print(f"Running time = {time_end-time_start}\n")
-    
-    
-    best_model = clf.model_.best_estimator_
-
-    feature_selection =  best_model.get_params().get('feature_selection', None)
-    
