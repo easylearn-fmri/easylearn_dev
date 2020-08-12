@@ -13,8 +13,8 @@ from setuptools import setup, find_packages
 #     long_description = fh.read()
 
 setup(
-    name='eslearn',
-    version='0.1.15.alpha',
+    name='easylearn',
+    version='0.1.16.alpha',
     description=(
         'This project is designed for machine learning in resting-state fMRI field'
     ),
