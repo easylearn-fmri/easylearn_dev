@@ -9,7 +9,7 @@ import nibabel as nib
 import os
 import time
 
-from eslearn.model_evaluation.el_evaluation_model_performances import eval_performance
+from eslearn.model_evaluator import ModelEvaluator
 from eslearn.utils.lc_niiProcessor import NiiProcessor
 from eslearn.base import BaseMachineLearning
 from eslearn.machine_learning.classfication._base_classificaition import BaseClassification, PipelineSearch_
@@ -31,7 +31,7 @@ class ClassificationXiaowei(BaseMachineLearning, PipelineSearch_):
                  suffix='.nii',
                  mask=r'D:\workstation_b\xiaowei\TOLC3\dFC\TRA\MDD\StdzFC_ROI1_01367_resting7000.nii',
                  k=3,
-                 save_directory = r'D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\machine_learning\classfication'
+                 save_directory = r'D:\workstation_b\xiaowei\TOLC_20200811'
                  # =====================================================================
                  ):
         
@@ -115,18 +115,19 @@ class ClassificationXiaowei(BaseMachineLearning, PipelineSearch_):
         
         # Eval performances
         print("Evaluating training data...")
-        acc, sens, spec, auc = eval_performance(
+        bi_evaluator = ModelEvaluator().binary_evaluator
+        acc, sens, spec, auc = bi_evaluator(
             self.label_train,pred_train,dec_train, 
             accuracy_kfold=None, sensitivity_kfold=None, specificity_kfold=None, AUC_kfold=None,
-            verbose=1, is_showfig=True,is_savefig=True, out_name=os.path.join(self.save_directory, "performances_train.pdf")
+            verbose=1, is_showfig=False,is_savefig=True, out_name=os.path.join(self.save_directory, "performances_train.pdf")
         )
         
         print("Evaluating test data...")
         self.val_label=np.loadtxt(self.val_label)
-        acc, sens, spec, auc = eval_performance(
+        acc, sens, spec, auc = bi_evaluator(
             self.val_label, self.predict_validation ,self.decision, 
             accuracy_kfold=None, sensitivity_kfold=None, specificity_kfold=None, AUC_kfold=None,
-            verbose=1, is_showfig=True, is_savefig=True, out_name=os.path.join(self.save_directory, "performances_test.pdf")
+            verbose=1, is_showfig=False, is_savefig=True, out_name=os.path.join(self.save_directory, "performances_test.pdf")
         )
     
     def _weight2nii(self, weights, dimension_nii_data=(61, 73, 61)):
