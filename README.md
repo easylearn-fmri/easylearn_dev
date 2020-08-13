@@ -44,8 +44,7 @@ The follows will be automatically install if you use "pip install -U easylearn" 
 pip install -U easylearn
 ```
 
-# Development   
-一个人走得很快，一群人走得更远！  
+# Development    
 At present, the project is in the development stage. We hope you can join us!   
 Any contributions you make will be appreciated and announced.   
 Please refer to [developer link](https://github.com/easylearn-fmri/easylearn/tree/master/eslearn/developer) for details.

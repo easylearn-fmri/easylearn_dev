@@ -14,7 +14,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='easylearn',
-    version='0.1.16.alpha',
+    version='0.1.17.alpha',
     description=(
         'This project is designed for machine learning in resting-state fMRI field'
     ),
