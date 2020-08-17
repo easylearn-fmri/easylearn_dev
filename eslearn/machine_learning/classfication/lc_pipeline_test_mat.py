@@ -13,7 +13,7 @@ from sklearn.model_selection import StratifiedKFold
 from imblearn.over_sampling import RandomOverSampler
 from collections import Counter
 
-from eslearn.model_evaluation.el_evaluation_model_performances import eval_performance
+from eslearn.model_evaluator import ModelEvaluator
 from eslearn.utils.lc_niiProcessor import NiiProcessor
 from eslearn.base import BaseMachineLearning
 from eslearn.machine_learning.classfication._base_classificaition import BaseClassification, PipelineSearch_
@@ -31,11 +31,11 @@ class ClassificationYueYing(BaseMachineLearning, PipelineSearch_):
                  hc_path=r'D:\悦影科技\数据处理业务1\data_variance_22_30_z\dFCD_var_22\znc',  # 训练组正常人
                  suffix='.nii',
                  mask=r'D:\悦影科技\数据处理业务1\data_variance_22_30_z\GreyMask_02_61x73x61.img',
-                 k=3,
-                 legend1='NC', 
-                 legend2='EMCI', 
-                 performances_save_name=r'D:\悦影科技\数据处理业务1\data_variance_22_30_z\dFCD_var_22\emciVSnc.pdf',
-                 save_wei_name = r'D:\悦影科技\数据处理业务1\data_variance_22_30_z\dFCD_var_22\emciVSnc.nii'
+                 k=10,
+                 legend1='EMCI', 
+                 legend2='LMCI', 
+                 performances_save_name=r'D:\悦影科技\数据处理业务1\data_variance_22_30_z\dFCD_var_22\lmciVSemci.pdf',
+                 save_wei_name = r'D:\悦影科技\数据处理业务1\data_variance_22_30_z\dFCD_var_22\lmciVSemci.nii'
                  # =====================================================================
                  ):
         
@@ -60,28 +60,18 @@ class ClassificationYueYing(BaseMachineLearning, PipelineSearch_):
         """load training data and validation data and generate label for training data"""
         print("loading...")
         # train data
-        data1, _ = NiiProcessor().read_multi_nii(self.patients_path, self.suffix)
-        data1 = np.squeeze(np.array([np.array(data1).reshape(1,-1) for data1 in data1]))
-        data2,_ = NiiProcessor().read_multi_nii(self.hc_path, self.suffix)
-        data2 = np.squeeze(np.array([np.array(data2).reshape(1,-1) for data2 in data2]))
-        data = np.vstack([data1,data2])
-
-        # data in mask
-        self.mask_data, self.mask_obj = NiiProcessor().read_sigle_nii(self.mask)
-        self.mask_orig = self.mask_data>=0
-        self.mask_1d = np.array(self.mask_orig).reshape(-1,)
-        
-        self.data = data[:,self.mask_1d]
+        data1 = sio.loadmat(self.patients_path)['data']
+        data2 = sio.loadmat(self.hc_path)['data']
+        self.data = np.vstack([data1,data2])
         
         # label_tr
         self.label = np.hstack([np.ones([len(data1),]),np.ones([len(data2),]) - 1])
-        # self.data_train, self.data_test, self.label_train, self.label_test = train_test_split(self.data, self.label, test_size=0.4, random_state=0, shuffle=True)
         print("loaded")
         return self
 
     def loop(self):
         self.get_configuration_(
-            configuration_file=r'D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\test\configuration_file.json')
+            configuration_file=r'D:\My_Codes\easylearn\eslearn\GUI\test\configuration_file.json')
         self.get_preprocessing_parameters()
         self.get_dimension_reduction_parameters()
         self.get_feature_selection_parameters()
@@ -113,7 +103,7 @@ class ClassificationYueYing(BaseMachineLearning, PipelineSearch_):
         decision = []
         weights = []
         label_test_all = []
-        cv = StratifiedKFold(n_splits=3, random_state=666)
+        cv = StratifiedKFold(n_splits=self.k, random_state=0)
         for train_index, test_index in cv.split(self.data, self.label):
             data_train = self.data[train_index, :]
             data_test = self.data[test_index, :]
@@ -148,14 +138,15 @@ class ClassificationYueYing(BaseMachineLearning, PipelineSearch_):
             weights.append(wei)
             
         # Eval performances
-        acc, sens, spec, auc = eval_performance(
+        evaluator = ModelEvaluator()
+        acc, sens, spec, auc_ = evaluator.binary_evaluator(
             label_test_all, pred_test, decision,
             accuracy_kfold=accuracy, sensitivity_kfold=sensitivity, specificity_kfold=specificity, AUC_kfold=auc,
-            verbose=1, is_showfig=True, legend1=self.legend1, legend2=self.legend2, is_savefig=True, out_name=self.performances_save_name
+            verbose=1, is_showfig=True, legend1=self.legend1, legend2=self.legend2, is_savefig=False, out_name=self.performances_save_name
         )
 
         # save weight to nii
-        self._weight2nii(weights)
+        # self._weight2nii(weights)
         return accuracy, sensitivity, specificity, auc, weights
 
     def pipeline_grid(self, 
@@ -192,7 +183,8 @@ class ClassificationYueYing(BaseMachineLearning, PipelineSearch_):
         pred_test, dec_test = self.predict(data_test)
         
         # Eval performances
-        acc, sens, spec, auc = eval_performance(
+        evaluator = ModelEvaluator()
+        acc, sens, spec, auc = evaluator.binary_evaluator(
             label_test, pred_test, dec_test,
             accuracy_kfold=None, sensitivity_kfold=None, specificity_kfold=None, AUC_kfold=None,
             verbose=1, is_showfig=False,
@@ -220,8 +212,12 @@ class ClassificationYueYing(BaseMachineLearning, PipelineSearch_):
 if __name__=="__main__":
     time_start = time.time()
     clf = ClassificationYueYing()
-    clf.loop()
-    # print(np.mean(accuracy), np.mean(sensitivity), np.mean(specificity), np.mean(auc))
+    accuracy, sensitivity, specificity, auc, weights = clf.loop()
+    print(np.mean(accuracy), np.mean(sensitivity), np.mean(specificity), np.mean(auc))
+    print(np.std(accuracy)/np.power(len(accuracy), 0.5), 
+        np.std(sensitivity)/np.power(len(sensitivity), 0.5), 
+        np.std(specificity)/np.power(len(specificity), 0.5), 
+        np.std(auc)/np.power(len(auc), 0.5))
     time_end = time.time()
     print(f"Running time = {time_end-time_start}\n")
 
