@@ -64,7 +64,7 @@ class Classification(BaseMachineLearning, PipelineSearch_):
 if __name__ == "__main__":
     time_start = time.time()
     clf = Classification()
-    clf.get_configuration_(configuration_file=r'F:\Python378\Lib\site-packages\eslearn\GUI\test\configuration_file.json')
+    clf.get_configuration_(configuration_file=r'D:\My_Codes\easylearn\eslearn\GUI\test\configuration_file.json')
     clf.get_preprocessing_parameters()
     clf.get_dimension_reduction_parameters()
     clf.get_feature_selection_parameters()

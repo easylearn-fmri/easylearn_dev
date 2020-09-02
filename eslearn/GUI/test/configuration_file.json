@@ -26,19 +26,38 @@
                     "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_patient/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub021.nii",
                     "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_patient/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub022.nii",
                     "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_patient/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub023.nii",
-                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_patient/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub024.nii",
-                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_patient/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub025.nii"
+                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_patient/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub024.nii"
                 ],
                 "mask": "G:/Softer_DataProcessing/spm12/spm12/tpm/Reslice3_TPM_greaterThan0.2.nii",
                 "targets": "1",
-                "covariates": []
+                "covariates": "D:/My_Codes/easylearn/eslearn/GUI/test/cov1.xlsx"
             },
-            "ALFF": {
+            "modality_2": {
                 "file": [
-                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_control/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub001.nii",
-                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_control/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub002.nii",
-                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_control/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub003.nii",
-                    "D:/WorkStation_2018/Workstation_Old/WorkStation_2018-05_MVPA_insomnia_FCS/Degree/degree_gray_matter/Zdegree/Z_degree_control/Weighted/zDegreeCentrality_PositiveWeightedSumBrainMap_sub004.nii"
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00002.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00003.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00004.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00005.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00006.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00007.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00008.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00009.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00010.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00011.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00013.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00016.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00017.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00019.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00020.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00021.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00022.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00023.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00026.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00027.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00028.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00035.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00036.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00037.mat"
                 ],
                 "mask": "",
                 "targets": [],
@@ -77,6 +96,39 @@
                 ],
                 "mask": "G:/Softer_DataProcessing/spm12/spm12/tpm/Reslice3_TPM_greaterThan0.2.nii",
                 "targets": "0",
+                "covariates": "D:/My_Codes/easylearn/eslearn/GUI/test/cov2.xlsx"
+            },
+            "modality_2": {
+                "file": [
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00062.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00063.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00064.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00065.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00066.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00068.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00069.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00070.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00071.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00072.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00073.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00074.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00075.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00076.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00077.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00078.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00079.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00081.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00082.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00083.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00084.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00086.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00087.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00088.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00089.mat",
+                    "D:/WorkStation_2018/SZ_classification/Data/FC_1322/ROICorrelation_FisherZ_ROISignal_00090.mat"
+                ],
+                "mask": "",
+                "targets": [],
                 "covariates": []
             }
         }

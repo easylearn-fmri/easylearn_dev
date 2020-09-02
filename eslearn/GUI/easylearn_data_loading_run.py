@@ -93,7 +93,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         self.pushButton_clearCovriance.clicked.connect(self.clear_mask_target_covariates)
         self.pushButton_mask.clicked.connect(self.confirm_box_mask)
         self.pushButton_target.clicked.connect(self.confirm_box_target)
-        self.pushButton_covariate.clicked.connect(self.confirm_box_covariate)
+        self.pushButton_covariate.clicked.connect(self.confirm_box_covariates)
 
         # Skins
         self.skins = {"Dark": "style_Dark", "Black": "style_black", "DarkOrange": "style_DarkOrange", 
@@ -448,7 +448,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         if (bool(self.selected_group) & bool(self.selected_modality)):
             loaded_file, filetype = QFileDialog.getOpenFileName(self,  
                                     "Select file",  os.getcwd(), 
-                                    "Nifti Files (*.nii);;Matlab Files (*.mat);Text File (*.txt);All Files (*)"
+                                    "Nifti Files (*.nii);Matlab Files (*.mat);Text File (*.txt);All Files (*)"
             )
 
             if loaded_file != "":
@@ -496,11 +496,11 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         else:
             QMessageBox.warning( self, 'Warning', 'Please select group and modality first!') 
 
-    def confirm_box_covariate(self, state):
+    def confirm_box_covariates(self, state):
         """When users input mask by their hands, they should click this pushbutton to confirm the inputs.
         """
         if (bool(self.selected_group) & bool(self.selected_modality)):
-                self.data_loading[self.selected_group][self.selected_modality]["covariate"] = self.lineEdit_covariates.text()
+                self.data_loading[self.selected_group][self.selected_modality]["covariates"] = self.lineEdit_covariates.text()
         else:
             QMessageBox.warning( self, 'Warning', 'Please select group and modality first!') 
 

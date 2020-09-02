@@ -7,6 +7,7 @@ Base class for all modules
 import json
 import re
 import  numpy as np
+import pandas as np
 
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.decomposition import PCA, NMF
@@ -19,7 +20,7 @@ from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor, AdaB
 from sklearn.model_selection import KFold, StratifiedKFold,  ShuffleSplit
 
 
-class BaseMachineLearning:
+class BaseMachineLearning(object):
 
     def __init__(self):
         pass
@@ -33,20 +34,6 @@ class BaseMachineLearning:
         self.configuration = json.loads(configuration)
 
         return self
-
-    def load_data(self):
-        self.data_loading = self.configuration.get('data_loading', None)
-        self.get_model_evaluation_parameters()
-        
-        # Get selected datasets
-        for gk  in self.data_loading.keys():
-             for mk in self.data_loading.get(gk).keys():
-                 modality = self.data_loading.get(gk).get(mk)
-                 modality.get("file")
-                 modality.get("targets")
-                 modality.get("mask")
-                 modality.get("covariates")
-        
 
     def get_preprocessing_parameters(self):
         self.method_feature_preprocessing = None
@@ -244,6 +231,9 @@ class BaseMachineLearning:
 
     @staticmethod
     def criteria_of_eval_parameters(param):
+        """Whether perform 'eval'
+        """
+        
         iseval = (
                     (
                         bool(re.search(r'\d', param)) or 
@@ -257,10 +247,57 @@ class BaseMachineLearning:
         )
         return iseval
 
+
+
+class DataLoader(BaseMachineLearning):
+    """Load datasets according to different data types
+    """
+    
+    def __init__(self):
+        super(DataLoader, self).__init__()
+
+    def load_data(self, configuration_file):
+        self.get_configuration_(configuration_file=configuration_file)
+        self.data_loading = self.configuration.get('data_loading', None)
+        
+        # Get selected datasets
+        for gk in self.data_loading.keys():
+             for mk in self.data_loading.get(gk).keys():
+                modality = self.data_loading.get(gk).get(mk)
+                file_input = modality.get("file")
+                feature_all = self.read_file(file_input)
+                
+                targets_input = modality.get("targets")
+                targets = self.read_targets(targets_input)
+                
+                mask_input = modality.get("mask")
+                mask = self.read_mask(mask_input)
+                
+                covariates_input = modality.get("covariates")
+                covariates = self.read_covariates(covariates_input)
+
+                # Apply mask
+
+                # Concatenate all datasets, targets and covariates
+
+    def read_file(self, file_input):
+        pass
+
+    def read_targets(self):
+        pass
+
+    def read_mask(self):
+        pass
+
+    def read_covariates(self):
+        pass
+                     
+
 if __name__ == '__main__':
     base = BaseMachineLearning()
-    base.get_configuration_(configuration_file=r'F:\Python378\Lib\site-packages\eslearn\GUI\test\configuration_file.json')
-    base.load_data()
+    data_loader = DataLoader()
+    base.get_configuration_(configuration_file=r'D:\My_Codes\easylearn\eslearn\GUI\test\configuration_file.json')
+    data_loader.load_data(configuration_file=r'D:\My_Codes\easylearn\eslearn\GUI\test\configuration_file.json')
     base.get_preprocessing_parameters()
     base.get_dimension_reduction_parameters()
     base.get_feature_selection_parameters()
