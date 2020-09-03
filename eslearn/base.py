@@ -7,7 +7,10 @@ Base class for all modules
 import json
 import re
 import  numpy as np
-import pandas as np
+import pandas as pd
+import os
+import nibabel as nib
+from scipy import io
 
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.decomposition import PCA, NMF
@@ -255,42 +258,179 @@ class DataLoader(BaseMachineLearning):
     
     def __init__(self):
         super(DataLoader, self).__init__()
+        
+        # Generate type2fun dictionary
+        # TODO: Extended to handle other formats
+        self.type2fun = {".nii": self.read_nii, 
+                    ".mat": self.read_mat, 
+                    ".txt": self.read_txt,
+                    ".xlsx": self.read_excel,
+                    ".xls": self.read_excel,
+        }
 
     def load_data(self, configuration_file):
         self.get_configuration_(configuration_file=configuration_file)
         self.data_loading = self.configuration.get('data_loading', None)
         
-        # Get selected datasets
-        for gk in self.data_loading.keys():
-             for mk in self.data_loading.get(gk).keys():
+        # Check datasets
+        for i, gk in enumerate(self.data_loading.keys()):
+            
+            # Check the number of modality across all group is equal
+            if i == 0:
+                n_mod = len(self.data_loading.get(gk).keys())
+            else:
+                if n_mod != len(self.data_loading.get(gk).keys()):
+                    raise ValueError("The number of modalities in each group is not equal, check your inputs")
+                    return
+                n_mod = len(self.data_loading.get(gk).keys())    
+            
+            # Check the number of files in each modalities in each group is not equal
+            for j, mk in enumerate(self.data_loading.get(gk).keys()):
                 modality = self.data_loading.get(gk).get(mk)
                 file_input = modality.get("file")
-                feature_all = self.read_file(file_input)
+                if j == 0:
+                    n_file = len(file_input)  # Initialize n_file
+                else:
+                    if n_file != len(file_input):
+                        raise ValueError(f"The number of files in each modalities in {gk} is not equal, check your inputs")
+                        return
+                    n_file = len(file_input)  # Update n_file
                 
-                targets_input = modality.get("targets")
-                targets = self.read_targets(targets_input)
-                
-                mask_input = modality.get("mask")
-                mask = self.read_mask(mask_input)
-                
+                # Covariates
                 covariates_input = modality.get("covariates")
-                covariates = self.read_covariates(covariates_input)
+                covariates = self.base_read(covariates_input)
+                
+                # If covariates is int (0), then ignore due to no covariates given
+                if (not isinstance(covariates,int)) and (n_file != len(covariates)):
+                    raise ValueError(f"The number of files in {mk} of {gk} is not equal to the number of covariates, check your inputs")
+                    return
+        
+        # Get selected datasets
+        shape_of_data = {}
+        for ig, gk in enumerate(self.data_loading.keys()):
+            
+            shape_of_data[gk] = {}
+            
+            for mk in self.data_loading.get(gk).keys():
+               modality = self.data_loading.get(gk).get(mk)
+               
+               # Features
+               file_input = modality.get("file")
+               feature_all = self.read_file(file_input)
+                               
+               # Targets
+               targets_input = modality.get("targets")
+               targets = self.read_targets(targets_input)                
+               
+               # Mask
+               mask_input = modality.get("mask")
+               mask = self.base_read(mask_input)
+               if np.size(mask) > 1:  # if mask is empty then give 0 to mask, size(mask) == 1
+                   mask = mask != 0
+               
+                   # Apply mask
+                   feature_filtered = [fa[mask] for fa in feature_all]
+                   feature_filtered = np.array(feature_filtered)
+               else:
+                   feature_filtered = [fa for fa in feature_all]
+                   feature_filtered = np.array(feature_filtered)
+                   feature_filtered = feature_filtered.reshape(feature_filtered.shape[0],-1)
+                
+               # Check whether the feature dimensions of the same modalities in different groups are equal
+               shape_of_data[gk][mk] = feature_filtered.shape
+               if ig == 0:
+                   gk_pre = gk
+               else:
+                   if shape_of_data[gk_pre][mk][-1] != shape_of_data[gk][mk][-1]:
+                       raise ValueError(f"Feature dimension of {mk} in {gk_pre} is {shape_of_data[gk_pre][mk][-1]} which is not equal to {mk} in {gk}: {shape_of_data[gk][mk][-1]}, check your inputs")
+                       return
+               
+               # Covariates
+               covariates_input = modality.get("covariates")
+               covariates = self.base_read(covariates_input)
 
-                # Apply mask
+               # Concatenate all modalities and targets
+               # data_concat = np.concatenate([feature_filtered, covariates], axis=1)
+            
+            # Update gk_pre
+            gk_pre = gk
 
-                # Concatenate all datasets, targets and covariates
+    def read_file(self, file_input):  
+        data = (self.base_read(file) for file in file_input)
+        return data
 
-    def read_file(self, file_input):
-        pass
+    def read_targets(self, targets_input):
+        if (targets_input == []) or (targets_input == ''):
+            return None
+        
+        elif os.path.isfile(targets_input):
+            return self.base_read(targets_input) 
+        
+        elif len(re.findall(r'[A-Za-z]', targets_input)):  # Contain alphabet
+            raise ValueError(f"The targets(labels) must be an Arabic numbers or file, but it contain alphabet, check your targets: '{targets_input}'")
+            return
+        
+        elif ' ' in targets_input:
+            targets = targets_input.split(' ')
+            return [int(targets_) for targets_ in targets]
+        
+        elif ',' in targets_input:
+            targets = targets_input.split(',')
+            return [int(targets_) for targets_ in targets]
+             
+        else:
+            return eval(targets_input)
+    
 
-    def read_targets(self):
-        pass
+    def base_read(self, file):
+        """Read all types of data for one case
+        """
+        if (file == []) or (file == ''):
+            return 0
+        
+        elif not os.path.isfile(file):
+            raise ValueError(f" Cannot find the file:'{file}'")
+            return
+                
+        else:
+            # Identify file type
+            [path, filename] = os.path.split(file)
+            suffix = os.path.splitext(filename)[-1]
+            # Read
+            data = self.type2fun[suffix](file)
+        return data
 
-    def read_mask(self):
-        pass
+    @ staticmethod
+    def read_nii(file):      
+        obj = nib.load(file)
+        data = obj.get_fdata()
+        return data
 
-    def read_covariates(self):
-        pass
+    @ staticmethod
+    def read_mat(file):
+        dataset_struct = io.loadmat(file)
+        data = dataset_struct[list(dataset_struct.keys())[3]]
+        
+        # If data is symmetric matrix, then only extract triangule matrix
+        if len(data.shape) == 2:
+            if data.shape[0] == data.shape[1]:                
+                data_ = data.copy()
+                data_[np.eye(data.shape[0]) == 1] = 0
+                if np.all(np.abs(data_-data_.T) < 1e-8):
+                    return data[np.triu(np.ones(data.shape),1)==1]
+        
+        return data.reshape([-1,])
+
+    @ staticmethod
+    def read_txt(file):
+        data = np.loadtxt(file)
+        return data
+
+    @ staticmethod
+    def read_excel(file):
+        data = pd.read_excel(file)
+        return data.values
+
                      
 
 if __name__ == '__main__':
