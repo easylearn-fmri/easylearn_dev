@@ -272,88 +272,109 @@ class DataLoader(BaseMachineLearning):
         self.get_configuration_(configuration_file=configuration_file)
         self.data_loading = self.configuration.get('data_loading', None)
         
-        # Check datasets
+        # ======Check datasets======
+        # NOTE.: That check whether the feature dimensions of the same modalities in different groups are equal
+        # is placed in the next section.
         for i, gk in enumerate(self.data_loading.keys()):
             
             # Check the number of modality across all group is equal
             if i == 0:
-                n_mod = len(self.data_loading.get(gk).keys())
+                n_mod = len(self.data_loading.get(gk).get("modalities").keys())
             else:
-                if n_mod != len(self.data_loading.get(gk).keys()):
+                if n_mod != len(self.data_loading.get(gk).get("modalities").keys()):
                     raise ValueError("The number of modalities in each group is not equal, check your inputs")
                     return
-                n_mod = len(self.data_loading.get(gk).keys())    
+                n_mod = len(self.data_loading.get(gk).get("modalities").keys())
+                
+            # Get targets
+            targets_input = self.data_loading.get(gk).get("targets")
+            targets = self.read_targets(targets_input)            
+    
+            # Get covariates
+            covariates_input = self.data_loading.get(gk).get("covariates")
+            covariates = self.base_read(covariates_input)
             
-            # Check the number of files in each modalities in each group is not equal
-            for j, mk in enumerate(self.data_loading.get(gk).keys()):
-                modality = self.data_loading.get(gk).get(mk)
+            # Check the number of files in each modalities in the same group is equal
+            for j, mk in enumerate(self.data_loading.get(gk).get("modalities").keys()):
+                modality = self.data_loading.get(gk).get("modalities").get(mk)
+                
+                # Filses
                 file_input = modality.get("file")
                 if j == 0:
                     n_file = len(file_input)  # Initialize n_file
                 else:
-                    if n_file != len(file_input):
+                    if n_file != len(file_input):  # Left is previous, right is current loop
                         raise ValueError(f"The number of files in each modalities in {gk} is not equal, check your inputs")
                         return
-                    n_file = len(file_input)  # Update n_file
-                
-                # Covariates
-                covariates_input = modality.get("covariates")
-                covariates = self.base_read(covariates_input)
-                
-                # If covariates is int (0), then ignore due to no covariates given
-                if (not isinstance(covariates,int)) and (n_file != len(covariates)):
-                    raise ValueError(f"The number of files in {mk} of {gk} is not equal to the number of covariates, check your inputs")
+                n_file = len(file_input)  # Update n_file
+
+                # Check the number of number of targets in each modalities is equal to the number of files          
+                # If type of targets is list, and number of files are not equal covariates, then raise error
+                if (isinstance(targets,list)) and (n_file != len(targets)):
+                    raise ValueError(f"The number of files in {mk} of {gk} is not equal to the number of targets, check your inputs")
                     return
         
-        # Get selected datasets
+                # Check the number of lines of covariates in each modalities is equal to the number of files
+                # If covariates is not int (0), and number of files are not equal covariates, then raise error
+                if (not isinstance(covariates,int)) and (n_file != len(covariates)):
+                    raise ValueError(f"The number of files in {mk} of {gk} is not equal to its' number of covariates, check your inputs")
+                    return
+                
+        # ======Get selected datasets======
         shape_of_data = {}
         for ig, gk in enumerate(self.data_loading.keys()):
             
+            # Get targets
+            targets_input = self.data_loading.get(gk).get("targets")
+            targets = self.read_targets(targets_input)             
+    
+            # Get covariates
+            covariates_input = self.data_loading.get(gk).get("covariates")
+            covariates = self.base_read(covariates_input)
+            
             shape_of_data[gk] = {}
             
-            for mk in self.data_loading.get(gk).keys():
-               modality = self.data_loading.get(gk).get(mk)
+            for j, mk in enumerate(self.data_loading.get(gk).get("modalities").keys()):
+                modality = self.data_loading.get(gk).get("modalities").get(mk)
                
-               # Features
-               file_input = modality.get("file")
-               feature_all = self.read_file(file_input)
-                               
-               # Targets
-               targets_input = modality.get("targets")
-               targets = self.read_targets(targets_input)                
-               
-               # Mask
-               mask_input = modality.get("mask")
-               mask = self.base_read(mask_input)
-               if np.size(mask) > 1:  # if mask is empty then give 0 to mask, size(mask) == 1
+                # Features
+                file_input = modality.get("file")
+                n_file = len(file_input)
+                feature_all = self.read_file(file_input)
+                
+                # Mask
+                mask_input = modality.get("mask")
+                mask = self.base_read(mask_input)
+                if np.size(mask) > 1:  # if mask is empty then give 0 to mask, size(mask) == 1
                    mask = mask != 0
                
                    # Apply mask
                    feature_filtered = [fa[mask] for fa in feature_all]
                    feature_filtered = np.array(feature_filtered)
-               else:
+                else:
                    feature_filtered = [fa for fa in feature_all]
                    feature_filtered = np.array(feature_filtered)
                    feature_filtered = feature_filtered.reshape(feature_filtered.shape[0],-1)
                 
-               # Check whether the feature dimensions of the same modalities in different groups are equal
-               shape_of_data[gk][mk] = feature_filtered.shape
-               if ig == 0:
+                # Check whether the feature dimensions of the same modalities in different groups are equal
+                shape_of_data[gk][mk] = feature_filtered.shape
+                if ig == 0:
                    gk_pre = gk
-               else:
-                   if shape_of_data[gk_pre][mk][-1] != shape_of_data[gk][mk][-1]:
-                       raise ValueError(f"Feature dimension of {mk} in {gk_pre} is {shape_of_data[gk_pre][mk][-1]} which is not equal to {mk} in {gk}: {shape_of_data[gk][mk][-1]}, check your inputs")
-                       return
-               
-               # Covariates
-               covariates_input = modality.get("covariates")
-               covariates = self.base_read(covariates_input)
+                else:
+                    if shape_of_data[gk_pre][mk][-1] != shape_of_data[gk][mk][-1]:
+                        raise ValueError(f"Feature dimension of {mk} in {gk_pre} is {shape_of_data[gk_pre][mk][-1]} which is not equal to {mk} in {gk}: {shape_of_data[gk][mk][-1]}, check your inputs")
+                        return
 
-               # Concatenate all modalities and targets
-               # data_concat = np.concatenate([feature_filtered, covariates], axis=1)
+                # Concatenate all modalities and targets
+                # TODO: modalities of one group must have the same ID so that to mach them.
             
-            # Update gk_pre
+            # Update gk_pre for check feature dimension
             gk_pre = gk
+
+            # Generate targets for each case for each group
+            if (isinstance(targets,int)):
+                targets = [targets for ifile in range(n_file)]
+
 
     def read_file(self, file_input):  
         data = (self.base_read(file) for file in file_input)

@@ -58,7 +58,7 @@ class BaseClassification(metaclass=ABCMeta):
         estimator =  best_model['estimator']
 
         # Get weight according to model type: linear model or nonlinear model
-        if hasattr(estimator, "coef_"):
+        if hasattr(estimator, "coef_"):  # Linear model
             coef =  estimator.coef_
             if feature_selection and (feature_selection != "passthrough"):
                 self.weights_ = feature_selection.inverse_transform(coef)
