@@ -322,6 +322,7 @@ class DataLoader(BaseMachineLearning):
                 
         # ======Get selected datasets======
         shape_of_data = {}
+        feature_filtered_otherinfo = {}
         for ig, gk in enumerate(self.data_loading.keys()):
             
             # Get targets
@@ -333,13 +334,44 @@ class DataLoader(BaseMachineLearning):
             covariates = self.base_read(covariates_input)
             
             shape_of_data[gk] = {}
+            feature_filtered_otherinfo[gk] = {}
             
-            for j, mk in enumerate(self.data_loading.get(gk).get("modalities").keys()):
+            for jm, mk in enumerate(self.data_loading.get(gk).get("modalities").keys()):
                 modality = self.data_loading.get(gk).get("modalities").get(mk)
                
-                # Features
+                # Get file
                 file_input = modality.get("file")
                 n_file = len(file_input)
+                
+                # Get cases' name in this modality
+                # The file name must contain r'.*(sub.?[0-9].*).*'
+                # TODD: BIDS format
+                subj_name = [os.path.basename(file).split(".")[0] for file in file_input]
+                subj_name = [re.findall(r'.*(sub.?[0-9].*).*', name)[0] if re.findall(r'.*(sub.?[0-9].*).*', name) != [] else "" for name in subj_name]
+                
+                
+                # Sort covariates and check
+                subj_name = pd.DataFrame(subj_name)
+                subj_name.columns = ["ID"]
+                if (not isinstance(covariates,int)):                    
+                    covariates = pd.merge(subj_name, covariates, left_on="ID", right_on="ID")     
+                    if covariates.shape[0] != len(subj_name):
+                        raise ValueError(f"The subjects' ID in covariates is not matched with its' data file name in {mk} of {gk} , check your ID in covariates or check your data file name")
+                        return
+
+                # Sort targets and check
+                if (isinstance(targets,int)):
+                    targets = [targets for ifile in range(n_file)]
+                    targets = pd.DataFrame(targets)
+                    targets["ID"] = subj_name["ID"]
+                else:                   
+                    targets = pd.merge(subj_name, targets, left_on="ID", right_on="ID", how='inner')     
+                
+                if targets.shape[0] != len(subj_name):
+                    raise ValueError(f"The subjects' ID in targets is not matched with its' data file name in {mk} of {gk} , check your ID in targets or check your data file name")
+                    return
+                
+                # Features
                 feature_all = self.read_file(file_input)
                 
                 # Mask
@@ -355,6 +387,10 @@ class DataLoader(BaseMachineLearning):
                    feature_filtered = [fa for fa in feature_all]
                    feature_filtered = np.array(feature_filtered)
                    feature_filtered = feature_filtered.reshape(feature_filtered.shape[0],-1)
+                   
+                # Add subj_name, targets and covariates to features for matching datasets across modalities in the same group  
+                if jm == 0:
+                    feature_filtered_otherinfo[gk][mk] = pd.concat([subj_name, targets[0], covariates.iloc[:,1:], pd.DataFrame(feature_filtered)], axis=1)                
                 
                 # Check whether the feature dimensions of the same modalities in different groups are equal
                 shape_of_data[gk][mk] = feature_filtered.shape
@@ -364,18 +400,32 @@ class DataLoader(BaseMachineLearning):
                     if shape_of_data[gk_pre][mk][-1] != shape_of_data[gk][mk][-1]:
                         raise ValueError(f"Feature dimension of {mk} in {gk_pre} is {shape_of_data[gk_pre][mk][-1]} which is not equal to {mk} in {gk}: {shape_of_data[gk][mk][-1]}, check your inputs")
                         return
-
-                # Concatenate all modalities and targets
-                # TODO: modalities of one group must have the same ID so that to mach them.
+                
             
             # Update gk_pre for check feature dimension
-            gk_pre = gk
-
-            # Generate targets for each case for each group
-            if (isinstance(targets,int)):
-                targets = [targets for ifile in range(n_file)]
-
-
+            gk_pre = gk            
+                
+        # Concatenate all modalities and targets
+        # Modalities of one group must have the same ID so that to mach them.
+        for gi, gk in enumerate(feature_filtered_otherinfo):
+            for mi, mk in enumerate(feature_filtered_otherinfo[gk]):
+                print(mk)
+                # Concat feature across different modalities in the same group
+                # Sort with the first modality
+                if mi == 0:
+                    feature_sorted = feature_filtered_otherinfo[gk][mk]
+                if mi != 0:
+                    feature_sorted = pd.merge(feature_sorted, feature_filtered_otherinfo[gk][mk], left_on="ID", right_on="ID", how="inner")
+            
+            # Concat feature across different group
+            if gi == 0:
+                feature_sorted_all_group = feature_sorted 
+            else:
+                feature_sorted_all_group = pd.concat([feature_sorted_all_group, feature_sorted], axis=0)
+        
+        # Del subj_name
+        feature_sorted_all_group = feature_sorted_all_group.iloc[:,1:]
+        
     def read_file(self, file_input):  
         data = (self.base_read(file) for file in file_input)
         return data
@@ -450,7 +500,7 @@ class DataLoader(BaseMachineLearning):
     @ staticmethod
     def read_excel(file):
         data = pd.read_excel(file)
-        return data.values
+        return data
 
                      
 

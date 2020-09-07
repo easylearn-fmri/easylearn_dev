@@ -193,6 +193,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
                     self.data_loading = self.configuration["data_loading"]
                 self.display_groups()
                 self.display_modality()
+                self.display_target_covariate()
                 self.display_files()
 
             except json.decoder.JSONDecodeError:
@@ -280,6 +281,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
                 self.selected_group = None
                 self.display_groups()
                 self.display_modality()
+                self.display_target_covariate()
                 self.display_files()
         else:
 
@@ -293,6 +295,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         self.selected_group = None
         self.display_groups() 
         self.display_modality()
+        self.display_target_covariate()
         self.display_files()
     #%% -----------------------------------------------------------------
 
@@ -340,6 +343,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
                     del self.data_loading[self.selected_group]["modalities"][self.selected_modality]
                     self.selected_modality = None
                     self.display_modality()
+                    self.display_target_covariate()
                     self.display_files()
             else:
                 QMessageBox.warning( self, 'Warning', f'{list(self.data_loading[self.selected_group]["modalities"])} has no {self.selected_modality}')
@@ -353,7 +357,8 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         if self.selected_group:
             self.data_loading[self.selected_group] = {}
             self.selected_modality = None
-            self.display_modality()  
+            self.display_modality() 
+            self.display_target_covariate() 
             self.display_files()
         else:
             QMessageBox.warning( self, 'Warning', 'No group selected!')
