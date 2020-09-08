@@ -1,0 +1,126 @@
+{
+    "data_loading": {
+        "group_1": {
+            "modalities": {
+                "modality_1": {
+                    "file": [
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/patients/zfcs/zDegreeCentrality_PositiveWeightedSumBrainMap_sub001.nii",
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/patients/zfcs/zDegreeCentrality_PositiveWeightedSumBrainMap_sub002.nii",
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/patients/zfcs/zDegreeCentrality_PositiveWeightedSumBrainMap_sub003.nii",
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/patients/zfcs/zDegreeCentrality_PositiveWeightedSumBrainMap_sub004.nii",
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/patients/zfcs/zDegreeCentrality_PositiveWeightedSumBrainMap_sub005.nii",
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/patients/zfcs/zDegreeCentrality_PositiveWeightedSumBrainMap_sub006.nii",
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/patients/zfcs/zDegreeCentrality_PositiveWeightedSumBrainMap_sub007.nii",
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/patients/zfcs/zDegreeCentrality_PositiveWeightedSumBrainMap_sub008.nii",
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/patients/zfcs/zDegreeCentrality_PositiveWeightedSumBrainMap_sub009.nii",
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/patients/zfcs/zDegreeCentrality_PositiveWeightedSumBrainMap_sub010.nii",
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/patients/zfcs/zDegreeCentrality_PositiveWeightedSumBrainMap_sub011.nii"
+                    ],
+                    "mask": "D:/My_Codes/easylearn/eslearn/GUI/test/Reslice3_TPM_greaterThan0.2.nii"
+                },
+                "modality_2": {
+                    "file": [
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/patients/malff/zDegreeCentrality_PositiveWeightedSumBrainMap_sub001.nii",
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/patients/malff/zDegreeCentrality_PositiveWeightedSumBrainMap_sub002.nii",
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/patients/malff/zDegreeCentrality_PositiveWeightedSumBrainMap_sub003.nii",
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/patients/malff/zDegreeCentrality_PositiveWeightedSumBrainMap_sub004.nii",
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/patients/malff/zDegreeCentrality_PositiveWeightedSumBrainMap_sub005.nii",
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/patients/malff/zDegreeCentrality_PositiveWeightedSumBrainMap_sub006.nii",
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/patients/malff/zDegreeCentrality_PositiveWeightedSumBrainMap_sub007.nii",
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/patients/malff/zDegreeCentrality_PositiveWeightedSumBrainMap_sub008.nii",
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/patients/malff/zDegreeCentrality_PositiveWeightedSumBrainMap_sub009.nii",
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/patients/malff/zDegreeCentrality_PositiveWeightedSumBrainMap_sub010.nii",
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/patients/malff/zDegreeCentrality_PositiveWeightedSumBrainMap_sub011.nii"
+                    ],
+                    "mask": "D:/My_Codes/easylearn/eslearn/GUI/test/Reslice3_TPM_greaterThan0.2.nii"
+                }
+            },
+            "targets": "1",
+            "covariates": "D:/My_Codes/easylearn/eslearn/GUI/test/cov1.xlsx"
+        },
+        "group_2": {
+            "modalities": {
+                "modality_1": {
+                    "file": [
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/control/zfcs/zDegreeCentrality_PositiveWeightedSumBrainMap_sub001.nii",
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/control/zfcs/zDegreeCentrality_PositiveWeightedSumBrainMap_sub002.nii",
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/control/zfcs/zDegreeCentrality_PositiveWeightedSumBrainMap_sub003.nii",
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/control/zfcs/zDegreeCentrality_PositiveWeightedSumBrainMap_sub004.nii",
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/control/zfcs/zDegreeCentrality_PositiveWeightedSumBrainMap_sub005.nii",
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/control/zfcs/zDegreeCentrality_PositiveWeightedSumBrainMap_sub006.nii",
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/control/zfcs/zDegreeCentrality_PositiveWeightedSumBrainMap_sub007.nii",
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/control/zfcs/zDegreeCentrality_PositiveWeightedSumBrainMap_sub008.nii",
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/control/zfcs/zDegreeCentrality_PositiveWeightedSumBrainMap_sub009.nii",
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/control/zfcs/zDegreeCentrality_PositiveWeightedSumBrainMap_sub010.nii"
+                    ],
+                    "mask": "D:/My_Codes/easylearn/eslearn/GUI/test/Reslice3_TPM_greaterThan0.2.nii"
+                },
+                "modality_2": {
+                    "file": [
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/control/malff/zDegreeCentrality_PositiveWeightedSumBrainMap_sub001.nii",
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/control/malff/zDegreeCentrality_PositiveWeightedSumBrainMap_sub002.nii",
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/control/malff/zDegreeCentrality_PositiveWeightedSumBrainMap_sub003.nii",
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/control/malff/zDegreeCentrality_PositiveWeightedSumBrainMap_sub004.nii",
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/control/malff/zDegreeCentrality_PositiveWeightedSumBrainMap_sub005.nii",
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/control/malff/zDegreeCentrality_PositiveWeightedSumBrainMap_sub006.nii",
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/control/malff/zDegreeCentrality_PositiveWeightedSumBrainMap_sub007.nii",
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/control/malff/zDegreeCentrality_PositiveWeightedSumBrainMap_sub008.nii",
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/control/malff/zDegreeCentrality_PositiveWeightedSumBrainMap_sub009.nii",
+                        "D:/My_Codes/easylearn/eslearn/GUI/test/demo_data/control/malff/zDegreeCentrality_PositiveWeightedSumBrainMap_sub010.nii"
+                    ],
+                    "mask": "D:/My_Codes/easylearn/eslearn/GUI/test/Reslice3_TPM_greaterThan0.2.nii"
+                }
+            },
+            "targets": "0",
+            "covariates": "D:/My_Codes/easylearn/eslearn/GUI/test/cov2.xlsx"
+        }
+    },
+    "feature_engineering": {
+        "feature_preprocessing": {
+            "StandardScaler()": {}
+        },
+        "dimreduction": {
+            "None": {}
+        },
+        "feature_selection": {
+            "None": {}
+        }
+    },
+    "machine_learning": {
+        "Classification": {
+            "LogisticRegression(solver='saga')": {
+                "penalty": {
+                    "value": "elasticnet"
+                },
+                "l1_ratio": {
+                    "value": "0.5"
+                },
+                "C": {
+                    "value": "1"
+                }
+            }
+        }
+    },
+    "model_evaluation": {
+        "KFold()": {
+            "n_splits": {
+                "value": "5"
+            },
+            "shuffle": {
+                "value": "True"
+            },
+            "random_state": {
+                "value": "0"
+            }
+        },
+        "Statistical_analysis": {
+            "Permutation test": {
+                "N": {
+                    "value": "500"
+                }
+            }
+        }
+    },
+    "statistical_analysis": {},
+    "visualization": {}
+}
