@@ -388,9 +388,13 @@ class DataLoader(BaseMachineLearning):
                    feature_filtered = np.array(feature_filtered)
                    feature_filtered = feature_filtered.reshape(feature_filtered.shape[0],-1)
                    
-                # Add subj_name, targets and covariates to features for matching datasets across modalities in the same group  
+                # Add subj_name, targets and covariates to features for matching datasets across modalities in the same group 
+                # Only concat to the first modality for avoiding replication
                 if jm == 0:
-                    feature_filtered_otherinfo[gk][mk] = pd.concat([subj_name, targets[0], covariates.iloc[:,1:], pd.DataFrame(feature_filtered)], axis=1)                
+                    covariates_  = covariates.copy()
+                    covariates_.drop(["ID"], axis=1,inplace=True)
+                    n_cov = covariates_.shape[1]
+                    feature_filtered_otherinfo[gk][mk] = pd.concat([subj_name, targets[0], covariates_, pd.DataFrame(feature_filtered)], axis=1)                
                 
                 # Check whether the feature dimensions of the same modalities in different groups are equal
                 shape_of_data[gk][mk] = feature_filtered.shape
@@ -423,8 +427,9 @@ class DataLoader(BaseMachineLearning):
             else:
                 feature_sorted_all_group = pd.concat([feature_sorted_all_group, feature_sorted], axis=0)
         
-        # Del subj_name
-        feature_sorted_all_group = feature_sorted_all_group.iloc[:,1:]
+        # Del subj_name, targets, covariates
+        n_nonefeatures = n_cov + 2
+        feature_sorted_all_group = feature_sorted_all_group.iloc[:,n_nonefeatures:]
         
     def read_file(self, file_input):  
         data = (self.base_read(file) for file in file_input)
@@ -494,11 +499,23 @@ class DataLoader(BaseMachineLearning):
 
     @ staticmethod
     def read_txt(file):
-        data = np.loadtxt(file)
+        data = pd.read_csv(file)
+        
+        # If data is symmetric matrix, then only extract triangule matrix
+        if (len(data.shape) == 2) and (data.shape[0] == data.shape[1]):                
+                data_ = data.copy()
+                data_[np.eye(data.shape[0]) == 1] = 0
+                if np.all(np.abs(data_-data_.T) < 1e-8):
+                    return data[np.triu(np.ones(data.shape),1)==1]
+                
         return data
 
     @ staticmethod
     def read_excel(file):
+        """
+        Not consider symmetric matrix
+        """
+        
         data = pd.read_excel(file)
         return data
 
