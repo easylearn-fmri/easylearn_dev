@@ -254,6 +254,15 @@ class BaseMachineLearning(object):
 
 class DataLoader(BaseMachineLearning):
     """Load datasets according to different data types
+
+    Attributes:
+    ----------
+    targets_: ndarray of shape (n_samples, )
+    
+    features_: ndarray of shape (n_samples, n_features) 
+
+    mask_: dictionary, each element contains a mask of a modality of a group
+
     """
     
     def __init__(self):
@@ -275,6 +284,8 @@ class DataLoader(BaseMachineLearning):
         # ======Check datasets======
         # NOTE.: That check whether the feature dimensions of the same modalities in different groups are equal
         # is placed in the next section.
+        targets = {}
+        self.covariates_ = {}
         for i, gk in enumerate(self.data_loading.keys()):
             
             # Check the number of modality across all group is equal
@@ -288,11 +299,11 @@ class DataLoader(BaseMachineLearning):
                 
             # Get targets
             targets_input = self.data_loading.get(gk).get("targets")
-            targets = self.read_targets(targets_input)            
+            targets[gk] = self.read_targets(targets_input)            
     
             # Get covariates
             covariates_input = self.data_loading.get(gk).get("covariates")
-            covariates = self.base_read(covariates_input)
+            self.covariates_[gk] = self.base_read(covariates_input)
             
             # Check the number of files in each modalities in the same group is equal
             for j, mk in enumerate(self.data_loading.get(gk).get("modalities").keys()):
@@ -310,31 +321,25 @@ class DataLoader(BaseMachineLearning):
 
                 # Check the number of number of targets in each modalities is equal to the number of files          
                 # If type of targets is list, and number of files are not equal covariates, then raise error
-                if (isinstance(targets,list)) and (n_file != len(targets)):
+                if (isinstance(targets[gk],list)) and (n_file != len(targets[gk])):
                     raise ValueError(f"The number of files in {mk} of {gk} is not equal to the number of targets, check your inputs")
                     return
         
                 # Check the number of lines of covariates in each modalities is equal to the number of files
                 # If covariates is not int (0), and number of files are not equal covariates, then raise error
-                if (not isinstance(covariates,int)) and (n_file != len(covariates)):
+                if (not isinstance(self.covariates_[gk],int)) and (n_file != len(self.covariates_[gk])):
                     raise ValueError(f"The number of files in {mk} of {gk} is not equal to its' number of covariates, check your inputs")
                     return
                 
         # ======Get selected datasets======
         shape_of_data = {}
-        feature_filtered_otherinfo = {}
-        for ig, gk in enumerate(self.data_loading.keys()):
-            
-            # Get targets
-            targets_input = self.data_loading.get(gk).get("targets")
-            targets = self.read_targets(targets_input)             
-    
-            # Get covariates
-            covariates_input = self.data_loading.get(gk).get("covariates")
-            covariates = self.base_read(covariates_input)
-            
+        feature_applied_mask_and_add_otherinfo = {}
+        col_drop = {}
+        self.mask_ = {}
+        for ig, gk in enumerate(self.data_loading.keys()):            
             shape_of_data[gk] = {}
-            feature_filtered_otherinfo[gk] = {}
+            feature_applied_mask_and_add_otherinfo[gk] = {}
+            self.mask_[gk] = {}
             
             for jm, mk in enumerate(self.data_loading.get(gk).get("modalities").keys()):
                 modality = self.data_loading.get(gk).get("modalities").get(mk)
@@ -348,88 +353,103 @@ class DataLoader(BaseMachineLearning):
                 # TODD: BIDS format
                 subj_name = [os.path.basename(file).split(".")[0] for file in file_input]
                 subj_name = [re.findall(r'.*(sub.?[0-9].*).*', name)[0] if re.findall(r'.*(sub.?[0-9].*).*', name) != [] else "" for name in subj_name]
-                
-                
-                # Sort covariates and check
                 subj_name = pd.DataFrame(subj_name)
                 subj_name.columns = ["ID"]
-                if (not isinstance(covariates,int)):                    
-                    covariates = pd.merge(subj_name, covariates, left_on="ID", right_on="ID")     
-                    if covariates.shape[0] != len(subj_name):
-                        raise ValueError(f"The subjects' ID in covariates is not matched with its' data file name in {mk} of {gk} , check your ID in covariates or check your data file name")
+                
+                # Sort targets and check
+                if (isinstance(targets[gk],int)):
+                    targets[gk] = [targets[gk] for ifile in range(n_file)]
+                    targets[gk] = pd.DataFrame(targets[gk])
+                    targets[gk]["ID"] = subj_name["ID"]
+                    targets[gk].rename(columns={0: "__targets__"}, inplace=True)
+                else:  
+                    if not isinstance(targets[gk], pd.core.frame.DataFrame):
+                        targets[gk] = pd.DataFrame(targets[gk])
+                    if "ID" not in targets[gk].columns:
+                        raise ValueError(f"The targets of {gk} did not have 'ID' column, check your targets")
+                        return                                             
+                targets[gk] = pd.merge(subj_name, targets[gk], left_on="ID", right_on="ID", how='inner')
+                if targets[gk].shape[0] != n_file:
+                        raise ValueError(f"The subjects' ID in targets is not totally matched with its' data file name in {mk} of {gk} , check your ID in targets or check your data file name")
                         return
 
-                # Sort targets and check
-                if (isinstance(targets,int)):
-                    targets = [targets for ifile in range(n_file)]
-                    targets = pd.DataFrame(targets)
-                    targets["ID"] = subj_name["ID"]
-                else:                   
-                    targets = pd.merge(subj_name, targets, left_on="ID", right_on="ID", how='inner')     
-                
-                if targets.shape[0] != len(subj_name):
-                    raise ValueError(f"The subjects' ID in targets is not matched with its' data file name in {mk} of {gk} , check your ID in targets or check your data file name")
-                    return
-                
+                # Sort covariates and check                
+                if (not isinstance(self.covariates_[gk],int)): 
+                    if "ID" not in self.covariates_[gk].columns:
+                        raise ValueError(f"The covariates of {gk} did not have 'ID' column, check your covariates")
+                        return 
+                    else:
+                        self.covariates_[gk] = pd.merge(subj_name, self.covariates_[gk], left_on="ID", right_on="ID") 
+                        
+                        if self.covariates_[gk].shape[0] != n_file:
+                            raise ValueError(f"The subjects' ID in covariates is not totally matched with its' data file name in {mk} of {gk} , check your ID in covariates or check your data file name")
+                            return 
+                    
+                        if jm == 0:
+                            # Get columns for drop (Remain 'ID' for matching)
+                            columns_of_covariates = list(set(self.covariates_[gk].columns) - set(["ID"]))
+                            [self.covariates_[gk].rename(columns={colname: f"__{colname}__"}, inplace=True) for colname in columns_of_covariates]
+                            col_drop[gk] = list((set(self.covariates_[gk].columns) | set(targets[gk].columns)) ^ set(["ID"]))
+                           
                 # Features
                 feature_all = self.read_file(file_input)
                 
                 # Mask
                 mask_input = modality.get("mask")
-                mask = self.base_read(mask_input)
-                if np.size(mask) > 1:  # if mask is empty then give 0 to mask, size(mask) == 1
-                   mask = mask != 0
+                self.mask_[gk][mk] = self.base_read(mask_input)
+                if not isinstance(self.mask_[gk][mk], int):  # if mask is empty then give 0 to mask
+                   self.mask_[gk][mk] = self.mask_[gk][mk] != 0
                
                    # Apply mask
-                   feature_filtered = [fa[mask] for fa in feature_all]
-                   feature_filtered = np.array(feature_filtered)
+                   feature_applied_mask = [fa[self.mask_[gk][mk]] for fa in feature_all]
+                   feature_applied_mask = np.array(feature_applied_mask)
                 else:
-                   feature_filtered = [fa for fa in feature_all]
-                   feature_filtered = np.array(feature_filtered)
-                   feature_filtered = feature_filtered.reshape(feature_filtered.shape[0],-1)
+                   feature_applied_mask = [fa for fa in feature_all]
+                   feature_applied_mask = np.array(feature_applied_mask)
+                   feature_applied_mask = feature_applied_mask.reshape(feature_applied_mask.shape[0],-1)
                    
                 # Add subj_name, targets and covariates to features for matching datasets across modalities in the same group 
-                # Only concat to the first modality for avoiding replication
-                if jm == 0:
-                    covariates_  = covariates.copy()
-                    covariates_.drop(["ID"], axis=1,inplace=True)
-                    n_cov = covariates_.shape[1]
-                    feature_filtered_otherinfo[gk][mk] = pd.concat([subj_name, targets[0], covariates_, pd.DataFrame(feature_filtered)], axis=1)                
+                if (not isinstance(self.covariates_[gk],int)): 
+                    feature_applied_mask_and_add_otherinfo[gk][mk] = pd.concat([subj_name, targets[gk]["__targets__"], self.covariates_[gk].drop(["ID"], axis=1,inplace=False), pd.DataFrame(feature_applied_mask)], axis=1)  
+                else:
+                    feature_applied_mask_and_add_otherinfo[gk][mk] = pd.concat([subj_name, targets[gk]["__targets__"], pd.DataFrame(feature_applied_mask)], axis=1)  
                 
                 # Check whether the feature dimensions of the same modalities in different groups are equal
-                shape_of_data[gk][mk] = feature_filtered.shape
+                shape_of_data[gk][mk] = feature_applied_mask.shape
                 if ig == 0:
                    gk_pre = gk
                 else:
                     if shape_of_data[gk_pre][mk][-1] != shape_of_data[gk][mk][-1]:
                         raise ValueError(f"Feature dimension of {mk} in {gk_pre} is {shape_of_data[gk_pre][mk][-1]} which is not equal to {mk} in {gk}: {shape_of_data[gk][mk][-1]}, check your inputs")
-                        return
-                
+                        return                
             
             # Update gk_pre for check feature dimension
             gk_pre = gk            
                 
         # Concatenate all modalities and targets
         # Modalities of one group must have the same ID so that to mach them.
-        for gi, gk in enumerate(feature_filtered_otherinfo):
-            for mi, mk in enumerate(feature_filtered_otherinfo[gk]):
-                print(mk)
+        for gi, gk in enumerate(feature_applied_mask_and_add_otherinfo):
+            for mi, mk in enumerate(feature_applied_mask_and_add_otherinfo[gk]):
                 # Concat feature across different modalities in the same group
                 # Sort with the first modality
                 if mi == 0:
-                    feature_sorted = feature_filtered_otherinfo[gk][mk]
+                    feature_sorted = feature_applied_mask_and_add_otherinfo[gk][mk]
                 if mi != 0:
-                    feature_sorted = pd.merge(feature_sorted, feature_filtered_otherinfo[gk][mk], left_on="ID", right_on="ID", how="inner")
+                    feature_for_concat = feature_applied_mask_and_add_otherinfo[gk][mk].drop(col_drop[gk], axis=1)
+                    feature_sorted = pd.merge(feature_sorted, feature_for_concat, left_on="ID", right_on="ID", how="left")
+                    feature_sorted.drop(self.covariates_[gk].columns, axis=1, inplace=True)
             
             # Concat feature across different group
             if gi == 0:
-                feature_sorted_all_group = feature_sorted 
+                self.features_ = feature_sorted 
             else:
-                feature_sorted_all_group = pd.concat([feature_sorted_all_group, feature_sorted], axis=0)
-        
-        # Del subj_name, targets, covariates
-        n_nonefeatures = n_cov + 2
-        feature_sorted_all_group = feature_sorted_all_group.iloc[:,n_nonefeatures:]
+                self.features_ = pd.concat([self.features_, feature_sorted], axis=0)
+            
+        self.targets_ = self.features_["__targets__"].values
+        self.features_.drop(["__targets__"], axis=1, inplace=True)
+        self.features_ =  self.features_.values
+
+        return self
         
     def read_file(self, file_input):  
         data = (self.base_read(file) for file in file_input)
