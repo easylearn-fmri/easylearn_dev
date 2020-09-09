@@ -24,27 +24,54 @@ from sklearn.model_selection import KFold, StratifiedKFold,  ShuffleSplit
 
 
 class BaseMachineLearning(object):
+    """Base class for all machine learning
 
-    def __init__(self):
-        pass
+    Parameters:
+    ----------
+    configuration_file: file string
+        configuration file containing all inputs
 
-    def get_configuration_(self, configuration_file):
+    Attributes:
+    ----------
+    method_feature_preprocessing_: list of sklearn object or None
+    param_feature_preprocessing_: list of sklearn object or None
+    
+    method_dim_reduction_: list of sklearn object or None
+    param_dim_reduction_: list of sklearn object or None
+    
+    method_feature_selection_: list of sklearn object or None
+    param_feature_selection_: list of sklearn object or None
+    
+    method_unbalance_treatment_: list of sklearn object or None
+    param_unbalance_treatment_: list of sklearn object or None
+    
+    method_machine_learning_: list of sklearn object or None
+    param_machine_learning_: list of sklearn object or None
+
+    method_model_evaluation_: list of sklearn object or None
+    param_model_evaluation_: list of sklearn object or None
+    """
+
+    def __init__(self, configuration_file):
+        self.configuration_file = configuration_file
+
+    def get_configuration_(self):
         """Parse the configuration file
         """
 
-        with open(configuration_file, 'r', encoding='utf-8') as config:
+        with open(self.configuration_file, 'r', encoding='utf-8') as config:
                     configuration = config.read()
         self.configuration = json.loads(configuration)
 
         return self
 
     def get_preprocessing_parameters(self):
-        self.method_feature_preprocessing = None
-        self.param_feature_preprocessing = {}
+        self.method_feature_preprocessing_ = None
+        self.param_feature_preprocessing_ = {}
                 
         feature_preprocessing = self.configuration.get('feature_engineering', {}).get('feature_preprocessing', None)
         if feature_preprocessing and (list(feature_preprocessing.keys())[0] != 'None'):
-            self.method_feature_preprocessing = [eval(list(feature_preprocessing.keys())[0] if list(feature_preprocessing.keys())[0] != 'None' else None)]
+            self.method_feature_preprocessing_ = [eval(list(feature_preprocessing.keys())[0] if list(feature_preprocessing.keys())[0] != 'None' else None)]
     
             for key in feature_preprocessing.keys():
                 for key_ in feature_preprocessing.get(key).keys():
@@ -56,19 +83,19 @@ class BaseMachineLearning(object):
                             # Parse parameters: if param is digits str or containing "(" and ")", we will eval the param
                             if self.criteria_of_eval_parameters(param):
                                 param = eval(param)
-                            self.param_feature_preprocessing.update({"feature_preprocessing__"+key_: [param]})
+                            self.param_feature_preprocessing_.update({"feature_preprocessing__"+key_: [param]})
 
-        self.param_feature_preprocessing = None if self.param_feature_preprocessing == {} else self.param_feature_preprocessing
+        self.param_feature_preprocessing_ = None if self.param_feature_preprocessing_ == {} else self.param_feature_preprocessing_
              
         return self
 
     def get_dimension_reduction_parameters(self):
-        self.method_dim_reduction = None
-        self.param_dim_reduction = {}
+        self.method_dim_reduction_ = None
+        self.param_dim_reduction_ = {}
                 
         dimension_reduction = self.configuration.get('feature_engineering', {}).get('dimreduction', None)
         if dimension_reduction and (list(dimension_reduction.keys())[0] != 'None'):
-            self.method_dim_reduction = [eval(list(dimension_reduction.keys())[0] if list(dimension_reduction.keys())[0] != 'None' else None)]
+            self.method_dim_reduction_ = [eval(list(dimension_reduction.keys())[0] if list(dimension_reduction.keys())[0] != 'None' else None)]
     
             for key in dimension_reduction.keys():
                 for key_ in dimension_reduction.get(key).keys():
@@ -82,15 +109,15 @@ class BaseMachineLearning(object):
                                 param = eval(param)
                             if not (isinstance(param, list) or isinstance(param, tuple)):
                                 param = [param]
-                            self.param_dim_reduction.update({"dim_reduction__"+key_: param})
+                            self.param_dim_reduction_.update({"dim_reduction__"+key_: param})
              
-        self.param_dim_reduction = None if self.param_dim_reduction == {} else self.param_dim_reduction
+        self.param_dim_reduction_ = None if self.param_dim_reduction_ == {} else self.param_dim_reduction_
         return self
         
 
     def get_feature_selection_parameters(self):
-        self.method_feature_selection = None
-        self.param_feature_selection = {}
+        self.method_feature_selection_ = None
+        self.param_feature_selection_ = {}
         
         
         feature_selection = self.configuration.get('feature_engineering', {}).get('feature_selection', None)
@@ -108,39 +135,39 @@ class BaseMachineLearning(object):
                                 param = eval(param)
                             if not (isinstance(param, list) or isinstance(param, tuple)):
                                 param = [param]
-                            self.param_feature_selection.update({"feature_selection__"+key_:param})
+                            self.param_feature_selection_.update({"feature_selection__"+key_:param})
 
             # Methods
-            self.method_feature_selection = list(feature_selection.keys())[0] if list(feature_selection.keys())[0] != 'None' else None
+            self.method_feature_selection_ = list(feature_selection.keys())[0] if list(feature_selection.keys())[0] != 'None' else None
             # Update point
-            if self.method_feature_selection == 'RFECV()':
-                self.method_feature_selection = "RFECV(estimator=SVC(kernel='linear'))"
+            if self.method_feature_selection_ == 'RFECV()':
+                self.method_feature_selection_ = "RFECV(estimator=SVC(kernel='linear'))"
             
-            if self.method_feature_selection == 'SelectFromModel(LassoCV())':
-                self.method_feature_selection = 'SelectFromModel(LassoCV())'
-                self.param_feature_selection = None
+            if self.method_feature_selection_ == 'SelectFromModel(LassoCV())':
+                self.method_feature_selection_ = 'SelectFromModel(LassoCV())'
+                self.param_feature_selection_ = None
             
-            if self.method_feature_selection == 'SelectFromModel(ElasticNetCV())':
-                self.method_feature_selection = 'SelectFromModel(ElasticNetCV('
-                for keys in list(self.param_feature_selection.keys()):
+            if self.method_feature_selection_ == 'SelectFromModel(ElasticNetCV())':
+                self.method_feature_selection_ = 'SelectFromModel(ElasticNetCV('
+                for keys in list(self.param_feature_selection_.keys()):
                     param_ = keys.split('__')[1]
-                    value_ = self.param_feature_selection[keys]
-                    self.method_feature_selection = self.method_feature_selection+ f'{param_}={value_},'  
-                self.method_feature_selection = self.method_feature_selection + '))'
-                self.param_feature_selection = None
+                    value_ = self.param_feature_selection_[keys]
+                    self.method_feature_selection_ = self.method_feature_selection_+ f'{param_}={value_},'  
+                self.method_feature_selection_ = self.method_feature_selection_ + '))'
+                self.param_feature_selection_ = None
                 
-            self.method_feature_selection = [eval(self.method_feature_selection)]
+            self.method_feature_selection_ = [eval(self.method_feature_selection_)]
         
-        self.param_feature_selection = None if self.param_feature_selection == {} else self.param_feature_selection
+        self.param_feature_selection_ = None if self.param_feature_selection_ == {} else self.param_feature_selection_
         return self
 
     def get_unbalance_treatment_parameters(self):
-        self.method_unbalance_treatment = None
-        self.param_unbalance_treatment = {}
+        self.method_unbalance_treatment_ = None
+        self.param_unbalance_treatment_ = {}
 
         unbalance_treatment = self.configuration.get('feature_engineering', {}).get('unbalance_treatment', None)
         if unbalance_treatment and (list(unbalance_treatment.keys())[0] != 'None'):
-            self.method_unbalance_treatment = [(list(unbalance_treatment.keys())[0] if list(unbalance_treatment.keys())[0] != 'None' else None)]
+            self.method_unbalance_treatment_ = [(list(unbalance_treatment.keys())[0] if list(unbalance_treatment.keys())[0] != 'None' else None)]
     
             for key in unbalance_treatment.keys():
                 for key_ in unbalance_treatment.get(key).keys():
@@ -154,14 +181,14 @@ class BaseMachineLearning(object):
                                 param = eval(param)
                             if not (isinstance(param, list) or isinstance(param, tuple)):
                                 param = [param]
-                            self.param_unbalance_treatment.update({"unbalance_treatment__"+key_:param})
+                            self.param_unbalance_treatment_.update({"unbalance_treatment__"+key_:param})
              
-        self.param_unbalance_treatment = None if self.param_unbalance_treatment == {} else self.param_unbalance_treatment
+        self.param_unbalance_treatment_ = None if self.param_unbalance_treatment_ == {} else self.param_unbalance_treatment_
         return self
 
     def get_machine_learning_parameters(self):
-        self.method_machine_learning = None
-        self.param_machine_learning = {}
+        self.method_machine_learning_ = None
+        self.param_machine_learning_ = {}
         
         machine_learning = self.configuration.get('machine_learning', None)
         keys = machine_learning.keys()
@@ -175,7 +202,7 @@ class BaseMachineLearning(object):
 
         if machine_learning and (list(machine_learning.keys())[0] != 'None'):
             # TODO: This place will update for supporting multiple estimators
-            self.method_machine_learning = [eval(list(machine_learning.keys())[0] if list(machine_learning.keys())[0] != 'None' else None)]
+            self.method_machine_learning_ = [eval(list(machine_learning.keys())[0] if list(machine_learning.keys())[0] != 'None' else None)]
     
             for key in machine_learning.keys():
                 for key_ in machine_learning.get(key).keys():
@@ -193,18 +220,18 @@ class BaseMachineLearning(object):
                                 param = [param]
                             
                             # TODO: Design a method to set params
-                            self.param_machine_learning.update({"estimator__"+key_: param})
+                            self.param_machine_learning_.update({"estimator__"+key_: param})
              
-        self.param_machine_learning = None if self.param_machine_learning == {} else self.param_machine_learning
+        self.param_machine_learning_ = None if self.param_machine_learning_ == {} else self.param_machine_learning_
         return self
 
     def get_model_evaluation_parameters(self):
-        self.method_model_evaluation = None
-        self.param_model_evaluation = {}
+        self.method_model_evaluation_ = None
+        self.param_model_evaluation_ = {}
         
         model_evaluation = self.configuration.get('model_evaluation', {})
         if model_evaluation and (list(model_evaluation.keys())[0] != 'None'):
-            self.method_model_evaluation = eval(list(model_evaluation.keys())[0] if list(model_evaluation.keys())[0] != 'None' else None)
+            self.method_model_evaluation_ = eval(list(model_evaluation.keys())[0] if list(model_evaluation.keys())[0] != 'None' else None)
     
             for key in model_evaluation.keys():
                 for key_ in model_evaluation.get(key).keys():
@@ -221,9 +248,9 @@ class BaseMachineLearning(object):
                                     param = eval(param)
                             if not (isinstance(param, list) or isinstance(param, tuple)):
                                 param = [param]
-                            self.param_model_evaluation.update({"model_evaluation__"+key_: param})
+                            self.param_model_evaluation_.update({"model_evaluation__"+key_: param})
              
-        self.param_model_evaluation = None if self.param_model_evaluation == {} else self.param_model_evaluation
+        self.param_model_evaluation_ = None if self.param_model_evaluation_ == {} else self.param_model_evaluation_
         return self
 
     def get_statistical_analysis_parameters(self):
@@ -231,6 +258,16 @@ class BaseMachineLearning(object):
 
     def get_visualization_parameters(self):
         self.configuration.get('visualization', None)
+
+    def get_all_inputs(self):
+        self.get_configuration_()
+        self.get_preprocessing_parameters()
+        self.get_dimension_reduction_parameters()
+        self.get_feature_selection_parameters()
+        self.get_unbalance_treatment_parameters()
+        self.get_machine_learning_parameters()
+        self.get_model_evaluation_parameters()
+        return self
 
     @staticmethod
     def criteria_of_eval_parameters(param):
@@ -254,6 +291,11 @@ class BaseMachineLearning(object):
 
 class DataLoader(BaseMachineLearning):
     """Load datasets according to different data types
+    
+    Parameters:
+    ----------
+    configuration_file: file string
+        configuration file containing all inputs
 
     Attributes:
     ----------
@@ -262,11 +304,10 @@ class DataLoader(BaseMachineLearning):
     features_: ndarray of shape (n_samples, n_features) 
 
     mask_: dictionary, each element contains a mask of a modality of a group
-
     """
     
-    def __init__(self):
-        super(DataLoader, self).__init__()
+    def __init__(self, configuration_file):
+        super(DataLoader, self).__init__(configuration_file)
         
         # Generate type2fun dictionary
         # TODO: Extended to handle other formats
@@ -277,8 +318,8 @@ class DataLoader(BaseMachineLearning):
                     ".xls": self.read_excel,
         }
 
-    def load_data(self, configuration_file):
-        self.get_configuration_(configuration_file=configuration_file)
+    def load_data(self):
+        self.get_configuration_()
         self.data_loading = self.configuration.get('data_loading', None)
         
         # ======Check datasets======
@@ -483,11 +524,9 @@ class DataLoader(BaseMachineLearning):
         """
         if (file == []) or (file == ''):
             return 0
-        
         elif not os.path.isfile(file):
             raise ValueError(f" Cannot find the file:'{file}'")
             return
-                
         else:
             # Identify file type
             [path, filename] = os.path.split(file)
@@ -527,7 +566,7 @@ class DataLoader(BaseMachineLearning):
                 data_[np.eye(data.shape[0]) == 1] = 0
                 if np.all(np.abs(data_-data_.T) < 1e-8):
                     return data[np.triu(np.ones(data.shape),1)==1]
-                
+                                    
         return data
 
     @ staticmethod
@@ -542,10 +581,11 @@ class DataLoader(BaseMachineLearning):
                      
 
 if __name__ == '__main__':
-    base = BaseMachineLearning()
-    data_loader = DataLoader()
-    base.get_configuration_(configuration_file=r'D:\My_Codes\easylearn\eslearn\GUI\test\configuration_file.json')
-    data_loader.load_data(configuration_file=r'D:\My_Codes\easylearn\eslearn\GUI\test\configuration_file.json')
+    base = BaseMachineLearning(configuration_file=r'D:\My_Codes\easylearn\eslearn\GUI\test\configuration_file.json')
+    data_loader = DataLoader(configuration_file=r'D:\My_Codes\easylearn\eslearn\GUI\test\configuration_file.json')
+    data_loader.load_data()
+    
+    base.get_configuration_()
     base.get_preprocessing_parameters()
     base.get_dimension_reduction_parameters()
     base.get_feature_selection_parameters()
@@ -554,22 +594,22 @@ if __name__ == '__main__':
     base.get_model_evaluation_parameters()
     
 
-    print(base.method_feature_preprocessing)
-    print(base.param_feature_preprocessing)
+    print(base.method_feature_preprocessing_)
+    print(base.param_feature_preprocessing_)
     
-    print(base.method_dim_reduction)
-    print(base.param_dim_reduction)
+    print(base.method_dim_reduction_)
+    print(base.param_dim_reduction_)
     
-    print(base.method_feature_selection)
-    print(base.param_feature_selection)
+    print(base.method_feature_selection_)
+    print(base.param_feature_selection_)
     
-    print(base.method_unbalance_treatment)
-    print(base.param_unbalance_treatment)
+    print(base.method_unbalance_treatment_)
+    print(base.param_unbalance_treatment_)
     
-    print(base.method_machine_learning)
-    print(base.param_machine_learning)
+    print(base.method_machine_learning_)
+    print(base.param_machine_learning_)
 
-    print(base.method_model_evaluation)
-    print(base.param_model_evaluation)
+    print(base.method_model_evaluation_)
+    print(base.param_model_evaluation_)
 
     

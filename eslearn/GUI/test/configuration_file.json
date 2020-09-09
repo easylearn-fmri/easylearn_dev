@@ -80,10 +80,17 @@
             "StandardScaler()": {}
         },
         "dimreduction": {
-            "None": {}
+            "PCA()": {
+                "n_components": {
+                    "value": "0.90"
+                }
+            }
         },
         "feature_selection": {
             "None": {}
+        },
+        "unbalance_treatment": {
+            "randover": {}
         }
     },
     "machine_learning": {
@@ -104,21 +111,17 @@
     "model_evaluation": {
         "KFold()": {
             "n_splits": {
-                "value": "5"
+                "value": "3"
             },
             "shuffle": {
                 "value": "True"
             },
             "random_state": {
-                "value": "0"
+                "value": "2"
             }
         },
         "Statistical_analysis": {
-            "Permutation test": {
-                "N": {
-                    "value": "500"
-                }
-            }
+            "Binomial test": {}
         }
     },
     "statistical_analysis": {},
