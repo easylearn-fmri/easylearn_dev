@@ -42,28 +42,26 @@ class Classification(DataLoader, PipelineSearch_):
             param_machine_learning=self.param_machine_learning_
         )
         
-        # Get training and test datasets
-        x_train, x_test, y_train, y_test = train_test_split(self.features_, self.targets_, test_size=0.30, random_state=42)
-        
-        cv = self.method_model_evaluation_
-        for train_index, test_index in cv.split(self.data, self.label):
-            data_train = self.data[train_index, :]
-            data_test = self.data[test_index, :]
-            label_train = self.label[train_index]
-            label_test = self.label[test_index]
-            label_test_all.extend(label_test)
+        # Get training and test datasets        
+        cv = self.method_model_evaluation_ 
+        target_test_all = []
+        for train_index, test_index in cv.split(self.features_, self.targets_):
+            feature_train = self.features_[train_index, :]
+            feature_test = self.features_[test_index, :]
+            target_train = self.targets_[train_index]
+            target_test = self.targets_[test_index]
+            target_test_all.extend(target_test)
 
             # Resample
-            ros = RandomOverSampler(random_state=0)
-            data_train, label_train = ros.fit_resample(data_train, label_train)
-
-            print(f"After re-sampling, the sample size are: {sorted(Counter(label_train).items())}")
-            
+            # ros = RandomOverSampler(random_state=0)
+            # feature_train, target_train = ros.fit_resample(feature_train, target_train)
+            # print(f"After re-sampling, the sample size are: {sorted(Counter(target_train).items())}")
         
-        self.fit_pipeline_(x_train, y_train)
-        self.get_weights_(x_train, y_train)
-        yhat, y_prob = self.predict(x_test)
-        accuracy = accuracy_score(yhat, y_test)
+            self.fit_pipeline_(feature_train, target_train)
+            self.get_weights_(feature_train, target_train)
+            yhat, y_prob = self.predict(feature_test)
+            accuracy = accuracy_score(yhat, target_test)
+            
         return yhat, y_prob, accuracy
 
 

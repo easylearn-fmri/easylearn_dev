@@ -228,16 +228,17 @@ class BaseMachineLearning(object):
     def get_model_evaluation_parameters(self):
         self.method_model_evaluation_ = None
         self.param_model_evaluation_ = {}
+        self.Statistical_analysis = self.configuration.get('model_evaluation', {}).get("Statistical_analysis", None)
+        self.configuration.get('model_evaluation', {}).pop("Statistical_analysis")
+        model_evaluation = self.configuration.get('model_evaluation', None)
         
-        model_evaluation = self.configuration.get('model_evaluation', {})
         if model_evaluation and (list(model_evaluation.keys())[0] != 'None'):
-            self.method_model_evaluation_ = eval(list(model_evaluation.keys())[0] if list(model_evaluation.keys())[0] != 'None' else None)
-    
+            self.method_model_evaluation_ = list(model_evaluation.keys())[0] if list(model_evaluation.keys())[0] != 'None' else None
+            
             for key in model_evaluation.keys():
                 for key_ in model_evaluation.get(key).keys():
                     if key_ != []:
-                        for key__ in model_evaluation.get(key).get(key_).keys():
-                            
+                        for key__ in model_evaluation.get(key).get(key_).keys():                            
                             param = model_evaluation.get(key).get(key_).get(key__)
                             param = 'None' if param == '' else param
                             # Parse parameters: if param is digits str or containing "(" and ")", we will eval the param
@@ -246,11 +247,22 @@ class BaseMachineLearning(object):
                             if type(param) is str:  # selected_dataset is list
                                 if self.criteria_of_eval_parameters(param):
                                     param = eval(param)
-                            if not (isinstance(param, list) or isinstance(param, tuple)):
-                                param = [param]
-                            self.param_model_evaluation_.update({"model_evaluation__"+key_: param})
+                            # if not (isinstance(param, list) or isinstance(param, tuple)):
+                            #     param = [param]
+                            self.param_model_evaluation_.update({key_: param})
              
-        self.param_model_evaluation_ = None if self.param_model_evaluation_ == {} else self.param_model_evaluation_
+            # ------Give parameter to method------
+            pme = ""
+            ik_end = len(self.param_model_evaluation_)  - 1
+            for ik, key_pme in enumerate(self.param_model_evaluation_):
+                if ik != ik_end:
+                    pme = pme + f"{key_pme}={self.param_model_evaluation_[key_pme]}" + ", "
+                else:
+                    pme = pme + f"{key_pme}={self.param_model_evaluation_[key_pme]}"
+            
+            self.method_model_evaluation_ = self.method_model_evaluation_.split("(")[0] + "(" + pme + self.method_model_evaluation_.split("(")[1]
+            self.method_model_evaluation_ = eval(self.method_model_evaluation_)
+
         return self
 
     def get_statistical_analysis_parameters(self):

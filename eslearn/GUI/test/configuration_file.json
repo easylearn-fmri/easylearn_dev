@@ -109,19 +109,26 @@
         }
     },
     "model_evaluation": {
-        "KFold()": {
+        "ShuffleSplit()": {
             "n_splits": {
-                "value": "3"
+                "value": "10"
             },
-            "shuffle": {
-                "value": "True"
+            "test_size": {
+                "value": "0.20"
+            },
+            "train_size": {
+                "value": "0.80"
             },
             "random_state": {
                 "value": "2"
             }
         },
         "Statistical_analysis": {
-            "Binomial test": {}
+            "Permutation test": {
+                "N": {
+                    "value": "1000"
+                }
+            }
         }
     },
     "statistical_analysis": {},
