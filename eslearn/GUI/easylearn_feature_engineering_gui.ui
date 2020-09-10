@@ -48,7 +48,7 @@
        <enum>QTabWidget::Triangular</enum>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="tabWidget_itemsPage1">
        <attribute name="title">
@@ -739,31 +739,17 @@
            <string>Methods</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_7">
-           <item row="8" column="0">
-            <widget class="QRadioButton" name="radioButton_extractionunder">
-             <property name="text">
-              <string>Extraction of majority-minority Tomek links</string>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="0">
-            <widget class="Line" name="line_3">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-            </widget>
-           </item>
            <item row="3" column="0">
             <widget class="QRadioButton" name="radioButton_smotencover">
              <property name="text">
-              <string>SMOTENC - SMOTE for Nominal Continuous </string>
+              <string>SMOTENC</string>
              </property>
             </widget>
            </item>
-           <item row="10" column="0">
+           <item row="9" column="0">
             <widget class="QRadioButton" name="radioButton_nearmissunder">
              <property name="text">
-              <string>NearMiss-(1 and 2 and 3) </string>
+              <string>NearMiss</string>
              </property>
             </widget>
            </item>
@@ -783,27 +769,35 @@
            <item row="7" column="0">
             <widget class="QRadioButton" name="radioButton_randunder">
              <property name="text">
-              <string>Random majority under-sampling with replacement</string>
+              <string>RandomUnderSampler</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="0">
+            <widget class="Line" name="line_3">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="0">
+            <widget class="QRadioButton" name="radioButton_cludterunder">
+             <property name="text">
+              <string>ClusterCentroids</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QRadioButton" name="radioButton_smoteover">
+             <property name="text">
+              <string>SMOTE</string>
              </property>
             </widget>
            </item>
            <item row="4" column="0">
             <widget class="QRadioButton" name="radioButton_bsmoteover">
              <property name="text">
-              <string>bSMOTE(1 and 2) - Borderline SMOTE of types 1 and 2</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QRadioButton" name="radioButton_randover">
-             <property name="text">
-              <string>Random minority over-sampling with replacement</string>
-             </property>
-             <property name="checkable">
-              <bool>true</bool>
-             </property>
-             <property name="checked">
-              <bool>false</bool>
+              <string>BorderlineSMOTE</string>
              </property>
             </widget>
            </item>
@@ -820,17 +814,16 @@
              </property>
             </widget>
            </item>
-           <item row="2" column="0">
-            <widget class="QRadioButton" name="radioButton_smoteover">
+           <item row="1" column="0">
+            <widget class="QRadioButton" name="radioButton_randover">
              <property name="text">
-              <string>SMOTE - Synthetic Minority Over-sampling Technique</string>
+              <string>RandomOverSampler</string>
              </property>
-            </widget>
-           </item>
-           <item row="9" column="0">
-            <widget class="QRadioButton" name="radioButton_cludterunder">
-             <property name="text">
-              <string>Under-sampling with Cluster Centroids</string>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+             <property name="checked">
+              <bool>false</bool>
              </property>
             </widget>
            </item>

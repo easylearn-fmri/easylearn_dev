@@ -233,14 +233,13 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
             },
 
             "unbalance_treatment": {
-                self.radioButton_randover: {"randover": {}}, 
-                self.radioButton_smoteover: {"somteover": {}},
-                self.radioButton_smotencover: {"somtencover": {}}, 
-                self.radioButton_bsmoteover: {"bsmoteover": {}},
-                self.radioButton_randunder: {"randunder": {}}, 
-                self.radioButton_extractionunder: {"extractionunder": {}},
-                self.radioButton_cludterunder: {"clusterunder": {}}, 
-                self.radioButton_nearmissunder: {"nearmissunder": {}},
+                self.radioButton_randover: {"RandomOverSampler()": {}},
+                self.radioButton_smoteover: {"SMOTE()": {}},
+                self.radioButton_smotencover: {"SMOTENC()": {}}, 
+                self.radioButton_bsmoteover: {"BorderlineSMOTE()": {}},
+                self.radioButton_randunder: {"RandomUnderSampler()": {}}, 
+                self.radioButton_cludterunder: {"ClusterCentroids()": {}}, 
+                self.radioButton_nearmissunder: {"NearMiss()": {}},
             }
         }
 

@@ -2,11 +2,13 @@
 
 # Form implementation generated from reading ui file './easylearn_feature_engineering_gui.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.3
+# Created by: PyQt5 UI code generator 5.12.3
 #
 # WARNING! All changes made in this file will be lost!
 
+
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -412,20 +414,12 @@ class Ui_MainWindow(object):
         self.groupBox_5.setObjectName("groupBox_5")
         self.gridLayout_7 = QtWidgets.QGridLayout(self.groupBox_5)
         self.gridLayout_7.setObjectName("gridLayout_7")
-        self.radioButton_extractionunder = QtWidgets.QRadioButton(self.groupBox_5)
-        self.radioButton_extractionunder.setObjectName("radioButton_extractionunder")
-        self.gridLayout_7.addWidget(self.radioButton_extractionunder, 8, 0, 1, 1)
-        self.line_3 = QtWidgets.QFrame(self.groupBox_5)
-        self.line_3.setFrameShape(QtWidgets.QFrame.HLine)
-        self.line_3.setFrameShadow(QtWidgets.QFrame.Sunken)
-        self.line_3.setObjectName("line_3")
-        self.gridLayout_7.addWidget(self.line_3, 5, 0, 1, 1)
         self.radioButton_smotencover = QtWidgets.QRadioButton(self.groupBox_5)
         self.radioButton_smotencover.setObjectName("radioButton_smotencover")
         self.gridLayout_7.addWidget(self.radioButton_smotencover, 3, 0, 1, 1)
         self.radioButton_nearmissunder = QtWidgets.QRadioButton(self.groupBox_5)
         self.radioButton_nearmissunder.setObjectName("radioButton_nearmissunder")
-        self.gridLayout_7.addWidget(self.radioButton_nearmissunder, 10, 0, 1, 1)
+        self.gridLayout_7.addWidget(self.radioButton_nearmissunder, 9, 0, 1, 1)
         self.label_12 = QtWidgets.QLabel(self.groupBox_5)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -437,14 +431,20 @@ class Ui_MainWindow(object):
         self.radioButton_randunder = QtWidgets.QRadioButton(self.groupBox_5)
         self.radioButton_randunder.setObjectName("radioButton_randunder")
         self.gridLayout_7.addWidget(self.radioButton_randunder, 7, 0, 1, 1)
+        self.line_3 = QtWidgets.QFrame(self.groupBox_5)
+        self.line_3.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line_3.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line_3.setObjectName("line_3")
+        self.gridLayout_7.addWidget(self.line_3, 5, 0, 1, 1)
+        self.radioButton_cludterunder = QtWidgets.QRadioButton(self.groupBox_5)
+        self.radioButton_cludterunder.setObjectName("radioButton_cludterunder")
+        self.gridLayout_7.addWidget(self.radioButton_cludterunder, 8, 0, 1, 1)
+        self.radioButton_smoteover = QtWidgets.QRadioButton(self.groupBox_5)
+        self.radioButton_smoteover.setObjectName("radioButton_smoteover")
+        self.gridLayout_7.addWidget(self.radioButton_smoteover, 2, 0, 1, 1)
         self.radioButton_bsmoteover = QtWidgets.QRadioButton(self.groupBox_5)
         self.radioButton_bsmoteover.setObjectName("radioButton_bsmoteover")
         self.gridLayout_7.addWidget(self.radioButton_bsmoteover, 4, 0, 1, 1)
-        self.radioButton_randover = QtWidgets.QRadioButton(self.groupBox_5)
-        self.radioButton_randover.setCheckable(True)
-        self.radioButton_randover.setChecked(False)
-        self.radioButton_randover.setObjectName("radioButton_randover")
-        self.gridLayout_7.addWidget(self.radioButton_randover, 1, 0, 1, 1)
         self.label_13 = QtWidgets.QLabel(self.groupBox_5)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -453,12 +453,11 @@ class Ui_MainWindow(object):
         self.label_13.setSizePolicy(sizePolicy)
         self.label_13.setObjectName("label_13")
         self.gridLayout_7.addWidget(self.label_13, 6, 0, 1, 1)
-        self.radioButton_smoteover = QtWidgets.QRadioButton(self.groupBox_5)
-        self.radioButton_smoteover.setObjectName("radioButton_smoteover")
-        self.gridLayout_7.addWidget(self.radioButton_smoteover, 2, 0, 1, 1)
-        self.radioButton_cludterunder = QtWidgets.QRadioButton(self.groupBox_5)
-        self.radioButton_cludterunder.setObjectName("radioButton_cludterunder")
-        self.gridLayout_7.addWidget(self.radioButton_cludterunder, 9, 0, 1, 1)
+        self.radioButton_randover = QtWidgets.QRadioButton(self.groupBox_5)
+        self.radioButton_randover.setCheckable(True)
+        self.radioButton_randover.setChecked(False)
+        self.radioButton_randover.setObjectName("radioButton_randover")
+        self.gridLayout_7.addWidget(self.radioButton_randover, 1, 0, 1, 1)
         self.gridLayout_31.addWidget(self.groupBox_5, 0, 0, 1, 1)
         spacerItem2 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
         self.gridLayout_31.addItem(spacerItem2, 0, 1, 1, 1)
@@ -516,7 +515,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuSkin.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.tabWidget_items.setCurrentIndex(2)
+        self.tabWidget_items.setCurrentIndex(3)
         self.stackedWidget_preprocessing_methods.setCurrentIndex(2)
         self.stackedWidget_dimreduction.setCurrentIndex(2)
         self.stackedWidget_feature_selection.setCurrentIndex(5)
@@ -583,16 +582,15 @@ class Ui_MainWindow(object):
         self.label_46.setText(_translate("MainWindow", "L1_ratio"))
         self.tabWidget_items.setTabText(self.tabWidget_items.indexOf(self.tabWidget_itemsPage3), _translate("MainWindow", "  Feature selection  "))
         self.groupBox_5.setTitle(_translate("MainWindow", "Methods"))
-        self.radioButton_extractionunder.setText(_translate("MainWindow", "Extraction of majority-minority Tomek links"))
-        self.radioButton_smotencover.setText(_translate("MainWindow", "SMOTENC - SMOTE for Nominal Continuous "))
-        self.radioButton_nearmissunder.setText(_translate("MainWindow", "NearMiss-(1 and 2 and 3) "))
+        self.radioButton_smotencover.setText(_translate("MainWindow", "SMOTENC"))
+        self.radioButton_nearmissunder.setText(_translate("MainWindow", "NearMiss"))
         self.label_12.setText(_translate("MainWindow", "Over-sampling the minority class"))
-        self.radioButton_randunder.setText(_translate("MainWindow", "Random majority under-sampling with replacement"))
-        self.radioButton_bsmoteover.setText(_translate("MainWindow", "bSMOTE(1 and 2) - Borderline SMOTE of types 1 and 2"))
-        self.radioButton_randover.setText(_translate("MainWindow", "Random minority over-sampling with replacement"))
+        self.radioButton_randunder.setText(_translate("MainWindow", "RandomUnderSampler"))
+        self.radioButton_cludterunder.setText(_translate("MainWindow", "ClusterCentroids"))
+        self.radioButton_smoteover.setText(_translate("MainWindow", "SMOTE"))
+        self.radioButton_bsmoteover.setText(_translate("MainWindow", "BorderlineSMOTE"))
         self.label_13.setText(_translate("MainWindow", "Under-sampling the majority class(es)"))
-        self.radioButton_smoteover.setText(_translate("MainWindow", "SMOTE - Synthetic Minority Over-sampling Technique"))
-        self.radioButton_cludterunder.setText(_translate("MainWindow", "Under-sampling with Cluster Centroids"))
+        self.radioButton_randover.setText(_translate("MainWindow", "RandomOverSampler"))
         self.groupBox_4.setTitle(_translate("MainWindow", "Setting"))
         self.tabWidget_items.setTabText(self.tabWidget_items.indexOf(self.tabWidget_itemsPage4), _translate("MainWindow", "  Unbalance treatment  "))
         self.menuConfiguration_file_f.setTitle(_translate("MainWindow", "Configuration file (&F)"))
@@ -608,4 +606,3 @@ class Ui_MainWindow(object):
         self.actionNavy.setText(_translate("MainWindow", "Navy"))
         self.actionClassic.setText(_translate("MainWindow", "Classic"))
         self.actionGet_all_available_configuraton.setText(_translate("MainWindow", "Get all available configuraton"))
-

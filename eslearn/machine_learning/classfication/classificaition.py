@@ -2,17 +2,11 @@
 # -*- coding: utf-8 -*-
 
 import time
-from sklearn import datasets
-from sklearn.datasets import load_digits
-from sklearn.metrics import accuracy_score
-from sklearn.model_selection import train_test_split
+from collections import Counter
 
 from eslearn.base import DataLoader
 from eslearn.machine_learning.classfication._base_classificaition import PipelineSearch_
-
-x, y = datasets.make_classification(n_samples=500, n_classes=2,
-                                    n_informative=50, n_redundant=3,
-                                    n_features=1000, random_state=1)
+from eslearn.model_evaluator import ModelEvaluator
 
 
 class Classification(DataLoader, PipelineSearch_):
@@ -53,16 +47,22 @@ class Classification(DataLoader, PipelineSearch_):
             target_test_all.extend(target_test)
 
             # Resample
-            # ros = RandomOverSampler(random_state=0)
-            # feature_train, target_train = ros.fit_resample(feature_train, target_train)
-            # print(f"After re-sampling, the sample size are: {sorted(Counter(target_train).items())}")
+            imbalance_resample = self.method_unbalance_treatment_
+            feature_train, target_train = imbalance_resample.fit_resample(feature_train, target_train)
+            print(f"After re-sampling, the sample size are: {sorted(Counter(target_train).items())}")
         
             self.fit_pipeline_(feature_train, target_train)
             self.get_weights_(feature_train, target_train)
             yhat, y_prob = self.predict(feature_test)
-            accuracy = accuracy_score(yhat, target_test)
             
-        return yhat, y_prob, accuracy
+            # Eval performances
+            acc, sens, spec, auc = ModelEvaluator().binary_evaluator(
+                target_test, yhat, y_prob,
+                accuracy_kfold=None, sensitivity_kfold=None, specificity_kfold=None, AUC_kfold=None,
+                verbose=1, is_showfig=False, is_savefig=False
+            )
+            
+        return yhat, y_prob
 
 
 if __name__ == "__main__":
@@ -71,6 +71,6 @@ if __name__ == "__main__":
     clf.classification()
     time_end = time.time()
     print(clf.param_search_)
-    # print(clf.pipeline_)
+    print(clf.pipeline_)
     print(f"Running time = {time_end-time_start}\n")
     print("="*50)

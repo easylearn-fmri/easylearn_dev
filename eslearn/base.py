@@ -12,6 +12,18 @@ import os
 import nibabel as nib
 from scipy import io
 
+from imblearn.over_sampling import (RandomOverSampler, SMOTE, ADASYN, BorderlineSMOTE, SMOTENC)
+from imblearn.under_sampling import (RandomUnderSampler,
+                                    ClusterCentroids, 
+                                    NearMiss,
+                                    InstanceHardnessThreshold,
+                                    CondensedNearestNeighbour,
+                                    EditedNearestNeighbours,
+                                    RepeatedEditedNearestNeighbours,
+                                    AllKNN,
+                                    NeighbourhoodCleaningRule,
+                                    OneSidedSelection)
+from imblearn.combine import SMOTEENN, SMOTETomek
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.decomposition import PCA, NMF
 from sklearn.feature_selection import SelectPercentile, SelectKBest, SelectFromModel, f_classif,f_regression, RFE,RFECV, VarianceThreshold, mutual_info_classif, SelectFromModel
@@ -167,7 +179,7 @@ class BaseMachineLearning(object):
 
         unbalance_treatment = self.configuration.get('feature_engineering', {}).get('unbalance_treatment', None)
         if unbalance_treatment and (list(unbalance_treatment.keys())[0] != 'None'):
-            self.method_unbalance_treatment_ = [(list(unbalance_treatment.keys())[0] if list(unbalance_treatment.keys())[0] != 'None' else None)]
+            self.method_unbalance_treatment_ = (eval(list(unbalance_treatment.keys())[0]) if list(unbalance_treatment.keys())[0] != 'None' else None)
     
             for key in unbalance_treatment.keys():
                 for key_ in unbalance_treatment.get(key).keys():
@@ -499,7 +511,7 @@ class DataLoader(BaseMachineLearning):
                 self.features_ = pd.concat([self.features_, feature_sorted], axis=0)
             
         self.targets_ = self.features_["__targets__"].values
-        self.features_.drop(["__targets__"], axis=1, inplace=True)
+        self.features_.drop(["__targets__", "ID"], axis=1, inplace=True)
         self.features_ =  self.features_.values
 
         return self
