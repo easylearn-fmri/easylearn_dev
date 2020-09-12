@@ -113,8 +113,8 @@ class PipelineSearch_(BaseClassification):
                  k=5, 
                  metric=accuracy_score, 
                  n_iter_of_randomedsearch=10, 
-                 n_jobs=1,
-                 location = 'cachedir',
+                 n_jobs=1, 
+                 location='cachedir',
                  verbose=False
     ):
 

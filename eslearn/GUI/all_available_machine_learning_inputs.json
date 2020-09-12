@@ -1,0 +1,59 @@
+# all
+{
+    "Classification": {
+        "Logistic regression": {
+            "1ratio": {
+                "value": "0.599"
+            }
+        },
+        "Support vector machine": {
+            "kernel": {
+                "value": "linear"
+            },
+            "c": {
+                "value": "1"
+            },
+            "gamma": {
+                "value": "scale"
+            }
+        },
+        "Ridge classification": {
+            "alpha": {
+                "value": "1"
+            }
+        },
+        "Gaussian process": {},
+        "Random forest": {
+            "estimators": {
+                "value": "10"
+            },
+            "maxdepth": {
+                "value": "10"
+            }
+        },
+        "AdaBoost": {
+            "estimators": {
+                "value": "2"
+            }
+        }
+    },
+    "Regression": {
+        "Linear regression": {},
+        "Lasso regression": {
+            "alpha": {
+                "value": "1"
+            }
+        },
+        "Ridge regression": {
+            "alpha": {
+                "value": "1"
+            }
+        }
+    },
+    "Clustering": {
+        "K-means clustering": {}
+    },
+    "Deep learning": {
+        "Linear regression": {}
+    }
+}

@@ -3,7 +3,6 @@
 
 import time
 from collections import Counter
-import os
 
 from eslearn.base import DataLoader
 from eslearn.machine_learning.classfication._base_classificaition import PipelineSearch_
@@ -14,7 +13,7 @@ class Classification(DataLoader, PipelineSearch_):
     
     def __init__(self, configuration_file):
         DataLoader.__init__(self, configuration_file)
-        PipelineSearch_.__init__(self, location=os.path.dirname(configuration_file))
+        PipelineSearch_.__init__(self)
         self.search_strategy = 'grid'
         self.n_jobs = 2
         self.k = 3
