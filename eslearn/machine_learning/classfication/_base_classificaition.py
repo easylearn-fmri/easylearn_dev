@@ -16,11 +16,13 @@ from abc import abstractmethod, ABCMeta
 import warnings
 from sklearn.exceptions import ConvergenceWarning
 
+from eslearn.base import BaseMachineLearning
+
 
 warnings.filterwarnings("ignore", category=ConvergenceWarning, module="sklearn")
 
 
-class BaseClassification(metaclass=ABCMeta):
+class BaseClassification():
     """Base class for classification
 
     Parameters
@@ -92,14 +94,13 @@ class BaseClassification(metaclass=ABCMeta):
                 x_ = x_reduced_selected.copy()
                 x_[:,ifeature] = 0
                 y_hat = estimator.predict(x_)
-                self.weights_[0, ifeature] = score_true-self.metric(y, y_hat)
+                self.weights_[0, ifeature] = score_true - self.metric(y, y_hat)
             
             # Back to original space
             if feature_selection and (feature_selection != "passthrough"):
                 self.weights_ = feature_selection.inverse_transform(self.weights_)
             if dim_reduction and (dim_reduction != "passthrough"):
-                self.weights_  = dim_reduction.inverse_transform(self.weights_)
-            
+                self.weights_  = dim_reduction.inverse_transform(self.weights_)            
                 
         # Normalize weights
         self.weights_norm_ = StandardScaler().fit_transform(self.weights_.T).T
@@ -129,91 +130,6 @@ class PipelineSearch_(BaseClassification):
         
         self.pipeline_ = None
         self.param_search_ = None
-
-    def make_pipeline_(self, 
-                        method_feature_preprocessing=None, 
-                        param_feature_preprocessing=None,
-                        method_dim_reduction=None, 
-                        param_dim_reduction=None, 
-                        method_feature_selection=None, 
-                        param_feature_selection=None, 
-                        method_machine_learning=None, 
-                        param_machine_learning=None):
-        
-        """Construct pipeline_
-
-        Currently, the pipeline_ only supports one specific method for corresponding method, 
-        e.g., only supports one dimension reduction method for dimension reduction.
-        In the next version, the pipeline_ will support multiple methods for each corresponding method.
-
-        Parameters:
-        ----------
-            method_feature_preprocessing: [list of] sklearn module, such as [PCA()]
-                    method of dimension reduction.
-
-            param_feature_preprocessing: dictionary [or list of dictionaries], {'reduce_dim__n_components':[0.5,0.9]}, 
-                parameters of dimension reduction, such as components of PCA.
-
-            method_dim_reduction: [list of] sklearn module, such as [PCA()]
-                method of dimension reduction.
-
-            param_dim_reduction: dictionary [or list of dictionaries], {'reduce_dim__n_components':[0.5,0.9]}, 
-                parameters of dimension reduction, such as components of PCA.
-
-            method_feature_selection: [list of] sklearn module, such as [LinearSVC()]
-                method of feature selection.
-
-            param_feature_selection: dictionary [or list of dictionaries], {'feature_selection__k': [0.5,0.9]},
-                parameters of feature selection, such as How many features to be kept.
-
-            method_machine_learning: [list of] sklearn module, such as [LinearSVC()]
-                method of feature selection.
-
-            param_machine_learning: dictionary [or list of dictionaries], such as 
-            {'estimator__penalty': ['l1', 'l2'], 'estimator__C': [10]}
-                parameters of feature selection.
-
-        """
-
-        
-        self.memory = Memory(location=self.location, verbose=self.verbose)
-
-        self.pipeline_ = Pipeline(steps=[
-            ('feature_preprocessing','passthrough'),
-            ('dim_reduction', 'passthrough'),
-            ('feature_selection', 'passthrough'),
-            ('estimator', 'passthrough'),
-            ], 
-            memory=self.memory
-        )
-
-        # Set parameters of gridCV
-        print("Setting parameters of gridCV...\n")
-        
-        self.param_search_ = {}
-
-        if method_feature_preprocessing:
-            self.param_search_.update({'feature_preprocessing':method_feature_preprocessing})
-        if param_feature_preprocessing:          
-            self.param_search_.update(param_feature_preprocessing)
-            
-        if method_dim_reduction:
-            self.param_search_.update({'dim_reduction':method_dim_reduction})
-        if param_dim_reduction:
-            self.param_search_.update(param_dim_reduction)
-                
-        if method_feature_selection:
-            self.param_search_.update({'feature_selection': method_feature_selection})
-        if param_feature_selection:
-            self.param_search_.update(param_feature_selection)
-            
-        if method_machine_learning:
-            self.param_search_.update({'estimator': method_machine_learning})
-        if param_machine_learning:
-            self.param_search_.update(param_machine_learning)
-            
-
-        return self
     
     def fit_pipeline_(self, x=None, y=None):
         """Fit the pipeline_"""
@@ -242,7 +158,6 @@ class PipelineSearch_(BaseClassification):
 
         # Delete the temporary cache before exiting
         self.memory.clear(warn=False)
-        rmtree(self.location)
         return self
 
     def predict(self, x):

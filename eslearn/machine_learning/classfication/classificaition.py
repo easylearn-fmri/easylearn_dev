@@ -5,7 +5,7 @@ import time
 from collections import Counter
 import os
 
-from eslearn.base import DataLoader
+from eslearn.base import BaseMachineLearning, DataLoader
 from eslearn.machine_learning.classfication._base_classificaition import PipelineSearch_
 from eslearn.model_evaluator import ModelEvaluator
 
@@ -16,8 +16,8 @@ class Classification(DataLoader, PipelineSearch_):
         DataLoader.__init__(self, configuration_file)
         PipelineSearch_.__init__(self, location=os.path.dirname(configuration_file))
         self.search_strategy = 'grid'
-        self.n_jobs = 2
-        self.k = 3
+        self.n_jobs = -1
+        self.k = 5
 
     def classification(self):
         
@@ -26,16 +26,7 @@ class Classification(DataLoader, PipelineSearch_):
         self.get_all_inputs()
 
         # Make pipeline
-        self.make_pipeline_(
-            method_feature_preprocessing=self.method_feature_preprocessing_, 
-            param_feature_preprocessing=self.param_feature_preprocessing_, 
-            method_dim_reduction=self.method_dim_reduction_, 
-            param_dim_reduction=self.param_dim_reduction_, 
-            method_feature_selection=self.method_feature_selection_,
-            param_feature_selection=self.param_feature_selection_,
-            method_machine_learning=self.method_machine_learning_, 
-            param_machine_learning=self.param_machine_learning_
-        )
+        self.make_pipeline_()
         
         # Get training and test datasets        
         cv = self.method_model_evaluation_ 

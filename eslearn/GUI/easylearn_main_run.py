@@ -27,12 +27,12 @@ from easylearn_data_loading_run import EasylearnDataLoadingRun
 from easylearn_feature_engineering_run import EasylearnFeatureEngineeringRun
 from easylearn_machine_learning_run import EasylearnMachineLearningRun
 from easylearn_model_evaluation_run import EasylearnModelEvaluationRun
+from eslearn.machine_learning.classfication.classificaition import Classification
 from eslearn.stylesheets.PyQt5_stylesheets import PyQt5_stylesheets
 
 
-
 class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
-    """This class is used to display the main GUI of the easylearn.
+    """Main GUI of the easylearn.
     """
     
     def __init__(self):
@@ -145,6 +145,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         """
         This function is used to select the working working_directory, then change directory to this directory.
         """
+        
         #  If has selected working working_directory previously, then I set it as initial working working_directory.
         if not self.working_directory:
             self.working_directory = QFileDialog.getExistingDirectory(self, "Select a working_directory", os.getcwd()) 
@@ -158,35 +159,35 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
 
         This function will add the configuration_file to self
         """
+        
         if self.working_directory:
             configuration_file_name, ok = QInputDialog.getText(self, "Initialize configuration", "Please name the configuration file:", QLineEdit.Normal, "configuration_file.json")
-            self.configuration_file = os.path.join(self.working_directory, configuration_file_name)
-            with open(self.configuration_file, 'w') as configuration_file:
-                config = {
-                    "data_loading": {}, 
-                    "feature_engineering": {}, 
-                    "machine_learning": {}, 
-                    "model_evaluation": {}, 
-                    "statistical_analysis": {}, 
-                    "visualization": {}
-                }
-                config = json.dumps(config, indent=4)
-                configuration_file.write(config)
-                config_message = "Configuration file is " + self.configuration_file
-                self.textBrowser.setText(config_message)
+            if ok:
+                self.configuration_file = os.path.join(self.working_directory, configuration_file_name)
+                with open(self.configuration_file, 'w') as configuration_file:
+                    config = {
+                        "data_loading": {}, 
+                        "feature_engineering": {}, 
+                        "machine_learning": {}, 
+                        "model_evaluation": {}, 
+                    }
+                    config = json.dumps(config, indent=4)
+                    configuration_file.write(config)
+                    config_message = "Configuration file is " + self.configuration_file
+                    self.textBrowser.setText(config_message)
         else:
             QMessageBox.warning( self, 'Warning', f'Please choose a working directory first! (press button at the top left corner)')
 
     def load_configuration_fun(self):
         """Load configuration
         """
+        
         self.configuration_file, filetype = QFileDialog.getOpenFileName(self,  
                                 "Select configuration file",  
                                 os.getcwd(), "Text Files (*.json);;All Files (*);;") 
 
         # Read configuration_file if already selected
         if self.configuration_file != "": 
-        # TODO: 解决中文编码的问题 
             with open(self.configuration_file, 'r') as config:
                 self.configuration = config.read()
             # Check the configuration is valid JSON, then transform the configuration to dict
@@ -208,7 +209,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         Then, this function will process the data loading.
         """
 
-        self.data_loading = EasylearnDataLoadingRun(self.working_directory, self.configuration_file)
+        self.data_loading = EasylearnDataLoadingRun(self.working_directory)
         self.data_loading.show()
 
     def feature_engineering_fun(self):
@@ -216,7 +217,8 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
 
         Then, this function will process the feature_engineering.
         """
-        self.feature_engineering = EasylearnFeatureEngineeringRun(self.working_directory, self.configuration_file)
+        
+        self.feature_engineering = EasylearnFeatureEngineeringRun(self.working_directory)
         self.feature_engineering.show()
 
     def machine_learning_fun(self):
@@ -224,7 +226,8 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
 
         Then, this function will process the data loading.
         """
-        self.machine_learning = EasylearnMachineLearningRun(self.working_directory, self.configuration_file)
+        
+        self.machine_learning = EasylearnMachineLearningRun(self.working_directory)
         self.machine_learning.show()
 
     def model_evaluation_fun(self):
@@ -233,7 +236,8 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
 
         Then, this function will process the model evaluation.
         """
-        self.model_evaluation = EasylearnModelEvaluationRun(self.working_directory, self.configuration_file)
+        
+        self.model_evaluation = EasylearnModelEvaluationRun(self.working_directory)
         self.model_evaluation.show()
 
     def run_fun(self):
@@ -241,13 +245,21 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
 
         Then, this function will process the data loading.
         """
-        print('run_fun')
+        
+        print('run_fun...')
+        if self.configuration_file == "":
+            raise ValueError("You have to specify a configuration file\n")
+        else:
+            model = Classification(self.configuration_file)
+            model.classification()
+        
 
     def closeEvent(self, event):
         """This function is called when exit icon of the window is clicked.
 
         This function make sure the program quit safely.
         """
+        
         # Set qss to make sure the QMessageBox can be seen
         reply = QMessageBox.question(self, 'Quit',"Are you sure to quit?",
                                      QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
@@ -262,6 +274,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
 
         This function make sure the program quit safely.
         """
+        
         # Set qss to make sure the QMessageBox can be seen
         reply = QMessageBox.question(self, 'Quit',"Are you sure to quit?",
                                      QMessageBox.Yes | QMessageBox.No, QMessageBox.No)

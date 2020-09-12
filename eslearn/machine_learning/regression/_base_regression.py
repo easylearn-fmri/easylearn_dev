@@ -12,7 +12,6 @@ from sklearn.model_selection import KFold
 from sklearn.metrics import make_scorer, mean_squared_error, mean_absolute_error
 from sklearn.pipeline import Pipeline
 from joblib import Memory
-from shutil import rmtree
 from abc import abstractmethod, ABCMeta
 import warnings
 from sklearn.exceptions import ConvergenceWarning
@@ -21,13 +20,28 @@ warnings.filterwarnings("ignore", category=ConvergenceWarning, module="sklearn")
 
 
 class BaseRegression(metaclass=ABCMeta):
-    """Base class for classification"""
+    """Base class for regression
 
-    def __init__(self,
-                 metric=mean_squared_error):
+    Parameters
+    ----------
+    None
+
+    Attributes
+    ----------
+    model_: Fited model object, default None
+
+    weights_: ndarray of shape(n_class, n_features) if the model is linear model, else shape(1,n_features), default None
+        Feature weights of the fited model
+
+    weights_norm_: ndarray of shape(n_class, n_features) if the model is linear model, else shape(1,n_features), default None
+        Normalized feature weights. Using StandardScaler (z-score) to get the normalized feature weights.
+
+    """
+
+    def __init__(self, metric=mean_squared_error):
         
         self.metric = metric
-        self.model = None
+        self.model_ = None
         self.weights_ = None
         self.weights_norm_ = None
 
@@ -38,7 +52,7 @@ class BaseRegression(metaclass=ABCMeta):
         connectivity pattern analysis using convolutional neural networks>.
         """
         
-        best_model = self.model.best_estimator_
+        best_model = self.model_.best_estimator_
         feature_preprocessing = best_model['feature_preprocessing']
         dim_reduction = best_model.get_params().get('dim_reduction',None)
         feature_selection =  best_model.get_params().get('feature_selection', None)
@@ -65,7 +79,7 @@ class BaseRegression(metaclass=ABCMeta):
             if feature_selection and (feature_selection != "passthrough"):
                 x_reduced_selected = feature_selection.fit_transform(x_reduced_selected, y)
 
-            y_hat = self.model.predict(x)
+            y_hat = self.model_.predict(x)
             score_true = self.metric(y, y_hat)
             len_feature = np.shape(x_reduced_selected)[1]
             
@@ -79,20 +93,17 @@ class BaseRegression(metaclass=ABCMeta):
                 x_ = np.array(x_reduced_selected).copy()
                 x_[:,ifeature] = 0
                 y_hat = estimator.predict(x_)
-                self.weights_[0, ifeature] = self.metric(y, y_hat) - score_true
+                self.weights_[0, ifeature] = score_true - self.metric(y, y_hat)
             
             # Back to original space
             self.weights_ = np.reshape(self.weights_, [1, -1])
             if feature_selection and (feature_selection != "passthrough"):
                 self.weights_ = feature_selection.inverse_transform(self.weights_)
             if dim_reduction and (dim_reduction != "passthrough"):
-                self.weights_  = dim_reduction.inverse_transform(self.weights_)
-            
+                self.weights_  = dim_reduction.inverse_transform(self.weights_)            
                 
         # Normalize weights using z-score method
         self.weights_norm_ = StandardScaler().fit_transform(self.weights_.T).T
-        # self.weights_norm_ = [np.power(np.e, wei)/np.sum(np.power(np.e,self.weights_)) for wei in self.weights_]
-        
     
 class PipelineSearch_(BaseRegression):
     """Make pipeline_"""
@@ -207,14 +218,14 @@ class PipelineSearch_(BaseRegression):
         # TODO: Extending to other CV methods
         cv = KFold(n_splits=self.k)  # Default is StratifiedKFold
         if self.search_strategy == 'grid':
-            self.model = GridSearchCV(
+            self.model_ = GridSearchCV(
                 self.pipeline_, n_jobs=self.n_jobs, param_grid=self.param_search_, cv=cv, 
                 scoring = make_scorer(self.metric), refit=True
             )
             # print(f"GridSearchCV fitting (about {iteration_num} times iteration)...\n")
 
         elif self.search_strategy == 'random':
-            self.model = RandomizedSearchCV(
+            self.model_ = RandomizedSearchCV(
                 self.pipeline_, n_jobs=self.n_jobs, param_distributions=self.param_search_, cv=cv, 
                 scoring = make_scorer(self.metric), refit=True, n_iter=self.n_iter_of_randomedsearch,
             )
@@ -224,14 +235,13 @@ class PipelineSearch_(BaseRegression):
             print("Please specify which search strategy!\n")
             return
 
-        self.model.fit(x, y)
+        self.model_.fit(x, y)
 
         # Delete the temporary cache before exiting
         self.memory.clear(warn=False)
-        rmtree(self.location)
         return self
 
     def predict(self, x):
-        y_hat = self.model.predict(x)
+        y_hat = self.model_.predict(x)
         return y_hat
 

@@ -11,7 +11,9 @@ import pandas as pd
 import os
 import nibabel as nib
 from scipy import io
-
+from joblib import Memory
+import abc
+from abc import abstractmethod, ABCMeta
 from imblearn.over_sampling import (RandomOverSampler, SMOTE, ADASYN, BorderlineSMOTE, SMOTENC)
 from imblearn.under_sampling import (RandomUnderSampler,
                                     ClusterCentroids, 
@@ -33,9 +35,10 @@ from sklearn.gaussian_process import  GaussianProcessClassifier, GaussianProcess
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor, AdaBoostClassifier
 from sklearn.model_selection import KFold, StratifiedKFold,  ShuffleSplit
+from sklearn.pipeline import Pipeline
 
 
-class BaseMachineLearning(object):
+class BaseMachineLearning():
     """Base class for all machine learning
 
     Parameters:
@@ -62,6 +65,9 @@ class BaseMachineLearning(object):
 
     method_model_evaluation_: list of sklearn object or None
     param_model_evaluation_: list of sklearn object or None
+
+    self.pipeline_: machine learning pipeline
+    self.param_search_: parameter for search of machine learning pipeline
     """
 
     def __init__(self, configuration_file):
@@ -310,9 +316,54 @@ class BaseMachineLearning(object):
                         param != 'l1' and param != 'l2'
                     )
         )
+
         return iseval
 
 
+    def make_pipeline_(self):
+        
+        """Construct pipeline_
+
+        Currently, the pipeline_ only supports one specific method for corresponding method, 
+        e.g., only supports one dimension reduction method for dimension reduction.
+        In the next version, the pipeline_ will support multiple methods for each corresponding method.
+        """
+        
+        self.memory = Memory(location=os.path.dirname(self.configuration_file), verbose=False)
+
+        self.pipeline_ = Pipeline(steps=[
+            ('feature_preprocessing','passthrough'),
+            ('dim_reduction', 'passthrough'),
+            ('feature_selection', 'passthrough'),
+            ('estimator', 'passthrough'),
+            ], 
+            memory=self.memory
+        )
+
+        # Set parameters of gridCV
+        self.param_search_ = {}
+
+        if self.method_feature_preprocessing_:
+            self.param_search_.update({'feature_preprocessing':self.method_feature_preprocessing_})
+        if self.param_feature_preprocessing_:          
+            self.param_search_.update(self.param_feature_preprocessing_)
+            
+        if self.method_dim_reduction_:
+            self.param_search_.update({'dim_reduction':self.method_dim_reduction_})
+        if self.param_dim_reduction_:
+            self.param_search_.update(self.param_dim_reduction_)
+                
+        if self.method_feature_selection_:
+            self.param_search_.update({'feature_selection': self.method_feature_selection_})
+        if self.param_feature_selection_:
+            self.param_search_.update(self.param_feature_selection_)
+            
+        if self.method_machine_learning_:
+            self.param_search_.update({'estimator': self.method_machine_learning_})
+        if self.param_machine_learning_:
+            self.param_search_.update(self.param_machine_learning_)
+
+        return self
 
 class DataLoader(BaseMachineLearning):
     """Load datasets according to different data types

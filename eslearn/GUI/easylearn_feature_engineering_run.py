@@ -31,7 +31,7 @@ from easylearn_feature_engineering_gui import Ui_MainWindow
 
 
 class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
-    def __init__(self, working_directory=None, configuration_file=""):
+    def __init__(self, working_directory=None):
         QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
@@ -39,9 +39,9 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
         # Initialization
         self.feature_engineering = {}
         self.working_directory = working_directory
-        self.configuration_file = configuration_file
+        self.configuration_file = ""
         self.configuration = {}
-        self.all_available_inputs_fun()
+        # self.all_available_inputs_fun()
 
         # Debug
         # Set working_directory

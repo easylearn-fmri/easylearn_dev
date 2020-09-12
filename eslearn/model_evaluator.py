@@ -59,9 +59,9 @@ class ModelEvaluator():
         """
 
         # reshape to one column
-        true_label = np.reshape(true_label, [np.size(true_label), -1])
-        predict_label = np.reshape(predict_label, [np.size(predict_label), -1])
-        decision = np.reshape(decision, [np.size(decision), -1])
+        true_label = np.reshape(true_label, [np.size(true_label), ])
+        predict_label = np.reshape(predict_label, [np.size(predict_label), ])
+        decision = np.reshape(decision, [np.size(decision), ])
 
         # accurcay, specificity(recall of negative) and
         # sensitivity(recall of positive)

@@ -33,15 +33,14 @@ from easylearn_data_loading_gui import Ui_MainWindow
 
 
 class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
-    def __init__(self, working_directory=None, configuration_file=""):
+    def __init__(self, working_directory=None):
         QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
 
         # Set working_directory and debug
         self.working_directory = working_directory
-        self.configuration_file = configuration_file
-        self.configuration = {}
+        self.configuration_file = ""
         if self.working_directory:
             cgitb.enable(format="text", display=1, logdir=os.path.join(self.working_directory, "log_data_loading"))
         else:
@@ -206,6 +205,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
     def save_configuration(self):
         """Save configuration
         """
+
         if self.configuration_file != "":
             self.configuration["data_loading"] = self.data_loading
             with open(self.configuration_file, 'w', encoding="utf-8") as config:    
@@ -219,6 +219,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         """
         This function is used to select the working directory
         """
+
         #  If has selected working directory previously, then I set it as initial working directory.
         try:
             self.directory
@@ -553,7 +554,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         """
 
         if (bool(self.selected_group) & bool(self.selected_modality)):
-            self.data_loading[self.selected_group][self.selected_modality]["mask"] = self.lineEdit_mask.text()
+            self.data_loading[self.selected_group]["modalities"][self.selected_modality]["mask"] = self.lineEdit_mask.text()
         else:
             QMessageBox.warning( self, 'Warning', 'Please select group and modality first!') 
 

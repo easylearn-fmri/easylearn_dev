@@ -33,14 +33,14 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
     the main window.
     """
 
-    def __init__(self, working_directory=None, configuration_file=""):
+    def __init__(self, working_directory=None):
         QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
 
         # Initialization
         self.working_directory = working_directory
-        self.configuration_file = configuration_file
+        self.configuration_file = ""
         self.configuration = {}
         self.model_evaluation = {}
         self.all_inputs_fun()
