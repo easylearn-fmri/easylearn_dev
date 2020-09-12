@@ -85,7 +85,7 @@ class BaseClassification(metaclass=ABCMeta):
             
             if len_feature > 1000:
                  print(f"***There are {len_feature} features, it may take a long time to get the weight!***\n")
-                 print(f"***I suggest that you reduce the dimension of features***\n")
+                 print("***I suggest that you reduce the dimension of features***\n")
                  
             for ifeature in range(len_feature):
                 print(f"Getting weight for the {ifeature+1}th feature...\n")

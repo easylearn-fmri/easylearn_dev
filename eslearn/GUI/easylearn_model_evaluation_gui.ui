@@ -133,7 +133,7 @@
           <enum>QTabWidget::North</enum>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>2</number>
          </property>
          <widget class="QWidget" name="tab_kfold">
           <attribute name="title">
@@ -165,12 +165,12 @@
             <widget class="QComboBox" name="comboBox_kfold_shuffle">
              <item>
               <property name="text">
-               <string>False</string>
+               <string>True</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>True</string>
+               <string>False</string>
               </property>
              </item>
             </widget>
@@ -214,12 +214,12 @@
             <widget class="QComboBox" name="comboBox_stratifiedkfold_shuffle">
              <item>
               <property name="text">
-               <string>False</string>
+               <string>True</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>True</string>
+               <string>False</string>
               </property>
              </item>
             </widget>

@@ -48,7 +48,7 @@
        <enum>QTabWidget::Triangular</enum>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tabWidget_itemsPage1">
        <attribute name="title">
@@ -469,7 +469,7 @@
            <item row="0" column="1">
             <widget class="QStackedWidget" name="stackedWidget_feature_selection">
              <property name="currentIndex">
-              <number>5</number>
+              <number>8</number>
              </property>
              <widget class="QWidget" name="to_variance_threshold">
               <layout class="QGridLayout" name="gridLayout_15">

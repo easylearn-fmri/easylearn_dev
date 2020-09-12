@@ -241,7 +241,8 @@ class BaseMachineLearning(object):
         self.method_model_evaluation_ = None
         self.param_model_evaluation_ = {}
         self.Statistical_analysis = self.configuration.get('model_evaluation', {}).get("Statistical_analysis", None)
-        self.configuration.get('model_evaluation', {}).pop("Statistical_analysis")
+        if self.Statistical_analysis:
+            self.configuration.get('model_evaluation', {}).pop("Statistical_analysis")
         model_evaluation = self.configuration.get('model_evaluation', None)
         
         if model_evaluation and (list(model_evaluation.keys())[0] != 'None'):
