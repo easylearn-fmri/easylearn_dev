@@ -27,8 +27,10 @@ from easylearn_data_loading_run import EasylearnDataLoadingRun
 from easylearn_feature_engineering_run import EasylearnFeatureEngineeringRun
 from easylearn_machine_learning_run import EasylearnMachineLearningRun
 from easylearn_model_evaluation_run import EasylearnModelEvaluationRun
-from eslearn.machine_learning.classfication.classificaition import Classification
 from eslearn.stylesheets.PyQt5_stylesheets import PyQt5_stylesheets
+from eslearn.base import BaseMachineLearning
+from eslearn.machine_learning.classification.classification import Classification
+from eslearn.machine_learning.regression.regression import Regression
 
 
 class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
@@ -246,11 +248,18 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         Then, this function will process the data loading.
         """
         
+        which_ml_type_dict = {"Classification":Classification, 
+                                "Regression": Regression,
+        }
+        
+        baseml = BaseMachineLearning(self.configuration_file)
+        baseml.get_all_inputs()
+
         print('run_fun...')
         if self.configuration_file == "":
             raise ValueError("You have to specify a configuration file\n")
         else:
-            model = Classification(self.configuration_file)
+            model = which_ml_type_dict[baseml.machine_learning_type_](self.configuration_file)
             model.classification()
         
 

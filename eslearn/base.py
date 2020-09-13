@@ -60,6 +60,7 @@ class BaseMachineLearning():
     method_unbalance_treatment_: list of sklearn object or None
     param_unbalance_treatment_: list of sklearn object or None
     
+    machine_learning_type_: str
     method_machine_learning_: list of sklearn object or None
     param_machine_learning_: list of sklearn object or None
 
@@ -209,10 +210,10 @@ class BaseMachineLearning():
         self.param_machine_learning_ = {}
         
         machine_learning = self.configuration.get('machine_learning', None)
-        keys = machine_learning.keys()
-        if len(keys) == []:
+        self.machine_learning_type_ = list(machine_learning.keys()) if machine_learning else None
+        if self.machine_learning_type_ is None:
             raise ValueError("There is no keys for machine_learning")
-        elif len(keys) > 1:
+        elif len(self.machine_learning_type_) > 1:
             raise RuntimeError("Currently, easylearn only supports one type of machine learning")
             
         for keys in machine_learning:
