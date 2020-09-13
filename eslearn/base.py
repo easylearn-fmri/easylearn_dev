@@ -410,9 +410,7 @@ class BaseMachineLearning():
             mapping.update({key.split("__")[1]:dictionary[key][0]})
         return mapping
             
-   
-    
-   
+      
 class DataLoader(BaseMachineLearning):
     """Load datasets according to different data types
     

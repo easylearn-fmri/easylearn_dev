@@ -17,6 +17,7 @@ import warnings
 from sklearn.exceptions import ConvergenceWarning
 
 from eslearn.base import AbstractMachineLearningBase
+from eslearn.utils.timer import timer
 
 warnings.filterwarnings("ignore", category=ConvergenceWarning, module="sklearn")
 
@@ -60,7 +61,8 @@ class BaseRegression(AbstractMachineLearningBase):
         self.n_jobs = n_jobs
         self.location = location
         self.verbose = verbose
-
+        
+    @timer
     def fit_(self, x=None, y=None):
         """Fit the pipeline_"""
         
