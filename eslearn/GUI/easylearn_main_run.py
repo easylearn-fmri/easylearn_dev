@@ -22,7 +22,7 @@ from PyQt5.QtWidgets import QApplication, qApp, QMainWindow, QMessageBox, QFileD
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.Qt import QCoreApplication
 from PyQt5.Qt import QThread
-from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtCore import pyqtSignal, QMutex
 
 from easylearn_main_gui import Ui_MainWindow
 from easylearn_data_loading_run import EasylearnDataLoadingRun
@@ -247,7 +247,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
     def run_fun(self):
         """This function is called when data_loading button is clicked.
 
-        Then, this function will process the data loading.
+        Then, this function will process the data loading in another thread [class Run].
         """
         
         which_ml_type_dict = {"Classification":Classification, 
@@ -263,8 +263,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
             raise ValueError("You have to specify a configuration file\n")
         else:
             self.run = Run(which_ml_type_dict[ml_type], self.configuration_file)
-            self.run.start()
-        
+            self.run.start()        
 
     def closeEvent(self, event):
         """This function is called when exit icon of the window is clicked.
@@ -299,22 +298,27 @@ class Run(QThread):
     """Run machine learning
     """
 
-    run_signal = pyqtSignal(int)
+    run_signal = pyqtSignal(str)
+    
 
     def __init__(self, ml_model, configuration_file):
         super().__init__()
         self.ml_model = ml_model
         self.configuration_file = configuration_file
+        self.run_mut = QMutex()
 
     def run(self):
         """This function is called when data_loading button is clicked.
 
         Then, this function will process the data loading.
         """
-
+        self.run_mut.lock()
         model = self.ml_model(self.configuration_file)
         # TODO: Regression
-        model.classification()
+        model.main_run()
+        self.run_mut.unlock()
+        # self.run_signal.emit("Finished!")
+
 
 
 

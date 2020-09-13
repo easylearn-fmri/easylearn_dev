@@ -29,7 +29,7 @@ class Regression(DataLoader, BaseRegression):
         self.n_jobs = -1
         self.metric = mean_absolute_error
 
-    def regression(self):
+    def main_run(self):
         
         # Get all inputs
         self.load_data()
@@ -67,7 +67,7 @@ class Regression(DataLoader, BaseRegression):
 if __name__ == "__main__":
     time_start = time.time()
     clf = Regression(configuration_file=r'D:\My_Codes\easylearn\eslearn\GUI\test\configuration_file_reg.json') 
-    clf.regression()
+    clf.main_run()
     time_end = time.time()
     print(f"Running time = {time_end-time_start}\n")
     print("="*50)

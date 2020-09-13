@@ -16,7 +16,7 @@ class Classification(DataLoader, BaseClassification):
         DataLoader.__init__(self, configuration_file)
         BaseClassification.__init__(self, location=os.path.dirname(configuration_file))
 
-    def classification(self):
+    def main_run(self):
         # Get all inputs
         self.load_data()
         self.get_all_inputs()
@@ -62,7 +62,7 @@ class Classification(DataLoader, BaseClassification):
 if __name__ == "__main__":
     time_start = time.time()
     clf = Classification(configuration_file=r'D:\My_Codes\easylearn\eslearn\GUI\test\configuration_file.json') 
-    clf.classification()
+    clf.main_run()
     time_end = time.time()
     print(clf.param_search_)
     print(clf.pipeline_)
