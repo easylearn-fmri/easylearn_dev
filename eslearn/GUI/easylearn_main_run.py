@@ -21,6 +21,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, qApp, QMainWindow, QMessageBox, QFileDialog, QInputDialog, QLineEdit, QSplashScreen
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.Qt import QCoreApplication
+from PyQt5.Qt import QThread
+from PyQt5.QtCore import pyqtSignal
 
 from easylearn_main_gui import Ui_MainWindow
 from easylearn_data_loading_run import EasylearnDataLoadingRun
@@ -254,13 +256,14 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         
         baseml = BaseMachineLearning(self.configuration_file)
         baseml.get_all_inputs()
+        ml_type = baseml.machine_learning_type_[0]
 
         print('run_fun...')
         if self.configuration_file == "":
             raise ValueError("You have to specify a configuration file\n")
         else:
-            model = which_ml_type_dict[baseml.machine_learning_type_](self.configuration_file)
-            model.classification()
+            self.run = Run(which_ml_type_dict[ml_type], self.configuration_file)
+            self.run.start()
         
 
     def closeEvent(self, event):
@@ -290,6 +293,29 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
 
         if reply == QMessageBox.Yes:
             QCoreApplication.quit()
+
+
+class Run(QThread):
+    """Run machine learning
+    """
+
+    run_signal = pyqtSignal(int)
+
+    def __init__(self, ml_model, configuration_file):
+        super().__init__()
+        self.ml_model = ml_model
+        self.configuration_file = configuration_file
+
+    def run(self):
+        """This function is called when data_loading button is clicked.
+
+        Then, this function will process the data loading.
+        """
+
+        model = self.ml_model(self.configuration_file)
+        # TODO: Regression
+        model.classification()
+
 
 
 if __name__=='__main__':

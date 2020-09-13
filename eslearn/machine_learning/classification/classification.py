@@ -6,7 +6,7 @@ from collections import Counter
 import os
 
 from eslearn.base import DataLoader
-from eslearn.machine_learning.classfication._base_classificaition import BaseClassification
+from eslearn.machine_learning.classification._base_classification import BaseClassification
 from eslearn.model_evaluator import ModelEvaluator
 
 
