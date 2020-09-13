@@ -97,11 +97,11 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         splash.resize(300,100)
         splash.show()
         QtWidgets.qApp.processEvents()
-        self.load_data(splash)
+        self.progress(splash)
         splash.show()
         splash.finish(self)
 
-    def load_data(self, sp):
+    def progress(self, sp):
         for i in range(1, 10):
             time.sleep(0.2)
             sp.showMessage(f"Initializing... {(i+1)*10}%", QtCore.Qt.AlignHCenter |QtCore.Qt.AlignBottom, QtCore.Qt.black)
@@ -176,7 +176,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
                     config_message = "Configuration file is " + self.configuration_file
                     self.textBrowser.setText(config_message)
         else:
-            QMessageBox.warning( self, 'Warning', f'Please choose a working directory first! (press button at the top left corner)')
+            QMessageBox.warning( self, 'Warning', 'Please choose a working directory first! (press button at the top left corner)')
 
     def load_configuration_fun(self):
         """Load configuration

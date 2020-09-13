@@ -141,7 +141,11 @@
             }
         },
         "feature_selection": {
-            "SelectFromModel(LassoCV())": {}
+            "VarianceThreshold()": {
+                "threshold": {
+                    "value": "0.9"
+                }
+            }
         },
         "unbalance_treatment": {
             "RandomOverSampler()": {}
@@ -154,7 +158,7 @@
                     "value": "linear"
                 },
                 "C": {
-                    "value": "1"
+                    "value": "10"
                 },
                 "gamma": {
                     "value": "scale"

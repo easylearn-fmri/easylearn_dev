@@ -5,22 +5,18 @@ import time
 from collections import Counter
 import os
 
-from eslearn.base import BaseMachineLearning, DataLoader
-from eslearn.machine_learning.classfication._base_classificaition import PipelineSearch_
+from eslearn.base import DataLoader
+from eslearn.machine_learning.classfication._base_classificaition import BaseClassification
 from eslearn.model_evaluator import ModelEvaluator
 
 
-class Classification(DataLoader, PipelineSearch_):
+class Classification(DataLoader, BaseClassification):
     
     def __init__(self, configuration_file):
         DataLoader.__init__(self, configuration_file)
-        PipelineSearch_.__init__(self, location=os.path.dirname(configuration_file))
-        self.search_strategy = 'grid'
-        self.n_jobs = -1
-        self.k = 5
+        BaseClassification.__init__(self, location=os.path.dirname(configuration_file))
 
     def classification(self):
-        
         # Get all inputs
         self.load_data()
         self.get_all_inputs()
@@ -40,21 +36,27 @@ class Classification(DataLoader, PipelineSearch_):
 
             # Resample
             imbalance_resample = self.method_unbalance_treatment_
-            feature_train, target_train = imbalance_resample.fit_resample(feature_train, target_train)
-            print(f"After re-sampling, the sample size are: {sorted(Counter(target_train).items())}")
-        
-            self.fit_pipeline_(feature_train, target_train)
+            if imbalance_resample:
+                feature_train, target_train = imbalance_resample.fit_resample(feature_train, target_train)
+                print(f"After re-sampling, the sample size are: {sorted(Counter(target_train).items())}")
+            
+            # Fit
+            self.fit_(feature_train, target_train)
+            
+            # Get weights
             self.get_weights_(feature_train, target_train)
-            yhat, y_prob = self.predict(feature_test)
+            
+            # Predict
+            y_pred, y_prob = self.predict(feature_test)
             
             # Eval performances
             acc, sens, spec, auc = ModelEvaluator().binary_evaluator(
-                target_test, yhat, y_prob,
+                target_test, y_pred, y_prob,
                 accuracy_kfold=None, sensitivity_kfold=None, specificity_kfold=None, AUC_kfold=None,
                 verbose=1, is_showfig=False, is_savefig=False
             )
-            
-        return yhat, y_prob
+
+        return y_pred, y_prob
 
 
 if __name__ == "__main__":

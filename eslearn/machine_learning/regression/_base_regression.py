@@ -16,10 +16,12 @@ from abc import abstractmethod, ABCMeta
 import warnings
 from sklearn.exceptions import ConvergenceWarning
 
+from eslearn.base import AbstractMachineLearningBase
+
 warnings.filterwarnings("ignore", category=ConvergenceWarning, module="sklearn")
 
 
-class BaseRegression(metaclass=ABCMeta):
+class BaseRegression(AbstractMachineLearningBase):
     """Base class for regression
 
     Parameters
@@ -38,12 +40,63 @@ class BaseRegression(metaclass=ABCMeta):
 
     """
 
-    def __init__(self, metric=mean_squared_error):
+    def __init__(self, 
+                metric=mean_squared_error,
+                search_strategy='random', 
+                k=5, 
+                n_iter_of_randomedsearch=10, 
+                n_jobs=1, 
+                location='cachedir',
+                verbose=False):
         
         self.metric = metric
         self.model_ = None
         self.weights_ = None
         self.weights_norm_ = None
+
+        self.search_strategy = search_strategy
+        self.k = k
+        self.n_iter_of_randomedsearch = n_iter_of_randomedsearch
+        self.n_jobs = n_jobs
+        self.location = location
+        self.verbose = verbose
+
+    def fit_(self, x=None, y=None):
+        """Fit the pipeline_"""
+        
+        # TODO: Extending to other CV methods
+        cv = KFold(n_splits=self.k)  # Default is StratifiedKFold
+        if self.is_search:
+            if self.search_strategy == 'grid':
+                self.model_ = GridSearchCV(
+                    self.pipeline_, n_jobs=self.n_jobs, param_grid=self.param_search_, cv=cv, 
+                    scoring = make_scorer(self.metric), refit=True
+                )
+                # print(f"GridSearchCV fitting (about {iteration_num} times iteration)...\n")
+
+            elif self.search_strategy == 'random':
+                self.model_ = RandomizedSearchCV(
+                    self.pipeline_, n_jobs=self.n_jobs, param_distributions=self.param_search_, cv=cv, 
+                    scoring = make_scorer(self.metric), refit=True, n_iter=self.n_iter_of_randomedsearch,
+                )
+            
+                # print(f"RandomizedSearchCV fitting (about {iteration_num} times iteration)...\n")
+            else:
+                print("Please specify which search strategy!\n")
+                return
+        else:
+            self.model_ = self.pipeline_
+
+        # Fit
+        self.model_.fit(x, y)
+
+        # Delete the temporary cache before exiting
+        self.memory.clear(warn=False)
+        return self
+
+    def predict(self, x):
+        y_hat = self.model_.predict(x)
+        return y_hat
 
     def get_weights_(self, x=None, y=None):
         """
@@ -52,7 +105,11 @@ class BaseRegression(metaclass=ABCMeta):
         connectivity pattern analysis using convolutional neural networks>.
         """
         
-        best_model = self.model_.best_estimator_
+        if self.is_search:
+            best_model = self.model_.best_estimator_
+        else:
+            best_model = self.model_
+            
         feature_preprocessing = best_model['feature_preprocessing']
         dim_reduction = best_model.get_params().get('dim_reduction',None)
         feature_selection =  best_model.get_params().get('feature_selection', None)
@@ -105,143 +162,7 @@ class BaseRegression(metaclass=ABCMeta):
         # Normalize weights using z-score method
         self.weights_norm_ = StandardScaler().fit_transform(self.weights_.T).T
     
-class PipelineSearch_(BaseRegression):
-    """Make pipeline_"""
 
-    def __init__(self, 
-                 search_strategy='random', 
-                 k=5, 
-                 n_iter_of_randomedsearch=10, 
-                 n_jobs=1, 
-                 location='cachedir',
-                 verbose=False
-    ):
-
-        super().__init__()
-        self.search_strategy = search_strategy
-        self.k = k
-        self.n_iter_of_randomedsearch = n_iter_of_randomedsearch
-        self.n_jobs = n_jobs
-        self.location = location
-        self.verbose = verbose
-        
-        self.pipeline_ = None
-        self.param_search_ = None
-
-    def make_pipeline_(self, 
-                        method_feature_preprocessing=None, 
-                        param_feature_preprocessing=None,
-                        method_dim_reduction=None, 
-                        param_dim_reduction=None, 
-                        method_feature_selection=None, 
-                        param_feature_selection=None, 
-                        method_machine_learning=None, 
-                        param_machine_learning=None):
-        
-        """Construct pipeline_
-
-        Currently, the pipeline_ only supports one specific method for corresponding method, 
-        e.g., only supports one dimension reduction method for dimension reduction.
-        In the next version, the pipeline_ will support multiple methods for each corresponding method.
-
-        Parameters:
-        ----------
-            method_feature_preprocessing: [list of] sklearn module, such as [PCA()]
-                    method of dimension reduction.
-
-            param_feature_preprocessing: dictionary [or list of dictionaries], {'reduce_dim__n_components':[0.5,0.9]}, 
-                parameters of dimension reduction, such as components of PCA.
-
-            method_dim_reduction: [list of] sklearn module, such as [PCA()]
-                method of dimension reduction.
-
-            param_dim_reduction: dictionary [or list of dictionaries], {'reduce_dim__n_components':[0.5,0.9]}, 
-                parameters of dimension reduction, such as components of PCA.
-
-            method_feature_selection: [list of] sklearn module, such as [LinearSVC()]
-                method of feature selection.
-
-            param_feature_selection: dictionary [or list of dictionaries], {'feature_selection__k': [0.5,0.9]},
-                parameters of feature selection, such as How many features to be kept.
-
-            method_machine_learning: [list of] sklearn module, such as [LinearSVC()]
-                method of feature selection.
-
-            param_machine_learning: dictionary [or list of dictionaries], such as 
-            {'estimator__penalty': ['l1', 'l2'], 'estimator__C': [10]}
-                parameters of feature selection.
-
-        """
-
-        
-        self.memory = Memory(location=self.location, verbose=self.verbose)
-
-        self.pipeline_ = Pipeline(steps=[
-                ('feature_preprocessing','passthrough'),
-                ('dim_reduction', 'passthrough'),
-                ('feature_selection', 'passthrough'),
-                ('estimator', 'passthrough'),
-            ], 
-            memory=self.memory
-        )
-
-        # Set parameters of gridCV
-        print("Setting parameters of gridCV...\n")
-        
-        self.param_search_ = {}
-
-        if method_feature_preprocessing:
-            self.param_search_.update({'feature_preprocessing':method_feature_preprocessing})
-        if param_feature_preprocessing:          
-            self.param_search_.update(param_feature_preprocessing)
-            
-        if method_dim_reduction:
-            self.param_search_.update({'dim_reduction':method_dim_reduction})
-        if param_dim_reduction:
-            self.param_search_.update(param_dim_reduction)
-
-        if method_feature_selection:
-            self.param_search_.update({'feature_selection': method_feature_selection})
-        if param_feature_selection:
-            self.param_search_.update(param_feature_selection)
-            
-        if method_machine_learning:
-            self.param_search_.update({'estimator': method_machine_learning})
-        if param_machine_learning:
-            self.param_search_.update(param_machine_learning)
-            
-        return self
-    
-    def fit_pipeline_(self, x=None, y=None):
-        """Fit the pipeline_"""
-        
-        # TODO: Extending to other CV methods
-        cv = KFold(n_splits=self.k)  # Default is StratifiedKFold
-        if self.search_strategy == 'grid':
-            self.model_ = GridSearchCV(
-                self.pipeline_, n_jobs=self.n_jobs, param_grid=self.param_search_, cv=cv, 
-                scoring = make_scorer(self.metric), refit=True
-            )
-            # print(f"GridSearchCV fitting (about {iteration_num} times iteration)...\n")
-
-        elif self.search_strategy == 'random':
-            self.model_ = RandomizedSearchCV(
-                self.pipeline_, n_jobs=self.n_jobs, param_distributions=self.param_search_, cv=cv, 
-                scoring = make_scorer(self.metric), refit=True, n_iter=self.n_iter_of_randomedsearch,
-            )
-        
-            # print(f"RandomizedSearchCV fitting (about {iteration_num} times iteration)...\n")
-        else:
-            print("Please specify which search strategy!\n")
-            return
-
-        self.model_.fit(x, y)
-
-        # Delete the temporary cache before exiting
-        self.memory.clear(warn=False)
-        return self
-
-    def predict(self, x):
-        y_hat = self.model_.predict(x)
-        return y_hat
+if __name__ == "__main__":
+    basereg = BaseRegression()
 

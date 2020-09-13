@@ -285,7 +285,8 @@ class BaseMachineLearning():
         return self
 
     def get_statistical_analysis_parameters(self):
-        self.configuration.get('statistical_analysis', None)
+        self.Statistical_analysis = self.configuration.get('model_evaluation', {}).get("Statistical_analysis", None)
+        return self
 
     def get_visualization_parameters(self):
         self.configuration.get('visualization', None)
@@ -319,7 +320,6 @@ class BaseMachineLearning():
 
         return iseval
 
-
     def make_pipeline_(self):
         
         """Construct pipeline_
@@ -345,7 +345,7 @@ class BaseMachineLearning():
 
         if self.method_feature_preprocessing_:
             self.param_search_.update({'feature_preprocessing':self.method_feature_preprocessing_})
-        if self.param_feature_preprocessing_:          
+        if self.param_feature_preprocessing_:   
             self.param_search_.update(self.param_feature_preprocessing_)
             
         if self.method_dim_reduction_:
@@ -362,9 +362,57 @@ class BaseMachineLearning():
             self.param_search_.update({'estimator': self.method_machine_learning_})
         if self.param_machine_learning_:
             self.param_search_.update(self.param_machine_learning_)
+        
+        self.is_search = self.get_is_search(self.param_search_)
+        if not self.is_search:
+            
+            if self.method_feature_preprocessing_:
+                self.pipeline_.set_params(**{'feature_preprocessing':self.method_feature_preprocessing_[0]})
+            if self.param_feature_preprocessing_:   
+                self.pipeline_['feature_preprocessing'].set_params(self.param_feature_preprocessing_)
+                
+            if self.method_dim_reduction_:
+                self.pipeline_.set_params(**{'dim_reduction':self.method_dim_reduction_[0]})
+            if self.param_dim_reduction_:
+                mapping = self.parse_search_params(self.param_dim_reduction_)
+                self.pipeline_['dim_reduction'].set_params(**mapping)   
+                
+            if self.method_feature_selection_:
+                self.pipeline_.set_params(**{'feature_selection': self.method_feature_selection_[0]})
+            if self.param_feature_selection_:
+                mapping = self.parse_search_params(self.param_feature_selection_)
+                self.pipeline_['feature_selection'].set_params(**mapping)
+
+            if self.method_machine_learning_:
+                self.pipeline_.set_params(**{'estimator': self.method_machine_learning_[0]})
+            if self.param_machine_learning_:
+                mapping = self.parse_search_params(self.param_machine_learning_)
+                self.pipeline_['estimator'].set_params(**mapping)
 
         return self
-
+    
+    @staticmethod
+    def get_is_search(dictionary):
+        """ Identify whether search params or just using pipeline
+        """
+        is_search = False
+        for key in dictionary:
+            if dictionary[key] and len(dictionary[key]) > 1:
+                is_search = True
+                break
+    
+        return is_search
+    
+    @staticmethod
+    def parse_search_params(dictionary):
+        mapping = {}
+        for key in dictionary:
+            mapping.update({key.split("__")[1]:dictionary[key][0]})
+        return mapping
+            
+   
+    
+   
 class DataLoader(BaseMachineLearning):
     """Load datasets according to different data types
     
@@ -654,7 +702,23 @@ class DataLoader(BaseMachineLearning):
         data = pd.read_excel(file)
         return data
 
-                     
+
+class AbstractMachineLearningBase(metaclass=ABCMeta):
+    """Abstract base class for _base_classificaition and _base_regression and _base_clustering
+
+    """
+
+    @abstractmethod
+    def fit_(self):
+        raise NotImplementedError
+
+    @abstractmethod
+    def predict(self):
+        raise NotImplementedError
+
+    @abstractmethod
+    def get_weights_(self):
+        raise NotImplementedError
 
 if __name__ == '__main__':
     base = BaseMachineLearning(configuration_file=r'D:\My_Codes\easylearn\eslearn\GUI\test\configuration_file.json')

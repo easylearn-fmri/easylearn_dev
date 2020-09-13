@@ -7,11 +7,13 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 from matplotlib.pyplot import MultipleLocator
 
+from eslearn.utils.timer import  timer
+
 class ModelEvaluator():
     """Model evaluation
 
     """
-
+    
     def binary_evaluator(self, true_label=None, predict_label=None, decision=None,
                         accuracy_kfold=None, sensitivity_kfold=None, specificity_kfold=None, AUC_kfold=None,
                         verbose=True, is_showfig=True, legend1='HC', legend2='Patients', is_savefig=False, out_name=None):
