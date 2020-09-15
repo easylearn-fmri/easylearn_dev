@@ -312,14 +312,12 @@ class Run(QThread):
 
         Then, this function will process the data loading.
         """
+        
         self.run_mut.lock()
         model = self.ml_model(self.configuration_file)
-        # TODO: Regression
         model.main_run()
         self.run_mut.unlock()
         # self.run_signal.emit("Finished!")
-
-
 
 
 if __name__=='__main__':

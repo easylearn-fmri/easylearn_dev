@@ -53,7 +53,7 @@ class Classification(DataLoader, BaseClassification):
             acc, sens, spec, auc = ModelEvaluator().binary_evaluator(
                 target_test, y_pred, y_prob,
                 accuracy_kfold=None, sensitivity_kfold=None, specificity_kfold=None, AUC_kfold=None,
-                verbose=1, is_showfig=False, is_savefig=False
+                verbose=1, is_showfig=1, is_savefig=False
             )
 
         return y_pred, y_prob

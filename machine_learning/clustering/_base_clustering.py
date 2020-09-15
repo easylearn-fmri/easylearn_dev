@@ -23,7 +23,7 @@ from eslearn.utils.timer import  timer
 warnings.filterwarnings("ignore", category=ConvergenceWarning, module="sklearn")
 
 
-class BaseClassification(AbstractMachineLearningBase):
+class BaseClustering(AbstractMachineLearningBase):
     """Base class for classification
 
     Parameters
@@ -176,4 +176,4 @@ class BaseClassification(AbstractMachineLearningBase):
         
 
 if __name__=="__main__":
-    baseclf = BaseClassification()
+    baseclf = BaseClustering()
