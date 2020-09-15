@@ -720,8 +720,8 @@ class AbstractMachineLearningBase(metaclass=ABCMeta):
         raise NotImplementedError
 
 if __name__ == '__main__':
-    base = BaseMachineLearning(configuration_file=r'D:\My_Codes\easylearn\eslearn\GUI\test\configuration_file.json')
-    data_loader = DataLoader(configuration_file=r'D:\My_Codes\easylearn\eslearn\GUI\test\configuration_file.json')
+    base = BaseMachineLearning(configuration_file=r'D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\test\configuration_file.json')
+    data_loader = DataLoader(configuration_file=r'D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\test\configuration_file.json')
     data_loader.load_data()
     
     base.get_configuration_()
