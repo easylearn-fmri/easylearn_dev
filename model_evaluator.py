@@ -64,12 +64,14 @@ class ModelEvaluator():
         # reshape to one column
         true_label = np.reshape(true_label, [np.size(true_label), ])
         predict_label = np.reshape(predict_label, [np.size(predict_label), ])
+        predict_prob = np.array(predict_prob)
         # Identify the separation line located at the 0 or 0.5
         if np.min(predict_prob) >= 0:
             separation_point = 0.5
         else:
             separation_point = 0
-        predict_prob = predict_prob[:,-1]  # Retained the positive probability
+        if np.ndim(predict_prob) == 2:
+            predict_prob = predict_prob[:,-1]  # Retained the positive probability
 
         # accurcay, specificity(recall of negative) and
         # sensitivity(recall of positive)
@@ -103,7 +105,7 @@ class ModelEvaluator():
         #%% Plot
         if is_showfig:
             fig, ax = plt.subplots(1,3, figsize=(15,5))
-
+    
             # Plot classification 2d scatter
             decision_0 = predict_prob[true_label == 0]
             decision_1 = predict_prob[true_label == 1]
@@ -120,9 +122,9 @@ class ModelEvaluator():
             # TODO: Identify the separation line located at the 0 or 0.5
             ax[0].plot(np.zeros(10) + separation_point, np.linspace(0, len(predict_prob),10), '--', color='k', linewidth=1.5)
             if separation_point == 0.5:
-                ax[0].axis([-0.05, 1.05, 0 - len(predict_prob) / 10, len(predict_prob) + len(predict_prob) / 10]) # x and y lim
+                ax[0].axis([-0.05, 1.05, 0 - len(predict_prob) / 20, len(predict_prob) + len(predict_prob) / 20]) # x and y lim
             else:
-                ax[0].axis([-1.05, 1.05, 0 - len(predict_prob) / 10, len(predict_prob) + len(predict_prob) / 10]) # x and y lim               
+                ax[0].axis([-1.05, 1.05, 0 - len(predict_prob) / 20, len(predict_prob) + len(predict_prob) / 20]) # x and y lim               
             ax[0].set_xlabel('Decision values', fontsize=15)
             ax[0].set_ylabel('Subjects', fontsize=15)
             num1, num2, num3, num4 = 0, 1.01, 3, 0
@@ -175,12 +177,12 @@ class ModelEvaluator():
             #     fraction_of_positives, mean_predicted_value = calibration_curve(true_label, predict_prob, n_bins=10)
             #     ax[3].plot([0, 1], [0, 1], "k:", label="Perfectly calibrated")
             #     ax[3].plot(mean_predicted_value, fraction_of_positives, "s-")
-
+    
             #     ax[3].set_ylabel("Fraction of positives")
             #     ax[3].set_ylim([-0.05, 1.05])
             #     # ax[3].legend(loc="lower right")
             #     ax[3].set_title('Calibration plots  (reliability curve)')
-
+    
             # Save figure to PDF file
             plt.tight_layout()
             plt.subplots_adjust(wspace = 0.2, hspace = 0)
@@ -188,7 +190,9 @@ class ModelEvaluator():
                 pdf = PdfPages(out_name)
                 pdf.savefig()
                 pdf.close()
-                plt.show()
+                
+                if is_showfig:
+                    plt.show()
 
         return accuracy, sensitivity, specificity, auc
 

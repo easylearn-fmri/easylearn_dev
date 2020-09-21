@@ -148,7 +148,6 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
 
             "ShuffleSplit()": {
                                 "n_splits": {"value": self.lineEdit_randomsplits_n_splits.text(), "wedget": self.lineEdit_randomsplits_n_splits},
-                                "test_size": {"value": self.doubleSpinBox_randomsplits_testsize.text(), "wedget": self.doubleSpinBox_randomsplits_testsize},
                                 "train_size": {"value": self.doubleSpinBox_randomsplits_trainsize.text(), "wedget": self.doubleSpinBox_randomsplits_trainsize},
                                 "random_state": {"value": self.spinBox_randomsplits_randomstate.text(), "wedget": self.spinBox_randomsplits_randomstate},
             },

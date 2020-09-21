@@ -6,6 +6,7 @@ Base class for all modules
 
 import json
 import re
+import ast
 import  numpy as np
 import pandas as pd
 import os
@@ -64,7 +65,7 @@ class BaseMachineLearning():
     method_machine_learning_: list of sklearn object or None
     param_machine_learning_: list of sklearn object or None
 
-    method_model_evaluation_: list of sklearn object or None
+    method_model_ast.evaluation_: list of sklearn object or None
     param_model_evaluation_: list of sklearn object or None
 
     self.pipeline_: machine learning pipeline
@@ -75,7 +76,7 @@ class BaseMachineLearning():
         self.configuration_file = configuration_file
 
     def get_configuration_(self):
-        """Parse the configuration file
+        """Get and parse the configuration file
         """
 
         with open(self.configuration_file, 'r', encoding='utf-8') as config:
@@ -90,7 +91,8 @@ class BaseMachineLearning():
                 
         feature_preprocessing = self.configuration.get('feature_engineering', {}).get('feature_preprocessing', None)
         if feature_preprocessing and (list(feature_preprocessing.keys())[0] != 'None'):
-            self.method_feature_preprocessing_ = [eval(list(feature_preprocessing.keys())[0] if list(feature_preprocessing.keys())[0] != 'None' else None)]
+            self.method_feature_preprocessing_ = [list(feature_preprocessing.keys())[0] if list(feature_preprocessing.keys())[0] != 'None' else None]
+            self.method_feature_preprocessing_ = [self.security_eval(self.method_feature_preprocessing_[0])]
     
             for key in feature_preprocessing.keys():
                 for key_ in feature_preprocessing.get(key).keys():
@@ -100,8 +102,7 @@ class BaseMachineLearning():
                             param = feature_preprocessing.get(key).get(key_).get(key__)
                             param = 'None' if param == '' else param
                             # Parse parameters: if param is digits str or containing "(" and ")", we will eval the param
-                            if self.criteria_of_eval_parameters(param):
-                                param = eval(param)
+                            param = self.security_eval(param)
                             self.param_feature_preprocessing_.update({"feature_preprocessing__"+key_: [param]})
 
         self.param_feature_preprocessing_ = None if self.param_feature_preprocessing_ == {} else self.param_feature_preprocessing_
@@ -114,45 +115,39 @@ class BaseMachineLearning():
                 
         dimension_reduction = self.configuration.get('feature_engineering', {}).get('dimreduction', None)
         if dimension_reduction and (list(dimension_reduction.keys())[0] != 'None'):
-            self.method_dim_reduction_ = [eval(list(dimension_reduction.keys())[0] if list(dimension_reduction.keys())[0] != 'None' else None)]
+            self.method_dim_reduction_ = [self.security_eval(list(dimension_reduction.keys())[0] if list(dimension_reduction.keys())[0] != 'None' else None)]
     
             for key in dimension_reduction.keys():
                 for key_ in dimension_reduction.get(key).keys():
                     if key_ != []:
                         for key__ in dimension_reduction.get(key).get(key_).keys():
-
                             param = dimension_reduction.get(key).get(key_).get(key__)
                             param = 'None' if param == '' else param
                             # Parse parameters: if param is digits str or containing "(" and ")", we will eval the param
-                            if self.criteria_of_eval_parameters(param):
-                                param = eval(param)
-                            if not (isinstance(param, list) or isinstance(param, tuple)):
+                            param = self.security_eval(param)
+                            if not isinstance(param, (list, tuple)):
                                 param = [param]
                             self.param_dim_reduction_.update({"dim_reduction__"+key_: param})
              
         self.param_dim_reduction_ = None if self.param_dim_reduction_ == {} else self.param_dim_reduction_
-        return self
-        
+        return self  
 
     def get_feature_selection_parameters(self):
         self.method_feature_selection_ = None
         self.param_feature_selection_ = {}
         
-        
         feature_selection = self.configuration.get('feature_engineering', {}).get('feature_selection', None)
-        if feature_selection and (list(feature_selection.keys())[0] != 'None'):
-            
+        if feature_selection and (list(feature_selection.keys())[0] != 'None'): 
+            self.method_feature_selection_ = [self.security_eval(list(feature_selection.keys())[0])]
             for key in feature_selection.keys():
                 for key_ in feature_selection.get(key).keys():
                     if key_ != []:
                         for key__ in feature_selection.get(key).get(key_).keys():
-
                             param = feature_selection.get(key).get(key_).get(key__)
                             param = 'None' if param == '' else param
                             # Parse parameters: if param is digits str or containing "(" and ")", we will eval the param
-                            if self.criteria_of_eval_parameters(param):
-                                param = eval(param)
-                            if not (isinstance(param, list) or isinstance(param, tuple)):
+                            param = self.security_eval(param)
+                            if not isinstance(param, (list, tuple)):
                                 param = [param]
                             self.param_feature_selection_.update({"feature_selection__"+key_:param})
 
@@ -175,7 +170,7 @@ class BaseMachineLearning():
                 self.method_feature_selection_ = self.method_feature_selection_ + '))'
                 self.param_feature_selection_ = None
                 
-            self.method_feature_selection_ = [eval(self.method_feature_selection_)]
+            self.method_feature_selection_ = [self.security_eval(self.method_feature_selection_)]
         
         self.param_feature_selection_ = None if self.param_feature_selection_ == {} else self.param_feature_selection_
         return self
@@ -186,7 +181,7 @@ class BaseMachineLearning():
 
         unbalance_treatment = self.configuration.get('feature_engineering', {}).get('unbalance_treatment', None)
         if unbalance_treatment and (list(unbalance_treatment.keys())[0] != 'None'):
-            self.method_unbalance_treatment_ = (eval(list(unbalance_treatment.keys())[0]) if list(unbalance_treatment.keys())[0] != 'None' else None)
+            self.method_unbalance_treatment_ = (self.security_eval(list(unbalance_treatment.keys())[0]) if list(unbalance_treatment.keys())[0] != 'None' else None)
     
             for key in unbalance_treatment.keys():
                 for key_ in unbalance_treatment.get(key).keys():
@@ -196,9 +191,8 @@ class BaseMachineLearning():
                             param = unbalance_treatment.get(key).get(key_).get(key__)
                             param = 'None' if param == '' else param
                             # Parse parameters: if param is digits str or containing "(" and ")", we will eval the param
-                            if self.criteria_of_eval_parameters(param):
-                                param = eval(param)
-                            if not (isinstance(param, list) or isinstance(param, tuple)):
+                            param = self.security_eval(param)
+                            if not isinstance(param, (list, tuple)):
                                 param = [param]
                             self.param_unbalance_treatment_.update({"unbalance_treatment__"+key_:param})
              
@@ -221,7 +215,7 @@ class BaseMachineLearning():
 
         if machine_learning and (list(machine_learning.keys())[0] != 'None'):
             # TODO: This place will update for supporting multiple estimators
-            self.method_machine_learning_ = [eval(list(machine_learning.keys())[0] if list(machine_learning.keys())[0] != 'None' else None)]
+            self.method_machine_learning_ = [self.security_eval(list(machine_learning.keys())[0] if list(machine_learning.keys())[0] != 'None' else None)]
     
             for key in machine_learning.keys():
                 for key_ in machine_learning.get(key).keys():
@@ -233,14 +227,14 @@ class BaseMachineLearning():
                             # Parse parameters: if param is digits str or containing "(" and ")", we will eval the param
                             # for example, DecisionTreeClassifier(max_depth=1) is a parameter of AdaBoostClassifier()
                             # Because a [sklearn] object has a
-                            if self.criteria_of_eval_parameters(param):
-                                param = eval(param)
-                            if not (isinstance(param, list) or isinstance(param, tuple)):
+                            param = self.security_eval(param)
+                            if not isinstance(param, (list, tuple)):
                                 param = [param]
-                            
                             # TODO: Design a method to set params
                             self.param_machine_learning_.update({"estimator__"+key_: param})
-             
+         
+        # Fix the random_state for replication of results
+        self.param_machine_learning_.update({"estimator__"+'random_state': [0]})
         self.param_machine_learning_ = None if self.param_machine_learning_ == {} else self.param_machine_learning_
         return self
 
@@ -265,10 +259,7 @@ class BaseMachineLearning():
                             # for example, DecisionTreeClassifier(max_depth=1) is a parameter of AdaBoostClassifier()
                             # Because a [sklearn] object has a
                             if type(param) is str:  # selected_dataset is list
-                                if self.criteria_of_eval_parameters(param):
-                                    param = eval(param)
-                            # if not (isinstance(param, list) or isinstance(param, tuple)):
-                            #     param = [param]
+                                    param = self.security_eval(param)
                             self.param_model_evaluation_.update({key_: param})
              
             # ------Give parameter to method------
@@ -281,7 +272,7 @@ class BaseMachineLearning():
                     pme = pme + f"{key_pme}={self.param_model_evaluation_[key_pme]}"
             
             self.method_model_evaluation_ = self.method_model_evaluation_.split("(")[0] + "(" + pme + self.method_model_evaluation_.split("(")[1]
-            self.method_model_evaluation_ = eval(self.method_model_evaluation_)
+            self.method_model_evaluation_ = self.security_eval(self.method_model_evaluation_)
 
         return self
 
@@ -303,23 +294,35 @@ class BaseMachineLearning():
         return self
 
     @staticmethod
-    def criteria_of_eval_parameters(param):
-        """Whether perform 'eval'
+    def security_eval(expression):
+        """Security evaluation of python expression
+        
+        FIX: 'eval' had security hole
         """
         
         iseval = (
                     (
-                        bool(re.search(r'\d', param)) or 
-                        (param == 'None') or 
-                        (bool(re.search(r'\(', param)) and bool(re.search(r'\)', param))) or
-                        param == "None"
-                    ) and
+                        bool(re.search(r'\d', expression)) or 
+                        (expression == 'None') or 
+                        (bool(re.search(r'\(', expression)) and bool(re.search(r'\)', expression))) 
+                    ) 
+                    and
                     (
-                        param != 'l1' and param != 'l2'
+                        expression != 'l1' and
+                        expression != 'l2'
+                        # not bool(re.search('del',  expression)) and
+                        # not bool(re.search('open',  expression)) and
+                        # not bool(re.search('move',  expression)) and
+                        # not bool(re.search('copy',  expression))     
                     )
         )
 
-        return iseval
+        if iseval:
+            evaluated_expression = eval(expression)
+        else:
+            evaluated_expression = expression
+
+        return evaluated_expression
 
     def make_pipeline_(self):
         
@@ -396,6 +399,7 @@ class BaseMachineLearning():
     def get_is_search(dictionary):
         """ Identify whether search params or just using pipeline
         """
+        
         is_search = False
         for key in dictionary:
             if dictionary[key] and len(dictionary[key]) > 1:
@@ -476,21 +480,21 @@ class DataLoader(BaseMachineLearning):
                 # Filses
                 file_input = modality.get("file")
                 if j == 0:
-                    n_file = len(file_input)  # Initialize n_file
+                    n_file = self.get_file_len(file_input)  # Initialize n_file
                 else:
-                    if n_file != len(file_input):  # Left is previous, right is current loop
+                    if n_file != self.get_file_len(file_input):  # Left is previous, right is current loop
                         raise ValueError(f"The number of files in each modalities in {gk} is not equal, check your inputs")
                         return
-                n_file = len(file_input)  # Update n_file
+                n_file = self.get_file_len(file_input)  # Update n_file
 
-                # Check the number of number of targets in each modalities is equal to the number of files          
-                # If type of targets is list, and number of files are not equal covariates, then raise error
+                # Check the number of targets in each modalities is equal to the number of files          
+                # If the type of targets is list, and number of files are not equal to targets, then raise error
                 if (isinstance(targets[gk],list)) and (n_file != len(targets[gk])):
                     raise ValueError(f"The number of files in {mk} of {gk} is not equal to the number of targets, check your inputs")
                     return
         
                 # Check the number of lines of covariates in each modalities is equal to the number of files
-                # If covariates is not int (0), and number of files are not equal covariates, then raise error
+                # If covariates is not int (0), and number of files are not equal to covariates, then raise error
                 if (not isinstance(self.covariates_[gk],int)) and (n_file != len(self.covariates_[gk])):
                     raise ValueError(f"The number of files in {mk} of {gk} is not equal to its' number of covariates, check your inputs")
                     return
@@ -510,15 +514,16 @@ class DataLoader(BaseMachineLearning):
                
                 # Get file
                 file_input = modality.get("file")
-                n_file = len(file_input)
+                n_file = self.get_file_len(file_input)
+                if len(file_input) == 1:
+                    one_file_per_modality = True
+                else:
+                    one_file_per_modality = False
                 
                 # Get cases' name in this modality
                 # The file name must contain r'.*(sub.?[0-9].*).*'
                 # TODD: BIDS format
-                subj_name = [os.path.basename(file).split(".")[0] for file in file_input]
-                subj_name = [re.findall(r'.*(sub.?[0-9].*).*', name)[0] if re.findall(r'.*(sub.?[0-9].*).*', name) != [] else "" for name in subj_name]
-                subj_name = pd.DataFrame(subj_name)
-                subj_name.columns = ["ID"]
+                subj_name = self.extract_id(file_input, n_file)
                 
                 # Sort targets and check
                 if (isinstance(targets[gk],int)):
@@ -526,12 +531,14 @@ class DataLoader(BaseMachineLearning):
                     targets[gk] = pd.DataFrame(targets[gk])
                     targets[gk]["ID"] = subj_name["ID"]
                     targets[gk].rename(columns={0: "__targets__"}, inplace=True)
-                else:  
+                else:
                     if not isinstance(targets[gk], pd.core.frame.DataFrame):
-                        targets[gk] = pd.DataFrame(targets[gk])
-                    if "ID" not in targets[gk].columns:
+                        targets[gk] = pd.DataFrame(targets[gk])                    
+                    if one_file_per_modality:
+                        self.targets[gk]["ID"] = subj_name["ID"]
+                    elif (not one_file_per_modality) and ("ID" not in targets[gk].columns):
                         raise ValueError(f"The targets of {gk} did not have 'ID' column, check your targets")
-                        return                                             
+                        return                      
                 targets[gk] = pd.merge(subj_name, targets[gk], left_on="ID", right_on="ID", how='inner')
                 if targets[gk].shape[0] != n_file:
                         raise ValueError(f"The subjects' ID in targets is not totally matched with its' data file name in {mk} of {gk} , check your ID in targets or check your data file name")
@@ -539,38 +546,38 @@ class DataLoader(BaseMachineLearning):
 
                 # Sort covariates and check                
                 if (not isinstance(self.covariates_[gk],int)): 
-                    if "ID" not in self.covariates_[gk].columns:
+                    if one_file_per_modality:
+                        self.covariates_[gk]["ID"] = subj_name["ID"]
+                    if ("ID" not in self.covariates_[gk].columns):
                         raise ValueError(f"The covariates of {gk} did not have 'ID' column, check your covariates")
                         return 
                     else:
                         self.covariates_[gk] = pd.merge(subj_name, self.covariates_[gk], left_on="ID", right_on="ID") 
-                        
                         if self.covariates_[gk].shape[0] != n_file:
                             raise ValueError(f"The subjects' ID in covariates is not totally matched with its' data file name in {mk} of {gk} , check your ID in covariates or check your data file name")
                             return 
-                    
                         if jm == 0:
                             # Get columns for drop (Remain 'ID' for matching)
                             columns_of_covariates = list(set(self.covariates_[gk].columns) - set(["ID"]))
                             [self.covariates_[gk].rename(columns={colname: f"__{colname}__"}, inplace=True) for colname in columns_of_covariates]
                             col_drop[gk] = list((set(self.covariates_[gk].columns) | set(targets[gk].columns)) ^ set(["ID"]))
                            
-                # Features
-                feature_all = self.read_file(file_input)
+                # Get Features
+                # If only input one file for one modality in a given group, then I think the file contained multiple cases' data
+                feature_all = self.read_file(file_input, False)
                 
                 # Mask
                 mask_input = modality.get("mask")
                 self.mask_[gk][mk] = self.base_read(mask_input)
-                if not isinstance(self.mask_[gk][mk], int):  # if mask is empty then give 0 to mask
+                if not isinstance(self.mask_[gk][mk], int):  # If mask is empty then give 0 to mask
                    self.mask_[gk][mk] = self.mask_[gk][mk] != 0
-               
                    # Apply mask
                    feature_applied_mask = [fa[self.mask_[gk][mk]] for fa in feature_all]
                    feature_applied_mask = np.array(feature_applied_mask)
                 else:
                    feature_applied_mask = [fa for fa in feature_all]
                    feature_applied_mask = np.array(feature_applied_mask)
-                   feature_applied_mask = feature_applied_mask.reshape(feature_applied_mask.shape[0],-1)
+                   feature_applied_mask = feature_applied_mask.reshape(n_file,-1)
                    
                 # Add subj_name, targets and covariates to features for matching datasets across modalities in the same group 
                 if (not isinstance(self.covariates_[gk],int)): 
@@ -612,11 +619,22 @@ class DataLoader(BaseMachineLearning):
         self.targets_ = self.features_["__targets__"].values
         self.features_.drop(["__targets__", "ID"], axis=1, inplace=True)
         self.features_ =  self.features_.values
-
         return self
+       
+    #%% -----------------------------utilts------------------------------------
+    def get_file_len(self, files):
+        """If the files lenght is 1, then the length is the lenght of content of the files
+        """
         
-    def read_file(self, file_input):  
-        data = (self.base_read(file) for file in file_input)
+        file_len = len(files)
+        if file_len == 1:
+            feature_all = self.read_file(files, False)
+            feature_all = [fe for fe in feature_all][0]
+            file_len = len(feature_all)
+        return file_len
+    
+    def read_file(self, file_input, to1d=False):  
+        data = (self.base_read(file, to1d) for file in file_input)
         return data
 
     def read_targets(self, targets_input):
@@ -640,11 +658,23 @@ class DataLoader(BaseMachineLearning):
              
         else:
             return eval(targets_input)
-    
 
-    def base_read(self, file):
-        """Read all types of data for one case
+    def base_read(self, file, to1d=False):
+        """Read data for one case
+        
+        Parameters:
+        ----------
+        file: Path str
+            input file of one case
+        
+        to1d: Bool
+            whether transform data to 1 dimension
+        
+        Return:
+        ------
+        data: ndarray
         """
+        
         if (file == []) or (file == ''):
             return 0
         elif not os.path.isfile(file):
@@ -656,8 +686,12 @@ class DataLoader(BaseMachineLearning):
             suffix = os.path.splitext(filename)[-1]
             # Read
             data = self.type2fun[suffix](file)
+            
+            if to1d:
+                data = np.reshape(data, [-1,])
+                
         return data
-
+    
     @ staticmethod
     def read_nii(file):      
         obj = nib.load(file)
@@ -677,7 +711,7 @@ class DataLoader(BaseMachineLearning):
                 if np.all(np.abs(data_-data_.T) < 1e-8):
                     return data[np.triu(np.ones(data.shape),1)==1]
         
-        return data.reshape([-1,])
+        return data
 
     @ staticmethod
     def read_txt(file):
@@ -700,7 +734,21 @@ class DataLoader(BaseMachineLearning):
         
         data = pd.read_excel(file)
         return data
-
+    
+    @staticmethod
+    def extract_id(files, n_file):
+        """Extract subject unique ID from file names
+        """
+        
+        file_len = len(files)
+        if file_len > 1:
+            subj_name = [os.path.basename(file).split(".")[0] for file in files]
+            subj_name = [re.findall(r'.*(sub.?[0-9].*).*', name)[0] if re.findall(r'.*(sub.?[0-9].*).*', name) != [] else "" for name in subj_name]
+        else:
+            subj_name = [f"sub-{i}" for i in range(n_file)]
+        subj_name = pd.DataFrame(subj_name)
+        subj_name.columns = ["ID"]
+        return subj_name
 
 class AbstractMachineLearningBase(metaclass=ABCMeta):
     """Abstract base class for _base_classificaition and _base_regression and _base_clustering

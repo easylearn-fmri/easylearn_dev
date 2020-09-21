@@ -98,7 +98,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
     def start_process(self):
         splash = QSplashScreen(QtGui.QPixmap("../logo/logo-upper.ico"))
         splash.showMessage("... 0%", QtCore.Qt.AlignHCenter | QtCore.Qt.AlignBottom, QtCore.Qt.black)
-        splash.resize(300,100)
+        splash.resize(200,90)
         splash.show()
         QtWidgets.qApp.processEvents()
         self.progress(splash)
@@ -185,10 +185,14 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
     def load_configuration_fun(self):
         """Load configuration
         """
-        
+        if self.working_directory:
+            working_directory =  self.working_directory
+        else:
+            working_directory =  os.getcwd()
+            
         self.configuration_file, filetype = QFileDialog.getOpenFileName(self,  
                                 "Select configuration file",  
-                                os.getcwd(), "Text Files (*.json);;All Files (*);;") 
+                                working_directory, "Text Files (*.json);;All Files (*);;") 
 
         # Read configuration_file if already selected
         if self.configuration_file != "": 
@@ -262,8 +266,10 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         if self.configuration_file == "":
             raise ValueError("You have to specify a configuration file\n")
         else:
-            self.run = Run(which_ml_type_dict[ml_type], self.configuration_file)
-            self.run.start()        
+            model = which_ml_type_dict[ml_type](self.configuration_file)
+            model.main_run()
+            # self.run = Run(which_ml_type_dict[ml_type], self.configuration_file)
+            # self.run.start()   
 
     def closeEvent(self, event):
         """This function is called when exit icon of the window is clicked.

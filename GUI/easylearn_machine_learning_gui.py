@@ -2,11 +2,13 @@
 
 # Form implementation generated from reading ui file './easylearn_machine_learning_gui.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.3
+# Created by: PyQt5 UI code generator 5.12.3
 #
 # WARNING! All changes made in this file will be lost!
 
+
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -119,28 +121,20 @@ class Ui_MainWindow(object):
         self.to_linearSVC.setObjectName("to_linearSVC")
         self.gridLayout_30 = QtWidgets.QGridLayout(self.to_linearSVC)
         self.gridLayout_30.setObjectName("gridLayout_30")
-        self.label_clf_svm_kernel_2 = QtWidgets.QLabel(self.to_linearSVC)
-        self.label_clf_svm_kernel_2.setObjectName("label_clf_svm_kernel_2")
-        self.gridLayout_30.addWidget(self.label_clf_svm_kernel_2, 0, 0, 1, 1)
-        self.comboBox_clf_linearsvc_penalty = QtWidgets.QComboBox(self.to_linearSVC)
-        self.comboBox_clf_linearsvc_penalty.setObjectName("comboBox_clf_linearsvc_penalty")
-        self.comboBox_clf_linearsvc_penalty.addItem("")
-        self.comboBox_clf_linearsvc_penalty.addItem("")
-        self.gridLayout_30.addWidget(self.comboBox_clf_linearsvc_penalty, 0, 1, 1, 1)
-        self.label_C_2 = QtWidgets.QLabel(self.to_linearSVC)
-        self.label_C_2.setObjectName("label_C_2")
-        self.gridLayout_30.addWidget(self.label_C_2, 1, 0, 1, 1)
-        self.lineEdit_clf_linearsvc_c = QtWidgets.QLineEdit(self.to_linearSVC)
-        self.lineEdit_clf_linearsvc_c.setObjectName("lineEdit_clf_linearsvc_c")
-        self.gridLayout_30.addWidget(self.lineEdit_clf_linearsvc_c, 1, 1, 1, 1)
         self.comboBox_clf_linearsvc_multiclass = QtWidgets.QComboBox(self.to_linearSVC)
         self.comboBox_clf_linearsvc_multiclass.setObjectName("comboBox_clf_linearsvc_multiclass")
         self.comboBox_clf_linearsvc_multiclass.addItem("")
         self.comboBox_clf_linearsvc_multiclass.addItem("")
-        self.gridLayout_30.addWidget(self.comboBox_clf_linearsvc_multiclass, 2, 1, 1, 1)
+        self.gridLayout_30.addWidget(self.comboBox_clf_linearsvc_multiclass, 1, 1, 1, 1)
         self.label_36 = QtWidgets.QLabel(self.to_linearSVC)
         self.label_36.setObjectName("label_36")
-        self.gridLayout_30.addWidget(self.label_36, 2, 0, 1, 1)
+        self.gridLayout_30.addWidget(self.label_36, 1, 0, 1, 1)
+        self.label_C_2 = QtWidgets.QLabel(self.to_linearSVC)
+        self.label_C_2.setObjectName("label_C_2")
+        self.gridLayout_30.addWidget(self.label_C_2, 0, 0, 1, 1)
+        self.lineEdit_clf_linearsvc_c = QtWidgets.QLineEdit(self.to_linearSVC)
+        self.lineEdit_clf_linearsvc_c.setObjectName("lineEdit_clf_linearsvc_c")
+        self.gridLayout_30.addWidget(self.lineEdit_clf_linearsvc_c, 0, 1, 1, 1)
         self.stackedWidget_classification_setting.addWidget(self.to_linearSVC)
         self.to_svc = QtWidgets.QWidget()
         self.to_svc.setObjectName("to_svc")
@@ -626,7 +620,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuSkin.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget_machine_learning_type.setCurrentIndex(1)
+        self.stackedWidget_machine_learning_type.setCurrentIndex(0)
         self.stackedWidget_classification_setting.setCurrentIndex(1)
         self.stackedWidget_regression.setCurrentIndex(2)
         self.stackedWidget_clustering.setCurrentIndex(0)
@@ -656,14 +650,11 @@ class Ui_MainWindow(object):
         self.label_8.setText(_translate("MainWindow", "Penalty"))
         self.label_12.setText(_translate("MainWindow", "C"))
         self.lineEdit_clf_lr_C.setText(_translate("MainWindow", "1"))
-        self.label_clf_svm_kernel_2.setText(_translate("MainWindow", "penalty"))
-        self.comboBox_clf_linearsvc_penalty.setItemText(0, _translate("MainWindow", "l2"))
-        self.comboBox_clf_linearsvc_penalty.setItemText(1, _translate("MainWindow", "l1"))
-        self.label_C_2.setText(_translate("MainWindow", "C"))
-        self.lineEdit_clf_linearsvc_c.setText(_translate("MainWindow", "1"))
         self.comboBox_clf_linearsvc_multiclass.setItemText(0, _translate("MainWindow", "ovr"))
         self.comboBox_clf_linearsvc_multiclass.setItemText(1, _translate("MainWindow", "crammer_singer"))
         self.label_36.setText(_translate("MainWindow", "multi_class"))
+        self.label_C_2.setText(_translate("MainWindow", "C"))
+        self.lineEdit_clf_linearsvc_c.setText(_translate("MainWindow", "1"))
         self.label_gamma.setText(_translate("MainWindow", "Gamma"))
         self.label_C.setText(_translate("MainWindow", "C"))
         self.label_clf_svm_kernel.setText(_translate("MainWindow", "Kernel"))
@@ -782,4 +773,3 @@ class Ui_MainWindow(object):
         self.actionNavy.setText(_translate("MainWindow", "Navy"))
         self.actionClassic.setText(_translate("MainWindow", "Classic"))
         self.actionGet_all_available_configuration.setText(_translate("MainWindow", "Get all available configuration"))
-

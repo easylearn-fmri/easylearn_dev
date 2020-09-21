@@ -26,6 +26,13 @@ class Classification(DataLoader, BaseClassification):
         
         # Get training and test datasets        
         cv = self.method_model_evaluation_ 
+        accuracy = []
+        sensitivity = []
+        specificity = []
+        auc = []
+        pred_test = []
+        decision = []
+        weights = []
         target_test_all = []
         for train_index, test_index in cv.split(self.features_, self.targets_):
             feature_train = self.features_[train_index, :]
@@ -50,11 +57,25 @@ class Classification(DataLoader, BaseClassification):
             y_pred, y_prob = self.predict(feature_test)
             
             # Eval performances
-            acc, sens, spec, auc = ModelEvaluator().binary_evaluator(
+            acc, sens, spec, auc_ = ModelEvaluator().binary_evaluator(
                 target_test, y_pred, y_prob,
                 accuracy_kfold=None, sensitivity_kfold=None, specificity_kfold=None, AUC_kfold=None,
-                verbose=1, is_showfig=False, is_savefig=False
+                verbose=False, is_showfig=False, is_savefig=False
             )
+            
+            accuracy.append(acc)
+            sensitivity.append(sens)
+            specificity.append(spec)
+            auc.append(auc_)
+            pred_test.extend(y_pred)
+            decision.extend(y_prob)
+            weights.append(self.weights_)
+         
+        # Eval performances for all fold
+        acc, sens, spec, auc = ModelEvaluator().binary_evaluator(
+            target_test_all, pred_test, decision,
+            accuracy_kfold=accuracy, sensitivity_kfold=sensitivity, specificity_kfold=specificity, AUC_kfold=auc,
+            verbose=1, is_showfig=False, is_savefig=False, legend1='EMCI', legend2='AD', out_name=r"D:\悦影科技\数据处理业务1\data_variance_22_30_z\分类结果\adVSemci.pdf")
 
         return y_pred, y_prob
 

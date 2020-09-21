@@ -70,7 +70,7 @@ class BaseClassification(AbstractMachineLearningBase):
         # TODO: Extending to other cross-validation methods
         # TODO: when no param's length greater than 1, do not use GridSearchCV or RandomizedSearchCV for speeding up
         
-        cv = StratifiedKFold(n_splits=self.k)  # Default is StratifiedKFold
+        cv = StratifiedKFold(n_splits=self.k, random_state=0, shuffle=True)  # Default is StratifiedKFold
         if self.is_search:
             if self.search_strategy == 'grid':
                 self.model_ = GridSearchCV(

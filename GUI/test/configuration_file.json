@@ -153,15 +153,12 @@
     },
     "machine_learning": {
         "Classification": {
-            "LogisticRegression(solver='saga')": {
-                "penalty": {
-                    "value": "elasticnet"
-                },
-                "l1_ratio": {
-                    "value": "0.5"
-                },
+            "LinearSVC()": {
                 "C": {
                     "value": "1"
+                },
+                "multi_class": {
+                    "value": "ovr"
                 }
             }
         }
@@ -172,7 +169,7 @@
                 "value": "3"
             },
             "shuffle": {
-                "value": "False"
+                "value": "True"
             },
             "random_state": {
                 "value": "0"

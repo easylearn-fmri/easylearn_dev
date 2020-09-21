@@ -169,7 +169,6 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
 
                 self.radioButton_classification_linearsvc:{
                     "LinearSVC()": {
-                        "penalty": {"value": self.comboBox_clf_linearsvc_penalty.currentText(), "wedget": self.comboBox_clf_linearsvc_penalty},
                         "C": {"value": self.lineEdit_clf_linearsvc_c.text(), "wedget": self.lineEdit_clf_linearsvc_c},
                         "multi_class": {"value": self.comboBox_clf_linearsvc_multiclass.currentText(), "wedget": self.comboBox_clf_linearsvc_multiclass},                    
                     },

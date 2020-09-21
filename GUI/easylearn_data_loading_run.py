@@ -372,7 +372,11 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         if self.loaded_files:
             old_dir = os.path.dirname(self.loaded_files[0])
         else:
-            old_dir = os.getcwd()
+            if self.working_directory:
+                old_dir = os.path.dirname(self.working_directory)
+            else:
+                old_dir = os.getcwd()
+                
         if (bool(self.selected_group) & bool(self.selected_modality)):
             self.loaded_files, filetype = QFileDialog.getOpenFileNames(self,  
                                     "Select files",  old_dir, 

@@ -13,13 +13,13 @@ from sklearn.model_selection import StratifiedKFold
 from imblearn.over_sampling import RandomOverSampler
 from collections import Counter
 
-from eslearn.model_evaluation.el_evaluation_model_performances import eval_performance
+from eslearn.model_evaluator import ModelEvaluator
 from eslearn.utils.lc_niiProcessor import NiiProcessor
 from eslearn.base import BaseMachineLearning
-from eslearn.machine_learning.classfication._base_classificaition import BaseClassification, PipelineSearch_
+from eslearn.machine_learning.classification._base_classification import BaseClassification
 
 
-class ClassificationYueYing(BaseMachineLearning, PipelineSearch_):
+class ClassificationYueYing(BaseMachineLearning):
     """
 
     """
@@ -40,7 +40,7 @@ class ClassificationYueYing(BaseMachineLearning, PipelineSearch_):
                  ):
         
         super(BaseMachineLearning, self).__init__()
-        super(PipelineSearch_, self).__init__()
+        BaseClassification.__init__(self)
         self.search_strategy = 'grid'
         self.n_jobs = 2
         self.k=k
@@ -148,14 +148,14 @@ class ClassificationYueYing(BaseMachineLearning, PipelineSearch_):
             weights.append(wei)
             
         # Eval performances
-        acc, sens, spec, auc = eval_performance(
+        acc, sens, spec, auc = ModelEvaluator.binary_evaluator(
             label_test_all, pred_test, decision,
             accuracy_kfold=accuracy, sensitivity_kfold=sensitivity, specificity_kfold=specificity, AUC_kfold=auc,
-            verbose=1, is_showfig=True, legend1=self.legend1, legend2=self.legend2, is_savefig=True, out_name=self.performances_save_name
+            verbose=1, is_showfig=True, legend1=self.legend1, legend2=self.legend2, is_savefig=False, out_name=self.performances_save_name
         )
 
         # save weight to nii
-        self._weight2nii(weights)
+        # self._weight2nii(weights)
         return accuracy, sensitivity, specificity, auc, weights
 
     def pipeline_grid(self, 
