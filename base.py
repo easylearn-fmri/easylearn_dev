@@ -74,6 +74,7 @@ class BaseMachineLearning():
 
     def __init__(self, configuration_file):
         self.configuration_file = configuration_file
+        self.__random_state = 0
 
     def get_configuration_(self):
         """Get and parse the configuration file
@@ -105,6 +106,9 @@ class BaseMachineLearning():
                             param = self.security_eval(param)
                             self.param_feature_preprocessing_.update({"feature_preprocessing__"+key_: [param]})
 
+        # Fix the random_state for replication of results
+        if "random_state" in self.method_feature_preprocessing_[0].get_params().keys():
+            self.param_feature_preprocessing_.update({"feature_preprocessing__"+'random_state': [self.__random_state]})
         self.param_feature_preprocessing_ = None if self.param_feature_preprocessing_ == {} else self.param_feature_preprocessing_
              
         return self
@@ -128,7 +132,10 @@ class BaseMachineLearning():
                             if not isinstance(param, (list, tuple)):
                                 param = [param]
                             self.param_dim_reduction_.update({"dim_reduction__"+key_: param})
-             
+        
+        # Fix the random_state for replication of results
+        if "random_state" in self.method_dim_reduction_[0].get_params().keys():
+            self.param_dim_reduction_.update({"dim_reduction__"+'random_state': [self.__random_state]})
         self.param_dim_reduction_ = None if self.param_dim_reduction_ == {} else self.param_dim_reduction_
         return self  
 
@@ -172,6 +179,9 @@ class BaseMachineLearning():
                 
             self.method_feature_selection_ = [self.security_eval(self.method_feature_selection_)]
         
+        # Fix the random_state for replication of results
+        if "random_state" in self.method_feature_selection_[0].get_params().keys():
+            self.param_feature_selection_.update({"feature_selection__"+'random_state': [self.__random_state]})
         self.param_feature_selection_ = None if self.param_feature_selection_ == {} else self.param_feature_selection_
         return self
 
@@ -195,8 +205,13 @@ class BaseMachineLearning():
                             if not isinstance(param, (list, tuple)):
                                 param = [param]
                             self.param_unbalance_treatment_.update({"unbalance_treatment__"+key_:param})
-             
+                     
+        # Fix the random_state for replication of results
+        if "random_state" in self.method_unbalance_treatment_.get_params().keys():
+            self.method_unbalance_treatment_.set_params(**{"random_state": self.__random_state})
+            self.param_unbalance_treatment_.update({"unbalance_treatment__"+'random_state': [self.__random_state]})
         self.param_unbalance_treatment_ = None if self.param_unbalance_treatment_ == {} else self.param_unbalance_treatment_
+        
         return self
 
     def get_machine_learning_parameters(self):
@@ -234,7 +249,8 @@ class BaseMachineLearning():
                             self.param_machine_learning_.update({"estimator__"+key_: param})
          
         # Fix the random_state for replication of results
-        self.param_machine_learning_.update({"estimator__"+'random_state': [0]})
+        if "random_state" in self.method_machine_learning_[0].get_params().keys():
+            self.param_machine_learning_.update({"estimator__"+'random_state': [self.__random_state]})
         self.param_machine_learning_ = None if self.param_machine_learning_ == {} else self.param_machine_learning_
         return self
 
@@ -273,7 +289,7 @@ class BaseMachineLearning():
             
             self.method_model_evaluation_ = self.method_model_evaluation_.split("(")[0] + "(" + pme + self.method_model_evaluation_.split("(")[1]
             self.method_model_evaluation_ = self.security_eval(self.method_model_evaluation_)
-
+            
         return self
 
     def get_statistical_analysis_parameters(self):
@@ -292,6 +308,7 @@ class BaseMachineLearning():
         self.get_machine_learning_parameters()
         self.get_model_evaluation_parameters()
         return self
+
 
     @staticmethod
     def security_eval(expression):
@@ -750,22 +767,6 @@ class DataLoader(BaseMachineLearning):
         subj_name.columns = ["ID"]
         return subj_name
 
-class AbstractMachineLearningBase(metaclass=ABCMeta):
-    """Abstract base class for _base_classificaition and _base_regression and _base_clustering
-
-    """
-
-    @abstractmethod
-    def fit_(self):
-        raise NotImplementedError
-
-    @abstractmethod
-    def predict(self):
-        raise NotImplementedError
-
-    @abstractmethod
-    def get_weights_(self):
-        raise NotImplementedError
 
 if __name__ == '__main__':
     base = BaseMachineLearning(configuration_file=r'D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\test\configuration_file.json')

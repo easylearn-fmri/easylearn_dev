@@ -5,6 +5,7 @@ This class is the base class for classification
 """
 
 import numpy as np
+
 import time
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
@@ -16,14 +17,14 @@ from shutil import rmtree
 import warnings
 from sklearn.exceptions import ConvergenceWarning
 
-from eslearn.base import AbstractMachineLearningBase
+from eslearn.machine_learning.base import AbstractSupervisedMachineLearningBase
 from eslearn.utils.timer import  timer
 
 
 warnings.filterwarnings("ignore", category=ConvergenceWarning, module="sklearn")
 
 
-class BaseClassification(AbstractMachineLearningBase):
+class BaseClassification(AbstractSupervisedMachineLearningBase):
     """Base class for classification
 
     Parameters

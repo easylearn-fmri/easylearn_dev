@@ -16,13 +16,13 @@ from abc import abstractmethod, ABCMeta
 import warnings
 from sklearn.exceptions import ConvergenceWarning
 
-from eslearn.base import AbstractMachineLearningBase
+from eslearn.machine_learning.base import AbstractSupervisedMachineLearningBase
 from eslearn.utils.timer import timer
 
 warnings.filterwarnings("ignore", category=ConvergenceWarning, module="sklearn")
 
 
-class BaseRegression(AbstractMachineLearningBase):
+class BaseRegression(AbstractSupervisedMachineLearningBase):
     """Base class for regression
 
     Parameters
