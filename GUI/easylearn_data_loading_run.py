@@ -373,7 +373,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
             old_dir = os.path.dirname(self.loaded_files[0])
         else:
             if self.working_directory:
-                old_dir = os.path.dirname(self.working_directory)
+                old_dir = self.working_directory
             else:
                 old_dir = os.getcwd()
                 
@@ -469,10 +469,13 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         """
 
         # Get previous directory
-        if self.loaded_targets_and_covariates:
+        if self.loaded_files:
             old_dir = os.path.dirname(self.loaded_targets_and_covariates[0])
         else:
-            old_dir = os.getcwd()
+            if self.working_directory:
+                old_dir = self.working_directory
+            else:
+                old_dir = os.getcwd()
 
         if bool(self.selected_group):
             self.loaded_targets_and_covariates, filetype = QFileDialog.getOpenFileName(self,  
@@ -492,10 +495,13 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         """
 
         # Get previous directory
-        if self.loaded_mask:
+        if self.loaded_files:
             old_dir = os.path.dirname(self.loaded_mask[0])
         else:
-            old_dir = os.getcwd()
+            if self.working_directory:
+                old_dir = os.path.dirname(self.working_directory)
+            else:
+                old_dir = os.getcwd()
         
         if (bool(self.selected_group) & bool(self.selected_modality)):
             self.loaded_mask, filetype = QFileDialog.getOpenFileName(self,  

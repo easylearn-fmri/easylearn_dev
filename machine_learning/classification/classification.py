@@ -82,7 +82,7 @@ class Classification(DataLoader, BaseClassification):
 
 if __name__ == "__main__":
     time_start = time.time()
-    clf = Classification(configuration_file=r'D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\test\configuration_file.json') 
+    clf = Classification(configuration_file=r'D:\workstation_b\宝宝\configuration_file.json') 
     clf.main_run()
     time_end = time.time()
     print(clf.param_search_)
