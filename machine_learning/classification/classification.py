@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import time
-from collections import Counter
 import os
+from collections import Counter
 
 from eslearn.base import DataLoader
 from eslearn.machine_learning.classification._base_classification import BaseClassification
@@ -12,9 +12,10 @@ from eslearn.model_evaluator import ModelEvaluator
 
 class Classification(DataLoader, BaseClassification):
     
-    def __init__(self, configuration_file):
+    def __init__(self, configuration_file, out_dir):
         DataLoader.__init__(self, configuration_file)
-        BaseClassification.__init__(self, location=os.path.dirname(configuration_file))
+        BaseClassification.__init__(self)
+        self.out_dir = out_dir
 
     def main_run(self):
         # Get all inputs
@@ -57,7 +58,7 @@ class Classification(DataLoader, BaseClassification):
             y_pred, y_prob = self.predict(feature_test)
             
             # Eval performances
-            acc, sens, spec, auc_ = ModelEvaluator().binary_evaluator(
+            acc, sens, spec, auc_, _ = ModelEvaluator().binary_evaluator(
                 target_test, y_pred, y_prob,
                 accuracy_kfold=None, sensitivity_kfold=None, specificity_kfold=None, AUC_kfold=None,
                 verbose=False, is_showfig=False, is_savefig=False
@@ -72,17 +73,19 @@ class Classification(DataLoader, BaseClassification):
             weights.append(self.weights_)
          
         # Eval performances for all fold
-        acc, sens, spec, auc = ModelEvaluator().binary_evaluator(
+        out_name = os.path.join(self.out_dir, "classification_performances.pdf")
+        acc, sens, spec, auc, _ = ModelEvaluator().binary_evaluator(
             target_test_all, pred_test, decision,
             accuracy_kfold=accuracy, sensitivity_kfold=sensitivity, specificity_kfold=specificity, AUC_kfold=auc,
-            verbose=1, is_showfig=False, is_savefig=False, legend1='EMCI', legend2='AD', out_name=r"D:\悦影科技\数据处理业务1\data_variance_22_30_z\分类结果\adVSemci.pdf")
+            verbose=1, is_showfig=True, is_savefig=True, legend1='Controls', legend2='Patients', out_name=out_name)
 
         return y_pred, y_prob
 
 
 if __name__ == "__main__":
     time_start = time.time()
-    clf = Classification(configuration_file=r'D:\workstation_b\宝宝\configuration_file.json') 
+    clf = Classification(configuration_file=r'D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\test\configuration_file.json', 
+                         out_dir=r"D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\test") 
     clf.main_run()
     time_end = time.time()
     print(clf.param_search_)

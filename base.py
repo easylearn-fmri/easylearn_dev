@@ -26,6 +26,7 @@ from imblearn.under_sampling import (RandomUnderSampler,
                                     AllKNN,
                                     NeighbourhoodCleaningRule,
                                     OneSidedSelection)
+
 from imblearn.combine import SMOTEENN, SMOTETomek
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.decomposition import PCA, NMF
@@ -39,7 +40,7 @@ from sklearn.model_selection import KFold, StratifiedKFold,  ShuffleSplit
 from sklearn.pipeline import Pipeline
 
 
-class BaseMachineLearning():
+class BaseMachineLearning(object):
     """Base class for all machine learning
 
     Parameters:
@@ -432,7 +433,7 @@ class BaseMachineLearning():
             
       
 class DataLoader(BaseMachineLearning):
-    """Load datasets according to different data types and handl extreme values
+    """Load datasets according to different data types and handle extreme values
 
     Parameters:
     ----------
@@ -494,14 +495,14 @@ class DataLoader(BaseMachineLearning):
                 modality = self.data_loading.get(gk).get("modalities").get(mk)
                 
                 # Filses
-                file_input = modality.get("file")
+                input_files = modality.get("file")
                 if j == 0:
-                    n_file = self.get_file_len(file_input)  # Initialize n_file
+                    n_file = self.get_file_len(input_files)  # Initialize n_file
                 else:
-                    if n_file != self.get_file_len(file_input):  # Left is previous, right is current loop
+                    if n_file != self.get_file_len(input_files):  # Left is previous, right is current loop
                         raise ValueError(f"The number of files in each modalities in {gk} is not equal, check your inputs")
                         return
-                n_file = self.get_file_len(file_input)  # Update n_file
+                n_file = self.get_file_len(input_files)  # Update n_file
 
                 # Check the number of targets in each modalities is equal to the number of files          
                 # If the type of targets is list, and number of files are not equal to targets, then raise error
@@ -530,37 +531,34 @@ class DataLoader(BaseMachineLearning):
                
                 # Get file
                 # If only input one file for one modality in a given group, then I think the file contained multiple cases' data
-                file_input = modality.get("file")
-                n_file = self.get_file_len(file_input)
-                if len(file_input) == 1:
+                input_files = modality.get("file")
+                n_file = self.get_file_len(input_files)
+                if len(input_files) == 1:
                     one_file_per_modality = True
                 else:
                     one_file_per_modality = False
                 
                 # Get Features
-                feature_all = self.read_file(file_input, False)
+                all_features = self.read_file(input_files, False)
                 if one_file_per_modality:
-                    feature_all_ = list(feature_all)[0]
-                    feature_all = [feature_all_]  # 
+                    all_features_ = list(all_features)[0]
+                    all_features = [all_features_]  # 
                 else:
-                    feature_all_ = None
+                    all_features_ = None
                 
 
                 # Get cases' name (unique ID) in this modality
                 # If one_file_per_modality = False, then each file name must contain r'.*(sub.?[0-9].*).*'
-                # If one_file_per_modality = True and feature_all_ is DataFrame, then the DataFrame must have header of "__ID__" which contain the subj_name
-                if isinstance(feature_all_, pd.core.frame.DataFrame) and ("__ID__" not in feature_all_.columns):
-                    raise ValueError(f"The dataset of {file_input} did not have '__ID__' column, check your dataset")
-                elif isinstance(feature_all_, pd.core.frame.DataFrame) and ("__ID__" in feature_all_.columns):
-                    subj_name = pd.DataFrame(feature_all_["__ID__"])
+                # If one_file_per_modality = True and all_features_ is DataFrame, then the DataFrame must have header of "__ID__" which contain the subj_name
+                if isinstance(all_features_, pd.core.frame.DataFrame) and ("__ID__" not in all_features_.columns):
+                    raise ValueError(f"The dataset of {input_files} did not have '__ID__' column, check your dataset")
+                elif isinstance(all_features_, pd.core.frame.DataFrame) and ("__ID__" in all_features_.columns):
+                    subj_name = pd.DataFrame(all_features_["__ID__"])
                 else:
-                    subj_name = self.extract_id(file_input, n_file)
+                    subj_name = self.extract_id(input_files, n_file)
                     
-                # Delete "__ID__" header of feature_all if it have dataframe
-                feature_all = self.del_id(feature_all, file_input)
-
-                # Handle extreme values
-                feature_all = self.handle_extreme(feature_all, file_input)
+                # Delete "__ID__" header of all_features if it have dataframe
+                all_features = self.del_id(all_features, input_files)
                 
                 # Sort targets and check
                 if (isinstance(targets[gk],int)):
@@ -605,13 +603,16 @@ class DataLoader(BaseMachineLearning):
                 if not isinstance(self.mask_[gk][mk], int):  # If mask is empty then give 0 to mask
                    self.mask_[gk][mk] = self.mask_[gk][mk] != 0
                    # Apply mask
-                   feature_applied_mask = [fa[self.mask_[gk][mk]] for fa in feature_all]
+                   feature_applied_mask = [fa[self.mask_[gk][mk]] for fa in all_features]
                    feature_applied_mask = np.array(feature_applied_mask)
                 else:
-                   feature_applied_mask = [fa for fa in feature_all]
+                   feature_applied_mask = [fa for fa in all_features]
                    feature_applied_mask = np.array(feature_applied_mask)
                    feature_applied_mask = feature_applied_mask.reshape(n_file,-1)
-                   
+                
+                # Handle extreme values
+                feature_applied_mask = self.handle_extreme(feature_applied_mask, input_files)
+
                 # Add subj_name, targets and covariates to features for matching datasets across modalities in the same group 
                 if (not isinstance(self.covariates_[gk],int)): 
                     feature_applied_mask_and_add_otherinfo[gk][mk] = pd.concat([subj_name, targets[gk]["__Targets__"], self.covariates_[gk].drop(["__ID__"], axis=1,inplace=False), pd.DataFrame(feature_applied_mask)], axis=1)  
@@ -625,8 +626,8 @@ class DataLoader(BaseMachineLearning):
                 else:
                     if shape_of_data[gk_pre][mk][-1] != shape_of_data[gk][mk][-1]:
                         raise ValueError(f"Feature dimension of {mk} in {gk_pre} is {shape_of_data[gk_pre][mk][-1]} which is not equal to {mk} in {gk}: {shape_of_data[gk][mk][-1]}, check your inputs")
-                        return                
-            
+                        return 
+                
             # Update gk_pre for check feature dimension
             gk_pre = gk            
                 
@@ -657,51 +658,59 @@ class DataLoader(BaseMachineLearning):
     #%% -----------------------------utilts------------------------------------
 
     def get_file_len(self, files):
-        """If the files lenght is 1, then the length is the lenght of content of the files
+        """If the files lenght is 1, then the length is the length of content of the files
         """
         
         file_len = len(files)
         if file_len == 1:
-            feature_all = self.read_file(files, False)
-            feature_all = [fe for fe in feature_all][0]
-            file_len = len(feature_all)
+            all_features = self.read_file(files, False)
+            all_features = [fe for fe in all_features][0]
+            file_len = len(all_features)
         return file_len
         
-    def del_id(self, feature_all, file_input):
-        """Delete "__ID__" in each DataFrame in feature_all and handle extreme value if it's a DataFrame
+    def del_id(self, all_features, input_files):
+        """Delete "__ID__" in each DataFrame in all_features
 
-        At last, the feature_all contains only the feature
+        At last, the all_features contains only the feature
         """
         
-        feature_all_ = list()
-        for df, file in zip(feature_all, file_input):
+        all_features_ = list()
+        for df, file in zip(all_features, input_files):
             if isinstance(df, pd.core.frame.DataFrame) and ("__ID__" not in df.columns):
                 raise ValueError(f"The dataset of {file} did not have '__ID__' column, check your dataset")
             elif isinstance(df, pd.core.frame.DataFrame) and ("__ID__" in df.columns):
                 df.drop("__ID__", axis=1, inplace=True)
-                feature_all_.append(df)
+                all_features_.append(df)
+            else:
+                all_features_.append(df)
                 
-        return feature_all_
+        return all_features_
     
-    def handle_extreme(self, feature_all, file_input):
+    def handle_extreme(self, all_features, input_files):
         """ Handle extreme values
         
         Currently, we fillna with median
+        TODO: Add other extreme values' handling methods
+
+        Parameters: 
+        ----------
+        all_features: DataFrame or ndarray
+            all features
+
+        Return:
+        ------
+        all_features: DataFrames
+            all features that be handled extreme values
         """
         
-        feature_all_ = list()
-        for df, file in zip(feature_all, file_input):
-            if not isinstance(df, pd.core.frame.DataFrame):
-                df = pd.DataFrame(df)
-            if df.isna().any().sum() > 0:
-                df_ = df.fillna(df.median())
-            else:
-                df_ = df
-            feature_all_.append(df_)
-        return feature_all_
+        if not isinstance(all_features, pd.core.frame.DataFrame):
+            all_features = pd.DataFrame(all_features)
+        if all_features.isna().any().sum() > 0:
+            all_features = all_features.fillna(all_features.median())
+        return all_features
 
-    def read_file(self, file_input, to1d=False):  
-        data = (self.base_read(file, to1d) for file in file_input)
+    def read_file(self, input_files, to1d=False):  
+        data = (self.base_read(file, to1d) for file in input_files)
         return data
 
     def read_targets(self, targets_input):
@@ -819,8 +828,8 @@ class DataLoader(BaseMachineLearning):
 
 
 if __name__ == '__main__':
-    base = BaseMachineLearning(configuration_file=r'D:\workstation_b\宝宝\configuration_file.json')
-    data_loader = DataLoader(configuration_file=r'D:\workstation_b\宝宝\configuration_file.json')
+    base = BaseMachineLearning(configuration_file=r'D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\test\configuration_file.json')
+    data_loader = DataLoader(configuration_file=r'D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\test\configuration_file.json')
     data_loader.load_data()
     
     base.get_configuration_()

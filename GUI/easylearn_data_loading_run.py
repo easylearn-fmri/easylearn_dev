@@ -495,13 +495,12 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         """
 
         # Get previous directory
-        if self.loaded_files:
+        if self.loaded_mask:
             old_dir = os.path.dirname(self.loaded_mask[0])
+        elif self.working_directory:
+            old_dir = os.path.dirname(self.working_directory)
         else:
-            if self.working_directory:
-                old_dir = os.path.dirname(self.working_directory)
-            else:
-                old_dir = os.getcwd()
+            old_dir = os.getcwd()
         
         if (bool(self.selected_group) & bool(self.selected_modality)):
             self.loaded_mask, filetype = QFileDialog.getOpenFileName(self,  

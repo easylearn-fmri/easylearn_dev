@@ -48,17 +48,13 @@ class BaseClassification(AbstractSupervisedMachineLearningBase):
                 k=2, 
                 metric=accuracy_score, 
                 n_iter_of_randomedsearch=10, 
-                n_jobs=2, 
-                location='cachedir',
-                verbose=False):
+                n_jobs=2):
 
         self.search_strategy = search_strategy
         self.k = k
         self.metric = metric
         self.n_iter_of_randomedsearch = n_iter_of_randomedsearch
         self.n_jobs = n_jobs
-        self.location = location
-        self.verbose = verbose
         
         self.model_ = None
         self.weights_ = None
