@@ -104,88 +104,94 @@ class ModelEvaluator():
 
         #%% Plot
         if is_showfig:
-            fig, ax = plt.subplots(1,3, figsize=(15,5))
+            fig, ax = plt.subplots(nrows=2, ncols=2,figsize=(8,8))
     
             # Plot classification 2d scatter
             decision_0 = predict_prob[true_label == 0]
             decision_1 = predict_prob[true_label == 1]
-            ax[0].scatter(decision_0, np.arange(0, len(decision_0)), marker="o", linewidth=2, color='paleturquoise')
-            ax[0].scatter(decision_1, np.arange(len(decision_0), len(predict_prob)), marker="*", linewidth=2, color='darkturquoise')
+            ax[0][0].scatter(decision_0, np.arange(0, len(decision_0)), marker="o", linewidth=2, color='paleturquoise')
+            ax[0][0].scatter(decision_1, np.arange(len(decision_0), len(predict_prob)), marker="*", linewidth=2, color='darkturquoise')
             # Grid and spines
-            ax[0].grid(False)
-            ax[0].spines['bottom'].set_position(('axes', 0))
-            ax[0].spines['left'].set_position(('axes', 0))
-            ax[0].spines['top'].set_linewidth(1.5)
-            ax[0].spines['right'].set_linewidth(1.5)
-            ax[0].spines['bottom'].set_linewidth(1.5)
-            ax[0].spines['left'].set_linewidth(1.5)
+            ax[0][0].grid(False)
+            ax[0][0].set_title('Classification scatter diagram', fontsize=12, fontweight='bold')
+            ax[0][0].spines['bottom'].set_position(('axes', 0))
+            ax[0][0].spines['left'].set_position(('axes', 0))
+            ax[0][0].spines['top'].set_linewidth(1)
+            ax[0][0].spines['right'].set_linewidth(1)
+            ax[0][0].spines['bottom'].set_linewidth(1)
+            ax[0][0].spines['left'].set_linewidth(1)
             # TODO: Identify the separation line located at the 0 or 0.5
-            ax[0].plot(np.zeros(10) + separation_point, np.linspace(0, len(predict_prob),10), '--', color='k', linewidth=1.5)
+            ax[0][0].plot(np.zeros(10) + separation_point, np.linspace(0, len(predict_prob),10), '--', color='k', linewidth=1.5)
             if separation_point == 0.5:
-                ax[0].axis([-0.05, 1.05, 0 - len(predict_prob) / 20, len(predict_prob) + len(predict_prob) / 20]) # x and y lim
+                ax[0][0].axis([-0.05, 1.05, 0 - len(predict_prob) / 20, len(predict_prob) + len(predict_prob) / 20]) # x and y lim
             else:
-                ax[0].axis([-1.05, 1.05, 0 - len(predict_prob) / 20, len(predict_prob) + len(predict_prob) / 20]) # x and y lim               
-            ax[0].set_xlabel('Decision values', fontsize=15)
-            ax[0].set_ylabel('Subjects', fontsize=15)
-            num1, num2, num3, num4 = 0, 1.01, 3, 0
-            ax[0].legend(['Discriminant line', legend1, legend2], bbox_to_anchor=(num1, num2), loc=num3, borderaxespad=num4)
+                ax[0][0].axis([-1.05, 1.05, 0 - len(predict_prob) / 20, len(predict_prob) + len(predict_prob) / 20]) # x and y lim               
+            ax[0][0].set_xlabel('Decision values', fontsize=10)
+            ax[0][0].set_ylabel('Subjects', fontsize=10)
+            num1, num2, num3, num4 = 0, 1.2, 3, 0
+            ax[0][0].legend(['Discriminant line', legend1, legend2], bbox_to_anchor=(num1, num2), loc=num3, borderaxespad=num4)
     
             # Plot ROC
             if auc is not None:
                 auc = '{:.2f}'.format(auc)
                 auc = eval(auc)
-                ax[1].set_title(f'ROC Curve (AUC = {auc})', fontsize=15, fontweight='bold')
-                ax[1].set_xlabel('False Positive Rate', fontsize=15)
-                ax[1].set_ylabel('True Positive Rate', fontsize=15)
-                ax[1].plot(fpr, tpr, marker=".", markersize=5, linewidth=2, color='darkturquoise')
+                ax[1][0].set_title(f'ROC Curve (AUC = {auc})', fontsize=12, fontweight='bold')
+                ax[1][0].set_xlabel('False Positive Rate', fontsize=10)
+                ax[1][0].set_ylabel('True Positive Rate', fontsize=10)
+                ax[1][0].plot(fpr, tpr, marker=".", markersize=5, linewidth=2, color='k')
                 plt.tick_params(labelsize=12)
                 # Grid and spines
-                ax[1].grid(False)
-                ax[1].spines['top'].set_linewidth(1.5)
-                ax[1].spines['right'].set_linewidth(1.5)
-                ax[1].spines['bottom'].set_position(('axes', 0))
-                ax[1].spines['left'].set_position(('axes', 0))
-                ax[1].spines['bottom'].set_linewidth(1.5)
-                ax[1].spines['left'].set_linewidth(1.5)
+                ax[1][0].grid(False)
+                ax[1][0].spines['top'].set_linewidth(1)
+                ax[1][0].spines['right'].set_linewidth(1)
+                ax[1][0].spines['bottom'].set_position(('axes', 0))
+                ax[1][0].spines['left'].set_position(('axes', 0))
+                ax[1][0].spines['bottom'].set_linewidth(1)
+                ax[1][0].spines['left'].set_linewidth(1)
                 # Plot random line
-                ax[1].plot(np.linspace(0, 1,10), np.linspace(0, 1,10), '--', color='k', linewidth=1)
+                ax[1][0].plot(np.linspace(0, 1,10), np.linspace(0, 1,10), '--', color='k', linewidth=1)
     
             # Plot Bar
             if (accuracy_kfold is not None) and (sensitivity_kfold is not None) and (specificity_kfold is not None) and (AUC_kfold is not None):
                 performances = [np.mean(accuracy_kfold), np.mean(sensitivity_kfold), np.mean(specificity_kfold),np.mean(AUC_kfold)]
                 std = [np.std(accuracy_kfold), np.std(sensitivity_kfold), np.std(specificity_kfold), np.std(AUC_kfold)]
-                ax[2].bar(np.arange(0,len(performances)), performances, yerr = std, capsize=5, linewidth=2, color='darkturquoise')
+                ax[0][1].bar(np.arange(0,len(performances)), performances, yerr = std, capsize=5, linewidth=2, color='darkturquoise')
             else:
                 performances = [accuracy, sensitivity, specificity, auc]
-                ax[2].bar(np.arange(0, len(performances)), performances, linewidth=2, color='darkturquoise')
+                ax[0][1].bar(np.arange(0, len(performances)), performances, linewidth=2, color='darkturquoise')
     
-            ax[2].tick_params(labelsize=12)
-            ax[2].set_title('Classification performances', fontsize=15, fontweight='bold')
-            plt.xticks(np.arange(0,len(performances)), ['Accuracy', 'Sensitivity', 'Specificity', 'AUC'], fontsize=12, rotation=45)
+            ax[0][1].tick_params(labelsize=12)
+            ax[0][1].set_title('Classification performances', fontsize=12, fontweight='bold')
+            ax[0][1].set_xticks(np.arange(0,len(performances)))
+            ax[0][1].set_xticklabels(('Accuracy', 'Sensitivity', 'Specificity', 'AUC'), rotation=45, fontsize=10)
             # Setting
-            ax[2].spines['top'].set_linewidth(1.5)
-            ax[2].spines['right'].set_linewidth(1.5)
-            ax[2].spines['bottom'].set_linewidth(1.5)
-            ax[2].spines['left'].set_linewidth(1.5)
-            plt.grid(axis='y')
+            ax[0][1].spines['top'].set_linewidth(1)
+            ax[0][1].spines['right'].set_linewidth(1)
+            ax[0][1].spines['bottom'].set_linewidth(1)
+            ax[0][1].spines['left'].set_linewidth(1)
+            ax[0][1].grid(axis='y', linestyle='-.')
             y_major_locator=MultipleLocator(0.1)
-            ax[2].yaxis.set_major_locator(y_major_locator)
+            ax[0][1].yaxis.set_major_locator(y_major_locator)
             
-            # # Plot calibration curve
-            # if auc is not None:
-            #     predict_prob = (predict_prob - predict_prob.min()) / (predict_prob.max() - predict_prob.min())
-            #     fraction_of_positives, mean_predicted_value = calibration_curve(true_label, predict_prob, n_bins=10)
-            #     ax[3].plot([0, 1], [0, 1], "k:", label="Perfectly calibrated")
-            #     ax[3].plot(mean_predicted_value, fraction_of_positives, "s-")
-    
-            #     ax[3].set_ylabel("Fraction of positives")
-            #     ax[3].set_ylim([-0.05, 1.05])
-            #     # ax[3].legend(loc="lower right")
-            #     ax[3].set_title('Calibration plots  (reliability curve)')
+            # Plot calibration curve
+            if auc is not None:
+                predict_prob = (predict_prob - predict_prob.min()) / (predict_prob.max() - predict_prob.min())
+                fraction_of_positives, mean_predicted_value = calibration_curve(true_label, predict_prob, n_bins=5)
+                ax[1][1].plot([0, 1], [0, 1], "k:", label="Perfectly calibrated")
+                ax[1][1].plot(mean_predicted_value, fraction_of_positives, "s-", color="k")
+                # Setting
+                ax[1][1].spines['top'].set_linewidth(1)
+                ax[1][1].spines['right'].set_linewidth(1)
+                ax[1][1].spines['bottom'].set_linewidth(1)
+                ax[1][1].spines['left'].set_linewidth(1)
+                ax[1][1].set_xlabel("Predicted probability of positives", fontsize=10)
+                ax[1][1].set_ylabel("Fraction of positives", fontsize=10)
+                ax[1][1].set_title("Calibration curves", fontsize=12, fontweight='bold')
+                ax[1][1].set_ylim([-0.05, 1.05])
     
             # Save figure to PDF file
             plt.tight_layout()
-            plt.subplots_adjust(wspace = 0.2, hspace = 0)
+            plt.subplots_adjust(wspace = 0.3, hspace = 0.4)
             if is_savefig:
                 pdf = PdfPages(out_name)
                 pdf.savefig()
@@ -194,7 +200,7 @@ class ModelEvaluator():
                 if is_showfig:
                     plt.show()
 
-        return accuracy, sensitivity, specificity, auc
+        return accuracy, sensitivity, specificity, auc, confusion_matrix_values
 
 if __name__ == "__main__":
     pass

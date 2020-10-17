@@ -1,5 +1,6 @@
-# -*- coding: utf-8 -*-
 #!/usr/bin/python3
+# -*- coding: utf-8 -*-
+
 """
 Main GUI of the easylearn
 
@@ -255,7 +256,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         """
         
         which_ml_type_dict = {"Classification":Classification, 
-                                "Regression": Regression,
+                              "Regression": Regression,
         }
         
         baseml = BaseMachineLearning(self.configuration_file)
@@ -266,7 +267,8 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         if self.configuration_file == "":
             raise ValueError("You have to specify a configuration file\n")
         else:
-            model = which_ml_type_dict[ml_type](self.configuration_file)
+            out_dir = self.working_directory if self.working_directory else os.path.dirname(self.configuration_file)
+            model = which_ml_type_dict[ml_type](configuration_file=self.configuration_file, out_dir=out_dir)
             model.main_run()
             # self.run = Run(which_ml_type_dict[ml_type], self.configuration_file)
             # self.run.start()   

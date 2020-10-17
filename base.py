@@ -6,8 +6,8 @@ Base class for all modules
 
 import json
 import re
-import ast
-import  numpy as np
+import copy
+import numpy as np
 import pandas as pd
 import os
 import nibabel as nib
@@ -26,6 +26,7 @@ from imblearn.under_sampling import (RandomUnderSampler,
                                     AllKNN,
                                     NeighbourhoodCleaningRule,
                                     OneSidedSelection)
+
 from imblearn.combine import SMOTEENN, SMOTETomek
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.decomposition import PCA, NMF
@@ -39,7 +40,7 @@ from sklearn.model_selection import KFold, StratifiedKFold,  ShuffleSplit
 from sklearn.pipeline import Pipeline
 
 
-class BaseMachineLearning():
+class BaseMachineLearning(object):
     """Base class for all machine learning
 
     Parameters:
@@ -83,7 +84,6 @@ class BaseMachineLearning():
         with open(self.configuration_file, 'r', encoding='utf-8') as config:
                     configuration = config.read()
         self.configuration = json.loads(configuration)
-
         return self
 
     def get_preprocessing_parameters(self):
@@ -107,7 +107,7 @@ class BaseMachineLearning():
                             self.param_feature_preprocessing_.update({"feature_preprocessing__"+key_: [param]})
 
         # Fix the random_state for replication of results
-        if "random_state" in self.method_feature_preprocessing_[0].get_params().keys():
+        if self.method_feature_preprocessing_ and ("random_state" in self.method_feature_preprocessing_[0].get_params().keys()):
             self.param_feature_preprocessing_.update({"feature_preprocessing__"+'random_state': [self.__random_state]})
         self.param_feature_preprocessing_ = None if self.param_feature_preprocessing_ == {} else self.param_feature_preprocessing_
              
@@ -134,7 +134,7 @@ class BaseMachineLearning():
                             self.param_dim_reduction_.update({"dim_reduction__"+key_: param})
         
         # Fix the random_state for replication of results
-        if "random_state" in self.method_dim_reduction_[0].get_params().keys():
+        if self.method_dim_reduction_ and ("random_state" in self.method_dim_reduction_[0].get_params().keys()):
             self.param_dim_reduction_.update({"dim_reduction__"+'random_state': [self.__random_state]})
         self.param_dim_reduction_ = None if self.param_dim_reduction_ == {} else self.param_dim_reduction_
         return self  
@@ -145,7 +145,6 @@ class BaseMachineLearning():
         
         feature_selection = self.configuration.get('feature_engineering', {}).get('feature_selection', None)
         if feature_selection and (list(feature_selection.keys())[0] != 'None'): 
-            self.method_feature_selection_ = [self.security_eval(list(feature_selection.keys())[0])]
             for key in feature_selection.keys():
                 for key_ in feature_selection.get(key).keys():
                     if key_ != []:
@@ -180,7 +179,7 @@ class BaseMachineLearning():
             self.method_feature_selection_ = [self.security_eval(self.method_feature_selection_)]
         
         # Fix the random_state for replication of results
-        if "random_state" in self.method_feature_selection_[0].get_params().keys():
+        if self.method_feature_selection_ and "random_state" in self.method_feature_selection_[0].get_params().keys():
             self.param_feature_selection_.update({"feature_selection__"+'random_state': [self.__random_state]})
         self.param_feature_selection_ = None if self.param_feature_selection_ == {} else self.param_feature_selection_
         return self
@@ -207,7 +206,7 @@ class BaseMachineLearning():
                             self.param_unbalance_treatment_.update({"unbalance_treatment__"+key_:param})
                      
         # Fix the random_state for replication of results
-        if "random_state" in self.method_unbalance_treatment_.get_params().keys():
+        if self.method_unbalance_treatment_ and "random_state" in self.method_unbalance_treatment_.get_params().keys():
             self.method_unbalance_treatment_.set_params(**{"random_state": self.__random_state})
             self.param_unbalance_treatment_.update({"unbalance_treatment__"+'random_state': [self.__random_state]})
         self.param_unbalance_treatment_ = None if self.param_unbalance_treatment_ == {} else self.param_unbalance_treatment_
@@ -249,7 +248,7 @@ class BaseMachineLearning():
                             self.param_machine_learning_.update({"estimator__"+key_: param})
          
         # Fix the random_state for replication of results
-        if "random_state" in self.method_machine_learning_[0].get_params().keys():
+        if self.method_machine_learning_ and "random_state" in self.method_machine_learning_[0].get_params().keys():
             self.param_machine_learning_.update({"estimator__"+'random_state': [self.__random_state]})
         self.param_machine_learning_ = None if self.param_machine_learning_ == {} else self.param_machine_learning_
         return self
@@ -434,8 +433,8 @@ class BaseMachineLearning():
             
       
 class DataLoader(BaseMachineLearning):
-    """Load datasets according to different data types
-    
+    """Load datasets according to different data types and handle extreme values
+
     Parameters:
     ----------
     configuration_file: file string
@@ -457,7 +456,8 @@ class DataLoader(BaseMachineLearning):
         # TODO: Extended to handle other formats
         self.type2fun = {".nii": self.read_nii, 
                     ".mat": self.read_mat, 
-                    ".txt": self.read_txt,
+                    ".txt": self.read_csv,
+                    ".csv": self.read_csv,
                     ".xlsx": self.read_excel,
                     ".xls": self.read_excel,
         }
@@ -495,14 +495,14 @@ class DataLoader(BaseMachineLearning):
                 modality = self.data_loading.get(gk).get("modalities").get(mk)
                 
                 # Filses
-                file_input = modality.get("file")
+                input_files = modality.get("file")
                 if j == 0:
-                    n_file = self.get_file_len(file_input)  # Initialize n_file
+                    n_file = self.get_file_len(input_files)  # Initialize n_file
                 else:
-                    if n_file != self.get_file_len(file_input):  # Left is previous, right is current loop
+                    if n_file != self.get_file_len(input_files):  # Left is previous, right is current loop
                         raise ValueError(f"The number of files in each modalities in {gk} is not equal, check your inputs")
                         return
-                n_file = self.get_file_len(file_input)  # Update n_file
+                n_file = self.get_file_len(input_files)  # Update n_file
 
                 # Check the number of targets in each modalities is equal to the number of files          
                 # If the type of targets is list, and number of files are not equal to targets, then raise error
@@ -530,77 +530,94 @@ class DataLoader(BaseMachineLearning):
                 modality = self.data_loading.get(gk).get("modalities").get(mk)
                
                 # Get file
-                file_input = modality.get("file")
-                n_file = self.get_file_len(file_input)
-                if len(file_input) == 1:
+                # If only input one file for one modality in a given group, then I think the file contained multiple cases' data
+                input_files = modality.get("file")
+                n_file = self.get_file_len(input_files)
+                if len(input_files) == 1:
                     one_file_per_modality = True
                 else:
                     one_file_per_modality = False
                 
-                # Get cases' name in this modality
-                # The file name must contain r'.*(sub.?[0-9].*).*'
-                # TODD: BIDS format
-                subj_name = self.extract_id(file_input, n_file)
+                # Get Features
+                all_features = self.read_file(input_files, False)
+                if one_file_per_modality:
+                    all_features_ = list(all_features)[0]
+                    all_features = [all_features_]  # 
+                else:
+                    all_features_ = None
+                
+
+                # Get cases' name (unique ID) in this modality
+                # If one_file_per_modality = False, then each file name must contain r'.*(sub.?[0-9].*).*'
+                # If one_file_per_modality = True and all_features_ is DataFrame, then the DataFrame must have header of "__ID__" which contain the subj_name
+                if isinstance(all_features_, pd.core.frame.DataFrame) and ("__ID__" not in all_features_.columns):
+                    raise ValueError(f"The dataset of {input_files} did not have '__ID__' column, check your dataset")
+                elif isinstance(all_features_, pd.core.frame.DataFrame) and ("__ID__" in all_features_.columns):
+                    subj_name = pd.DataFrame(all_features_["__ID__"])
+                else:
+                    subj_name = self.extract_id(input_files, n_file)
+                    
+                # Delete "__ID__" header of all_features if it have dataframe
+                all_features = self.del_id(all_features, input_files)
                 
                 # Sort targets and check
                 if (isinstance(targets[gk],int)):
                     targets[gk] = [targets[gk] for ifile in range(n_file)]
                     targets[gk] = pd.DataFrame(targets[gk])
-                    targets[gk]["ID"] = subj_name["ID"]
-                    targets[gk].rename(columns={0: "__targets__"}, inplace=True)
-                else:
-                    if not isinstance(targets[gk], pd.core.frame.DataFrame):
-                        targets[gk] = pd.DataFrame(targets[gk])                    
-                    if one_file_per_modality:
-                        self.targets[gk]["ID"] = subj_name["ID"]
-                    elif (not one_file_per_modality) and ("ID" not in targets[gk].columns):
-                        raise ValueError(f"The targets of {gk} did not have 'ID' column, check your targets")
-                        return                      
-                targets[gk] = pd.merge(subj_name, targets[gk], left_on="ID", right_on="ID", how='inner')
+                    targets[gk]["__ID__"] = subj_name["__ID__"]
+                    targets[gk].rename(columns={0: "__Targets__"}, inplace=True)
+                elif not isinstance(targets[gk], pd.core.frame.DataFrame):
+                    targets[gk] = pd.DataFrame(targets[gk]) 
+                    targets[gk]["__ID__"] = subj_name["__ID__"]
+                    targets[gk].rename(columns={0: "__Targets__"}, inplace=True)
+                elif isinstance(targets[gk], pd.core.frame.DataFrame) and ("__ID__" not in targets[gk].columns):
+                    raise ValueError(f"The targets of {gk} did not have '__ID__' column, check your targets")
+                    return                      
+                targets[gk] = pd.merge(subj_name, targets[gk], left_on="__ID__", right_on="__ID__", how='inner')
                 if targets[gk].shape[0] != n_file:
                         raise ValueError(f"The subjects' ID in targets is not totally matched with its' data file name in {mk} of {gk} , check your ID in targets or check your data file name")
                         return
 
                 # Sort covariates and check                
-                if (not isinstance(self.covariates_[gk],int)): 
-                    if one_file_per_modality:
-                        self.covariates_[gk]["ID"] = subj_name["ID"]
-                    if ("ID" not in self.covariates_[gk].columns):
+                if (not isinstance(self.covariates_[gk],int)):  # User have given covariates
+                    if not isinstance(self.covariates_[gk], pd.core.frame.DataFrame): 
+                            self.covariates_[gk] = pd.DataFrame(self.covariates_[gk])  
+                            self.covariates_[gk]["__ID__"] = subj_name["__ID__"]
+                    elif isinstance(self.covariates_[gk], pd.core.frame.DataFrame) and ("__ID__" not in self.covariates_[gk].columns):
                         raise ValueError(f"The covariates of {gk} did not have 'ID' column, check your covariates")
                         return 
-                    else:
-                        self.covariates_[gk] = pd.merge(subj_name, self.covariates_[gk], left_on="ID", right_on="ID") 
-                        if self.covariates_[gk].shape[0] != n_file:
-                            raise ValueError(f"The subjects' ID in covariates is not totally matched with its' data file name in {mk} of {gk} , check your ID in covariates or check your data file name")
-                            return 
-                        if jm == 0:
-                            # Get columns for drop (Remain 'ID' for matching)
-                            columns_of_covariates = list(set(self.covariates_[gk].columns) - set(["ID"]))
-                            [self.covariates_[gk].rename(columns={colname: f"__{colname}__"}, inplace=True) for colname in columns_of_covariates]
-                            col_drop[gk] = list((set(self.covariates_[gk].columns) | set(targets[gk].columns)) ^ set(["ID"]))
+                    
+                    self.covariates_[gk] = pd.merge(subj_name, self.covariates_[gk], left_on="__ID__", right_on="__ID__") 
+                    if self.covariates_[gk].shape[0] != n_file:
+                        raise ValueError(f"The subjects' ID in covariates is not totally matched with its' data file name in {mk} of {gk} , check your ID in covariates or check your data file name")
+                        return 
+                    if jm == 0:
+                        # Get columns for drop (Remain 'ID' for matching)
+                        columns_of_covariates = list(set(self.covariates_[gk].columns) - set(["__ID__"]))
+                        [self.covariates_[gk].rename(columns={colname: f"__{colname}__"}, inplace=True) for colname in columns_of_covariates]
+                        col_drop[gk] = list((set(self.covariates_[gk].columns) | set(targets[gk].columns)) ^ set(["__ID__"]))
                            
-                # Get Features
-                # If only input one file for one modality in a given group, then I think the file contained multiple cases' data
-                feature_all = self.read_file(file_input, False)
-                
                 # Mask
                 mask_input = modality.get("mask")
                 self.mask_[gk][mk] = self.base_read(mask_input)
                 if not isinstance(self.mask_[gk][mk], int):  # If mask is empty then give 0 to mask
                    self.mask_[gk][mk] = self.mask_[gk][mk] != 0
                    # Apply mask
-                   feature_applied_mask = [fa[self.mask_[gk][mk]] for fa in feature_all]
+                   feature_applied_mask = [fa[self.mask_[gk][mk]] for fa in all_features]
                    feature_applied_mask = np.array(feature_applied_mask)
                 else:
-                   feature_applied_mask = [fa for fa in feature_all]
+                   feature_applied_mask = [fa for fa in all_features]
                    feature_applied_mask = np.array(feature_applied_mask)
                    feature_applied_mask = feature_applied_mask.reshape(n_file,-1)
-                   
+                
+                # Handle extreme values
+                feature_applied_mask = self.handle_extreme(feature_applied_mask, input_files)
+
                 # Add subj_name, targets and covariates to features for matching datasets across modalities in the same group 
                 if (not isinstance(self.covariates_[gk],int)): 
-                    feature_applied_mask_and_add_otherinfo[gk][mk] = pd.concat([subj_name, targets[gk]["__targets__"], self.covariates_[gk].drop(["ID"], axis=1,inplace=False), pd.DataFrame(feature_applied_mask)], axis=1)  
+                    feature_applied_mask_and_add_otherinfo[gk][mk] = pd.concat([subj_name, targets[gk]["__Targets__"], self.covariates_[gk].drop(["__ID__"], axis=1,inplace=False), pd.DataFrame(feature_applied_mask)], axis=1)  
                 else:
-                    feature_applied_mask_and_add_otherinfo[gk][mk] = pd.concat([subj_name, targets[gk]["__targets__"], pd.DataFrame(feature_applied_mask)], axis=1)  
+                    feature_applied_mask_and_add_otherinfo[gk][mk] = pd.concat([subj_name, targets[gk]["__Targets__"], pd.DataFrame(feature_applied_mask)], axis=1)  
                 
                 # Check whether the feature dimensions of the same modalities in different groups are equal
                 shape_of_data[gk][mk] = feature_applied_mask.shape
@@ -609,8 +626,8 @@ class DataLoader(BaseMachineLearning):
                 else:
                     if shape_of_data[gk_pre][mk][-1] != shape_of_data[gk][mk][-1]:
                         raise ValueError(f"Feature dimension of {mk} in {gk_pre} is {shape_of_data[gk_pre][mk][-1]} which is not equal to {mk} in {gk}: {shape_of_data[gk][mk][-1]}, check your inputs")
-                        return                
-            
+                        return 
+                
             # Update gk_pre for check feature dimension
             gk_pre = gk            
                 
@@ -624,7 +641,7 @@ class DataLoader(BaseMachineLearning):
                     feature_sorted = feature_applied_mask_and_add_otherinfo[gk][mk]
                 if mi != 0:
                     feature_for_concat = feature_applied_mask_and_add_otherinfo[gk][mk].drop(col_drop[gk], axis=1)
-                    feature_sorted = pd.merge(feature_sorted, feature_for_concat, left_on="ID", right_on="ID", how="left")
+                    feature_sorted = pd.merge(feature_sorted, feature_for_concat, left_on="__ID__", right_on="__ID__", how="left")
                     feature_sorted.drop(self.covariates_[gk].columns, axis=1, inplace=True)
             
             # Concat feature across different group
@@ -633,25 +650,67 @@ class DataLoader(BaseMachineLearning):
             else:
                 self.features_ = pd.concat([self.features_, feature_sorted], axis=0)
             
-        self.targets_ = self.features_["__targets__"].values
-        self.features_.drop(["__targets__", "ID"], axis=1, inplace=True)
+        self.targets_ = self.features_["__Targets__"].values
+        self.features_.drop(["__Targets__", "__ID__"], axis=1, inplace=True)
         self.features_ =  self.features_.values
         return self
        
     #%% -----------------------------utilts------------------------------------
+
     def get_file_len(self, files):
-        """If the files lenght is 1, then the length is the lenght of content of the files
+        """If the files lenght is 1, then the length is the length of content of the files
         """
         
         file_len = len(files)
         if file_len == 1:
-            feature_all = self.read_file(files, False)
-            feature_all = [fe for fe in feature_all][0]
-            file_len = len(feature_all)
+            all_features = self.read_file(files, False)
+            all_features = [fe for fe in all_features][0]
+            file_len = len(all_features)
         return file_len
+        
+    def del_id(self, all_features, input_files):
+        """Delete "__ID__" in each DataFrame in all_features
+
+        At last, the all_features contains only the feature
+        """
+        
+        all_features_ = list()
+        for df, file in zip(all_features, input_files):
+            if isinstance(df, pd.core.frame.DataFrame) and ("__ID__" not in df.columns):
+                raise ValueError(f"The dataset of {file} did not have '__ID__' column, check your dataset")
+            elif isinstance(df, pd.core.frame.DataFrame) and ("__ID__" in df.columns):
+                df.drop("__ID__", axis=1, inplace=True)
+                all_features_.append(df)
+            else:
+                all_features_.append(df)
+                
+        return all_features_
     
-    def read_file(self, file_input, to1d=False):  
-        data = (self.base_read(file, to1d) for file in file_input)
+    def handle_extreme(self, all_features, input_files):
+        """ Handle extreme values
+        
+        Currently, we fillna with median
+        TODO: Add other extreme values' handling methods
+
+        Parameters: 
+        ----------
+        all_features: DataFrame or ndarray
+            all features
+
+        Return:
+        ------
+        all_features: DataFrames
+            all features that be handled extreme values
+        """
+        
+        if not isinstance(all_features, pd.core.frame.DataFrame):
+            all_features = pd.DataFrame(all_features)
+        if all_features.isna().any().sum() > 0:
+            all_features = all_features.fillna(all_features.median())
+        return all_features
+
+    def read_file(self, input_files, to1d=False):  
+        data = (self.base_read(file, to1d) for file in input_files)
         return data
 
     def read_targets(self, targets_input):
@@ -731,7 +790,7 @@ class DataLoader(BaseMachineLearning):
         return data
 
     @ staticmethod
-    def read_txt(file):
+    def read_csv(file):
         data = pd.read_csv(file)
         
         # If data is symmetric matrix, then only extract triangule matrix
@@ -764,7 +823,7 @@ class DataLoader(BaseMachineLearning):
         else:
             subj_name = [f"sub-{i}" for i in range(n_file)]
         subj_name = pd.DataFrame(subj_name)
-        subj_name.columns = ["ID"]
+        subj_name.columns = ["__ID__"]
         return subj_name
 
 
