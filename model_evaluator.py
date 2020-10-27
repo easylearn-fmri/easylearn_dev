@@ -199,6 +199,8 @@ class ModelEvaluator():
                 
                 if is_showfig:
                     plt.show()
+                    plt.pause(5)
+                    plt.close()
 
         return accuracy, sensitivity, specificity, auc, confusion_matrix_values
 

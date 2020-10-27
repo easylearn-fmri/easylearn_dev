@@ -256,8 +256,8 @@ class BaseMachineLearning(object):
     def get_model_evaluation_parameters(self):
         self.method_model_evaluation_ = None
         self.param_model_evaluation_ = {}
-        self.Statistical_analysis = self.configuration.get('model_evaluation', {}).get("Statistical_analysis", None)
-        if self.Statistical_analysis:
+        self.statistical_analysis = self.configuration.get('model_evaluation', {}).get("Statistical_analysis", None)
+        if self.statistical_analysis:
             self.configuration.get('model_evaluation', {}).pop("Statistical_analysis")
         model_evaluation = self.configuration.get('model_evaluation', None)
         
@@ -292,7 +292,16 @@ class BaseMachineLearning(object):
         return self
 
     def get_statistical_analysis_parameters(self):
-        self.Statistical_analysis = self.configuration.get('model_evaluation', {}).get("Statistical_analysis", None)
+        self.method_statistical_analysis_ = list(self.statistical_analysis.keys())[0]
+        # parameters
+        # FIX the logical and extending to...
+        self.param_statistical_analysis_ = None
+        for key1 in self.statistical_analysis.keys():
+            for key2 in self.statistical_analysis.get(key1, {}).keys():
+                for key3 in self.statistical_analysis[key1].get(key2, {}).keys():
+                    self.param_statistical_analysis_ = self.statistical_analysis.get(key1, {}).get(key2, {}).get(key3, {})
+                    self.param_statistical_analysis_ = self.security_eval(self.param_statistical_analysis_)
+                
         return self
 
     def get_visualization_parameters(self):
@@ -306,6 +315,7 @@ class BaseMachineLearning(object):
         self.get_unbalance_treatment_parameters()
         self.get_machine_learning_parameters()
         self.get_model_evaluation_parameters()
+        self.get_statistical_analysis_parameters()
         return self
 
 
@@ -421,11 +431,14 @@ class BaseMachineLearning(object):
             if dictionary[key] and len(dictionary[key]) > 1:
                 is_search = True
                 break
-    
         return is_search
     
     @staticmethod
     def parse_search_params(dictionary):
+        """ When just using pipeline and not search parameters
+        I use 'set_params' to set parameters for pipeline to save running time.       
+        """
+
         mapping = {}
         for key in dictionary:
             mapping.update({key.split("__")[1]:dictionary[key][0]})
@@ -839,6 +852,7 @@ if __name__ == '__main__':
     base.get_unbalance_treatment_parameters()
     base.get_machine_learning_parameters()
     base.get_model_evaluation_parameters()
+    base.get_statistical_analysis_parameters()
     
 
     print(base.method_feature_preprocessing_)
@@ -858,5 +872,8 @@ if __name__ == '__main__':
 
     print(base.method_model_evaluation_)
     print(base.param_model_evaluation_)
+
+    print(base.method_statistical_analysis_)
+    print(base.param_statistical_analysis_)
 
     

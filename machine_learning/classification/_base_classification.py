@@ -60,8 +60,8 @@ class BaseClassification(AbstractSupervisedMachineLearningBase):
         self.weights_ = None
         self.weights_norm_ = None
 
-    @timer
-    def fit_(self, x=None, y=None):
+    # @timer 
+    def fit_(self, pipeline, x=None, y=None):
         """Fit the pipeline_"""
         
         # TODO: Extending to other cross-validation methods
@@ -71,30 +71,26 @@ class BaseClassification(AbstractSupervisedMachineLearningBase):
         if self.is_search:
             if self.search_strategy == 'grid':
                 self.model_ = GridSearchCV(
-                    self.pipeline_, n_jobs=self.n_jobs, param_grid=self.param_search_, cv=cv, 
+                    pipeline, n_jobs=self.n_jobs, param_grid=self.param_search_, cv=cv, 
                     scoring = make_scorer(self.metric), refit=True
                 )
             elif self.search_strategy == 'random':
                 self.model_ = RandomizedSearchCV(
-                    self.pipeline_, n_jobs=self.n_jobs, param_distributions=self.param_search_, cv=cv, 
+                    pipeline, n_jobs=self.n_jobs, param_distributions=self.param_search_, cv=cv, 
                     scoring = make_scorer(self.metric), refit=True, n_iter=self.n_iter_of_randomedsearch,
                 )
             else:
                 print("Please specify which search strategy!\n")
                 return
         else:
-            self.model_ = self.pipeline_
+            self.model_ = pipeline
         
-        # start = time.time()
         self.model_.fit(x, y)
-        # end = time.time()
-        # print(end - start)
-
         # Delete the temporary cache before exiting
         self.memory.clear(warn=False)
         return self
     
-    def predict(self, x):
+    def predict_(self, x):
         # TODO: extend this to multiple-class classification
 
         y_pred = self.model_.predict(x)
@@ -171,6 +167,5 @@ class BaseClassification(AbstractSupervisedMachineLearningBase):
         self.weights_norm_ = StandardScaler().fit_transform(self.weights_.T).T
         
         
-
 if __name__=="__main__":
     baseclf = BaseClassification()
