@@ -175,8 +175,8 @@ class ModelEvaluator():
             
             # Plot calibration curve
             if auc is not None:
-                predict_prob = (predict_prob - predict_prob.min()) / (predict_prob.max() - predict_prob.min())
-                fraction_of_positives, mean_predicted_value = calibration_curve(true_label, predict_prob, n_bins=5)
+                # predict_prob = (predict_prob - predict_prob.min()) / (predict_prob.max() - predict_prob.min())
+                fraction_of_positives, mean_predicted_value = calibration_curve(true_label, predict_prob, n_bins=10, normalize=True)
                 ax[1][1].plot([0, 1], [0, 1], "k:", label="Perfectly calibrated")
                 ax[1][1].plot(mean_predicted_value, fraction_of_positives, "s-", color="k")
                 # Setting
@@ -203,6 +203,7 @@ class ModelEvaluator():
                     plt.close()
 
         return accuracy, sensitivity, specificity, auc, confusion_matrix_values
+
 
 if __name__ == "__main__":
     pass

@@ -380,7 +380,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         if (bool(self.selected_group) & bool(self.selected_modality)):
             self.loaded_files, filetype = QFileDialog.getOpenFileNames(self,  
                                     "Select files",  old_dir, 
-                                    "Nifti Files (*.nii);;Matlab Files (*.mat);;Excel Files (*.xlsx);;Excel Files (*.xls);;Text Files (*.txt);;All Files (*)"
+                                    "All Files (*);;Nifti Files (*.nii);;Matlab Files (*.mat);;Excel Files (*.xlsx);;Excel Files (*.xls);;Text Files (*.txt)"
             )
             
             self.data_loading[self.selected_group]["modalities"][self.selected_modality]["file"].extend(self.loaded_files)
@@ -469,7 +469,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         """
 
         # Get previous directory
-        if self.loaded_files:
+        if self.loaded_targets_and_covariates:
             old_dir = os.path.dirname(self.loaded_targets_and_covariates[0])
         else:
             if self.working_directory:
