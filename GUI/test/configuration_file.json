@@ -176,11 +176,7 @@
             }
         },
         "Statistical_analysis": {
-            "Permutation test": {
-                "N": {
-                    "value": "10"
-                }
-            }
+            "Binomial test": {}
         }
     }
 }

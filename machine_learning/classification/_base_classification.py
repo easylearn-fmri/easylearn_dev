@@ -45,13 +45,13 @@ class BaseClassification(AbstractSupervisedMachineLearningBase):
 
     def __init__(self,
                 search_strategy='grid', 
-                k=2, 
+                gridcv_k=3, 
                 metric=accuracy_score, 
                 n_iter_of_randomedsearch=10, 
                 n_jobs=2):
 
         self.search_strategy = search_strategy
-        self.k = k
+        self.gridcv_k = gridcv_k
         self.metric = metric
         self.n_iter_of_randomedsearch = n_iter_of_randomedsearch
         self.n_jobs = n_jobs
@@ -60,14 +60,14 @@ class BaseClassification(AbstractSupervisedMachineLearningBase):
         self.weights_ = None
         self.weights_norm_ = None
 
-    # @timer 
+    @timer 
     def fit_(self, pipeline, x=None, y=None):
         """Fit the pipeline_"""
         
         # TODO: Extending to other cross-validation methods
         # TODO: when no param's length greater than 1, do not use GridSearchCV or RandomizedSearchCV for speeding up
         
-        cv = StratifiedKFold(n_splits=self.k, random_state=0, shuffle=True)  # Default is StratifiedKFold
+        cv = StratifiedKFold(n_splits=self.gridcv_k, random_state=0, shuffle=True)  # Default is StratifiedKFold
         if self.is_search:
             if self.search_strategy == 'grid':
                 self.model_ = GridSearchCV(

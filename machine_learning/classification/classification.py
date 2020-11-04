@@ -5,6 +5,7 @@ import time
 import os
 import numpy as np
 from collections import Counter
+import pickle
 
 from eslearn.base import DataLoader
 from eslearn.machine_learning.classification._base_classification import BaseClassification
@@ -35,14 +36,17 @@ class Classification(DataLoader, BaseClassification):
         self.real_specificity = []
         self.real_auc = []
         self.pred_label = []
-        self.decision = []
-        self.weights = []
+        decision = []
+        weights = []
         self.target_test_all = []
+        subname = []
         for train_index, test_index in self.method_model_evaluation_ .split(self.features_, self.targets_):
             feature_train = self.features_[train_index, :]
             feature_test = self.features_[test_index, :]
             target_train = self.targets_[train_index]
             target_test = self.targets_[test_index]
+            subname_ = self.id_[test_index]
+            subname.extend(subname_)
             self.target_test_all.extend(target_test)
 
             # Resample
@@ -54,7 +58,7 @@ class Classification(DataLoader, BaseClassification):
             # Fit
             self.fit_(self.pipeline_, feature_train, target_train)
             
-            # Get weights
+            #weights
             self.get_weights_(feature_train, target_train)
             
             # Predict
@@ -72,13 +76,13 @@ class Classification(DataLoader, BaseClassification):
             self.real_specificity.append(spec)
             self.real_auc.append(auc_)
             self.pred_label.extend(y_pred)
-            self.decision.extend(y_prob)
-            self.weights.append(self.weights_)
+            decision.extend(y_prob)
+            weights.append(self.weights_)
          
         # Eval performances for all fold
         out_name = os.path.join(self.out_dir, "classification_performances.pdf")
         acc, sens, spec, auc, _ = ModelEvaluator().binary_evaluator(
-            self.target_test_all, self.pred_label, self.decision,
+            self.target_test_all, self.pred_label, decision,
             accuracy_kfold=self.real_accuracy, 
             sensitivity_kfold=self.real_sensitivity, 
             specificity_kfold=self.real_specificity, 
@@ -86,6 +90,21 @@ class Classification(DataLoader, BaseClassification):
             verbose=1, is_showfig=True, is_savefig=True, legend1='Controls', legend2='Patients', out_name=out_name
         )
 
+        # Stat
+        print("Statistical analysis...\n")
+        self.run_statistical_analysis()
+        
+        # Save outputs
+        outputs = { "subname": subname, "test_targets": self.target_test_all, "test_prediction": self.pred_label, 
+                    "test_probability": decision, "accuracy": self.real_accuracy,
+                    "sensitivity": self.real_sensitivity, "specificity":self.real_specificity, 
+                    "weights": weights, "auc": self.real_auc, 
+                    "pvalue_acc": self.pvalue_acc, "pvalue_sens": self.pvalue_sens, 
+                    "pvalue_spec": self.pvalue_spec, "pvalue_auc": self.pvalue_auc
+        }
+
+        pickle.dump(outputs, open(os.path.join(self.out_dir, "outputs.pickle"), "wb"))
+        
         return self
 
     def run_statistical_analysis(self):
@@ -95,7 +114,12 @@ class Classification(DataLoader, BaseClassification):
     def binomial_test(self):
         k = np.sum(np.array(self.target_test_all) - np.array(self.pred_label)==0)
         n = len(self.target_test_all)
-        self.p, sum_prob, prob, randk = el_binomialtest.binomialtest(n, k, 0.5, 0.5)
+        self.pvalue_acc, sum_prob, prob, randk = el_binomialtest.binomialtest(n, k, 0.5, 0.5)
+        self.pvalue_auc = None
+        self.pvalue_sens = None
+        self.pvalue_spec = None
+        print(f"p value for acc = {self.pvalue_acc:.3f}")
+        return self
 
     def permutation_test(self):
         print(f"Permutation test: {self.param_statistical_analysis_} times...\n")
@@ -113,7 +137,7 @@ class Classification(DataLoader, BaseClassification):
             sensitivity = []
             specificity = []
             auc = []
-            pred_label = []
+            self.pred_label = []
             decision = []
             weights = []
             self.target_test_all = []
@@ -133,7 +157,7 @@ class Classification(DataLoader, BaseClassification):
                 # Fit
                 self.fit_(self.pipeline_, feature_train, permuted_target_train)
                 
-                # Get weights
+                #weights
                 self.get_weights_(feature_train, permuted_target_train)
                 
                 # Predict
@@ -150,7 +174,7 @@ class Classification(DataLoader, BaseClassification):
                 sensitivity.append(sens)
                 specificity.append(spec)
                 auc.append(auc_)
-                pred_label.extend(y_pred)
+                self.pred_label.extend(y_pred)
                 decision.extend(y_prob)
                 weights.append(self.weights_)
              
@@ -165,7 +189,8 @@ class Classification(DataLoader, BaseClassification):
         self.pvalue_sens = self.calc_pvalue(self.permuted_sensitivity, np.mean(self.real_sensitivity))
         self.pvalue_spec = self.calc_pvalue(self.permuted_specificity, np.mean(self.real_specificity))
         self.pvalue_auc = self.calc_pvalue(self.permuted_auc, np.mean(self.real_auc))
-
+        
+        print(f"p value for acc = {self.pvalue_acc:.3f}")
         return self
 
     @staticmethod
@@ -175,8 +200,8 @@ class Classification(DataLoader, BaseClassification):
 
 if __name__ == "__main__":
     time_start = time.time()
-    clf = Classification(configuration_file=r'D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\test\configuration_file.json', 
-                         out_dir=r"D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\test") 
+    clf = Classification(configuration_file=r'F:\耿海洋workshop\demo_data\szVShc.json', 
+                         out_dir=r"F:\耿海洋workshop\demo_data") 
     clf.main_run()
     time_end = time.time()
     print(clf.param_search_)
@@ -185,3 +210,5 @@ if __name__ == "__main__":
     print("="*50)
     
     clf.run_statistical_analysis()
+    
+    

@@ -467,7 +467,8 @@ class DataLoader(BaseMachineLearning):
         
         # Generate type2fun dictionary
         # TODO: Extended to handle other formats
-        self.type2fun = {".nii": self.read_nii, 
+        self.type2fun = {
+                    ".nii": self.read_nii, 
                     ".mat": self.read_mat, 
                     ".txt": self.read_csv,
                     ".csv": self.read_csv,
@@ -612,6 +613,8 @@ class DataLoader(BaseMachineLearning):
                            
                 # Mask
                 mask_input = modality.get("mask")
+                # TODO: Do not only extract triangule matrix when read mask file
+                # Current code may raise error in future if mask is .csv or .mat file.
                 self.mask_[gk][mk] = self.base_read(mask_input)
                 if not isinstance(self.mask_[gk][mk], int):  # If mask is empty then give 0 to mask
                    self.mask_[gk][mk] = self.mask_[gk][mk] != 0
@@ -662,7 +665,8 @@ class DataLoader(BaseMachineLearning):
                 self.features_ = feature_sorted 
             else:
                 self.features_ = pd.concat([self.features_, feature_sorted], axis=0)
-            
+        
+        self.id_ = self.features_["__ID__"].values
         self.targets_ = self.features_["__Targets__"].values
         self.features_.drop(["__Targets__", "__ID__"], axis=1, inplace=True)
         self.features_ =  self.features_.values
@@ -723,6 +727,9 @@ class DataLoader(BaseMachineLearning):
         return all_features
 
     def read_file(self, input_files, to1d=False):  
+        """Read all input files
+        """
+
         data = (self.base_read(file, to1d) for file in input_files)
         return data
 

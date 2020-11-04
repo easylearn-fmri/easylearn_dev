@@ -25,11 +25,11 @@ from PyQt5.Qt import QCoreApplication
 from PyQt5.Qt import QThread
 from PyQt5.QtCore import pyqtSignal, QMutex
 
-from easylearn_main_gui import Ui_MainWindow
-from easylearn_data_loading_run import EasylearnDataLoadingRun
-from easylearn_feature_engineering_run import EasylearnFeatureEngineeringRun
-from easylearn_machine_learning_run import EasylearnMachineLearningRun
-from easylearn_model_evaluation_run import EasylearnModelEvaluationRun
+from eslearn.GUI.easylearn_main_gui import Ui_MainWindow
+from eslearn.GUI.easylearn_data_loading_run import EasylearnDataLoadingRun
+from eslearn.GUI.easylearn_feature_engineering_run import EasylearnFeatureEngineeringRun
+from eslearn.GUI.easylearn_machine_learning_run import EasylearnMachineLearningRun
+from eslearn.GUI.easylearn_model_evaluation_run import EasylearnModelEvaluationRun
 from eslearn.stylesheets.PyQt5_stylesheets import PyQt5_stylesheets
 from eslearn.base import BaseMachineLearning
 from eslearn.machine_learning.classification.classification import Classification
@@ -270,7 +270,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
             out_dir = self.working_directory if self.working_directory else os.path.dirname(self.configuration_file)
             model = which_ml_type_dict[ml_type](configuration_file=self.configuration_file, out_dir=out_dir)
             model.main_run()
-            # self.run = Run(which_ml_type_dict[ml_type], self.configuration_file)
+            # self.run = Run(which_ml_type_dict[ml_type], self.configuration_file, out_dir)
             # self.run.start()   
 
     def closeEvent(self, event):
@@ -309,10 +309,11 @@ class Run(QThread):
     run_signal = pyqtSignal(str)
     
 
-    def __init__(self, ml_model, configuration_file):
+    def __init__(self, ml_model, configuration_file, out_dir):
         super().__init__()
         self.ml_model = ml_model
         self.configuration_file = configuration_file
+        self.out_dir = out_dir
         self.run_mut = QMutex()
 
     def run(self):
@@ -322,16 +323,18 @@ class Run(QThread):
         """
         
         self.run_mut.lock()
-        model = self.ml_model(self.configuration_file)
+        model = self.ml_model(self.configuration_file, self.out_dir)
         model.main_run()
         self.run_mut.unlock()
         # self.run_signal.emit("Finished!")
 
-
-if __name__=='__main__':
+def main():
     app=QApplication(sys.argv)
     md=EasylearnMainGUI()
     md.show()
     sys.exit(app.exec_())
     input()
+
+if __name__=='__main__':
+    main()
 

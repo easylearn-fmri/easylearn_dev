@@ -2,14 +2,18 @@
 """
 Created on Tue Nov  3 16:23:07 2020
 
-@author: lenovo
+@author: Li Chao
 """
 
+import os
 import pandas as pd
 import rpy2.robjects as robjects
+from rpy2.robjects import pandas2ri
+
+pandas2ri.activate()
 
 
-def plot_nomogram(data_file, label="label", features=["FrequencySize", "MaxIntensity"]):
+def plot_nomogram(data_file, label="label", features=["Sex", "Age"]):
     """Plot nomogram using R language
 
     Parameters:
@@ -30,24 +34,50 @@ def plot_nomogram(data_file, label="label", features=["FrequencySize", "MaxInten
     data_ = data[cols]
     data_.rename(columns={label: "label"}, inplace=True)
     
-    rfun = """
-        nomo <- function(data){
-            data = as.data.frame(data)
-            dd=datadist(data)
-            options(datadist="dd") 
-            
-            f1 = label ~ .
-            f <- glm(f1, family = binomial(), data = data)
-            
-            nom <- nomogram(f, fun=plogis, lp=F, funlabel="Risk")
-            plot(nom)
+    indep = list(data_.columns)
+    indep.remove(label)
+    indep = "+".join(indep)
+    format_str = label + " ~ "  + indep
+    
+    rfolder = os.path.dirname(__file__)
+    # print(rfolder)
 
+    
+    rscript = """
+        nomo <- function(data, format_str, rfolder){
+            
+            dd=datadist(data)
+            options(datadist="dd")
+            # setwd("D:/My_Codes/virtualenv_eslearn/Lib/site-packages/eslearn/R")
+            setwd(rfolder)
+            source("nomograph.R")
+            nomo(data, format_str)
         }
+        """
+    
+    rs = r"""
+        library(readxl)
+        source("datadist")
+        # setwd("D:/My_Codes/virtualenv_eslearn/Lib/site-packages/eslearn/R")
+        # source("nomograph.R")
+        
+        data <- read_excel('D:/My_Codes/lc_private_codes/R/demo_data1.xlsx', sheet = 1)
+        dd=datadist(data)
+        options(datadist="dd")
+        # format_str = "label ~ Sex + Age"
+        # nomo(data, format_str)
     """
     
-    robjects.r['nomo'](data_)
+    robjects.globalenv['data_'] = data_
+    # robjects.r["nomo"](data_, format_str)
+    robjects.r(rs)
+    
+    # os.chdir(cwd)
 
 
 if __name__ ==  "__main__":
     data_file = 'D:/My_Codes/lc_private_codes/R/demo_data.xlsx'
     data = plot_nomogram(data_file)
+    
+
+    
