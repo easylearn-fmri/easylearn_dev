@@ -399,7 +399,8 @@ class BaseMachineLearning(object):
             if self.method_feature_preprocessing_:
                 self.pipeline_.set_params(**{'feature_preprocessing':self.method_feature_preprocessing_[0]})
             if self.param_feature_preprocessing_:   
-                self.pipeline_['feature_preprocessing'].set_params(self.param_feature_preprocessing_)
+                mapping = self.parse_search_params(self.param_feature_preprocessing_)
+                self.pipeline_['feature_preprocessing'].set_params(**mapping)
                 
             if self.method_dim_reduction_:
                 self.pipeline_.set_params(**{'dim_reduction':self.method_dim_reduction_[0]})
@@ -423,7 +424,7 @@ class BaseMachineLearning(object):
     
     @staticmethod
     def get_is_search(dictionary):
-        """ Identify whether search params or just using pipeline
+        """ Identify whether search params (grid search or random search) or just using pipeline
         """
         
         is_search = False
@@ -445,7 +446,7 @@ class BaseMachineLearning(object):
         return mapping
             
       
-class DataLoader(BaseMachineLearning):
+class DataLoader():
     """Load datasets according to different data types and handle extreme values
 
     Parameters:
@@ -463,10 +464,12 @@ class DataLoader(BaseMachineLearning):
     """
     
     def __init__(self, configuration_file):
-        super(DataLoader, self).__init__(configuration_file)
+        # super(DataLoader, self).__init__(configuration_file)
         
         # Generate type2fun dictionary
         # TODO: Extended to handle other formats
+        self.configuration_file = configuration_file
+        
         self.type2fun = {
                     ".nii": self.read_nii, 
                     ".mat": self.read_mat, 
@@ -475,6 +478,15 @@ class DataLoader(BaseMachineLearning):
                     ".xlsx": self.read_excel,
                     ".xls": self.read_excel,
         }
+    
+    def get_configuration_(self):
+        """Get and parse the configuration file
+        """
+
+        with open(self.configuration_file, 'r', encoding='utf-8') as config:
+                    configuration = config.read()
+        self.configuration = json.loads(configuration)
+        return self
 
     def load_data(self):
         self.get_configuration_()
@@ -613,16 +625,17 @@ class DataLoader(BaseMachineLearning):
                            
                 # Mask
                 mask_input = modality.get("mask")
-                # TODO: Do not only extract triangule matrix when read mask file
-                # Current code may raise error in future if mask is .csv or .mat file.
+                # Do not extract triangule matrix when read mask file
                 self.mask_[gk][mk] = self.base_read(mask_input)
-                if not isinstance(self.mask_[gk][mk], int):  # If mask is empty then give 0 to mask
-                   self.mask_[gk][mk] = self.mask_[gk][mk] != 0
+                if not isinstance(self.mask_[gk][mk], int):  # If have mask
+                   # TODO:  Allow uses to set threshold for mask, now code only set zero threshold.
+                   self.mask_[gk][mk] = self.mask_[gk][mk] != 0 
                    # Apply mask
                    feature_applied_mask = [fa[self.mask_[gk][mk]] for fa in all_features]
                    feature_applied_mask = np.array(feature_applied_mask)
                 else:
                    feature_applied_mask = [fa for fa in all_features]
+                   feature_applied_mask, self.mask_[gk][mk] = self.get_upper_tri_mat(feature_applied_mask)
                    feature_applied_mask = np.array(feature_applied_mask)
                    feature_applied_mask = feature_applied_mask.reshape(n_file,-1)
                 
@@ -672,7 +685,7 @@ class DataLoader(BaseMachineLearning):
         self.features_ =  self.features_.values
         return self
        
-    #%% -----------------------------utilts------------------------------------
+    #%% ========================utilt functions========================-
 
     def get_file_len(self, files):
         """If the files lenght is 1, then the length is the length of content of the files
@@ -689,6 +702,13 @@ class DataLoader(BaseMachineLearning):
         """Delete "__ID__" in each DataFrame in all_features
 
         At last, the all_features contains only the feature
+
+        Parameters:
+        ----------
+        all_features: list of DataFrames or ndarray
+            All features
+
+        input_files: list of
         """
         
         all_features_ = list()
@@ -726,13 +746,6 @@ class DataLoader(BaseMachineLearning):
             all_features = all_features.fillna(all_features.median())
         return all_features
 
-    def read_file(self, input_files, to1d=False):  
-        """Read all input files
-        """
-
-        data = (self.base_read(file, to1d) for file in input_files)
-        return data
-
     def read_targets(self, targets_input):
         if (targets_input == []) or (targets_input == ''):
             return None
@@ -755,8 +768,16 @@ class DataLoader(BaseMachineLearning):
         else:
             return eval(targets_input)
 
+    def read_file(self, input_files, to1d=False):  
+        """Read all input files
+        """
+
+        data = (self.base_read(file, to1d) for file in input_files)
+        return data
+
+
     def base_read(self, file, to1d=False):
-        """Read data for one case
+        """Read one file
         
         Parameters:
         ----------
@@ -782,7 +803,7 @@ class DataLoader(BaseMachineLearning):
             suffix = os.path.splitext(filename)[-1]
             # Read
             data = self.type2fun[suffix](file)
-            
+
             if to1d:
                 data = np.reshape(data, [-1,])
                 
@@ -797,29 +818,11 @@ class DataLoader(BaseMachineLearning):
     @ staticmethod
     def read_mat(file):
         dataset_struct = io.loadmat(file)
-        data = dataset_struct[list(dataset_struct.keys())[3]]
-        
-        # If data is symmetric matrix, then only extract triangule matrix
-        if len(data.shape) == 2:
-            if data.shape[0] == data.shape[1]:                
-                data_ = data.copy()
-                data_[np.eye(data.shape[0]) == 1] = 0
-                if np.all(np.abs(data_-data_.T) < 1e-8):
-                    return data[np.triu(np.ones(data.shape),1)==1]
-        
-        return data
+        return dataset_struct[list(dataset_struct.keys())[3]]
 
     @ staticmethod
     def read_csv(file):
-        data = pd.read_csv(file)
-        
-        # If data is symmetric matrix, then only extract triangule matrix
-        if (len(data.shape) == 2) and (data.shape[0] == data.shape[1]):                
-                data_ = data.copy()
-                data_[np.eye(data.shape[0]) == 1] = 0
-                if np.all(np.abs(data_-data_.T) < 1e-8):
-                    return data[np.triu(np.ones(data.shape),1)==1]
-                                    
+        data = pd.read_csv(file)                    
         return data
 
     @ staticmethod
@@ -831,6 +834,44 @@ class DataLoader(BaseMachineLearning):
         data = pd.read_excel(file)
         return data
     
+    @ staticmethod
+    def get_upper_tri_mat(data):
+        """Get upper triangular matrix
+
+        If the matrix is symmetric, then I extract the upper triangular matrix.
+
+        Parameters:
+        ----------
+        data: list of ndarray or DataFrame
+
+        Return:
+        -------
+        data_: list of ndarray or DataFrame
+            data that the upper triangular matrix was extracted or the original data.
+            
+        mask: ndarray
+            Internal mask of data (mask sure that all item in data have the same dimension and type) 
+        """
+
+        # If data is symmetric matrix, then only extract upper triangule matrix
+        data_ = []
+        for dd in data:
+            dd_ = dd.copy()
+            if ((len(dd.shape) == 2) and (dd.shape[0] == dd.shape[1])):
+                dd_[np.eye(dd.shape[0]) == 1] = 0
+                if np.all(np.abs(dd_-dd_.T) < 1e-8):  
+                    mask = np.triu(np.ones(dd.shape),1) == 1
+                    data_.append(dd[mask])
+                else:
+                    mask = np.ones(np.shape(dd))
+                    data_.append(dd)
+            else:
+                mask = np.ones(np.shape(dd))
+                data_.append(dd)
+
+        return data_, mask
+            
+
     @staticmethod
     def extract_id(files, n_file):
         """Extract subject unique ID from file names

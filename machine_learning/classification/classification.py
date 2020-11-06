@@ -7,15 +7,16 @@ import numpy as np
 from collections import Counter
 import pickle
 
-from eslearn.base import DataLoader
+from eslearn.base import BaseMachineLearning, DataLoader
 from eslearn.machine_learning.classification._base_classification import BaseClassification
 from eslearn.model_evaluator import ModelEvaluator
 from eslearn.statistical_analysis import el_binomialtest
 
 
-class Classification(DataLoader, BaseClassification):
+class Classification(BaseMachineLearning, DataLoader, BaseClassification):
     
     def __init__(self, configuration_file, out_dir):
+        BaseMachineLearning.__init__(self, configuration_file)
         DataLoader.__init__(self, configuration_file)
         BaseClassification.__init__(self)
         self.out_dir = out_dir
@@ -204,8 +205,8 @@ if __name__ == "__main__":
                          out_dir=r"F:\耿海洋workshop\demo_data") 
     clf.main_run()
     time_end = time.time()
-    print(clf.param_search_)
-    print(clf.pipeline_)
+    # print(clf.param_search_)
+    # print(clf.pipeline_)
     print(f"Running time = {time_end-time_start}\n")
     print("="*50)
     

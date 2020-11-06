@@ -24,7 +24,7 @@ from eslearn.utils.timer import  timer
 warnings.filterwarnings("ignore", category=ConvergenceWarning, module="sklearn")
 
 
-class BaseClassification(AbstractSupervisedMachineLearningBase):
+class BaseClassification():
     """Base class for classification
 
     Parameters
