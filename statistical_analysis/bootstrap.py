@@ -43,10 +43,10 @@ def bootstrap(data, N, CI, func):
     k1 = int(N * a / 2)
     k2 = int(N * (1 - a / 2))
     auc_sample_arr_sorted = sorted(sample_result_arr)
-    lower_limit: float = auc_sample_arr_sorted[k1]
-    higher_limit: float = auc_sample_arr_sorted[k2]
+    lower_limit = auc_sample_arr_sorted[k1]
+    higher_limit = auc_sample_arr_sorted[k2]
 
-    return lower_limit: float, higher_limit: float
+    return lower_limit, higher_limit
 
 
 if __name__ == '__main__':

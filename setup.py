@@ -13,7 +13,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
-    name='easylearn',
+    name='eslearn',
     version='0.1.21.alpha',
     description=(
         'This project is designed for machine learning in resting-state fMRI field'

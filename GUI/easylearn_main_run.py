@@ -25,6 +25,7 @@ from PyQt5.Qt import QCoreApplication
 from PyQt5.Qt import QThread
 from PyQt5.QtCore import pyqtSignal, QMutex
 
+import eslearn
 from eslearn.GUI.easylearn_main_gui import Ui_MainWindow
 from eslearn.GUI.easylearn_data_loading_run import EasylearnDataLoadingRun
 from eslearn.GUI.easylearn_feature_engineering_run import EasylearnFeatureEngineeringRun
@@ -97,7 +98,8 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         self.actionClassic.triggered.connect(self.set_run_appearance)
 
     def start_process(self):
-        splash = QSplashScreen(QtGui.QPixmap("../logo/logo-upper.ico"))
+        root_dir = os.path.dirname(eslearn.__file__)
+        splash = QSplashScreen(QtGui.QPixmap(os.path.join(root_dir,"logo/logo-upper.ico")))
         splash.showMessage("... 0%", QtCore.Qt.AlignHCenter | QtCore.Qt.AlignBottom, QtCore.Qt.black)
         splash.resize(200,90)
         splash.show()
@@ -113,26 +115,34 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
             QtWidgets.qApp.processEvents()
 
     def set_run_appearance(self):
-        qss_logo = """#logo{background-color: black;
-                border: 2px solid white;
-                border-radius: 20px;
-                border-image: url('../logo/logo-lower.jpg');
-                }
-                #logo:hover {border-radius: 0px;}
-        """
+        winsep = "\\"
+        linuxsep = "/"
+        root_dir = os.path.dirname(eslearn.__file__)
+        root_dir = root_dir.replace(winsep, linuxsep)
+        logo_upper = os.path.join(root_dir, "logo/logo-upper.ico")
+        logo_lower = os.path.join(root_dir, "logo/logo-lower.jpg")
+        logo_run = os.path.join(root_dir, "logo/run.png")
+        logo_exit = os.path.join(root_dir,"logo/close.png")
+
+        logo_upper = logo_upper.replace(winsep, linuxsep)
+        logo_lower = logo_lower.replace(winsep, linuxsep)
+        logo_run = logo_run.replace(winsep, linuxsep)
+        logo_exit = logo_exit.replace(winsep, linuxsep)
+
+        qss_logo = "#logo{" + "border-image: url(" + logo_lower + ");}" + "#logo:hover {border-radius: 0px;}"
 
         self.logo.setStyleSheet(qss_logo)
         self.setWindowTitle('easylearn')
-        self.setWindowIcon(QIcon('../logo/logo-upper.jpg'))
+        self.setWindowIcon(QIcon(logo_upper))
 
         # Run Icon
-        self.run.setIcon(QIcon("../logo/run.png"));
-        self.run.setIconSize(QPixmap("../logo/run.png").size());
-        self.run.resize(QPixmap("../logo/run.png").size());
+        self.run.setIcon(QIcon(logo_run));
+        self.run.setIconSize(QPixmap(logo_run).size());
+        self.run.resize(QPixmap(logo_run).size());
         # Close Icon
-        self.quit.setIcon(QIcon("../logo/close.png"));
-        self.quit.setIconSize(QPixmap("../logo/close.png").size());
-        self.quit.resize(QPixmap("../logo/close.png").size())
+        self.quit.setIcon(QIcon(logo_exit));
+        self.quit.setIconSize(QPixmap(logo_exit).size());
+        self.quit.resize(QPixmap(logo_exit).size())
 
         # Skin
         sender = self.sender()
