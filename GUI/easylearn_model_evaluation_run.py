@@ -38,6 +38,7 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
         QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
+        self.root_dir = os.path.dirname(eslearn.__file__)
 
         # Initialization
         self.working_directory = working_directory
@@ -72,23 +73,25 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
         self.radioButton_binomialtest.clicked.connect(self.statistical_analysis_setting)
         self.radioButton_permutationtest.clicked.connect(self.statistical_analysis_setting)
 
-        # Skins
-        self.skins = {"Dark": "style_Dark", "Black": "style_black", "DarkOrange": "style_DarkOrange", 
-                    "Gray": "style_gray", "Blue": "style_blue", "Navy": "style_navy", "Classic": "style_Classic"}
-        self.actionDark.triggered.connect(self.set_run_appearance)
-        self.actionBlack.triggered.connect(self.set_run_appearance)
-        self.actionDarkOrange.triggered.connect(self.set_run_appearance)
-        self.actionGray.triggered.connect(self.set_run_appearance)
-        self.actionBlue.triggered.connect(self.set_run_appearance)
-        self.actionNavy.triggered.connect(self.set_run_appearance)
-        self.actionClassic.triggered.connect(self.set_run_appearance)
+        # Skin
+        self.skins = {"Dark": "style_Dark.qss", "Black": "style_black.css", "DarkOrange": "style_DarkOrange.qss", 
+                    "Gray": "style_gray.css", "Blue": "style_blue.css", "Navy": "style_navy.css", "Classic": "style_Classic.qss"}
+        self.actionDark.triggered.connect(self.change_skin)
+        self.actionBlack.triggered.connect(self.change_skin)
+        self.actionDarkOrange.triggered.connect(self.change_skin)
+        self.actionGray.triggered.connect(self.change_skin)
+        self.actionBlue.triggered.connect(self.change_skin)
+        self.actionNavy.triggered.connect(self.change_skin)
+        self.actionClassic.triggered.connect(self.change_skin)
 
         # Set appearance
-        try:
-            self.set_run_appearance()
-        except ModuleNotFoundError:
-            print("Set run appearance failed!\n")
-            pass
+        self.set_run_appearance()
+        
+        # Set initial skin
+        self.style_file = os.path.join(self.root_dir, "stylesheets/style_Dark.qss")
+        with open(self.style_file, 'r') as f:
+            sheet = f.read()
+        self.setStyleSheet(sheet)
 
         # Automatically load configuration
         # self.load_configuration()
@@ -112,16 +115,26 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
         self.setWindowTitle('Model evaluation')
         self.setWindowIcon(QIcon(logo_upper))
 
+    def change_skin(self):
+        """Set skins"""
+
         sender = self.sender()
         if sender:
             if (sender.text() in list(self.skins.keys())):
-                self.setStyleSheet(PyQt5_stylesheets.load_stylesheet_pyqt5(style=self.skins[sender.text()]))
-                if sender.text() == "Classic":
-                    self.setStyleSheet("")
+                self.style_file = os.path.join(self.root_dir, "stylesheets/"+ self.skins[sender.text()])
+                with open(self.style_file, 'r') as f:
+                    sheet = f.read()
+                self.setStyleSheet(sheet)
             else:
-                self.setStyleSheet(PyQt5_stylesheets.load_stylesheet_pyqt5(style="style_Dark"))
+                self.style_file = os.path.join(self.root_dir, "stylesheets/style_Dark.qss")
+                with open(self.style_file, 'r') as f:
+                    sheet = f.read()
+                self.setStyleSheet(sheet)
         else:
-            self.setStyleSheet(PyQt5_stylesheets.load_stylesheet_pyqt5(style="style_Dark"))
+            self.style_file = os.path.join(self.root_dir, "stylesheets/style_Dark.qss")
+            with open(self.style_file, 'r') as f:
+                sheet = f.read()
+            self.setStyleSheet(sheet)
 
     def all_inputs_fun(self):
         """I put all available inputs in a dictionary named all_available_inputs

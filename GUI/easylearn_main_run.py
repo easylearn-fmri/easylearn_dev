@@ -61,23 +61,6 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         else:
             cgitb.enable(display=1, logdir=None) 
 
-            
-        # Set appearance
-        try:
-            self.set_run_appearance()
-        except ModuleNotFoundError:
-            # Using other style
-            style_file = os.path.join(self.root_dir, "stylesheets/style.qrc")
-            with open(style_file, 'r') as f:
-                sheet = f.read()
-            self.setStyleSheet(sheet)
-            # Warning users
-            pyqt5_stylesheets_file  = r"stylesheets/PyQt5_stylesheets"
-            pyqt5_stylesheets_path = os.path.join(self.root_dir, pyqt5_stylesheets_file)
-            QMessageBox.warning(
-                self, "Warning", f"Skin can not be used due to you did not install PyQt5_stylesheets!\nOpen terminal in the follow directory\n<{pyqt5_stylesheets_path}>, then input command 'python setup.py install' to install PyQt5_stylesheets"
-            )
-
         # Connecting to functions
         self.select_working_directory.triggered.connect(self.select_workingdir_fun)
         self.create_configuration_file.triggered.connect(self.initialize_configuration_fun)
@@ -90,16 +73,25 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         self.quit.clicked.connect(self.closeEvent_button)
 
         # Skin
-        self.skins = {"Dark": "style_Dark", "Black": "style_black", "DarkOrange": "style_DarkOrange", 
-                    "Gray": "style_gray", "Blue": "style_blue", "Navy": "style_navy", "Classic": "style_Classic"}
-        self.actionDark.triggered.connect(self.set_run_appearance)
-        self.actionBlack.triggered.connect(self.set_run_appearance)
-        self.actionDarkOrange.triggered.connect(self.set_run_appearance)
-        self.actionGray.triggered.connect(self.set_run_appearance)
-        self.actionBlue.triggered.connect(self.set_run_appearance)
-        self.actionNavy.triggered.connect(self.set_run_appearance)
-        self.actionClassic.triggered.connect(self.set_run_appearance)
+        self.skins = {"Dark": "style_Dark.qss", "Black": "style_black.css", "DarkOrange": "style_DarkOrange.qss", 
+                    "Gray": "style_gray.css", "Blue": "style_blue.css", "Navy": "style_navy.css", "Classic": "style_Classic.qss"}
+        self.actionDark.triggered.connect(self.change_skin)
+        self.actionBlack.triggered.connect(self.change_skin)
+        self.actionDarkOrange.triggered.connect(self.change_skin)
+        self.actionGray.triggered.connect(self.change_skin)
+        self.actionBlue.triggered.connect(self.change_skin)
+        self.actionNavy.triggered.connect(self.change_skin)
+        self.actionClassic.triggered.connect(self.change_skin)
 
+        # Set appearance
+        self.set_run_appearance()
+
+        # Set initial skin
+        self.style_file = os.path.join(self.root_dir, "stylesheets/style_Dark.qss")
+        with open(self.style_file, 'r') as f:
+            sheet = f.read()
+        self.setStyleSheet(sheet)
+        
     def start_process(self):
         splash = QSplashScreen(QtGui.QPixmap(os.path.join(self.root_dir,"logo/logo-upper.ico")))
         splash.showMessage("... 0%", QtCore.Qt.AlignHCenter | QtCore.Qt.AlignBottom, QtCore.Qt.black)
@@ -146,17 +138,26 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         self.quit.setIconSize(QPixmap(logo_exit).size());
         self.quit.resize(QPixmap(logo_exit).size())
 
-        # Skin
+    def change_skin(self):
+        """Set skins"""
+
         sender = self.sender()
         if sender:
             if (sender.text() in list(self.skins.keys())):
-                self.setStyleSheet(PyQt5_stylesheets.load_stylesheet_pyqt5(style=self.skins[sender.text()]))
-                if sender.text() == "Classic":
-                    self.setStyleSheet("")
+                self.style_file = os.path.join(self.root_dir, "stylesheets/"+ self.skins[sender.text()])
+                with open(self.style_file, 'r') as f:
+                    sheet = f.read()
+                self.setStyleSheet(sheet)
             else:
-                self.setStyleSheet(PyQt5_stylesheets.load_stylesheet_pyqt5(style="style_Dark"))
+                self.style_file = os.path.join(self.root_dir, "stylesheets/style_Dark.qss")
+                with open(self.style_file, 'r') as f:
+                    sheet = f.read()
+                self.setStyleSheet(sheet)
         else:
-            self.setStyleSheet(PyQt5_stylesheets.load_stylesheet_pyqt5(style="style_Dark"))
+            self.style_file = os.path.join(self.root_dir, "stylesheets/style_Dark.qss")
+            with open(self.style_file, 'r') as f:
+                sheet = f.read()
+            self.setStyleSheet(sheet)
 
     def select_workingdir_fun(self):
         """

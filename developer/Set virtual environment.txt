@@ -1,7 +1,7 @@
 # Set virtual environment
-method1: virtualenv --no-site-packages virtualenv_eslearn
+method1: virtualenv  virtualenv_eslearn1
 method2: mkvirtualenv virtualenv_eslearn
-virtualenv -p F:\Python3.6.5_V2\python.exe virtualenv_eslearn
+virtualenv -p F:\Python3.6.5_V2\python.exe virtualenv_eslearn1
 
 # Check current environment 
 $old_path = [environment]::GetEnvironmentvariable("Path", "User")
