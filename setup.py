@@ -14,7 +14,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='eslearn',
-    version='0.1.21.alpha',
+    version='0.1.22.alpha',
     description=(
         'This project is designed for machine learning in resting-state fMRI field'
     ),
