@@ -43,6 +43,8 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
     
     def __init__(self):
         print("Initializing easylearn_main_gui...")
+        self.root_dir = os.path.dirname(eslearn.__file__)
+
         QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
@@ -64,7 +66,8 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
             self.set_run_appearance()
         except ModuleNotFoundError:
             # Using other style
-            with open(r'..\stylesheets\style.qrc', 'r') as f:
+            style_file = os.path.join(self.root_dir, r"stylesheets\style.qrc")
+            with open(style_file, 'r') as f:
                 sheet = f.read()
             self.setStyleSheet(sheet)
             # Warning users
@@ -98,8 +101,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         self.actionClassic.triggered.connect(self.set_run_appearance)
 
     def start_process(self):
-        root_dir = os.path.dirname(eslearn.__file__)
-        splash = QSplashScreen(QtGui.QPixmap(os.path.join(root_dir,"logo/logo-upper.ico")))
+        splash = QSplashScreen(QtGui.QPixmap(os.path.join(self.root_dir,"logo/logo-upper.ico")))
         splash.showMessage("... 0%", QtCore.Qt.AlignHCenter | QtCore.Qt.AlignBottom, QtCore.Qt.black)
         splash.resize(200,90)
         splash.show()
@@ -117,12 +119,12 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
     def set_run_appearance(self):
         winsep = "\\"
         linuxsep = "/"
-        root_dir = os.path.dirname(eslearn.__file__)
-        root_dir = root_dir.replace(winsep, linuxsep)
-        logo_upper = os.path.join(root_dir, "logo/logo-upper.ico")
-        logo_lower = os.path.join(root_dir, "logo/logo-lower.jpg")
-        logo_run = os.path.join(root_dir, "logo/run.png")
-        logo_exit = os.path.join(root_dir,"logo/close.png")
+        self.root_dir = os.path.dirname(eslearn.__file__)
+        self.root_dir = self.root_dir.replace(winsep, linuxsep)
+        logo_upper = os.path.join(self.root_dir, "logo/logo-upper.ico")
+        logo_lower = os.path.join(self.root_dir, "logo/logo-lower.jpg")
+        logo_run = os.path.join(self.root_dir, "logo/run.png")
+        logo_exit = os.path.join(self.root_dir,"logo/close.png")
 
         logo_upper = logo_upper.replace(winsep, linuxsep)
         logo_lower = logo_lower.replace(winsep, linuxsep)
