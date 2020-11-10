@@ -31,7 +31,6 @@ from eslearn.GUI.easylearn_data_loading_run import EasylearnDataLoadingRun
 from eslearn.GUI.easylearn_feature_engineering_run import EasylearnFeatureEngineeringRun
 from eslearn.GUI.easylearn_machine_learning_run import EasylearnMachineLearningRun
 from eslearn.GUI.easylearn_model_evaluation_run import EasylearnModelEvaluationRun
-from eslearn.stylesheets.PyQt5_stylesheets import PyQt5_stylesheets
 from eslearn.base import BaseMachineLearning
 from eslearn.machine_learning.classification.classification import Classification
 from eslearn.machine_learning.regression.regression import Regression

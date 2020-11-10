@@ -26,7 +26,6 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QFileDialog
 
 import eslearn
-from eslearn.stylesheets.PyQt5_stylesheets import PyQt5_stylesheets
 from eslearn.GUI.easylearn_feature_engineering_gui import Ui_MainWindow
 
 

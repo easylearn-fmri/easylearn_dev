@@ -29,7 +29,6 @@ from PyQt5.QtWidgets import QApplication,QWidget,QVBoxLayout,QListView,QMessageB
 from PyQt5.QtCore import*
 
 import eslearn
-from eslearn.stylesheets.PyQt5_stylesheets import PyQt5_stylesheets
 from eslearn.GUI.easylearn_data_loading_gui import Ui_MainWindow
 
 

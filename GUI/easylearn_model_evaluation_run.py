@@ -22,7 +22,6 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QFileDialog
 
 import eslearn
-from eslearn.stylesheets.PyQt5_stylesheets import PyQt5_stylesheets
 from eslearn.GUI.easylearn_model_evaluation_gui import Ui_MainWindow
 
 
