@@ -9,12 +9,12 @@ Email:  lichao19870617@gmail.com; dongmengshi1990@163.com
 
 from setuptools import setup, find_packages
 
-with open("README.md", "r") as fh:
+with open("README_pypi.md", "r") as fh:
     long_description = fh.read()
 
 setup(
-    name='easylearn',
-    version='0.1.21.alpha',
+    name='eslearn',
+    version='0.1.23.alpha',
     description=(
         'This project is designed for machine learning in resting-state fMRI field'
     ),

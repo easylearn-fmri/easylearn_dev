@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def lc_binomialtest(n, k, p1, p2):
+def binomialtest(n, k, p1, p2):
     sum_prob = 0
     prob = []
     randk = 0
@@ -47,6 +47,6 @@ if __name__ ==  "__main__":
     acc = 0.4714285714285714
     k = np.int32(n * acc)
     print(k)
-    p, sum_prob, prob, randk = lc_binomialtest(n, k, 0.5, 0.5)
+    p, sum_prob, prob, randk = binomialtest(n, k, 0.5, 0.5)
     print(p)
     lc_plot(prob, k, p, titlename = f'Testing data\n (Sample size = {n}, Accuracy = {acc})')

@@ -20,9 +20,10 @@ import cgitb
 from PyQt5.QtGui import QIcon
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QFileDialog
-from eslearn.stylesheets.PyQt5_stylesheets import PyQt5_stylesheets
 
-from easylearn_model_evaluation_gui import Ui_MainWindow
+import eslearn
+from eslearn.stylesheets.PyQt5_stylesheets import PyQt5_stylesheets
+from eslearn.GUI.easylearn_model_evaluation_gui import Ui_MainWindow
 
 
 class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
@@ -95,6 +96,13 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
     def set_run_appearance(self):
         """Set style_sheets
         """
+
+        winsep = "\\"
+        linuxsep = "/"
+        root_dir = os.path.dirname(eslearn.__file__)
+        root_dir = root_dir.replace(winsep, linuxsep)
+        logo_upper = os.path.join(root_dir, "logo/logo-upper.ico")
+
         qss_special = """QPushButton:hover
         {
             font-weight: bold; font-size: 15px;
@@ -102,7 +110,7 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
 
         """
         self.setWindowTitle('Model evaluation')
-        self.setWindowIcon(QIcon('../logo/logo-upper.jpg'))
+        self.setWindowIcon(QIcon(logo_upper))
 
         sender = self.sender()
         if sender:

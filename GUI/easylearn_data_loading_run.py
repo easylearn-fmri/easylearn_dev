@@ -27,9 +27,10 @@ from PyQt5.QtGui import QIcon
 import sys
 from PyQt5.QtWidgets import QApplication,QWidget,QVBoxLayout,QListView,QMessageBox
 from PyQt5.QtCore import*
-from eslearn.stylesheets.PyQt5_stylesheets import PyQt5_stylesheets
 
-from easylearn_data_loading_gui import Ui_MainWindow
+import eslearn
+from eslearn.stylesheets.PyQt5_stylesheets import PyQt5_stylesheets
+from eslearn.GUI.easylearn_data_loading_gui import Ui_MainWindow
 
 
 class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
@@ -122,6 +123,13 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
     def set_run_appearance(self):
         """Set style_sheets
         """
+
+        winsep = "\\"
+        linuxsep = "/"
+        root_dir = os.path.dirname(eslearn.__file__)
+        root_dir = root_dir.replace(winsep, linuxsep)
+        logo_upper = os.path.join(root_dir, "logo/logo-upper.ico")
+
         qss_special = """QPushButton:hover
         {
             font-weight: bold; font-size: 15px;
@@ -129,7 +137,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
 
         """
         self.setWindowTitle('Data Loading')
-        self.setWindowIcon(QIcon('../logo/logo-upper.jpg'))
+        self.setWindowIcon(QIcon(logo_upper))
 
         sender = self.sender()
         if sender:
@@ -380,7 +388,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         if (bool(self.selected_group) & bool(self.selected_modality)):
             self.loaded_files, filetype = QFileDialog.getOpenFileNames(self,  
                                     "Select files",  old_dir, 
-                                    "Nifti Files (*.nii);;Matlab Files (*.mat);;Excel Files (*.xlsx);;Excel Files (*.xls);;Text Files (*.txt);;All Files (*)"
+                                    "All Files (*);;Nifti Files (*.nii);;Matlab Files (*.mat);;Excel Files (*.xlsx);;Excel Files (*.xls);;Text Files (*.txt)"
             )
             
             self.data_loading[self.selected_group]["modalities"][self.selected_modality]["file"].extend(self.loaded_files)
@@ -469,7 +477,7 @@ class EasylearnDataLoadingRun(QMainWindow, Ui_MainWindow):
         """
 
         # Get previous directory
-        if self.loaded_files:
+        if self.loaded_targets_and_covariates:
             old_dir = os.path.dirname(self.loaded_targets_and_covariates[0])
         else:
             if self.working_directory:

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import numpy as np
+from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import classification_report
 from sklearn.metrics import roc_curve, roc_auc_score
 from sklearn.calibration import calibration_curve
@@ -60,7 +61,12 @@ class ModelEvaluator():
         out_name: str
             output name of the figure
         """
-
+        
+        # One Hot encode
+        lcode=LabelEncoder()
+        true_label=lcode.fit_transform(true_label)
+        predict_label = lcode.transform(predict_label)
+        
         # reshape to one column
         true_label = np.reshape(true_label, [np.size(true_label), ])
         predict_label = np.reshape(predict_label, [np.size(predict_label), ])
@@ -175,8 +181,8 @@ class ModelEvaluator():
             
             # Plot calibration curve
             if auc is not None:
-                predict_prob = (predict_prob - predict_prob.min()) / (predict_prob.max() - predict_prob.min())
-                fraction_of_positives, mean_predicted_value = calibration_curve(true_label, predict_prob, n_bins=5)
+                # predict_prob = (predict_prob - predict_prob.min()) / (predict_prob.max() - predict_prob.min())
+                fraction_of_positives, mean_predicted_value = calibration_curve(true_label, predict_prob, n_bins=10, normalize=True)
                 ax[1][1].plot([0, 1], [0, 1], "k:", label="Perfectly calibrated")
                 ax[1][1].plot(mean_predicted_value, fraction_of_positives, "s-", color="k")
                 # Setting
@@ -199,8 +205,11 @@ class ModelEvaluator():
                 
                 if is_showfig:
                     plt.show()
+                    plt.pause(5)
+                    plt.close()
 
         return accuracy, sensitivity, specificity, auc, confusion_matrix_values
+
 
 if __name__ == "__main__":
     pass

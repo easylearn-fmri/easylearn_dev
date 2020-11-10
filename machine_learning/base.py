@@ -11,11 +11,17 @@ class AbstractSupervisedMachineLearningBase(metaclass=ABCMeta):
         raise NotImplementedError
 
     @abstractmethod
-    def predict(self):
+    def predict_(self):
         raise NotImplementedError
 
     @abstractmethod
     def get_weights_(self):
+        """
+        If the model is linear model, the weights are coefficients.
+        If the model is not the linear model, the weights are calculated by occlusion test <Transfer learning improves resting-state functional
+        connectivity pattern analysis using convolutional neural networks>.
+        """
+
         raise NotImplementedError
 
 
@@ -29,5 +35,5 @@ class AbstractUnsupervisedMachineLearningBase(metaclass=ABCMeta):
         raise NotImplementedError
 
     @abstractmethod
-    def predict(self):
+    def predict_(self):
         raise NotImplementedError

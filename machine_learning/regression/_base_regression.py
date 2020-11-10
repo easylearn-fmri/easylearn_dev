@@ -96,7 +96,7 @@ class BaseRegression(AbstractSupervisedMachineLearningBase):
         self.memory.clear(warn=False)
         return self
 
-    def predict(self, x):
+    def predict_(self, x):
         y_hat = self.model_.predict(x)
         return y_hat
 
