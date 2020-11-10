@@ -1,4 +1,4 @@
-# <img src="./logo/logo-lower.jpg" width = "200" height = "60" div align=left />  <font size=10>Make machine learning easy!</font>  
+# <img src="./eslearn/logo/logo-lower.jpg" width = "200" height = "60" div align=left />  <font size=10>Make machine learning easy!</font>  
  
 Easylearn is designed for machine learning mainly in resting-state fMRI, radiomics and other fields (such as EEG). Easylearn is built on top of scikit-learn, pytorch and other packages. Easylearn can assist doctors and researchers who have limited coding experience to easily realize machine learning, e.g., (MR/CT/PET/EEG)imaging-marker- or other biomarker-based disease diagnosis and prediction, treatment response prediction, disease subtyping, dimensional decoding for transdiagnostic psychiatric diseases or other diseases, disease mechanism exploration and etc.  
 
@@ -21,19 +21,19 @@ main()
 
 # GUI preview
 #### Main Interface
-![Main Window](./img/GUI_main.png)  
+![Main Window](./eslearn/img/GUI_main.png)  
 #### <center> Data loading Interface </center>
-![Data loading](./img/GUI_data_loading.png)    
+![Data loading](./eslearn/img/GUI_data_loading.png)    
 #### <center> Feature engineering Interface (feature preprocessing) </center>
-![Featur engineering](./img/preprocessing.png)   
+![Featur engineering](./eslearn/img/preprocessing.png)   
 #### <center> Feature engineering Interface (dimension reduction) </center>
-![Featur engineering](./img/dimreduction.png)   
+![Featur engineering](./eslearn/img/dimreduction.png)   
 #### <center> Feature engineering Interface (feature selection) </center>
-![Featur engineering](./img/feature_selection.png)   
+![Featur engineering](./eslearn/img/feature_selection.png)   
 #### <center> Feature engineering Interface (unbalance treatment) </center>
-![Featur engineering](./img/unbalance_treatment.png) 
+![Featur engineering](./eslearn/img/unbalance_treatment.png) 
 #### <center> Machine learning Interface </center>
-![Machine learning](./img/machine_learning.png) 
+![Machine learning](./eslearn/img/machine_learning.png) 
 
 # Core Dependencies 
 The follows will be automatically install if you use "pip install -U easylearn" command    
@@ -55,7 +55,7 @@ The follows will be automatically install if you use "pip install -U easylearn" 
 At present, the project is in the development stage. We hope you can join us!   
 Any contributions you make will be appreciated and announced.   
 Please refer to [developer link](https://github.com/easylearn-fmri/easylearn/tree/master/eslearn/developer) for details.
-# <img src="./img/easylearn-flow-chart.jpg" width = "1000" height = "1200" div align=left />
+# <img src="./eslearn/img/easylearn-flow-chart.jpg" width = "1000" height = "1200" div align=left />
 > Email: lichao19870617@gmail.com  
 > Wechat: 13591648206  
 
@@ -104,14 +104,14 @@ The current team members are in [current_team_members.md](./eslearn/developer/cu
 <br> <br />
 If the program runs successfully, some results file will be generated under the results folder (path_out), as follows:
 #### <center> Classification performances </center>
-![Classification performances](./img/classification_performances.png)  
+![Classification performances](./eslearn/img/classification_performances.png)  
 <br> <br />
 #### <center>Classification performances (text, each row are results of one fold of the 5-fold cross-validation)</center>
-![wei](./img/perf.png)  
+![wei](./eslearn/img/perf.png)  
 <br> <br />
 #### <center>Classfication weights (top 1%, BrainNet Viewer) </center>
-![Top classfication weights](./img/wei.jpg) 
+![Top classfication weights](./eslearn/img/wei.jpg) 
 <br> <br />
 #### <center>Predicted decision, predicted label and real label</center>
-![Predicted decision, predicted label and real label](./img/dec_label.png)  
+![Predicted decision, predicted label and real label](./eslearn/img/dec_label.png)  
 
