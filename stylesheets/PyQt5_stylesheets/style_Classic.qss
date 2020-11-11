@@ -1,10 +1,16 @@
 
 QWidget {
-    font-size: 18px;
+    font-size: 16px;
 }
 
 QTableView {
     font-size: 10px;
+    alternate-background-color: #EEEEFF;
+}
+
+QTableWidget {
+    font-size: 10px;
+    background-color:"red";
     alternate-background-color: #EEEEFF;
 }
 
@@ -67,4 +73,42 @@ TabButton::checked {
 TabButton::pressed {
     background-color: qlineargradient(x1: 0, y1: 0 , x2: 0, y2: 1,
                                       stop: 0 #9a9b9e, stop: 1 #babbbe);
+}
+
+
+/* TOP TABS */
+QTabBar::tab:top {
+    font-size: 15;a
+    color: #eff0f1;
+    border: 1px solid #76797C;
+    border-bottom: 1px transparent black;
+    background-color: #31363b;
+    padding: 5px;
+    min-width: 50px;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+}
+
+QTabBar::tab:top:!selected
+{
+    color: #eff0f1;
+    background-color: #8f8f91;
+    border: 1px solid #76797C;
+    border-bottom: 1px transparent black;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;    
+}
+
+QTabBar::tab:top:!selected:hover {
+    background-color: #3daee9;
+}
+
+QTabBar::tab:top:selected
+{
+    color: #eff0f1;
+    background-color: sage;
+    border: 1px solid #76797C;
+    border-bottom: 1px transparent black;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;    
 }

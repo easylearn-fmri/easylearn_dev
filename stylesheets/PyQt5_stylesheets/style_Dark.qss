@@ -23,8 +23,9 @@
  */
 
 QWidget {
-    font-size: 18px;
+    font-size: 16px;
 }
+
 
 QToolTip
 {
@@ -757,6 +758,10 @@ QTabBar
     border-radius: 3px;
 }
 
+QTabBar::tab{
+    background-color: yellow 
+}
+
 QTabBar:focus
 {
     border: 0px transparent black;
@@ -802,6 +807,16 @@ QTabBar::tab:top:!selected
 
 QTabBar::tab:top:!selected:hover {
     background-color: #3daee9;
+}
+
+QTabBar::tab:top:selected
+{
+    color: #eff0f1;
+    background-color: sage;
+    border: 1px solid #76797C;
+    border-bottom: 1px transparent black;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;    
 }
 
 /* BOTTOM TABS */

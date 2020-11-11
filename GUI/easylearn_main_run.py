@@ -275,6 +275,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
             model.main_run()
             # self.run = Run(which_ml_type_dict[ml_type], self.configuration_file, out_dir)
             # self.run.start()   
+            print("#"*10+"Congratulations! Your machine learning task is finished successfully!"+"#"*10+"\n")
 
     def closeEvent(self, event):
         """This function is called when exit icon of the window is clicked.

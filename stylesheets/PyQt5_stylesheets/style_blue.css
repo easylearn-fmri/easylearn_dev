@@ -1,3 +1,5 @@
+# QTab
+
 QWidget {
     font-size: 18px;
 }
@@ -331,6 +333,7 @@ QHeaderView::section {
 }
 
 QTabBar::tab {
+	background-color: #31363b;
 	border-bottom-left-radius:0px;
 	border-bottom-right-radius:0px;
 	color: #F0F0F0;
