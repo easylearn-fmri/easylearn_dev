@@ -205,6 +205,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 974, 26))
+        self.menubar.setNativeMenuBar(False)
         self.menubar.setObjectName("menubar")
         self.menuConfiguration_file = QtWidgets.QMenu(self.menubar)
         self.menuConfiguration_file.setObjectName("menuConfiguration_file")

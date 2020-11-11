@@ -20,9 +20,9 @@ import cgitb
 from PyQt5.QtGui import QIcon
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QFileDialog
+from eslearn.stylesheets.PyQt5_stylesheets import pyqt5_loader
 
 import eslearn
-from eslearn.stylesheets.PyQt5_stylesheets import PyQt5_stylesheets
 from eslearn.GUI.easylearn_model_evaluation_gui import Ui_MainWindow
 
 
@@ -38,6 +38,7 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
         QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
+        self.root_dir = os.path.dirname(eslearn.__file__)
 
         # Initialization
         self.working_directory = working_directory
@@ -72,26 +73,22 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
         self.radioButton_binomialtest.clicked.connect(self.statistical_analysis_setting)
         self.radioButton_permutationtest.clicked.connect(self.statistical_analysis_setting)
 
-        # Skins
+        # Skin
         self.skins = {"Dark": "style_Dark", "Black": "style_black", "DarkOrange": "style_DarkOrange", 
                     "Gray": "style_gray", "Blue": "style_blue", "Navy": "style_navy", "Classic": "style_Classic"}
-        self.actionDark.triggered.connect(self.set_run_appearance)
-        self.actionBlack.triggered.connect(self.set_run_appearance)
-        self.actionDarkOrange.triggered.connect(self.set_run_appearance)
-        self.actionGray.triggered.connect(self.set_run_appearance)
-        self.actionBlue.triggered.connect(self.set_run_appearance)
-        self.actionNavy.triggered.connect(self.set_run_appearance)
-        self.actionClassic.triggered.connect(self.set_run_appearance)
+        self.actionDark.triggered.connect(self.change_skin)
+        self.actionBlack.triggered.connect(self.change_skin)
+        self.actionDarkOrange.triggered.connect(self.change_skin)
+        self.actionGray.triggered.connect(self.change_skin)
+        self.actionBlue.triggered.connect(self.change_skin)
+        self.actionNavy.triggered.connect(self.change_skin)
+        self.actionClassic.triggered.connect(self.change_skin)
 
         # Set appearance
-        try:
-            self.set_run_appearance()
-        except ModuleNotFoundError:
-            print("Set run appearance failed!\n")
-            pass
-
-        # Automatically load configuration
-        # self.load_configuration()
+        self.set_run_appearance()
+        
+        # Set initial skin
+        self.setStyleSheet(pyqt5_loader.load_stylesheet_pyqt5(style="style_Dark"))
 
     def set_run_appearance(self):
         """Set style_sheets
@@ -112,16 +109,17 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
         self.setWindowTitle('Model evaluation')
         self.setWindowIcon(QIcon(logo_upper))
 
+    def change_skin(self):
+        """Set skins"""
+
         sender = self.sender()
         if sender:
             if (sender.text() in list(self.skins.keys())):
-                self.setStyleSheet(PyQt5_stylesheets.load_stylesheet_pyqt5(style=self.skins[sender.text()]))
-                if sender.text() == "Classic":
-                    self.setStyleSheet("")
+                self.setStyleSheet(pyqt5_loader.load_stylesheet_pyqt5(style=self.skins[sender.text()]))
             else:
-                self.setStyleSheet(PyQt5_stylesheets.load_stylesheet_pyqt5(style="style_Dark"))
+                self.setStyleSheet(pyqt5_loader.load_stylesheet_pyqt5(style="style_Dark"))
         else:
-            self.setStyleSheet(PyQt5_stylesheets.load_stylesheet_pyqt5(style="style_Dark"))
+            self.setStyleSheet(pyqt5_loader.load_stylesheet_pyqt5(style="style_Dark"))
 
     def all_inputs_fun(self):
         """I put all available inputs in a dictionary named all_available_inputs

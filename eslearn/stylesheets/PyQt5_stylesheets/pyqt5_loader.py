@@ -92,23 +92,23 @@ def load_stylesheet_pyqt5(**kwargs):
     # Smart import of the rc file
 
     if kwargs["style"] == "style_Dark":
-        import PyQt5_stylesheets.pyqt5_style_Dark_rc
+        import eslearn.stylesheets.PyQt5_stylesheets.pyqt5_style_Dark_rc
     if kwargs["style"] == "style_DarkOrange":
-        import PyQt5_stylesheets.pyqt5_style_DarkOrange_rc
+        import eslearn.stylesheets.PyQt5_stylesheets.pyqt5_style_DarkOrange_rc
     if kwargs["style"] == "style_Classic":
-        import PyQt5_stylesheets.pyqt5_style_Classic_rc
+        import eslearn.stylesheets.PyQt5_stylesheets.pyqt5_style_Classic_rc
 
     if kwargs["style"] == "style_navy":
-        import PyQt5_stylesheets.pyqt5_style_navy_rc
+        import eslearn.stylesheets.PyQt5_stylesheets.pyqt5_style_navy_rc
 
     if kwargs["style"] == "style_gray":
-        import PyQt5_stylesheets.pyqt5_style_gray_rc
+        import eslearn.stylesheets.PyQt5_stylesheets.pyqt5_style_gray_rc
 
     if kwargs["style"] == "style_blue":
-        import PyQt5_stylesheets.pyqt5_style_blue_rc
+        import eslearn.stylesheets.PyQt5_stylesheets.pyqt5_style_blue_rc
 
     if kwargs["style"] == "style_black":
-        import PyQt5_stylesheets.pyqt5_style_black_rc
+        import eslearn.stylesheets.PyQt5_stylesheets.pyqt5_style_black_rc
     # Load the stylesheet content from resources
     from PyQt5.QtCore import QFile, QTextStream
 

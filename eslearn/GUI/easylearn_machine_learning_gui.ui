@@ -1170,6 +1170,9 @@
      <height>26</height>
     </rect>
    </property>
+   <property name="nativeMenuBar">
+    <bool>false</bool>
+   </property>
    <widget class="QMenu" name="menuConfiguration_file_F">
     <property name="title">
      <string>Configuration file(&amp;F)</string>

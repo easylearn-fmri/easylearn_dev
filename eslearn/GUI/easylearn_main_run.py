@@ -26,12 +26,12 @@ from PyQt5.Qt import QThread
 from PyQt5.QtCore import pyqtSignal, QMutex
 
 import eslearn
+from eslearn.stylesheets.PyQt5_stylesheets import pyqt5_loader
 from eslearn.GUI.easylearn_main_gui import Ui_MainWindow
 from eslearn.GUI.easylearn_data_loading_run import EasylearnDataLoadingRun
 from eslearn.GUI.easylearn_feature_engineering_run import EasylearnFeatureEngineeringRun
 from eslearn.GUI.easylearn_machine_learning_run import EasylearnMachineLearningRun
 from eslearn.GUI.easylearn_model_evaluation_run import EasylearnModelEvaluationRun
-from eslearn.stylesheets.PyQt5_stylesheets import PyQt5_stylesheets
 from eslearn.base import BaseMachineLearning
 from eslearn.machine_learning.classification.classification import Classification
 from eslearn.machine_learning.regression.regression import Regression
@@ -43,6 +43,8 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
     
     def __init__(self):
         print("Initializing easylearn_main_gui...")
+        self.root_dir = os.path.dirname(eslearn.__file__)
+
         QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
@@ -59,22 +61,6 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         else:
             cgitb.enable(display=1, logdir=None) 
 
-        # Set appearance
-        try:
-            self.set_run_appearance()
-        except ModuleNotFoundError:
-            # Using other style
-            with open(r'..\stylesheets\style.qrc', 'r') as f:
-                sheet = f.read()
-            self.setStyleSheet(sheet)
-            # Warning users
-            lib_root = os.path.dirname(os.__file__)
-            pyqt5_stylesheets_file  = "site-packages/eslearn/stylesheets/PyQt5_stylesheets"
-            pyqt5_stylesheets_path = os.path.join(lib_root, pyqt5_stylesheets_file)
-            QMessageBox.warning(
-                self, "Warning", f"Skin can not be used due to you did not install PyQt5_stylesheets!\nOpen terminal in the follow directory\n<{pyqt5_stylesheets_path}>, then input command 'python setup.py install' to install PyQt5_stylesheets"
-            )
-
         # Connecting to functions
         self.select_working_directory.triggered.connect(self.select_workingdir_fun)
         self.create_configuration_file.triggered.connect(self.initialize_configuration_fun)
@@ -89,17 +75,22 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         # Skin
         self.skins = {"Dark": "style_Dark", "Black": "style_black", "DarkOrange": "style_DarkOrange", 
                     "Gray": "style_gray", "Blue": "style_blue", "Navy": "style_navy", "Classic": "style_Classic"}
-        self.actionDark.triggered.connect(self.set_run_appearance)
-        self.actionBlack.triggered.connect(self.set_run_appearance)
-        self.actionDarkOrange.triggered.connect(self.set_run_appearance)
-        self.actionGray.triggered.connect(self.set_run_appearance)
-        self.actionBlue.triggered.connect(self.set_run_appearance)
-        self.actionNavy.triggered.connect(self.set_run_appearance)
-        self.actionClassic.triggered.connect(self.set_run_appearance)
+        self.actionDark.triggered.connect(self.change_skin)
+        self.actionBlack.triggered.connect(self.change_skin)
+        self.actionDarkOrange.triggered.connect(self.change_skin)
+        self.actionGray.triggered.connect(self.change_skin)
+        self.actionBlue.triggered.connect(self.change_skin)
+        self.actionNavy.triggered.connect(self.change_skin)
+        self.actionClassic.triggered.connect(self.change_skin)
 
+        # Set appearance
+        self.set_run_appearance()
+
+        # Set initial skin
+        self.setStyleSheet(pyqt5_loader.load_stylesheet_pyqt5(style="style_Dark"))
+        
     def start_process(self):
-        root_dir = os.path.dirname(eslearn.__file__)
-        splash = QSplashScreen(QtGui.QPixmap(os.path.join(root_dir,"logo/logo-upper.ico")))
+        splash = QSplashScreen(QtGui.QPixmap(os.path.join(self.root_dir,"logo/logo-upper.ico")))
         splash.showMessage("... 0%", QtCore.Qt.AlignHCenter | QtCore.Qt.AlignBottom, QtCore.Qt.black)
         splash.resize(200,90)
         splash.show()
@@ -117,12 +108,12 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
     def set_run_appearance(self):
         winsep = "\\"
         linuxsep = "/"
-        root_dir = os.path.dirname(eslearn.__file__)
-        root_dir = root_dir.replace(winsep, linuxsep)
-        logo_upper = os.path.join(root_dir, "logo/logo-upper.ico")
-        logo_lower = os.path.join(root_dir, "logo/logo-lower.jpg")
-        logo_run = os.path.join(root_dir, "logo/run.png")
-        logo_exit = os.path.join(root_dir,"logo/close.png")
+        self.root_dir = os.path.dirname(eslearn.__file__)
+        self.root_dir = self.root_dir.replace(winsep, linuxsep)
+        logo_upper = os.path.join(self.root_dir, "logo/logo-upper.ico")
+        logo_lower = os.path.join(self.root_dir, "logo/logo-lower.jpg")
+        logo_run = os.path.join(self.root_dir, "logo/run.png")
+        logo_exit = os.path.join(self.root_dir,"logo/close.png")
 
         logo_upper = logo_upper.replace(winsep, linuxsep)
         logo_lower = logo_lower.replace(winsep, linuxsep)
@@ -144,17 +135,17 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         self.quit.setIconSize(QPixmap(logo_exit).size());
         self.quit.resize(QPixmap(logo_exit).size())
 
-        # Skin
+    def change_skin(self):
+        """Set skins"""
+
         sender = self.sender()
         if sender:
             if (sender.text() in list(self.skins.keys())):
-                self.setStyleSheet(PyQt5_stylesheets.load_stylesheet_pyqt5(style=self.skins[sender.text()]))
-                if sender.text() == "Classic":
-                    self.setStyleSheet("")
+                self.setStyleSheet(pyqt5_loader.load_stylesheet_pyqt5(style=self.skins[sender.text()]))
             else:
-                self.setStyleSheet(PyQt5_stylesheets.load_stylesheet_pyqt5(style="style_Dark"))
+                self.setStyleSheet(pyqt5_loader.load_stylesheet_pyqt5(style="style_Dark"))
         else:
-            self.setStyleSheet(PyQt5_stylesheets.load_stylesheet_pyqt5(style="style_Dark"))
+            self.setStyleSheet(pyqt5_loader.load_stylesheet_pyqt5(style="style_Dark"))
 
     def select_workingdir_fun(self):
         """
@@ -270,6 +261,8 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         }
         
         baseml = BaseMachineLearning(self.configuration_file)
+        if self.configuration_file == "":
+            self.textBrowser.setText()
         baseml.get_all_inputs()
         ml_type = baseml.machine_learning_type_[0]
 
