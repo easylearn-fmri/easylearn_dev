@@ -261,15 +261,15 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         }
         
         baseml = BaseMachineLearning(self.configuration_file)
-        if self.configuration_file == "":
-            self.textBrowser.setText()
-        baseml.get_all_inputs()
-        ml_type = baseml.machine_learning_type_[0]
 
-        print('run_fun...')
         if self.configuration_file == "":
+            self.textBrowser.setText("You have to specify a configuration file by loading a configuration file at the upper left (Project Initialization)\n")
             raise ValueError("You have to specify a configuration file\n")
         else:
+            print('Running...\n')
+            self.textBrowser.setText(f"configuration is in {self.configuration_file}\n")
+            baseml.get_all_inputs()
+            ml_type = baseml.machine_learning_type_[0]
             out_dir = self.working_directory if self.working_directory else os.path.dirname(self.configuration_file)
             model = which_ml_type_dict[ml_type](configuration_file=self.configuration_file, out_dir=out_dir)
             model.main_run()
