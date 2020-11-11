@@ -1,0 +1,957 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>892</width>
+    <height>727</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>500</width>
+    <height>0</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout_32">
+    <item row="0" column="0">
+     <widget class="QTabWidget" name="tabWidget_items">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>100</width>
+        <height>100</height>
+       </size>
+      </property>
+      <property name="tabPosition">
+       <enum>QTabWidget::North</enum>
+      </property>
+      <property name="tabShape">
+       <enum>QTabWidget::Triangular</enum>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="tabWidget_itemsPage1">
+       <attribute name="title">
+        <string>  Preprocessing  </string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="0" column="1">
+         <spacer name="horizontalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="0" column="2">
+         <widget class="QGroupBox" name="groupBox_preprocessing_setting">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>300</width>
+            <height>80</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>10000</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="title">
+           <string>Setting</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_26">
+           <item row="0" column="0">
+            <widget class="QStackedWidget" name="stackedWidget_preprocessing_methods">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="currentIndex">
+              <number>2</number>
+             </property>
+             <widget class="QWidget" name="to_zscore">
+              <layout class="QGridLayout" name="gridLayout_17">
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_zscore">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="to_scaling">
+              <layout class="QGridLayout" name="gridLayout_10">
+               <item row="0" column="1">
+                <widget class="QLineEdit" name="lineEdit_scaling_feature_range">
+                 <property name="text">
+                  <string>(0,1)</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_scaling_feature_range">
+                 <property name="text">
+                  <string>feature_range</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="to_none">
+              <layout class="QGridLayout" name="gridLayout_19">
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_none">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QGroupBox" name="groupBox_preprocessing_method">
+          <property name="title">
+           <string>Methods</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_8">
+           <item row="2" column="0">
+            <widget class="QRadioButton" name="radioButton_none_methods">
+             <property name="text">
+              <string>None</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QRadioButton" name="radioButton_zscore">
+             <property name="text">
+              <string>StandardScaler()</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QRadioButton" name="radioButton_scaling">
+             <property name="text">
+              <string>MinMaxScaler()</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tabWidget_itemsPage2">
+       <attribute name="title">
+        <string>  Dimension reduction  </string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_29">
+        <item row="0" column="0" rowspan="2">
+         <widget class="QGroupBox" name="groupBox_dimension_reduction">
+          <property name="title">
+           <string>Methods</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_28">
+           <item row="2" column="0">
+            <widget class="QRadioButton" name="radioButton_none">
+             <property name="text">
+              <string>None</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QRadioButton" name="radioButton_pca">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>PCA()</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QRadioButton" name="radioButton_nmf">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>NMF()</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1" rowspan="2">
+         <widget class="QGroupBox" name="groupBox_dimreduction_setting">
+          <property name="title">
+           <string>Setting</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_3">
+           <item row="0" column="0">
+            <widget class="QStackedWidget" name="stackedWidget_dimreduction">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="currentIndex">
+              <number>2</number>
+             </property>
+             <widget class="QWidget" name="to_pca">
+              <layout class="QGridLayout" name="gridLayout_11">
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_pca_components">
+                 <property name="text">
+                  <string>Components</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="2">
+                <widget class="QLineEdit" name="lineEdit_pca_components">
+                 <property name="text">
+                  <string>0.80, 0.90</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="to_nmf">
+              <layout class="QGridLayout" name="gridLayout_21">
+               <item row="0" column="1">
+                <widget class="QLineEdit" name="lineEdit_nmf_components">
+                 <property name="text">
+                  <string>10</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_nmf_components">
+                 <property name="text">
+                  <string>Components</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_nmf_init">
+                 <property name="text">
+                  <string>Init</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QComboBox" name="comboBox_nmf_init">
+                 <item>
+                  <property name="text">
+                   <string>random</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="to_none_dimreduction">
+              <layout class="QGridLayout" name="gridLayout_5"/>
+             </widget>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tabWidget_itemsPage3">
+       <attribute name="title">
+        <string>  Feature selection  </string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_30">
+        <item row="0" column="0" rowspan="2" colspan="2">
+         <widget class="QGroupBox" name="groupBox_3">
+          <property name="title">
+           <string>Methods</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_4">
+           <item row="10" column="0">
+            <widget class="Line" name="line_2">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="0">
+            <widget class="Line" name="line">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item row="16" column="0">
+            <widget class="Line" name="line_5">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QRadioButton" name="radioButton_correlation">
+             <property name="text">
+              <string>SelectPercentile(f_regression)</string>
+             </property>
+            </widget>
+           </item>
+           <item row="14" column="0">
+            <widget class="Line" name="line_4">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item row="9" column="0">
+            <widget class="QRadioButton" name="radioButton_rfe">
+             <property name="text">
+              <string>RFECV()</string>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="0">
+            <widget class="QLabel" name="label_wrapper">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Wrapper</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QRadioButton" name="radioButton_variance_threshold">
+             <property name="text">
+              <string>VarianceThreshold()</string>
+             </property>
+            </widget>
+           </item>
+           <item row="12" column="0">
+            <widget class="QRadioButton" name="radioButton_l1">
+             <property name="text">
+              <string>SelectFromModel(LassoCV())</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QRadioButton" name="radioButton_mutualinfo_cls">
+             <property name="text">
+              <string>SelectPercentile(mutual_info_classif)</string>
+             </property>
+            </widget>
+           </item>
+           <item row="15" column="0">
+            <widget class="QRadioButton" name="radioButton_featureselection_none">
+             <property name="text">
+              <string>None</string>
+             </property>
+            </widget>
+           </item>
+           <item row="13" column="0">
+            <widget class="QRadioButton" name="radioButton_elasticnet">
+             <property name="text">
+              <string>SelectFromModel(ElasticNetCV())</string>
+             </property>
+            </widget>
+           </item>
+           <item row="11" column="0">
+            <widget class="QLabel" name="label_embedded">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Embedded</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="0">
+            <widget class="QRadioButton" name="radioButton_mutualinfo_regression">
+             <property name="text">
+              <string>SelectPercentile(mutual_info_regression)</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_filter">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Filter</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QRadioButton" name="radioButton_anova">
+             <property name="text">
+              <string>SelectPercentile(f_classif)</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="0" column="2" rowspan="2">
+         <widget class="QGroupBox" name="groupBox_feature_selection_setting">
+          <property name="title">
+           <string>Setting</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_9">
+           <item row="0" column="1">
+            <widget class="QStackedWidget" name="stackedWidget_feature_selection">
+             <property name="currentIndex">
+              <number>8</number>
+             </property>
+             <widget class="QWidget" name="to_variance_threshold">
+              <layout class="QGridLayout" name="gridLayout_15">
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_variancethreshold_threshold">
+                 <property name="text">
+                  <string>Threshold</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QLineEdit" name="lineEdit_variancethreshold_threshold">
+                 <property name="text">
+                  <string>0.4, 0.6</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="to_selectpercentitle_f_classif">
+              <layout class="QGridLayout" name="gridLayout_23">
+               <item row="0" column="2">
+                <widget class="QLineEdit" name="lineEdit_anova_topnum">
+                 <property name="text">
+                  <string>0.4, 0.6</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_17">
+                 <property name="text">
+                  <string>percentile</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="to_selectpercentitle_f_regression">
+              <layout class="QGridLayout" name="gridLayout_16">
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_correlation_percentile">
+                 <property name="text">
+                  <string>percentile</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QLineEdit" name="lineEdit_correlation_percentile">
+                 <property name="text">
+                  <string>0.2, 0.4</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="to_mutualinfo_classif">
+              <layout class="QGridLayout" name="gridLayout_22">
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_mutualinfocls_topnum">
+                 <property name="text">
+                  <string>percentile</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="0">
+                <widget class="QLabel" name="label_mutualinfo_cls">
+                 <property name="text">
+                  <string>N_neighbors</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="1">
+                <widget class="QSpinBox" name="spinBox_mutualinfocls_neighbors">
+                 <property name="value">
+                  <number>3</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QLineEdit" name="lineEdit_mutualinfocls_topnum">
+                 <property name="text">
+                  <string>0.4, 0.6</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="to_mutualinfo_regression">
+              <layout class="QGridLayout" name="gridLayout_12">
+               <item row="2" column="1">
+                <widget class="QSpinBox" name="spinBox_mutualinforeg_neighbors">
+                 <property name="value">
+                  <number>3</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_mutualinforeg_topnum">
+                 <property name="text">
+                  <string>N_neighbors</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_32">
+                 <property name="text">
+                  <string>percentile</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QLineEdit" name="lineEdit_mutualinforeg_topnum">
+                 <property name="text">
+                  <string>0.4, 0.6</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="to_rfecv">
+              <layout class="QGridLayout" name="gridLayout_20">
+               <item row="3" column="0">
+                <widget class="QLabel" name="label_19">
+                 <property name="text">
+                  <string>N_jobs</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="2">
+                <widget class="QSpinBox" name="spinBox_rfe_nfold">
+                 <property name="minimum">
+                  <number>2</number>
+                 </property>
+                 <property name="maximum">
+                  <number>1000</number>
+                 </property>
+                 <property name="value">
+                  <number>5</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_16">
+                 <property name="text">
+                  <string>Estimator</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="2">
+                <widget class="QComboBox" name="comboBox_rfe_estimator">
+                 <item>
+                  <property name="text">
+                   <string>SVC(kernel='linear')</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>LogisticRegression()</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Lasso()</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>BayesianRidge()</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="3" column="2">
+                <widget class="QSpinBox" name="spinBox_rfe_njobs">
+                 <property name="minimum">
+                  <number>-1</number>
+                 </property>
+                 <property name="value">
+                  <number>-1</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_15">
+                 <property name="text">
+                  <string>N-fold</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_14">
+                 <property name="text">
+                  <string>Step</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="2">
+                <widget class="QDoubleSpinBox" name="doubleSpinBox_rfe_step">
+                 <property name="maximum">
+                  <double>10000.000000000000000</double>
+                 </property>
+                 <property name="singleStep">
+                  <double>0.100000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>0.100000000000000</double>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="to_lassocv">
+              <layout class="QGridLayout" name="gridLayout_24"/>
+             </widget>
+             <widget class="QWidget" name="to_elasticnetcv">
+              <layout class="QGridLayout" name="gridLayout_25">
+               <item row="1" column="1">
+                <widget class="QLineEdit" name="lineEdit_elasticnet_l1ratio">
+                 <property name="text">
+                  <string>0.5</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_46">
+                 <property name="text">
+                  <string>L1_ratio</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="to_none_featureselection">
+              <layout class="QGridLayout" name="gridLayout_27"/>
+             </widget>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>10</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tabWidget_itemsPage4">
+       <attribute name="title">
+        <string>  Unbalance treatment  </string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_31">
+        <item row="0" column="0">
+         <widget class="QGroupBox" name="groupBox_5">
+          <property name="title">
+           <string>Methods</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_7">
+           <item row="3" column="0">
+            <widget class="QRadioButton" name="radioButton_smotencover">
+             <property name="text">
+              <string>SMOTENC</string>
+             </property>
+            </widget>
+           </item>
+           <item row="9" column="0">
+            <widget class="QRadioButton" name="radioButton_nearmissunder">
+             <property name="text">
+              <string>NearMiss</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_12">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Over-sampling the minority class</string>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="0">
+            <widget class="QRadioButton" name="radioButton_randunder">
+             <property name="text">
+              <string>RandomUnderSampler</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="0">
+            <widget class="Line" name="line_3">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="0">
+            <widget class="QRadioButton" name="radioButton_cludterunder">
+             <property name="text">
+              <string>ClusterCentroids</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QRadioButton" name="radioButton_smoteover">
+             <property name="text">
+              <string>SMOTE</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QRadioButton" name="radioButton_bsmoteover">
+             <property name="text">
+              <string>BorderlineSMOTE</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="0">
+            <widget class="QLabel" name="label_13">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Under-sampling the majority class(es)</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QRadioButton" name="radioButton_randover">
+             <property name="text">
+              <string>RandomOverSampler</string>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+             <property name="checked">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <spacer name="horizontalSpacer_6">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="0" column="2">
+         <widget class="QGroupBox" name="groupBox_4">
+          <property name="title">
+           <string>Setting</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>892</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="nativeMenuBar">
+    <bool>false</bool>
+   </property>
+   <widget class="QMenu" name="menuConfiguration_file_f">
+    <property name="title">
+     <string>Configuration file (&amp;F)</string>
+    </property>
+    <addaction name="actionLoad_configuration"/>
+    <addaction name="actionSave_configuration"/>
+    <addaction name="actionGet_all_available_configuraton"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp_G">
+    <property name="title">
+     <string>Help (&amp;H)</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuSkin">
+    <property name="title">
+     <string>Skin</string>
+    </property>
+    <addaction name="actionDark"/>
+    <addaction name="actionBlack"/>
+    <addaction name="actionDarkOrange"/>
+    <addaction name="actionGray"/>
+    <addaction name="actionBlue"/>
+    <addaction name="actionNavy"/>
+    <addaction name="actionClassic"/>
+   </widget>
+   <addaction name="menuConfiguration_file_f"/>
+   <addaction name="menuHelp_G"/>
+   <addaction name="menuSkin"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionLoad_configuration">
+   <property name="text">
+    <string>Load configuration</string>
+   </property>
+  </action>
+  <action name="actionSave_configuration">
+   <property name="text">
+    <string>Save configuration</string>
+   </property>
+  </action>
+  <action name="actionDark">
+   <property name="text">
+    <string>Dark</string>
+   </property>
+  </action>
+  <action name="actionBlack">
+   <property name="text">
+    <string>Black</string>
+   </property>
+  </action>
+  <action name="actionDarkOrange">
+   <property name="text">
+    <string>DarkOrange</string>
+   </property>
+  </action>
+  <action name="actionGray">
+   <property name="text">
+    <string>Gray</string>
+   </property>
+  </action>
+  <action name="actionBlue">
+   <property name="text">
+    <string>Blue</string>
+   </property>
+  </action>
+  <action name="actionNavy">
+   <property name="text">
+    <string>Navy</string>
+   </property>
+  </action>
+  <action name="actionClassic">
+   <property name="text">
+    <string>Classic</string>
+   </property>
+  </action>
+  <action name="actionGet_all_available_configuraton">
+   <property name="text">
+    <string>Get all available configuraton</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
