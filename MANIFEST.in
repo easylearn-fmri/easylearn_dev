@@ -1,0 +1,14 @@
+# Include image
+include eslearn/img/*.png
+include eslearn/img/*.jpg
+include eslearn/img/*.ico
+include eslearn/logo/*.png
+include eslearn/logo/*.jpg
+include eslearn/logo/*.ico
+
+# Include the license file
+include LICENSE.txt
+
+# Include pyqt5 stylesheets
+include eslearn/stylesheets/*
+include eslearn/stylesheets/PyQt5_stylesheets/*
