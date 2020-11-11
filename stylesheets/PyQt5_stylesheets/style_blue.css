@@ -1,3 +1,7 @@
+QWidget {
+    font-size: 18px;
+}
+
 QWidget#frmLogin,QWidget#frmPopup,QWidget#frmHostInfo,QWidget#frmLogout,QWidget#frmConfig,QWidget#frmData,QWidget#frmDefence,QWidget#frmHost,QWidget#frmMain,QWidget#frmPwd,QWidget#frmSelect,QWidget#frmMessageBox{
 	border:1px solid #1B89CA;
 	border-radius:0px;	

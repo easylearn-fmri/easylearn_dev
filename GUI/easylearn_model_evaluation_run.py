@@ -20,6 +20,7 @@ import cgitb
 from PyQt5.QtGui import QIcon
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QFileDialog
+from eslearn.stylesheets.PyQt5_stylesheets import pyqt5_loader
 
 import eslearn
 from eslearn.GUI.easylearn_model_evaluation_gui import Ui_MainWindow
@@ -73,8 +74,8 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
         self.radioButton_permutationtest.clicked.connect(self.statistical_analysis_setting)
 
         # Skin
-        self.skins = {"Dark": "style_Dark.qss", "Black": "style_black.css", "DarkOrange": "style_DarkOrange.qss", 
-                    "Gray": "style_gray.css", "Blue": "style_blue.css", "Navy": "style_navy.css", "Classic": "style_Classic.qss"}
+        self.skins = {"Dark": "style_Dark", "Black": "style_black", "DarkOrange": "style_DarkOrange", 
+                    "Gray": "style_gray", "Blue": "style_blue", "Navy": "style_navy", "Classic": "style_Classic"}
         self.actionDark.triggered.connect(self.change_skin)
         self.actionBlack.triggered.connect(self.change_skin)
         self.actionDarkOrange.triggered.connect(self.change_skin)
@@ -87,13 +88,7 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
         self.set_run_appearance()
         
         # Set initial skin
-        self.style_file = os.path.join(self.root_dir, "stylesheets/style_Dark.qss")
-        with open(self.style_file, 'r') as f:
-            sheet = f.read()
-        self.setStyleSheet(sheet)
-
-        # Automatically load configuration
-        # self.load_configuration()
+        self.setStyleSheet(pyqt5_loader.load_stylesheet_pyqt5(style="style_Dark"))
 
     def set_run_appearance(self):
         """Set style_sheets
@@ -120,20 +115,11 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
         sender = self.sender()
         if sender:
             if (sender.text() in list(self.skins.keys())):
-                self.style_file = os.path.join(self.root_dir, "stylesheets/"+ self.skins[sender.text()])
-                with open(self.style_file, 'r') as f:
-                    sheet = f.read()
-                self.setStyleSheet(sheet)
+                self.setStyleSheet(pyqt5_loader.load_stylesheet_pyqt5(style=self.skins[sender.text()]))
             else:
-                self.style_file = os.path.join(self.root_dir, "stylesheets/style_Dark.qss")
-                with open(self.style_file, 'r') as f:
-                    sheet = f.read()
-                self.setStyleSheet(sheet)
+                self.setStyleSheet(pyqt5_loader.load_stylesheet_pyqt5(style="style_Dark"))
         else:
-            self.style_file = os.path.join(self.root_dir, "stylesheets/style_Dark.qss")
-            with open(self.style_file, 'r') as f:
-                sheet = f.read()
-            self.setStyleSheet(sheet)
+            self.setStyleSheet(pyqt5_loader.load_stylesheet_pyqt5(style="style_Dark"))
 
     def all_inputs_fun(self):
         """I put all available inputs in a dictionary named all_available_inputs

@@ -1,13 +1,10 @@
-tabWidget{
-    font-size: 15px;
-}
 
 QWidget {
-    font-size: 15px;
+    font-size: 18px;
 }
 
 QTableView {
-    font-size: 15px;
+    font-size: 10px;
     alternate-background-color: #EEEEFF;
 }
 
@@ -31,7 +28,7 @@ Browser QGroupBox {
     border: 2px solid #999999;
     border-radius: 5px;
     margin-top: 1ex; /* leave space at the top for the title */
-    font-size: 20px;
+    font-size: 15px;
     color: black;
 }
 
@@ -39,7 +36,7 @@ Browser QGroupBox::title {
     subcontrol-origin: margin;
     subcontrol-position: top center; /* position at the top center */
     padding: 0 3px;
-    font-size: 15px;
+    font-size: 13px;
     color: black;
 }
 

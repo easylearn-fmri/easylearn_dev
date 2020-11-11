@@ -469,6 +469,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 892, 26))
+        self.menubar.setNativeMenuBar(False)
         self.menubar.setObjectName("menubar")
         self.menuConfiguration_file_f = QtWidgets.QMenu(self.menubar)
         self.menuConfiguration_file_f.setObjectName("menuConfiguration_file_f")
@@ -518,7 +519,7 @@ class Ui_MainWindow(object):
         self.tabWidget_items.setCurrentIndex(3)
         self.stackedWidget_preprocessing_methods.setCurrentIndex(2)
         self.stackedWidget_dimreduction.setCurrentIndex(2)
-        self.stackedWidget_feature_selection.setCurrentIndex(5)
+        self.stackedWidget_feature_selection.setCurrentIndex(8)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):

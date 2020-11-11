@@ -2,11 +2,13 @@
 
 # Form implementation generated from reading ui file '.\easylearn_main_gui.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.3
+# Created by: PyQt5 UI code generator 5.12.3
 #
 # WARNING! All changes made in this file will be lost!
 
+
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -110,6 +112,10 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 439, 26))
+        self.menubar.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
+        self.menubar.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
+        self.menubar.setAutoFillBackground(True)
+        self.menubar.setNativeMenuBar(False)
         self.menubar.setObjectName("menubar")
         self.menueasylearn = QtWidgets.QMenu(self.menubar)
         self.menueasylearn.setObjectName("menueasylearn")
@@ -185,4 +191,3 @@ class Ui_MainWindow(object):
         self.actionNavy.setText(_translate("MainWindow", "Navy"))
         self.actionClassic.setText(_translate("MainWindow", "Classic"))
         self.actionLight.setText(_translate("MainWindow", "Light"))
-

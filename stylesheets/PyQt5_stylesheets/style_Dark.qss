@@ -21,6 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
+QWidget {
+    font-size: 18px;
+}
+
 QToolTip
 {
     border: 1px solid #76797C;
@@ -596,15 +601,6 @@ QPushButton
     padding: 5px;
     border-radius: 2px;
     outline: none;
-}
-
-QPushButton:hover
-{
-    background-color: #3daee9;
-    padding-top: -15px;
-    padding-bottom: -17px;
-    font-weight: bold;
-    font-size:20px;
 }
 
 QPushButton:disabled
