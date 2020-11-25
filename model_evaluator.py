@@ -184,7 +184,7 @@ class ModelEvaluator():
                 # predict_prob = (predict_prob - predict_prob.min()) / (predict_prob.max() - predict_prob.min())
                 fraction_of_positives, mean_predicted_value = calibration_curve(true_label, predict_prob, n_bins=10, normalize=True)
                 ax[1][1].plot([0, 1], [0, 1], "k:", label="Perfectly calibrated")
-                ax[1][1].plot(mean_predicted_value, fraction_of_positives, "s-", color="k")
+                ax[1][1].plot(mean_predicted_value, fraction_of_positives, "-.", color="k")
                 # Setting
                 ax[1][1].spines['top'].set_linewidth(1)
                 ax[1][1].spines['right'].set_linewidth(1)

@@ -555,7 +555,7 @@ class DataLoader():
             for jm, mk in enumerate(self.data_loading.get(gk).get("modalities").keys()):
                 modality = self.data_loading.get(gk).get("modalities").get(mk)
                
-                # Get file
+                # Get files
                 # If only input one file for one modality in a given group, then I think the file contained multiple cases' data
                 input_files = modality.get("file")
                 n_file = self.get_file_len(input_files)
@@ -638,9 +638,6 @@ class DataLoader():
                    feature_applied_mask, self.mask_[gk][mk] = self.get_upper_tri_mat(feature_applied_mask)
                    feature_applied_mask = np.array(feature_applied_mask)
                    feature_applied_mask = feature_applied_mask.reshape(n_file,-1)
-                
-                # Handle extreme values
-                feature_applied_mask = self.handle_extreme(feature_applied_mask, input_files)
 
                 # Add subj_name, targets and covariates to features for matching datasets across modalities in the same group 
                 if (not isinstance(self.covariates_[gk],int)): 
@@ -722,29 +719,6 @@ class DataLoader():
                 all_features_.append(df)
                 
         return all_features_
-    
-    def handle_extreme(self, all_features, input_files):
-        """ Handle extreme values
-        
-        Currently, we fillna with median
-        TODO: Add other extreme values' handling methods
-
-        Parameters: 
-        ----------
-        all_features: DataFrame or ndarray
-            all features
-
-        Return:
-        ------
-        all_features: DataFrames
-            all features that be handled extreme values
-        """
-        
-        if not isinstance(all_features, pd.core.frame.DataFrame):
-            all_features = pd.DataFrame(all_features)
-        if all_features.isna().any().sum() > 0:
-            all_features = all_features.fillna(all_features.median())
-        return all_features
 
     def read_targets(self, targets_input):
         if (targets_input == []) or (targets_input == ''):
