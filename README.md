@@ -15,8 +15,8 @@ pip install eslearn
 
 # Usage
 ```
-from eslearn.GUI.easylearn_main_run import main
-main()
+from eslearn import app
+app.run()
 ```
 
 # GUI preview

@@ -11,7 +11,7 @@ from sklearn import datasets
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import make_scorer, mean_squared_error, mean_absolute_error, max_error
 
-from eslearn.base import DataLoader
+from eslearn.base import BaseMachineLearning, DataLoader
 from eslearn.machine_learning.regression._base_regression import BaseRegression
 from eslearn.model_evaluator import ModelEvaluator
 
@@ -20,13 +20,12 @@ x, y = datasets.make_regression(n_samples=200, n_informative=50, n_features=100,
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.30, random_state=42)
 
 
-class Regression(DataLoader, BaseRegression):
+class Regression(BaseMachineLearning, DataLoader, BaseRegression):
     
     def __init__(self, configuration_file):
+        BaseMachineLearning.__init__(self, configuration_file)
         DataLoader.__init__(self, configuration_file)
-        BaseRegression.__init__(self, location=os.path.dirname(configuration_file))
-        self.search_strategy = 'grid'
-        self.n_jobs = -1
+        BaseRegression.__init__(self)
         self.metric = mean_absolute_error
 
     def main_run(self):
@@ -56,12 +55,12 @@ class Regression(DataLoader, BaseRegression):
             # Fit
             self.fit_(feature_train, target_train)
             self.get_weights_(feature_train, target_train)
-            y_prob = self.predict(feature_test)
+            y_prob = self.predict_(feature_test)
             
             # Eval performances
-            acc = self.metric(target_test, y_prob)            
+            score = self.metric(target_test, y_prob)            
         
-        return acc
+        return score
         
 
 if __name__ == "__main__":
