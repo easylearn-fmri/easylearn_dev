@@ -851,13 +851,13 @@ class DataLoader():
                     mask = np.triu(np.ones(dd.shape),1) == 1
                     data_.append(dd[mask])
                 else:
-                    mask = np.ones(np.shape(dd)) if not one_file_per_modality else np.ones(np.shape(dd)[1])
+                    mask = np.ones(np.shape(dd)) if not one_file_per_modality else np.ones(np.shape(dd)[1]) 
                     data_.append(dd)
             else:
                 mask = np.ones(np.shape(dd)) if not one_file_per_modality else np.ones(np.shape(dd)[1])
                 data_.append(dd)
 
-        return data_, mask
+        return data_, mask == 1
             
 
     @staticmethod
