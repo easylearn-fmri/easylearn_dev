@@ -4,12 +4,12 @@
             "modalities": {
                 "modality_1": {
                     "file": [
-                        "D:/My_Codes/virtualenv_eslearn/Lib/site-packages/eslearn/GUI/test/demo_data.xlsx"
+                        "D:/My_Codes/virtualenv_eslearn/Lib/site-packages/eslearn/GUI/tests/demo_data.xlsx"
                     ],
                     "mask": ""
                 }
             },
-            "targets": "D:/My_Codes/virtualenv_eslearn/Lib/site-packages/eslearn/GUI/test/demo_target.xlsx",
+            "targets": "D:/My_Codes/virtualenv_eslearn/Lib/site-packages/eslearn/GUI/tests/demo_target.xlsx",
             "covariates": ""
         }
     },

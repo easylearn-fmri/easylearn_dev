@@ -19,15 +19,20 @@ def denan(features, how="median"):
         all features that be handled extreme values
     """
     
-    value = None
+    
+    if how == "median":
+        value = np.median(pd.DataFrame(features).dropna(axis="index"), axis=0)
+    elif how == "mean":
+        value =np.mean(pd.DataFrame(features).dropna(axis="index"), axis=0)
+    
+    value = pd.Series(value)
+                
     if np.isnan(features).any().sum() > 0:
         if not isinstance(features, pd.core.frame.DataFrame):
             features = pd.DataFrame(features)
             if how == "median":
-                value = features.median()
                 features = features.fillna(value=value)
             elif how == "mean":
-                value = features.mean()
                 features = features.fillna(value=value)  
 
     return features, value

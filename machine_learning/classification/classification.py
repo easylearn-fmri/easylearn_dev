@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 from collections import Counter
 import pickle
+import nibabel as nib
 
 from eslearn.base import BaseMachineLearning, DataLoader
 from eslearn.preprocessing.preprocessing import denan
@@ -51,7 +52,7 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
 
             # Preprocessing
             feature_train, fill_value = denan(feature_train, how='median')
-            if fill_value:
+            if np.isnan(feature_test).any().sum() > 0:
                 feature_test = pd.DataFrame(feature_test).fillna(fill_value)
 
             subname_ = self.id_[test_index]
@@ -87,16 +88,34 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
             self.pred_label.extend(y_pred)
             decision.extend(y_prob)
             weights.append(self.weights_)
-         
+        
+        
+        # Save weight
+        mean_wei = np.reshape(np.mean(weights, axis=0), [-1,])
+        for key in self.mask_:
+            for key_ in self.mask_[key]:
+                mask = self.mask_[key][key_]
+                break
+        mean_weight = np.zeros(mask.shape)
+        mean_weight[mask] = mean_wei
+        
+        if self.data_format_ in ["nii","gz"]:
+            out_name_wei = os.path.join(self.out_dir, "weight.nii.gz")
+            mean_weight = nib.Nifti1Image(mean_weight, self.affine_)
+            mean_weight.to_filename(out_name_wei)
+        else:
+            out_name_wei = os.path.join(self.out_dir, "weight.csv")
+            pd.Series(mean_weight).to_csv(out_name_wei)
+        
         # Eval performances for all fold
-        out_name = os.path.join(self.out_dir, "classification_performances.pdf")
+        out_name_perf = os.path.join(self.out_dir, "classification_performances.pdf")
         acc, sens, spec, auc, _ = ModelEvaluator().binary_evaluator(
             self.target_test_all, self.pred_label, decision,
             accuracy_kfold=self.real_accuracy, 
             sensitivity_kfold=self.real_sensitivity, 
             specificity_kfold=self.real_specificity, 
             AUC_kfold=self.real_auc,
-            verbose=1, is_showfig=True, is_savefig=True, legend1='Controls', legend2='Patients', out_name=out_name
+            verbose=1, is_showfig=True, is_savefig=True, legend1='Controls', legend2='Patients', out_name=out_name_perf
         )
 
         # Stat
@@ -209,8 +228,8 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
 
 if __name__ == "__main__":
     time_start = time.time()
-    clf = Classification(configuration_file=r'F:\耿海洋workshop\demo_data\szVShc.json', 
-                         out_dir=r"F:\耿海洋workshop\demo_data") 
+    clf = Classification(configuration_file=r'D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\tests\radiomics.json', 
+                         out_dir=r"D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\tests") 
     clf.main_run()
     time_end = time.time()
     # print(clf.param_search_)
