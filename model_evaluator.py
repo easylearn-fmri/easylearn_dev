@@ -8,6 +8,7 @@ from sklearn.metrics import accuracy_score, confusion_matrix
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 from matplotlib.pyplot import MultipleLocator
+import seaborn as sns
 
 from eslearn.utils.timer import  timer
 
@@ -209,6 +210,32 @@ class ModelEvaluator():
                     plt.close()
 
         return accuracy, sensitivity, specificity, auc, confusion_matrix_values
+
+    def regression_evaluator(self, real_target, predict_prob, scores, 
+                             verbose=1, is_showfig=True, is_savefig=True, out_name=None):
+        
+        mae_mean = np.mean(scores)
+        mae_std = np.std(scores)
+        coef = np.corrcoef(real_target, predict_prob)[0,1]
+        
+        sns.jointplot(x=predict_prob, y=real_target, kind='reg',size=5)
+        plt.xlabel("Predicted score", fontsize=15)
+        plt.ylabel("Real score", fontsize=15)
+        plt.tight_layout()
+        
+        xmargin = (np.max(predict_prob)-np.min(predict_prob))/100
+        ymargin = (np.max(real_target)-np.min(real_target))/100
+        plt.text(np.min(predict_prob)+xmargin, np.max(real_target)-ymargin, f"MAE={mae_mean:.2f}±{mae_std:.2f}\nR={coef:.2f}")
+        
+        if is_savefig:
+            pdf = PdfPages(out_name)
+            pdf.savefig()
+            pdf.close()
+            
+            if is_showfig:
+                plt.show()
+                plt.pause(5)
+                plt.close()
 
 
 if __name__ == "__main__":

@@ -1,0 +1,47 @@
+{
+    "data_loading": {},
+    "feature_engineering": {
+        "feature_preprocessing": {
+            "MinMaxScaler()": {
+                "feature_range": {
+                    "value": "(0,1)"
+                }
+            }
+        },
+        "dimreduction": {
+            "PCA()": {
+                "n_components": {
+                    "value": "np.linspace(0,1,5)"
+                }
+            }
+        }
+    },
+    "machine_learning": {
+        "Classification": {
+            "LinearSVC()": {
+                "C": {
+                    "value": "1"
+                },
+                "multi_class": {
+                    "value": "ovr"
+                }
+            }
+        }
+    },
+    "model_evaluation": {
+        "KFold()": {
+            "n_splits": {
+                "value": "10"
+            },
+            "shuffle": {
+                "value": "True"
+            },
+            "random_state": {
+                "value": "0"
+            }
+        },
+        "Statistical_analysis": {
+            "Binomial test": {}
+        }
+    }
+}

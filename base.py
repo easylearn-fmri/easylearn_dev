@@ -445,7 +445,43 @@ class BaseMachineLearning(object):
             mapping.update({key.split("__")[1]:dictionary[key][0]})
         return mapping
             
-      
+    def save_weight(self, weights=None, out_dir=None):
+        """Save contribution weight of features
+        
+        Parameters:
+        ----------
+        
+        weights: list of numpy.ndarray
+            Contribution weights of each fold (e.g. 5-fold cross validation)
+
+        out_dir: str
+            Output directory
+
+        Returns:
+        -------
+        None
+        """
+
+        mean_wei = np.reshape(np.mean(weights, axis=0), [-1,])
+        for key in self.mask_:
+            for key_ in self.mask_[key]:
+                mask = self.mask_[key][key_]
+                break
+        mean_weight = np.zeros(mask.shape)
+        mean_weight[mask] = mean_wei
+
+        if self.data_format_ in ["nii","gz"]:
+            out_name_wei = os.path.join(out_dir, "weight.nii.gz")
+            mean_weight = nib.Nifti1Image(mean_weight, self.affine_)
+            mean_weight.to_filename(out_name_wei)
+        else:
+            out_name_wei = os.path.join(out_dir, "weight.csv")
+            if len(np.shape(mean_weight)) > 1:
+                np.savetxt(out_name_wei, mean_weight, delimiter=',')  
+            else:
+                pd.Series(mean_weight).to_csv(out_name_wei, header=False)
+
+
 class DataLoader():
     """Load datasets according to different data types and handle extreme values
 
@@ -662,11 +698,12 @@ class DataLoader():
         
         # Get data format
         # TODO: considering such as nii.gz in the future
+        self.affine_ = None
         example_file = input_files[0]
         self.data_format_ = input_files[0].split(".")[-1]
         if self.data_format_ in ["nii","gz"]:
             obj = nib.load(example_file)
-            self.affine_ = obj.get_affine()
+            self.affine_ = obj.affine
         
         # Concatenate all modalities and targets
         # Modalities of one group must have the same ID so that to mach them.
@@ -877,18 +914,11 @@ class DataLoader():
 
 
 if __name__ == '__main__':
-    base = BaseMachineLearning(configuration_file=r'D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\tests\szVShc.json')
+    base = BaseMachineLearning(configuration_file=r'D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\tests\configuration_file_reg.json')
     data_loader = DataLoader(configuration_file=r'D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\tests\szVShc.json')
     data_loader.load_data()
     
-    base.get_configuration_()
-    base.get_preprocessing_parameters()
-    base.get_dimension_reduction_parameters()
-    base.get_feature_selection_parameters()
-    base.get_unbalance_treatment_parameters()
-    base.get_machine_learning_parameters()
-    base.get_model_evaluation_parameters()
-    base.get_statistical_analysis_parameters()
+    base.get_all_inputs()
     
 
     print(base.method_feature_preprocessing_)

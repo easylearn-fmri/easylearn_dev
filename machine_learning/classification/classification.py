@@ -40,23 +40,24 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
         self.real_specificity = []
         self.real_auc = []
         self.pred_label = []
-        decision = []
+        pred_prob = []
         weights = []
         self.target_test_all = []
         subname = []
-        for train_index, test_index in self.method_model_evaluation_ .split(self.features_, self.targets_):
+        for train_index, test_index in self.method_model_evaluation_.split(self.features_, self.targets_):
             feature_train = self.features_[train_index, :]
             feature_test = self.features_[test_index, :]
             target_train = self.targets_[train_index]
             target_test = self.targets_[test_index]
 
+            subname_ = self.id_[test_index]
+            subname.extend(subname_)
+            
             # Preprocessing
             feature_train, fill_value = denan(feature_train, how='median')
             if np.isnan(feature_test).any().sum() > 0:
                 feature_test = pd.DataFrame(feature_test).fillna(fill_value)
 
-            subname_ = self.id_[test_index]
-            subname.extend(subname_)
             self.target_test_all.extend(target_test)
 
             # Resample
@@ -86,31 +87,17 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
             self.real_specificity.append(spec)
             self.real_auc.append(auc_)
             self.pred_label.extend(y_pred)
-            decision.extend(y_prob)
+            pred_prob.extend(y_prob)
             weights.append(self.weights_)
         
         
         # Save weight
-        mean_wei = np.reshape(np.mean(weights, axis=0), [-1,])
-        for key in self.mask_:
-            for key_ in self.mask_[key]:
-                mask = self.mask_[key][key_]
-                break
-        mean_weight = np.zeros(mask.shape)
-        mean_weight[mask] = mean_wei
-        
-        if self.data_format_ in ["nii","gz"]:
-            out_name_wei = os.path.join(self.out_dir, "weight.nii.gz")
-            mean_weight = nib.Nifti1Image(mean_weight, self.affine_)
-            mean_weight.to_filename(out_name_wei)
-        else:
-            out_name_wei = os.path.join(self.out_dir, "weight.csv")
-            pd.Series(mean_weight).to_csv(out_name_wei, header=False)
+        self.save_weight(weights, self.out_dir)
         
         # Eval performances for all fold
         out_name_perf = os.path.join(self.out_dir, "classification_performances.pdf")
         acc, sens, spec, auc, _ = ModelEvaluator().binary_evaluator(
-            self.target_test_all, self.pred_label, decision,
+            self.target_test_all, self.pred_label, pred_prob,
             accuracy_kfold=self.real_accuracy, 
             sensitivity_kfold=self.real_sensitivity, 
             specificity_kfold=self.real_specificity, 
@@ -124,7 +111,7 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
         
         # Save outputs
         outputs = { "subname": subname, "test_targets": self.target_test_all, "test_prediction": self.pred_label, 
-                    "test_probability": decision, "accuracy": self.real_accuracy,
+                    "test_probability": pred_prob, "accuracy": self.real_accuracy,
                     "sensitivity": self.real_sensitivity, "specificity":self.real_specificity, "auc": self.real_auc, 
                     "pvalue_acc": self.pvalue_acc, "pvalue_sens": self.pvalue_sens, 
                     "pvalue_spec": self.pvalue_spec, "pvalue_auc": self.pvalue_auc
@@ -165,7 +152,7 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
             specificity = []
             auc = []
             self.pred_label = []
-            decision = []
+            pred_prob = []
             weights = []
             self.target_test_all = []
             for train_index, test_index in self.method_model_evaluation_ .split(self.features_, self.targets_):
@@ -202,7 +189,7 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
                 specificity.append(spec)
                 auc.append(auc_)
                 self.pred_label.extend(y_pred)
-                decision.extend(y_prob)
+                pred_prob.extend(y_prob)
                 weights.append(self.weights_)
              
             # Average performances of one permutation
@@ -227,7 +214,7 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
 
 if __name__ == "__main__":
     time_start = time.time()
-    clf = Classification(configuration_file=r'D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\tests\radiomics.json', 
+    clf = Classification(configuration_file=r'D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\tests\configuration_file.json', 
                          out_dir=r"D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\tests") 
     clf.main_run()
     time_end = time.time()
