@@ -50,13 +50,14 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
             target_train = self.targets_[train_index]
             target_test = self.targets_[test_index]
 
+            subname_ = self.id_[test_index]
+            subname.extend(subname_)
+            
             # Preprocessing
             feature_train, fill_value = denan(feature_train, how='median')
             if np.isnan(feature_test).any().sum() > 0:
                 feature_test = pd.DataFrame(feature_test).fillna(fill_value)
 
-            subname_ = self.id_[test_index]
-            subname.extend(subname_)
             self.target_test_all.extend(target_test)
 
             # Resample
