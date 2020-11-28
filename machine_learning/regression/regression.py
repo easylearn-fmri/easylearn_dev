@@ -22,11 +22,12 @@ x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.30, random
 
 class Regression(BaseMachineLearning, DataLoader, BaseRegression):
     
-    def __init__(self, configuration_file):
+    def __init__(self, configuration_file, out_dir):
         BaseMachineLearning.__init__(self, configuration_file)
         DataLoader.__init__(self, configuration_file)
         BaseRegression.__init__(self)
         self.metric = mean_absolute_error
+        self.out_dir = out_dir
 
     def main_run(self):
         
@@ -40,6 +41,9 @@ class Regression(BaseMachineLearning, DataLoader, BaseRegression):
        # Get training and test datasets        
         cv = self.method_model_evaluation_ 
         target_test_all = []
+        pred_prob = []
+        self.real_score = []
+        weights = []
         for train_index, test_index in cv.split(self.features_, self.targets_):
             feature_train = self.features_[train_index, :]
             feature_test = self.features_[test_index, :]
@@ -58,14 +62,22 @@ class Regression(BaseMachineLearning, DataLoader, BaseRegression):
             y_prob = self.predict_(feature_test)
             
             # Eval performances
-            score = self.metric(target_test, y_prob)            
+            score = self.metric(target_test, y_prob)  
+
+            self.real_score.append(score)
+            pred_prob.extend(y_prob)
+            weights.append(self.weights_)          
         
+        # Save weight
+        self.save_weight(weights, self.out_dir)
+
         return score
         
 
 if __name__ == "__main__":
     time_start = time.time()
-    clf = Regression(configuration_file=r'D:\My_Codes\easylearn\eslearn\GUI\test\configuration_file_reg.json') 
+    clf = Regression(configuration_file=r'D:\My_Codes\easylearn\eslearn\GUI\test\configuration_file_reg.json',
+                     out_dir=r"D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\tests")
     clf.main_run()
     time_end = time.time()
     print(f"Running time = {time_end-time_start}\n")
