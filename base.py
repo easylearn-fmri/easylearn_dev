@@ -461,6 +461,10 @@ class DataLoader():
     features_: ndarray of shape (n_samples, n_features) 
 
     mask_: dictionary, each element contains a mask of a modality of a group
+    
+    data_format_: str, data format such as 'nii', 'mat'
+    
+    self.affine_: 4 by 4 matrix, image affine
     """
     
     def __init__(self, configuration_file):
@@ -490,35 +494,35 @@ class DataLoader():
 
     def load_data(self):
         self.get_configuration_()
-        self.data_loading = self.configuration.get('data_loading', None)
+        load_data = self.configuration.get('data_loading', None)
         
         # ======Check datasets======
         # NOTE.: That check whether the feature dimensions of the same modalities in different groups are equal
         # is placed in the next section.
         targets = {}
         self.covariates_ = {}
-        for i, gk in enumerate(self.data_loading.keys()):
+        for i, gk in enumerate(load_data.keys()):
             
             # Check the number of modality across all group is equal
             if i == 0:
-                n_mod = len(self.data_loading.get(gk).get("modalities").keys())
+                n_mod = len(load_data.get(gk).get("modalities").keys())
             else:
-                if n_mod != len(self.data_loading.get(gk).get("modalities").keys()):
+                if n_mod != len(load_data.get(gk).get("modalities").keys()):
                     raise ValueError("The number of modalities in each group is not equal, check your inputs")
                     return
-                n_mod = len(self.data_loading.get(gk).get("modalities").keys())
+                n_mod = len(load_data.get(gk).get("modalities").keys())
                 
             # Get targets
-            targets_input = self.data_loading.get(gk).get("targets")
+            targets_input = load_data.get(gk).get("targets")
             targets[gk] = self.read_targets(targets_input)            
     
             # Get covariates
-            covariates_input = self.data_loading.get(gk).get("covariates")
+            covariates_input = load_data.get(gk).get("covariates")
             self.covariates_[gk] = self.base_read(covariates_input)
             
             # Check the number of files in each modalities in the same group is equal
-            for j, mk in enumerate(self.data_loading.get(gk).get("modalities").keys()):
-                modality = self.data_loading.get(gk).get("modalities").get(mk)
+            for j, mk in enumerate(load_data.get(gk).get("modalities").keys()):
+                modality = load_data.get(gk).get("modalities").get(mk)
                 
                 # Filses
                 input_files = modality.get("file")
@@ -547,15 +551,15 @@ class DataLoader():
         feature_applied_mask_and_add_otherinfo = {}
         col_drop = {}
         self.mask_ = {}
-        for ig, gk in enumerate(self.data_loading.keys()):            
+        for ig, gk in enumerate(load_data.keys()):            
             shape_of_data[gk] = {}
             feature_applied_mask_and_add_otherinfo[gk] = {}
             self.mask_[gk] = {}
             
-            for jm, mk in enumerate(self.data_loading.get(gk).get("modalities").keys()):
-                modality = self.data_loading.get(gk).get("modalities").get(mk)
+            for jm, mk in enumerate(load_data.get(gk).get("modalities").keys()):
+                modality = load_data.get(gk).get("modalities").get(mk)
                
-                # Get file
+                # Get files
                 # If only input one file for one modality in a given group, then I think the file contained multiple cases' data
                 input_files = modality.get("file")
                 n_file = self.get_file_len(input_files)
@@ -571,8 +575,7 @@ class DataLoader():
                     all_features = [all_features_]  # 
                 else:
                     all_features_ = None
-                
-
+                        
                 # Get cases' name (unique ID) in this modality
                 # If one_file_per_modality = False, then each file name must contain r'.*(sub.?[0-9].*).*'
                 # If one_file_per_modality = True and all_features_ is DataFrame, then the DataFrame must have header of "__ID__" which contain the subj_name
@@ -635,12 +638,9 @@ class DataLoader():
                    feature_applied_mask = np.array(feature_applied_mask)
                 else:
                    feature_applied_mask = [fa for fa in all_features]
-                   feature_applied_mask, self.mask_[gk][mk] = self.get_upper_tri_mat(feature_applied_mask)
+                   feature_applied_mask, self.mask_[gk][mk] = self.get_upper_tri_mat(feature_applied_mask, one_file_per_modality)
                    feature_applied_mask = np.array(feature_applied_mask)
                    feature_applied_mask = feature_applied_mask.reshape(n_file,-1)
-                
-                # Handle extreme values
-                feature_applied_mask = self.handle_extreme(feature_applied_mask, input_files)
 
                 # Add subj_name, targets and covariates to features for matching datasets across modalities in the same group 
                 if (not isinstance(self.covariates_[gk],int)): 
@@ -659,7 +659,15 @@ class DataLoader():
                 
             # Update gk_pre for check feature dimension
             gk_pre = gk            
-                
+        
+        # Get data format
+        # TODO: considering such as nii.gz in the future
+        example_file = input_files[0]
+        self.data_format_ = input_files[0].split(".")[-1]
+        if self.data_format_ in ["nii","gz"]:
+            obj = nib.load(example_file)
+            self.affine_ = obj.get_affine()
+        
         # Concatenate all modalities and targets
         # Modalities of one group must have the same ID so that to mach them.
         for gi, gk in enumerate(feature_applied_mask_and_add_otherinfo):
@@ -722,29 +730,6 @@ class DataLoader():
                 all_features_.append(df)
                 
         return all_features_
-    
-    def handle_extreme(self, all_features, input_files):
-        """ Handle extreme values
-        
-        Currently, we fillna with median
-        TODO: Add other extreme values' handling methods
-
-        Parameters: 
-        ----------
-        all_features: DataFrame or ndarray
-            all features
-
-        Return:
-        ------
-        all_features: DataFrames
-            all features that be handled extreme values
-        """
-        
-        if not isinstance(all_features, pd.core.frame.DataFrame):
-            all_features = pd.DataFrame(all_features)
-        if all_features.isna().any().sum() > 0:
-            all_features = all_features.fillna(all_features.median())
-        return all_features
 
     def read_targets(self, targets_input):
         if (targets_input == []) or (targets_input == ''):
@@ -835,7 +820,7 @@ class DataLoader():
         return data
     
     @ staticmethod
-    def get_upper_tri_mat(data):
+    def get_upper_tri_mat(data, one_file_per_modality):
         """Get upper triangular matrix
 
         If the matrix is symmetric, then I extract the upper triangular matrix.
@@ -843,6 +828,9 @@ class DataLoader():
         Parameters:
         ----------
         data: list of ndarray or DataFrame
+        
+        one_file_per_modality: bool
+            If one file per modality, which used for generating mask.
 
         Return:
         -------
@@ -863,13 +851,13 @@ class DataLoader():
                     mask = np.triu(np.ones(dd.shape),1) == 1
                     data_.append(dd[mask])
                 else:
-                    mask = np.ones(np.shape(dd))
+                    mask = np.ones(np.shape(dd)) if not one_file_per_modality else np.ones(np.shape(dd)[1]) 
                     data_.append(dd)
             else:
-                mask = np.ones(np.shape(dd))
+                mask = np.ones(np.shape(dd)) if not one_file_per_modality else np.ones(np.shape(dd)[1])
                 data_.append(dd)
 
-        return data_, mask
+        return data_, mask == 1
             
 
     @staticmethod
@@ -889,8 +877,8 @@ class DataLoader():
 
 
 if __name__ == '__main__':
-    base = BaseMachineLearning(configuration_file=r'D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\test\configuration_file.json')
-    data_loader = DataLoader(configuration_file=r'D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\test\configuration_file.json')
+    base = BaseMachineLearning(configuration_file=r'D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\tests\szVShc.json')
+    data_loader = DataLoader(configuration_file=r'D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\tests\szVShc.json')
     data_loader.load_data()
     
     base.get_configuration_()

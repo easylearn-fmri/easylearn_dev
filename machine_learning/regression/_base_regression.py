@@ -10,9 +10,6 @@ from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
 from sklearn.model_selection import KFold
 from sklearn.metrics import make_scorer, mean_squared_error, mean_absolute_error
-from sklearn.pipeline import Pipeline
-from joblib import Memory
-from abc import abstractmethod, ABCMeta
 import warnings
 from sklearn.exceptions import ConvergenceWarning
 
@@ -22,7 +19,7 @@ from eslearn.utils.timer import timer
 warnings.filterwarnings("ignore", category=ConvergenceWarning, module="sklearn")
 
 
-class BaseRegression(AbstractSupervisedMachineLearningBase):
+class BaseRegression():
     """Base class for regression
 
     Parameters

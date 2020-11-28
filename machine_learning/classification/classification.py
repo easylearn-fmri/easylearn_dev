@@ -4,10 +4,13 @@
 import time
 import os
 import numpy as np
+import pandas as pd
 from collections import Counter
 import pickle
+import nibabel as nib
 
 from eslearn.base import BaseMachineLearning, DataLoader
+from eslearn.preprocessing.preprocessing import denan
 from eslearn.machine_learning.classification._base_classification import BaseClassification
 from eslearn.model_evaluator import ModelEvaluator
 from eslearn.statistical_analysis import el_binomialtest
@@ -46,6 +49,12 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
             feature_test = self.features_[test_index, :]
             target_train = self.targets_[train_index]
             target_test = self.targets_[test_index]
+
+            # Preprocessing
+            feature_train, fill_value = denan(feature_train, how='median')
+            if np.isnan(feature_test).any().sum() > 0:
+                feature_test = pd.DataFrame(feature_test).fillna(fill_value)
+
             subname_ = self.id_[test_index]
             subname.extend(subname_)
             self.target_test_all.extend(target_test)
@@ -79,16 +88,34 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
             self.pred_label.extend(y_pred)
             decision.extend(y_prob)
             weights.append(self.weights_)
-         
+        
+        
+        # Save weight
+        mean_wei = np.reshape(np.mean(weights, axis=0), [-1,])
+        for key in self.mask_:
+            for key_ in self.mask_[key]:
+                mask = self.mask_[key][key_]
+                break
+        mean_weight = np.zeros(mask.shape)
+        mean_weight[mask] = mean_wei
+        
+        if self.data_format_ in ["nii","gz"]:
+            out_name_wei = os.path.join(self.out_dir, "weight.nii.gz")
+            mean_weight = nib.Nifti1Image(mean_weight, self.affine_)
+            mean_weight.to_filename(out_name_wei)
+        else:
+            out_name_wei = os.path.join(self.out_dir, "weight.csv")
+            pd.Series(mean_weight).to_csv(out_name_wei, header=False)
+        
         # Eval performances for all fold
-        out_name = os.path.join(self.out_dir, "classification_performances.pdf")
+        out_name_perf = os.path.join(self.out_dir, "classification_performances.pdf")
         acc, sens, spec, auc, _ = ModelEvaluator().binary_evaluator(
             self.target_test_all, self.pred_label, decision,
             accuracy_kfold=self.real_accuracy, 
             sensitivity_kfold=self.real_sensitivity, 
             specificity_kfold=self.real_specificity, 
             AUC_kfold=self.real_auc,
-            verbose=1, is_showfig=True, is_savefig=True, legend1='Controls', legend2='Patients', out_name=out_name
+            verbose=1, is_showfig=True, is_savefig=True, legend1='Controls', legend2='Patients', out_name=out_name_perf
         )
 
         # Stat
@@ -98,8 +125,7 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
         # Save outputs
         outputs = { "subname": subname, "test_targets": self.target_test_all, "test_prediction": self.pred_label, 
                     "test_probability": decision, "accuracy": self.real_accuracy,
-                    "sensitivity": self.real_sensitivity, "specificity":self.real_specificity, 
-                    "weights": weights, "auc": self.real_auc, 
+                    "sensitivity": self.real_sensitivity, "specificity":self.real_specificity, "auc": self.real_auc, 
                     "pvalue_acc": self.pvalue_acc, "pvalue_sens": self.pvalue_sens, 
                     "pvalue_spec": self.pvalue_spec, "pvalue_auc": self.pvalue_auc
         }
@@ -158,7 +184,7 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
                 # Fit
                 self.fit_(self.pipeline_, feature_train, permuted_target_train)
                 
-                #weights
+                # weights
                 self.get_weights_(feature_train, permuted_target_train)
                 
                 # Predict
@@ -201,8 +227,8 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
 
 if __name__ == "__main__":
     time_start = time.time()
-    clf = Classification(configuration_file=r'F:\耿海洋workshop\demo_data\szVShc.json', 
-                         out_dir=r"F:\耿海洋workshop\demo_data") 
+    clf = Classification(configuration_file=r'D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\tests\radiomics.json', 
+                         out_dir=r"D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\tests") 
     clf.main_run()
     time_end = time.time()
     # print(clf.param_search_)
