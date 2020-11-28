@@ -144,7 +144,7 @@ class ModelEvaluator():
                 ax[1][0].set_title(f'ROC Curve (AUC = {auc})', fontsize=12, fontweight='bold')
                 ax[1][0].set_xlabel('False Positive Rate', fontsize=10)
                 ax[1][0].set_ylabel('True Positive Rate', fontsize=10)
-                ax[1][0].plot(fpr, tpr, marker=".", markersize=5, linewidth=2, color='k')
+                ax[1][0].plot(fpr, tpr, marker=".", markersize=2, linewidth=1, color='k')
                 plt.tick_params(labelsize=12)
                 # Grid and spines
                 ax[1][0].grid(False)
