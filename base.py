@@ -914,18 +914,11 @@ class DataLoader():
 
 
 if __name__ == '__main__':
-    base = BaseMachineLearning(configuration_file=r'D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\tests\numpytest.json')
+    base = BaseMachineLearning(configuration_file=r'D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\tests\configuration_file_reg.json')
     data_loader = DataLoader(configuration_file=r'D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\tests\szVShc.json')
     data_loader.load_data()
     
-    base.get_configuration_()
-    base.get_preprocessing_parameters()
-    base.get_dimension_reduction_parameters()
-    base.get_feature_selection_parameters()
-    base.get_unbalance_treatment_parameters()
-    base.get_machine_learning_parameters()
-    base.get_model_evaluation_parameters()
-    base.get_statistical_analysis_parameters()
+    base.get_all_inputs()
     
 
     print(base.method_feature_preprocessing_)

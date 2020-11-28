@@ -44,7 +44,7 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
         weights = []
         self.target_test_all = []
         subname = []
-        for train_index, test_index in self.method_model_evaluation_ .split(self.features_, self.targets_):
+        for train_index, test_index in self.method_model_evaluation_.split(self.features_, self.targets_):
             feature_train = self.features_[train_index, :]
             feature_test = self.features_[test_index, :]
             target_train = self.targets_[train_index]
@@ -214,7 +214,7 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
 
 if __name__ == "__main__":
     time_start = time.time()
-    clf = Classification(configuration_file=r'D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\tests\radiomics.json', 
+    clf = Classification(configuration_file=r'D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\tests\configuration_file.json', 
                          out_dir=r"D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\tests") 
     clf.main_run()
     time_end = time.time()

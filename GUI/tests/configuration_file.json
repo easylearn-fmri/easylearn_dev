@@ -136,14 +136,23 @@
         "dimreduction": {
             "PCA()": {
                 "n_components": {
-                    "value": "0.80"
+                    "value": "0.90"
                 }
             }
         },
         "feature_selection": {
-            "VarianceThreshold()": {
-                "threshold": {
-                    "value": "0.9"
+            "RFECV()": {
+                "step": {
+                    "value": "0.10"
+                },
+                "cv": {
+                    "value": "5"
+                },
+                "estimator": {
+                    "value": "SVC(kernel='linear')"
+                },
+                "n_jobs": {
+                    "value": "-1"
                 }
             }
         },
@@ -176,7 +185,11 @@
             }
         },
         "Statistical_analysis": {
-            "Binomial test": {}
+            "Permutation test": {
+                "N": {
+                    "value": "5"
+                }
+            }
         }
     }
 }

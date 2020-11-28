@@ -174,7 +174,11 @@
             }
         },
         "Statistical_analysis": {
-            "Binomial test": {}
+            "Permutation test": {
+                "N": {
+                    "value": "3"
+                }
+            }
         }
     }
 }
