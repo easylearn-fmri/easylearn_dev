@@ -21,7 +21,20 @@
             "None": {}
         },
         "feature_selection": {
-            "SelectFromModel(LassoCV())": {}
+            "RFECV()": {
+                "step": {
+                    "value": "0.10"
+                },
+                "cv": {
+                    "value": "5"
+                },
+                "estimator": {
+                    "value": "SVC(kernel='linear')"
+                },
+                "n_jobs": {
+                    "value": "-1"
+                }
+            }
         },
         "unbalance_treatment": {
             "RandomOverSampler()": {}
