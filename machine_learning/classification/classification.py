@@ -105,7 +105,10 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
             mean_weight.to_filename(out_name_wei)
         else:
             out_name_wei = os.path.join(self.out_dir, "weight.csv")
-            pd.Series(mean_weight).to_csv(out_name_wei, header=False)
+            if len(np.shape(mean_weight)) > 1:
+                np.savetxt(out_name_wei, mean_weight, delimiter=',')  
+            else:
+                pd.Series(mean_weight).to_csv(out_name_wei, header=False)
         
         # Eval performances for all fold
         out_name_perf = os.path.join(self.out_dir, "classification_performances.pdf")
