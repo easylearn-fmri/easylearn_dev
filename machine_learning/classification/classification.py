@@ -105,7 +105,7 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
             mean_weight.to_filename(out_name_wei)
         else:
             out_name_wei = os.path.join(self.out_dir, "weight.csv")
-            pd.Series(mean_weight).to_csv(out_name_wei)
+            pd.Series(mean_weight).to_csv(out_name_wei, header=False)
         
         # Eval performances for all fold
         out_name_perf = os.path.join(self.out_dir, "classification_performances.pdf")
@@ -125,8 +125,7 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
         # Save outputs
         outputs = { "subname": subname, "test_targets": self.target_test_all, "test_prediction": self.pred_label, 
                     "test_probability": decision, "accuracy": self.real_accuracy,
-                    "sensitivity": self.real_sensitivity, "specificity":self.real_specificity, 
-                    "weights": weights, "auc": self.real_auc, 
+                    "sensitivity": self.real_sensitivity, "specificity":self.real_specificity, "auc": self.real_auc, 
                     "pvalue_acc": self.pvalue_acc, "pvalue_sens": self.pvalue_sens, 
                     "pvalue_spec": self.pvalue_spec, "pvalue_auc": self.pvalue_auc
         }
