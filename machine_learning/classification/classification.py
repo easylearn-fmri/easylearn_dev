@@ -63,6 +63,7 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
             # Resample
             imbalance_resample = self.method_unbalance_treatment_
             if imbalance_resample:
+                print(f"Before re-sampling, the sample size are: {sorted(Counter(target_train).items())}")
                 feature_train, target_train = imbalance_resample.fit_resample(feature_train, target_train)
                 print(f"After re-sampling, the sample size are: {sorted(Counter(target_train).items())}")
             

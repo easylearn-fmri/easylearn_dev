@@ -516,7 +516,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuSkin.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.tabWidget_items.setCurrentIndex(3)
+        self.tabWidget_items.setCurrentIndex(0)
         self.stackedWidget_preprocessing_methods.setCurrentIndex(2)
         self.stackedWidget_dimreduction.setCurrentIndex(2)
         self.stackedWidget_feature_selection.setCurrentIndex(8)
