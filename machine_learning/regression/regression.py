@@ -78,7 +78,7 @@ class Regression(BaseMachineLearning, DataLoader, BaseRegression):
         
 
         # Eval performances for all fold
-        out_name_perf = os.path.join(self.out_dir, "classification_performances.pdf")
+        out_name_perf = os.path.join(self.out_dir, "regression_performances.pdf")
         all_score = ModelEvaluator().regression_evaluator(
             self.target_test_all, self.pred_prob, self.real_score, 
             verbose=1, is_showfig=True, is_savefig=True, out_name=out_name_perf

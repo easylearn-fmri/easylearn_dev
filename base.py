@@ -446,13 +446,13 @@ class BaseMachineLearning(object):
         return mapping
             
     def save_weight(self, weights=None, out_dir=None):
-        """Save contribution weight of features
+        """Save contribution weight of features for each modality
         
         Parameters:
         ----------
         
         weights: list of numpy.ndarray
-            Contribution weights of each fold (e.g. 5-fold cross validation)
+            Contribution weights of each fold of each modality (e.g. 5-fold cross validation)
 
         out_dir: str
             Output directory
@@ -463,25 +463,38 @@ class BaseMachineLearning(object):
         """
 
         mean_wei = np.reshape(np.mean(weights, axis=0), [-1,])
-        for key in self.mask_:
-            for key_ in self.mask_[key]:
-                mask = self.mask_[key][key_]
-                break
-        mean_weight = np.zeros(mask.shape)
-        mean_weight[mask] = mean_wei
+        
+        for group in self.mask_:
+            loc_start = 0  # Initializing loc_start
+            for im, modality in enumerate(self.mask_[group]):
+                mask = self.mask_[group][modality]
+                mean_weight = np.zeros(mask.shape)
 
-        if self.data_format_ in ["nii","gz"]:
-            out_name_wei = os.path.join(out_dir, "weight.nii.gz")
-            mean_weight = nib.Nifti1Image(mean_weight, self.affine_)
-            mean_weight.to_filename(out_name_wei)
-        else:
-            out_name_wei = os.path.join(out_dir, "weight.csv")
-            if len(np.shape(mean_weight)) > 1:
-                np.savetxt(out_name_wei, mean_weight, delimiter=',')  
-            else:
-                pd.Series(mean_weight).to_csv(out_name_wei, header=False)
+                # Initializing loc_end
+                if im == 0:
+                    loc_end = mask.sum()
 
+                mean_weight[mask] = mean_wei[loc_start:loc_end]
 
+                # Save
+                if self.data_format_[group][modality] in ["nii","gz"]:
+                    out_name_wei = os.path.join(out_dir, f"weight_{modality}.nii.gz")
+                    mean_weight2nii = nib.Nifti1Image(mean_weight, self.affine_[group][modality])
+                    mean_weight2nii.to_filename(out_name_wei)
+                else:
+                    out_name_wei = os.path.join(out_dir, f"weight_{modality}.csv")
+                    if len(np.shape(mean_weight)) > 1:
+                        np.savetxt(out_name_wei, mean_weight, delimiter=',')  
+                    else:
+                        pd.Series(mean_weight).to_csv(out_name_wei, header=False)
+                
+                # Update loc
+                loc_start += mask.sum()
+                loc_end += mask.sum()
+                
+            break  # Assuming the size of the same modality in different group are matching for each other
+
+#%% ==========================================================================
 class DataLoader():
     """Load datasets according to different data types and handle extreme values
 
@@ -587,10 +600,15 @@ class DataLoader():
         feature_applied_mask_and_add_otherinfo = {}
         col_drop = {}
         self.mask_ = {}
-        for ig, gk in enumerate(load_data.keys()):            
+        self.data_format_ = {}
+        self.affine_ =  {}
+        for ig, gk in enumerate(load_data.keys()): 
+            col_drop[gk] = ["__Targets__"]
             shape_of_data[gk] = {}
             feature_applied_mask_and_add_otherinfo[gk] = {}
             self.mask_[gk] = {}
+            self.data_format_[gk] = {}
+            self.affine_[gk] = {}
             
             for jm, mk in enumerate(load_data.get(gk).get("modalities").keys()):
                 modality = load_data.get(gk).get("modalities").get(mk)
@@ -604,6 +622,12 @@ class DataLoader():
                 else:
                     one_file_per_modality = False
                 
+                # Get features' format and affine for each modality
+                # I think all files in on modality are in the same format
+                # So I take the first file in corresponding modality as example file
+                # TODO: other situations
+                self.data_format_[gk][mk], self.affine_[gk][mk] = self.get_data_format(input_files[0])
+
                 # Get Features
                 all_features = self.read_file(input_files, False)
                 if one_file_per_modality:
@@ -656,6 +680,7 @@ class DataLoader():
                     if self.covariates_[gk].shape[0] != n_file:
                         raise ValueError(f"The subjects' ID in covariates is not totally matched with its' data file name in {mk} of {gk} , check your ID in covariates or check your data file name")
                         return 
+                    
                     if jm == 0:
                         # Get columns for drop (Remain 'ID' for matching)
                         columns_of_covariates = list(set(self.covariates_[gk].columns) - set(["__ID__"]))
@@ -696,15 +721,6 @@ class DataLoader():
             # Update gk_pre for check feature dimension
             gk_pre = gk            
         
-        # Get data format
-        # TODO: considering such as nii.gz in the future
-        self.affine_ = None
-        example_file = input_files[0]
-        self.data_format_ = input_files[0].split(".")[-1]
-        if self.data_format_ in ["nii","gz"]:
-            obj = nib.load(example_file)
-            self.affine_ = obj.affine
-        
         # Concatenate all modalities and targets
         # Modalities of one group must have the same ID so that to mach them.
         for gi, gk in enumerate(feature_applied_mask_and_add_otherinfo):
@@ -714,9 +730,11 @@ class DataLoader():
                 if mi == 0:
                     feature_sorted = feature_applied_mask_and_add_otherinfo[gk][mk]
                 if mi != 0:
+                    feature_for_concat = feature_applied_mask_and_add_otherinfo[gk][mk]
                     feature_for_concat = feature_applied_mask_and_add_otherinfo[gk][mk].drop(col_drop[gk], axis=1)
                     feature_sorted = pd.merge(feature_sorted, feature_for_concat, left_on="__ID__", right_on="__ID__", how="left")
-                    feature_sorted.drop(self.covariates_[gk].columns, axis=1, inplace=True)
+                    if (not isinstance(self.covariates_[gk],int)):
+                        feature_sorted.drop(self.covariates_[gk].columns, axis=1, inplace=True)
             
             # Concat feature across different group
             if gi == 0:
@@ -730,8 +748,7 @@ class DataLoader():
         self.features_ =  self.features_.values
         return self
        
-    #%% ========================utilt functions========================-
-
+    #%% ========================utilt functions========================
     def get_file_len(self, files):
         """If the files lenght is 1, then the length is the length of content of the files
         """
@@ -831,6 +848,19 @@ class DataLoader():
                 
         return data
     
+    @staticmethod
+    def get_data_format(example_file):
+        """Get  features' data format and affine
+        """
+
+        # TODO: considering such as nii.gz in the future
+        affine = None
+        data_format = example_file.split(".")[-1]
+        if data_format in ["nii","gz"]:
+            obj = nib.load(example_file)
+            affine = obj.affine
+        return data_format, affine
+
     @ staticmethod
     def read_nii(file):      
         obj = nib.load(file)
