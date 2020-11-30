@@ -106,25 +106,33 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
             verbose=1, is_showfig=True, is_savefig=True, legend1='Controls', legend2='Patients', out_name=out_name_perf
         )
 
-        # Stat
-        print("Statistical analysis...\n")
-        self.run_statistical_analysis()
         
         # Save outputs
-        outputs = { "subname": subname, "test_targets": self.target_test_all, "test_prediction": self.pred_label, 
+        self.outputs = { "subname": subname, "test_targets": self.target_test_all, "test_prediction": self.pred_label, 
                     "test_probability": pred_prob, "accuracy": self.real_accuracy,
-                    "sensitivity": self.real_sensitivity, "specificity":self.real_specificity, "auc": self.real_auc, 
-                    "pvalue_acc": self.pvalue_acc, "pvalue_sens": self.pvalue_sens, 
-                    "pvalue_spec": self.pvalue_spec, "pvalue_auc": self.pvalue_auc
+                    "sensitivity": self.real_sensitivity, "specificity":self.real_specificity, "auc": self.real_auc
         }
 
-        pickle.dump(outputs, open(os.path.join(self.out_dir, "outputs.pickle"), "wb"))
+        pickle.dump(self.outputs, open(os.path.join(self.out_dir, "outputs.pickle"), "wb"))
         
         return self
 
     def run_statistical_analysis(self):
+        """Statistical analysis
+        """
+
+        print("Statistical analysis...\n")
         type_dict = {"Binomial test":self.binomial_test, "Permutation test":self.permutation_test}
         type_dict[self.method_statistical_analysis_]()
+
+        # Save outputs
+        self.outputs.update(
+            {"pvalue_acc": self.pvalue_acc, "pvalue_sens": self.pvalue_sens, 
+             "pvalue_spec": self.pvalue_spec, "pvalue_auc": self.pvalue_auc
+            }
+        )
+
+        pickle.dump(self.outputs, open(os.path.join(self.out_dir, "outputs.pickle"), "wb"))
 
     def binomial_test(self):
         k = np.sum(np.array(self.target_test_all) - np.array(self.pred_label)==0)

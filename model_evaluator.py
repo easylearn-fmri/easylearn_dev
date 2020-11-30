@@ -17,7 +17,7 @@ class ModelEvaluator():
 
     """
     
-    def binary_evaluator(self, true_label=None, predict_label=None, predict_prob=None,
+    def binary_evaluator(self, true_label=None, predict_label=None, predict_score=None,
                         accuracy_kfold=None, sensitivity_kfold=None, specificity_kfold=None, AUC_kfold=None,
                         verbose=True, is_showfig=True, legend1='HC', legend2='Patients', is_savefig=False, out_name=None):
         
@@ -32,8 +32,8 @@ class ModelEvaluator():
         predict_label: 1d array with N-sample items
             predicted label
 
-        predict_prob: N-sample by N-class matrix 
-            Output predict_prob of model
+        predict_score: N-sample by N-class matrix 
+            Output predict_score of model
 
         accuracy_kfold: 1d array with K items
             accuracy of k-fold cross validation
@@ -71,14 +71,14 @@ class ModelEvaluator():
         # reshape to one column
         true_label = np.reshape(true_label, [np.size(true_label), ])
         predict_label = np.reshape(predict_label, [np.size(predict_label), ])
-        predict_prob = np.array(predict_prob)
+        predict_score = np.array(predict_score)
         # Identify the separation line located at the 0 or 0.5
-        if np.min(predict_prob) >= 0:
+        if np.min(predict_score) >= 0:
             separation_point = 0.5
         else:
             separation_point = 0
-        if np.ndim(predict_prob) == 2:
-            predict_prob = predict_prob[:,-1]  # Retained the positive probability
+        if np.ndim(predict_score) == 2:
+            predict_score = predict_score[:,-1]  # Retained the positive probability
 
         # accurcay, specificity(recall of negative) and
         # sensitivity(recall of positive)
@@ -94,8 +94,8 @@ class ModelEvaluator():
 
         # roc and auc
         if len(np.unique(true_label)) == 2:
-            fpr, tpr, thresh = roc_curve(true_label, predict_prob)
-            auc = roc_auc_score(true_label, predict_prob)
+            fpr, tpr, thresh = roc_curve(true_label, predict_score)
+            auc = roc_auc_score(true_label, predict_score)
         else:
             auc = None
 
@@ -114,10 +114,10 @@ class ModelEvaluator():
             fig, ax = plt.subplots(nrows=2, ncols=2,figsize=(8,8))
     
             # Plot classification 2d scatter
-            decision_0 = predict_prob[true_label == 0]
-            decision_1 = predict_prob[true_label == 1]
+            decision_0 = predict_score[true_label == 0]
+            decision_1 = predict_score[true_label == 1]
             ax[0][0].scatter(decision_0, np.arange(0, len(decision_0)), marker="o", linewidth=2, color='paleturquoise')
-            ax[0][0].scatter(decision_1, np.arange(len(decision_0), len(predict_prob)), marker="*", linewidth=2, color='darkturquoise')
+            ax[0][0].scatter(decision_1, np.arange(len(decision_0), len(predict_score)), marker="*", linewidth=2, color='darkturquoise')
             # Grid and spines
             ax[0][0].grid(False)
             ax[0][0].set_title('Classification scatter diagram', fontsize=12, fontweight='bold')
@@ -128,11 +128,11 @@ class ModelEvaluator():
             ax[0][0].spines['bottom'].set_linewidth(1)
             ax[0][0].spines['left'].set_linewidth(1)
             # TODO: Identify the separation line located at the 0 or 0.5
-            ax[0][0].plot(np.zeros(10) + separation_point, np.linspace(0, len(predict_prob),10), '--', color='k', linewidth=1.5)
+            ax[0][0].plot(np.zeros(10) + separation_point, np.linspace(0, len(predict_score),10), '--', color='k', linewidth=1.5)
             if separation_point == 0.5:
-                ax[0][0].axis([-0.05, 1.05, 0 - len(predict_prob) / 20, len(predict_prob) + len(predict_prob) / 20]) # x and y lim
+                ax[0][0].axis([-0.05, 1.05, 0 - len(predict_score) / 20, len(predict_score) + len(predict_score) / 20]) # x and y lim
             else:
-                ax[0][0].axis([-1.05, 1.05, 0 - len(predict_prob) / 20, len(predict_prob) + len(predict_prob) / 20]) # x and y lim               
+                ax[0][0].axis([-1.05, 1.05, 0 - len(predict_score) / 20, len(predict_score) + len(predict_score) / 20]) # x and y lim               
             ax[0][0].set_xlabel('Decision values', fontsize=10)
             ax[0][0].set_ylabel('Subjects', fontsize=10)
             num1, num2, num3, num4 = 0, 1.2, 3, 0
@@ -182,8 +182,8 @@ class ModelEvaluator():
             
             # Plot calibration curve
             if auc is not None:
-                # predict_prob = (predict_prob - predict_prob.min()) / (predict_prob.max() - predict_prob.min())
-                fraction_of_positives, mean_predicted_value = calibration_curve(true_label, predict_prob, n_bins=10, normalize=True)
+                # predict_score = (predict_score - predict_score.min()) / (predict_score.max() - predict_score.min())
+                fraction_of_positives, mean_predicted_value = calibration_curve(true_label, predict_score, n_bins=10, normalize=True)
                 ax[1][1].plot([0, 1], [0, 1], "k:", label="Perfectly calibrated")
                 ax[1][1].plot(mean_predicted_value, fraction_of_positives, "-.", color="k")
                 # Setting
@@ -211,21 +211,45 @@ class ModelEvaluator():
 
         return accuracy, sensitivity, specificity, auc, confusion_matrix_values
 
-    def regression_evaluator(self, real_target, predict_prob, scores, 
-                             verbose=1, is_showfig=True, is_savefig=True, out_name=None):
+    def regression_evaluator(self, real_target, predict_score, reg_metrics, 
+                             is_showfig=True, is_savefig=True, out_name=None):
+
+        """Evaluation of regression
+
+        Parameters:
+        ----------
+        real_target: ndarray or list et al.
+            Real targets
+
+        predict_proba: ndarray or list
+            Predicted scores
+
+        reg_metrics: list
+            Regression metric scores, e.g., MAE
+
+        is_showfig: bool
+         If show figure
+
+        is_savefig: bool
+         If save figure
+
+        out_name: str
+            Output file name of saved figure (pdf)
+        """
         
-        mae_mean = np.mean(scores)
-        mae_std = np.std(scores)
-        coef = np.corrcoef(real_target, predict_prob)[0,1]
+        mean_metrics = np.mean(reg_metrics)
+        std_metrics = np.std(reg_metrics)
+        coef = np.corrcoef(real_target, predict_score)[0,1]
         
-        sns.jointplot(x=predict_prob, y=real_target, kind='reg',size=5)
+        sns.jointplot(x=predict_score, y=real_target, kind='reg', size=5)
+
         plt.xlabel("Predicted score", fontsize=15)
         plt.ylabel("Real score", fontsize=15)
         plt.tight_layout()
         
-        xmargin = (np.max(predict_prob)-np.min(predict_prob))/100
+        xmargin = (np.max(predict_score)-np.min(predict_score))/100
         ymargin = (np.max(real_target)-np.min(real_target))/100
-        plt.text(np.min(predict_prob)+xmargin, np.max(real_target)-ymargin, f"MAE={mae_mean:.2f}±{mae_std:.2f}\nR={coef:.2f}")
+        plt.text(np.min(predict_score)+xmargin, np.max(real_target)-ymargin, f"MAE={mean_metrics :.2f}±{std_metrics:.2f}\nR={coef:.2f}")
         
         if is_savefig:
             pdf = PdfPages(out_name)
