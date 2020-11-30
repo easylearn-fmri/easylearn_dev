@@ -1,0 +1,67 @@
+{
+    "data_loading": {
+        "demo_data": {
+            "modalities": {
+                "csv": {
+                    "file": [
+                        "D:/My_Codes/virtualenv_eslearn/Lib/site-packages/eslearn/machine_learning/regression/tests/features.csv"
+                    ],
+                    "mask": ""
+                }
+            },
+            "targets": "D:/My_Codes/virtualenv_eslearn/Lib/site-packages/eslearn/machine_learning/regression/tests/targets.csv",
+            "covariates": ""
+        }
+    },
+    "feature_engineering": {
+        "feature_preprocessing": {
+            "MinMaxScaler()": {
+                "feature_range": {
+                    "value": "(0,1)"
+                }
+            }
+        },
+        "dimreduction": {
+            "PCA()": {
+                "n_components": {
+                    "value": "0.9"
+                }
+            }
+        },
+        "feature_selection": {
+            "SelectPercentile(f_regression)": {
+                "percentile": {
+                    "value": "0.8"
+                }
+            }
+        },
+        "unbalance_treatment": {
+            "SMOTE()": {}
+        }
+    },
+    "machine_learning": {
+        "Regression": {
+            "LassoCV()": {
+                "alphas": {
+                    "value": "None"
+                }
+            }
+        }
+    },
+    "model_evaluation": {
+        "KFold()": {
+            "n_splits": {
+                "value": "5"
+            },
+            "shuffle": {
+                "value": "True"
+            },
+            "random_state": {
+                "value": "0"
+            }
+        },
+        "Statistical_analysis": {
+            "Binomial test": {}
+        }
+    }
+}

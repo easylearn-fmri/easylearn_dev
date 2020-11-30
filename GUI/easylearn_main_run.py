@@ -35,8 +35,8 @@ from eslearn.GUI.easylearn_model_evaluation_run import EasylearnModelEvaluationR
 from eslearn.base import BaseMachineLearning
 from eslearn.machine_learning.classification.classification import Classification
 from eslearn.machine_learning.regression.regression import Regression
-
-
+    
+    
 class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
     """Main GUI of the easylearn.
     """
@@ -57,7 +57,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
 
         # Set working_directory and debug
         if self.working_directory:
-            cgitb.enable(format="text", display=1, logdir=os.path.join(self.working_directory, "log_data_loading"))
+            cgitb.enable(format="text", display=1, logdir=os.path.join(self.working_directory, "log_data_loading.txt"))
         else:
             cgitb.enable(display=1, logdir=None) 
 
@@ -273,6 +273,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
             out_dir = self.working_directory if self.working_directory else os.path.dirname(self.configuration_file)
             model = which_ml_type_dict[ml_type](configuration_file=self.configuration_file, out_dir=out_dir)
             model.main_run()
+            model.run_statistical_analysis()
             # self.run = Run(which_ml_type_dict[ml_type], self.configuration_file, out_dir)
             # self.run.start()   
             print("#"*10+"Congratulations! Your machine learning task is finished successfully!"+"#"*10+"\n")

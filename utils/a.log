@@ -1,0 +1,554 @@
+print something
+[4;33mReloaded modules[24m: imp, _strptime, xml.etree, xml.etree.ElementTree, xml.etree.ElementPath, pyexpat, _elementtree[0m
+[StandardScaler()]
+None
+None
+None
+[RFECV(estimator=SVC(kernel='linear'))]
+{'feature_selection__step': [0.1], 'feature_selection__cv': [5], 'feature_selection__estimator': [Lasso()], 'feature_selection__n_jobs': [-1]}
+RandomOverSampler(random_state=0)
+{'unbalance_treatment__random_state': [0]}
+[LinearRegression()]
+None
+StratifiedKFold(n_splits=3, random_state=0, shuffle=True)
+{'n_splits': 3, 'shuffle': 'True', 'random_state': 0}
+Permutation test
+3
+[4;33mReloaded modules[24m: xml.etree, xml.etree.ElementTree, xml.etree.ElementPath, _elementtree, xml.parsers, xml.parsers.expat, pyexpat, _multiprocessing, multiprocessing.popen_spawn_win32, multiprocessing.connection, multiprocessing.synchronize, multiprocessing.queues, concurrent.futures.process, multiprocessing.pool, ctypes.util, dataclasses[0m
+Initializing easylearn_main_gui...
+<!--: spam
+Content-Type: text/html
+
+<body bgcolor="#f0f0f8"><font color="#f0f0f8" size="-5"> -->
+<body bgcolor="#f0f0f8"><font color="#f0f0f8" size="-5"> --> -->
+</font> </font> </font> </script> </object> </blockquote> </pre>
+</table> </table> </table> </table> </table> </font> </font> </font><body bgcolor="#f0f0f8">
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#6622aa">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>ValueError</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial">Python 3.7.8: d:\my_codes\virtualenv_eslearn\scripts\python.exe<br>Mon Nov 30 16:27:42 2020</font></td></tr></table>
+    
+<p>A problem occurred in a Python script.  Here is the sequence of
+function calls leading up to the error, in the order they occurred.</p>
+<table width="100%" cellspacing=0 cellpadding=0 border=0>
+<tr><td bgcolor="#d8bbff"><big>&nbsp;</big><a href="file://D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\easylearn_main_run.py">D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\easylearn_main_run.py</a> in <strong>run_fun</strong>(self=&lt;__main__.EasylearnMainGUI object&gt;)</td></tr>
+<tr><td><font color="#909090"><tt>&nbsp;&nbsp;<small>&nbsp;&nbsp;281</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;self.configuration_file&nbsp;==&nbsp;"":<br>
+</tt></font></td></tr>
+<tr><td><font color="#909090"><tt>&nbsp;&nbsp;<small>&nbsp;&nbsp;282</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.textBrowser.setText("You&nbsp;have&nbsp;to&nbsp;specify&nbsp;a&nbsp;configuration&nbsp;file&nbsp;by&nbsp;loading&nbsp;a&nbsp;configuration&nbsp;file&nbsp;at&nbsp;the&nbsp;upper&nbsp;left&nbsp;(Project&nbsp;Initialization)\n")<br>
+</tt></font></td></tr>
+<tr><td bgcolor="#ffccee"><tt>=&gt;<small>&nbsp;&nbsp;283</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;raise&nbsp;ValueError("You&nbsp;have&nbsp;to&nbsp;specify&nbsp;a&nbsp;configuration&nbsp;file\n")<br>
+</tt></td></tr>
+<tr><td><font color="#909090"><tt>&nbsp;&nbsp;<small>&nbsp;&nbsp;284</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else:<br>
+</tt></font></td></tr>
+<tr><td><font color="#909090"><tt>&nbsp;&nbsp;<small>&nbsp;&nbsp;285</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print('Running...\n')<br>
+</tt></font></td></tr>
+<tr><td><small><font color="#909090"><em>builtin</em> <strong>ValueError</strong>&nbsp;= &lt;class 'ValueError'&gt;</font></small></td></tr></table><p><strong>ValueError</strong>: You have to specify a configuration file
+
+<br><tt><small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</small>&nbsp;</tt>args&nbsp;=
+('You have to specify a configuration file<font color="#c040c0">\n</font>',)
+<br><tt><small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</small>&nbsp;</tt>with_traceback&nbsp;=
+&lt;built-in method with_traceback of ValueError object&gt;
+
+
+<!-- The above is a description of an error in a Python program, formatted
+     for a Web browser because the 'cgitb' module was enabled.  In case you
+     are not reading this in a Web browser, here is the original traceback:
+
+Traceback (most recent call last):
+  File "D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\easylearn_main_run.py", line 283, in run_fun
+    raise ValueError("You have to specify a configuration file\n")
+ValueError: You have to specify a configuration file
+
+
+-->
+
+<!--: spam
+Content-Type: text/html
+
+<body bgcolor="#f0f0f8"><font color="#f0f0f8" size="-5"> -->
+<body bgcolor="#f0f0f8"><font color="#f0f0f8" size="-5"> --> -->
+</font> </font> </font> </script> </object> </blockquote> </pre>
+</table> </table> </table> </table> </table> </font> </font> </font><body bgcolor="#f0f0f8">
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#6622aa">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>ValueError</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial">Python 3.7.8: d:\my_codes\virtualenv_eslearn\scripts\python.exe<br>Mon Nov 30 16:27:43 2020</font></td></tr></table>
+    
+<p>A problem occurred in a Python script.  Here is the sequence of
+function calls leading up to the error, in the order they occurred.</p>
+<table width="100%" cellspacing=0 cellpadding=0 border=0>
+<tr><td bgcolor="#d8bbff"><big>&nbsp;</big><a href="file://D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\easylearn_main_run.py">D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\easylearn_main_run.py</a> in <strong>run_fun</strong>(self=&lt;__main__.EasylearnMainGUI object&gt;)</td></tr>
+<tr><td><font color="#909090"><tt>&nbsp;&nbsp;<small>&nbsp;&nbsp;281</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;self.configuration_file&nbsp;==&nbsp;"":<br>
+</tt></font></td></tr>
+<tr><td><font color="#909090"><tt>&nbsp;&nbsp;<small>&nbsp;&nbsp;282</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.textBrowser.setText("You&nbsp;have&nbsp;to&nbsp;specify&nbsp;a&nbsp;configuration&nbsp;file&nbsp;by&nbsp;loading&nbsp;a&nbsp;configuration&nbsp;file&nbsp;at&nbsp;the&nbsp;upper&nbsp;left&nbsp;(Project&nbsp;Initialization)\n")<br>
+</tt></font></td></tr>
+<tr><td bgcolor="#ffccee"><tt>=&gt;<small>&nbsp;&nbsp;283</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;raise&nbsp;ValueError("You&nbsp;have&nbsp;to&nbsp;specify&nbsp;a&nbsp;configuration&nbsp;file\n")<br>
+</tt></td></tr>
+<tr><td><font color="#909090"><tt>&nbsp;&nbsp;<small>&nbsp;&nbsp;284</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else:<br>
+</tt></font></td></tr>
+<tr><td><font color="#909090"><tt>&nbsp;&nbsp;<small>&nbsp;&nbsp;285</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print('Running...\n')<br>
+</tt></font></td></tr>
+<tr><td><small><font color="#909090"><em>builtin</em> <strong>ValueError</strong>&nbsp;= &lt;class 'ValueError'&gt;</font></small></td></tr></table><p><strong>ValueError</strong>: You have to specify a configuration file
+
+<br><tt><small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</small>&nbsp;</tt>args&nbsp;=
+('You have to specify a configuration file<font color="#c040c0">\n</font>',)
+<br><tt><small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</small>&nbsp;</tt>with_traceback&nbsp;=
+&lt;built-in method with_traceback of ValueError object&gt;
+
+
+<!-- The above is a description of an error in a Python program, formatted
+     for a Web browser because the 'cgitb' module was enabled.  In case you
+     are not reading this in a Web browser, here is the original traceback:
+
+Traceback (most recent call last):
+  File "D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\easylearn_main_run.py", line 283, in run_fun
+    raise ValueError("You have to specify a configuration file\n")
+ValueError: You have to specify a configuration file
+
+
+-->
+
+[4;33mReloaded modules[24m: cgitb, tarfile[0m
+Initializing easylearn_main_gui...
+<!--: spam
+Content-Type: text/html
+
+<body bgcolor="#f0f0f8"><font color="#f0f0f8" size="-5"> -->
+<body bgcolor="#f0f0f8"><font color="#f0f0f8" size="-5"> --> -->
+</font> </font> </font> </script> </object> </blockquote> </pre>
+</table> </table> </table> </table> </table> </font> </font> </font><body bgcolor="#f0f0f8">
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#6622aa">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>ValueError</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial">Python 3.7.8: d:\my_codes\virtualenv_eslearn\scripts\python.exe<br>Mon Nov 30 16:31:49 2020</font></td></tr></table>
+    
+<p>A problem occurred in a Python script.  Here is the sequence of
+function calls leading up to the error, in the order they occurred.</p>
+<table width="100%" cellspacing=0 cellpadding=0 border=0>
+<tr><td bgcolor="#d8bbff"><big>&nbsp;</big><a href="file://D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\easylearn_main_run.py">D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\easylearn_main_run.py</a> in <strong>run_fun</strong>(self=&lt;__main__.EasylearnMainGUI object&gt;)</td></tr>
+<tr><td><font color="#909090"><tt>&nbsp;&nbsp;<small>&nbsp;&nbsp;265</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;self.configuration_file&nbsp;==&nbsp;"":<br>
+</tt></font></td></tr>
+<tr><td><font color="#909090"><tt>&nbsp;&nbsp;<small>&nbsp;&nbsp;266</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.textBrowser.setText("You&nbsp;have&nbsp;to&nbsp;specify&nbsp;a&nbsp;configuration&nbsp;file&nbsp;by&nbsp;loading&nbsp;a&nbsp;configuration&nbsp;file&nbsp;at&nbsp;the&nbsp;upper&nbsp;left&nbsp;(Project&nbsp;Initialization)\n")<br>
+</tt></font></td></tr>
+<tr><td bgcolor="#ffccee"><tt>=&gt;<small>&nbsp;&nbsp;267</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;raise&nbsp;ValueError("You&nbsp;have&nbsp;to&nbsp;specify&nbsp;a&nbsp;configuration&nbsp;file\n")<br>
+</tt></td></tr>
+<tr><td><font color="#909090"><tt>&nbsp;&nbsp;<small>&nbsp;&nbsp;268</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else:<br>
+</tt></font></td></tr>
+<tr><td><font color="#909090"><tt>&nbsp;&nbsp;<small>&nbsp;&nbsp;269</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print('Running...\n')<br>
+</tt></font></td></tr>
+<tr><td><small><font color="#909090"><em>builtin</em> <strong>ValueError</strong>&nbsp;= &lt;class 'ValueError'&gt;</font></small></td></tr></table><p><strong>ValueError</strong>: You have to specify a configuration file
+
+<br><tt><small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</small>&nbsp;</tt>args&nbsp;=
+('You have to specify a configuration file<font color="#c040c0">\n</font>',)
+<br><tt><small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</small>&nbsp;</tt>with_traceback&nbsp;=
+&lt;built-in method with_traceback of ValueError object&gt;
+
+
+<!-- The above is a description of an error in a Python program, formatted
+     for a Web browser because the 'cgitb' module was enabled.  In case you
+     are not reading this in a Web browser, here is the original traceback:
+
+Traceback (most recent call last):
+  File "D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\easylearn_main_run.py", line 267, in run_fun
+    raise ValueError("You have to specify a configuration file\n")
+ValueError: You have to specify a configuration file
+
+
+-->
+
+[4;33mReloaded modules[24m: cgitb[0m
+Initializing easylearn_main_gui...
+<!--: spam
+Content-Type: text/html
+
+<body bgcolor="#f0f0f8"><font color="#f0f0f8" size="-5"> -->
+<body bgcolor="#f0f0f8"><font color="#f0f0f8" size="-5"> --> -->
+</font> </font> </font> </script> </object> </blockquote> </pre>
+</table> </table> </table> </table> </table> </font> </font> </font><body bgcolor="#f0f0f8">
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#6622aa">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>ValueError</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial">Python 3.7.8: d:\my_codes\virtualenv_eslearn\scripts\python.exe<br>Mon Nov 30 16:33:39 2020</font></td></tr></table>
+    
+<p>A problem occurred in a Python script.  Here is the sequence of
+function calls leading up to the error, in the order they occurred.</p>
+<table width="100%" cellspacing=0 cellpadding=0 border=0>
+<tr><td bgcolor="#d8bbff"><big>&nbsp;</big><a href="file://D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\easylearn_main_run.py">D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\easylearn_main_run.py</a> in <strong>run_fun</strong>(self=&lt;__main__.EasylearnMainGUI object&gt;)</td></tr>
+<tr><td><font color="#909090"><tt>&nbsp;&nbsp;<small>&nbsp;&nbsp;266</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;self.configuration_file&nbsp;==&nbsp;"":<br>
+</tt></font></td></tr>
+<tr><td><font color="#909090"><tt>&nbsp;&nbsp;<small>&nbsp;&nbsp;267</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.textBrowser.setText("You&nbsp;have&nbsp;to&nbsp;specify&nbsp;a&nbsp;configuration&nbsp;file&nbsp;by&nbsp;loading&nbsp;a&nbsp;configuration&nbsp;file&nbsp;at&nbsp;the&nbsp;upper&nbsp;left&nbsp;(Project&nbsp;Initialization)\n")<br>
+</tt></font></td></tr>
+<tr><td bgcolor="#ffccee"><tt>=&gt;<small>&nbsp;&nbsp;268</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;raise&nbsp;ValueError("You&nbsp;have&nbsp;to&nbsp;specify&nbsp;a&nbsp;configuration&nbsp;file\n")<br>
+</tt></td></tr>
+<tr><td><font color="#909090"><tt>&nbsp;&nbsp;<small>&nbsp;&nbsp;269</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else:<br>
+</tt></font></td></tr>
+<tr><td><font color="#909090"><tt>&nbsp;&nbsp;<small>&nbsp;&nbsp;270</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print('Running...\n')<br>
+</tt></font></td></tr>
+<tr><td><small><font color="#909090"><em>builtin</em> <strong>ValueError</strong>&nbsp;= &lt;class 'ValueError'&gt;</font></small></td></tr></table><p><strong>ValueError</strong>: You have to specify a configuration file
+
+<br><tt><small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</small>&nbsp;</tt>args&nbsp;=
+('You have to specify a configuration file<font color="#c040c0">\n</font>',)
+<br><tt><small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</small>&nbsp;</tt>with_traceback&nbsp;=
+&lt;built-in method with_traceback of ValueError object&gt;
+
+
+<!-- The above is a description of an error in a Python program, formatted
+     for a Web browser because the 'cgitb' module was enabled.  In case you
+     are not reading this in a Web browser, here is the original traceback:
+
+Traceback (most recent call last):
+  File "D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\easylearn_main_run.py", line 268, in run_fun
+    raise ValueError("You have to specify a configuration file\n")
+ValueError: You have to specify a configuration file
+
+
+-->
+
+[4;33mReloaded modules[24m: cgitb[0m
+Initializing easylearn_main_gui...
+<!--: spam
+Content-Type: text/html
+
+<body bgcolor="#f0f0f8"><font color="#f0f0f8" size="-5"> -->
+<body bgcolor="#f0f0f8"><font color="#f0f0f8" size="-5"> --> -->
+</font> </font> </font> </script> </object> </blockquote> </pre>
+</table> </table> </table> </table> </table> </font> </font> </font><body bgcolor="#f0f0f8">
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#6622aa">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>ValueError</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial">Python 3.7.8: d:\my_codes\virtualenv_eslearn\scripts\python.exe<br>Mon Nov 30 16:35:39 2020</font></td></tr></table>
+    
+<p>A problem occurred in a Python script.  Here is the sequence of
+function calls leading up to the error, in the order they occurred.</p>
+<table width="100%" cellspacing=0 cellpadding=0 border=0>
+<tr><td bgcolor="#d8bbff"><big>&nbsp;</big><a href="file://D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\easylearn_main_run.py">D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\easylearn_main_run.py</a> in <strong>run_fun</strong>(self=&lt;__main__.EasylearnMainGUI object&gt;)</td></tr>
+<tr><td><font color="#909090"><tt>&nbsp;&nbsp;<small>&nbsp;&nbsp;266</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;self.configuration_file&nbsp;==&nbsp;"":<br>
+</tt></font></td></tr>
+<tr><td><font color="#909090"><tt>&nbsp;&nbsp;<small>&nbsp;&nbsp;267</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.textBrowser.setText("You&nbsp;have&nbsp;to&nbsp;specify&nbsp;a&nbsp;configuration&nbsp;file&nbsp;by&nbsp;loading&nbsp;a&nbsp;configuration&nbsp;file&nbsp;at&nbsp;the&nbsp;upper&nbsp;left&nbsp;(Project&nbsp;Initialization)\n")<br>
+</tt></font></td></tr>
+<tr><td bgcolor="#ffccee"><tt>=&gt;<small>&nbsp;&nbsp;268</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;raise&nbsp;ValueError("You&nbsp;have&nbsp;to&nbsp;specify&nbsp;a&nbsp;configuration&nbsp;file\n")<br>
+</tt></td></tr>
+<tr><td><font color="#909090"><tt>&nbsp;&nbsp;<small>&nbsp;&nbsp;269</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else:<br>
+</tt></font></td></tr>
+<tr><td><font color="#909090"><tt>&nbsp;&nbsp;<small>&nbsp;&nbsp;270</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print('Running...\n')<br>
+</tt></font></td></tr>
+<tr><td><small><font color="#909090"><em>builtin</em> <strong>ValueError</strong>&nbsp;= &lt;class 'ValueError'&gt;</font></small></td></tr></table><p><strong>ValueError</strong>: You have to specify a configuration file
+
+<br><tt><small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</small>&nbsp;</tt>args&nbsp;=
+('You have to specify a configuration file<font color="#c040c0">\n</font>',)
+<br><tt><small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</small>&nbsp;</tt>with_traceback&nbsp;=
+&lt;built-in method with_traceback of ValueError object&gt;
+
+
+<!-- The above is a description of an error in a Python program, formatted
+     for a Web browser because the 'cgitb' module was enabled.  In case you
+     are not reading this in a Web browser, here is the original traceback:
+
+Traceback (most recent call last):
+  File "D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\easylearn_main_run.py", line 268, in run_fun
+    raise ValueError("You have to specify a configuration file\n")
+ValueError: You have to specify a configuration file
+
+
+-->
+
+[4;33mReloaded modules[24m: cgitb[0m
+Initializing easylearn_main_gui...
+D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\tests\log_data_loading.txt
+<!--: spam
+Content-Type: text/html
+
+<body bgcolor="#f0f0f8"><font color="#f0f0f8" size="-5"> -->
+<body bgcolor="#f0f0f8"><font color="#f0f0f8" size="-5"> --> -->
+</font> </font> </font> </script> </object> </blockquote> </pre>
+</table> </table> </table> </table> </table> </font> </font> </font><p>A problem occurred in a Python script.
+[4;33mReloaded modules[24m: cgitb[0m
+Initializing easylearn_main_gui...
+ValueError
+Python 3.7.8: d:\my_codes\virtualenv_eslearn\scripts\python.exe
+Mon Nov 30 16:40:50 2020
+
+A problem occurred in a Python script.  Here is the sequence of
+function calls leading up to the error, in the order they occurred.
+
+ D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\easylearn_main_run.py in run_fun(self=<__main__.EasylearnMainGUI object>)
+  266         if self.configuration_file == "":
+  267             self.textBrowser.setText("You have to specify a configuration file by loading a configuration file at the upper left (Project Initialization)\n")
+  268             raise ValueError("You have to specify a configuration file\n")
+  269         else:
+  270             print('Running...\n')
+builtinValueError = <class 'ValueError'>
+ValueError: You have to specify a configuration file
+
+    __cause__ = None
+    __class__ = <class 'ValueError'>
+    __context__ = None
+    __delattr__ = <method-wrapper '__delattr__' of ValueError object>
+    __dict__ = {}
+    __dir__ = <built-in method __dir__ of ValueError object>
+    __doc__ = 'Inappropriate argument value (of correct type).'
+    __eq__ = <method-wrapper '__eq__' of ValueError object>
+    __format__ = <built-in method __format__ of ValueError object>
+    __ge__ = <method-wrapper '__ge__' of ValueError object>
+    __getattribute__ = <method-wrapper '__getattribute__' of ValueError object>
+    __gt__ = <method-wrapper '__gt__' of ValueError object>
+    __hash__ = <method-wrapper '__hash__' of ValueError object>
+    __init__ = <method-wrapper '__init__' of ValueError object>
+    __init_subclass__ = <built-in method __init_subclass__ of type object>
+    __le__ = <method-wrapper '__le__' of ValueError object>
+    __lt__ = <method-wrapper '__lt__' of ValueError object>
+    __ne__ = <method-wrapper '__ne__' of ValueError object>
+    __new__ = <built-in method __new__ of type object>
+    __reduce__ = <built-in method __reduce__ of ValueError object>
+    __reduce_ex__ = <built-in method __reduce_ex__ of ValueError object>
+    __repr__ = <method-wrapper '__repr__' of ValueError object>
+    __setattr__ = <method-wrapper '__setattr__' of ValueError object>
+    __setstate__ = <built-in method __setstate__ of ValueError object>
+    __sizeof__ = <built-in method __sizeof__ of ValueError object>
+    __str__ = <method-wrapper '__str__' of ValueError object>
+    __subclasshook__ = <built-in method __subclasshook__ of type object>
+    __suppress_context__ = False
+    __traceback__ = <traceback object>
+    args = ('You have to specify a configuration file\n',)
+    with_traceback = <built-in method with_traceback of ValueError object>
+
+The above is a description of an error in a Python program.  Here is
+the original traceback:
+
+Traceback (most recent call last):
+  File "D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\easylearn_main_run.py", line 268, in run_fun
+    raise ValueError("You have to specify a configuration file\n")
+ValueError: You have to specify a configuration file
+
+
+
+[4;33mReloaded modules[24m: cgitb[0m
+Initializing easylearn_main_gui...
+D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\tests\log_data_loading.txt
+UnicodeDecodeError
+Python 3.7.8: d:\my_codes\virtualenv_eslearn\scripts\python.exe
+Mon Nov 30 16:43:52 2020
+
+A problem occurred in a Python script.  Here is the sequence of
+function calls leading up to the error, in the order they occurred.
+
+ D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\easylearn_main_run.py in load_configuration_fun(self=<__main__.EasylearnMainGUI object>)
+  201         if self.configuration_file != "":
+  202             with open(self.configuration_file, 'r') as config:
+  203                 self.configuration = config.read()
+  204             # Check the configuration is valid JSON, then transform the configuration to dict
+  205             # If the configuration is not valid JSON, then give configuration and configuration_file to ""
+self = <__main__.EasylearnMainGUI object>
+self.configuration = {'data_loading': {'group_1': {'covariates': '', 'modalities': {'modality_1': {'file': ['D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub001.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub002.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub003.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub004.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub005.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub006.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub007.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub008.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub009.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub010.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub011.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub012.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub013.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub014.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub015.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub016.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub017.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub018.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub019.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub020.nii', ...], 'mask': 'G:/Softer_DataProcessing/spm12/spm12/tpm/Reslice3_TPM_greaterThan0.2.nii'}, 'modality_2': {'file': ['D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub001.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub002.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub003.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub004.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub005.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub006.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub007.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub008.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub009.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub010.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub011.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub012.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub013.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub014.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub015.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub016.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub017.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub018.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub019.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub020.nii', ...], 'mask': 'G:/Softer_DataProcessing/spm12/spm12/tpm/Reslice3_TPM_greaterThan0.2.nii'}}, 'targets': '1'}, 'group_2': {'covariates': '', 'modalities': {'modality_1': {'file': ['D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub001.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub002.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub003.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub004.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub005.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub006.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub007.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub008.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub009.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub010.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub011.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub012.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub013.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub014.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub015.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub016.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub017.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub018.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub019.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub020.nii', ...], 'mask': 'G:/Softer_DataProcessing/spm12/spm12/tpm/Reslice3_TPM_greaterThan0.2.nii'}, 'modality_2': {'file': ['D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub001.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub002.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub003.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub004.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub005.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub006.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub007.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub008.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub009.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub010.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub011.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub012.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub013.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub014.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub015.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub016.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub017.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub018.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub019.nii', 'D:/WorkStation_2018/Workstation_Old/WorkStation_...Centrality_PositiveWeightedSumBrainMap_sub020.nii', ...], 'mask': 'G:/Softer_DataProcessing/spm12/spm12/tpm/Reslice3_TPM_greaterThan0.2.nii'}}, 'targets': '0'}}, 'feature_engineering': {'dimreduction': {'PCA()': {'n_components': {'value': '0.90'}}}, 'feature_preprocessing': {'StandardScaler()': {}}, 'feature_selection': {'RFECV()': {'cv': {'value': '5'}, 'estimator': {'value': "SVC(kernel='linear')"}, 'n_jobs': {'value': '-1'}, 'step': {'value': '0.10'}}}, 'unbalance_treatment': {'RandomOverSampler()': {}}}, 'machine_learning': {'Classification': {'LinearSVC()': {'C': {'value': '1'}, 'multi_class': {'value': 'ovr'}}}}, 'model_evaluation': {'Statistical_analysis': {'Permutation test': {'N': {'value': '5'}}}, 'StratifiedKFold()': {'n_splits': {'value': '2'}, 'random_state': {'value': '0'}, 'shuffle': {'value': 'True'}}}}
+config = <_io.TextIOWrapper name='D:/My_Codes/virtualenv_.../tests/demo_data.xlsx' mode='r' encoding='cp936'>
+config.read = <built-in method read of _io.TextIOWrapper object>
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x90 in position 22: illegal multibyte sequence
+    __cause__ = None
+    __class__ = <class 'UnicodeDecodeError'>
+    __context__ = None
+    __delattr__ = <method-wrapper '__delattr__' of UnicodeDecodeError object>
+    __dict__ = {}
+    __dir__ = <built-in method __dir__ of UnicodeDecodeError object>
+    __doc__ = 'Unicode decoding error.'
+    __eq__ = <method-wrapper '__eq__' of UnicodeDecodeError object>
+    __format__ = <built-in method __format__ of UnicodeDecodeError object>
+    __ge__ = <method-wrapper '__ge__' of UnicodeDecodeError object>
+    __getattribute__ = <method-wrapper '__getattribute__' of UnicodeDecodeError object>
+    __gt__ = <method-wrapper '__gt__' of UnicodeDecodeError object>
+    __hash__ = <method-wrapper '__hash__' of UnicodeDecodeError object>
+    __init__ = <method-wrapper '__init__' of UnicodeDecodeError object>
+    __init_subclass__ = <built-in method __init_subclass__ of type object>
+    __le__ = <method-wrapper '__le__' of UnicodeDecodeError object>
+    __lt__ = <method-wrapper '__lt__' of UnicodeDecodeError object>
+    __ne__ = <method-wrapper '__ne__' of UnicodeDecodeError object>
+    __new__ = <built-in method __new__ of type object>
+    __reduce__ = <built-in method __reduce__ of UnicodeDecodeError object>
+    __reduce_ex__ = <built-in method __reduce_ex__ of UnicodeDecodeError object>
+    __repr__ = <method-wrapper '__repr__' of UnicodeDecodeError object>
+    __setattr__ = <method-wrapper '__setattr__' of UnicodeDecodeError object>
+    __setstate__ = <built-in method __setstate__ of UnicodeDecodeError object>
+    __sizeof__ = <built-in method __sizeof__ of UnicodeDecodeError object>
+    __str__ = <method-wrapper '__str__' of UnicodeDecodeError object>
+    __subclasshook__ = <built-in method __subclasshook__ of type object>
+    __suppress_context__ = False
+    __traceback__ = <traceback object>
+    args = ('gbk', b'PK\x03\x04\x14\x00\x06\x00\x08\x00\x00\x00!\x0...00\n\x00\n\x00\x80\x02\x00\x00p_\x0b\x00\x00\x00', 22, 23, 'illegal multibyte sequence')
+    encoding = 'gbk'
+    end = 23
+    object = b'PK\x03\x04\x14\x00\x06\x00\x08\x00\x00\x00!\x0...00\n\x00\n\x00\x80\x02\x00\x00p_\x0b\x00\x00\x00'
+    reason = 'illegal multibyte sequence'
+    start = 22
+    with_traceback = <built-in method with_traceback of UnicodeDecodeError object>
+
+The above is a description of an error in a Python program.  Here is
+the original traceback:
+
+Traceback (most recent call last):
+  File "D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\easylearn_main_run.py", line 203, in load_configuration_fun
+    self.configuration = config.read()
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x90 in position 22: illegal multibyte sequence
+
+
+Running...
+
+UnicodeDecodeError
+Python 3.7.8: d:\my_codes\virtualenv_eslearn\scripts\python.exe
+Mon Nov 30 16:43:58 2020
+
+A problem occurred in a Python script.  Here is the sequence of
+function calls leading up to the error, in the order they occurred.
+
+ D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\easylearn_main_run.py in run_fun(self=<__main__.EasylearnMainGUI object>)
+  270             print('Running...\n')
+  271             self.textBrowser.setText(f"configuration is in {self.configuration_file}\n")
+  272             baseml.get_all_inputs()
+  273             ml_type = baseml.machine_learning_type_[0]
+  274             out_dir = self.working_directory if self.working_directory else os.path.dirname(self.configuration_file)
+baseml = <eslearn.base.BaseMachineLearning object>
+baseml.get_all_inputs = <bound method BaseMachineLearning.get_all_inputs of <eslearn.base.BaseMachineLearning object>>
+
+ d:\my_codes\virtualenv_eslearn\lib\site-packages\eslearn\base.py in get_all_inputs(self=<eslearn.base.BaseMachineLearning object>)
+  309 
+  310     def get_all_inputs(self):
+  311         self.get_configuration_()
+  312         self.get_preprocessing_parameters()
+  313         self.get_dimension_reduction_parameters()
+self = <eslearn.base.BaseMachineLearning object>
+self.get_configuration_ = <bound method BaseMachineLearning.get_configuration_ of <eslearn.base.BaseMachineLearning object>>
+
+ d:\my_codes\virtualenv_eslearn\lib\site-packages\eslearn\base.py in get_configuration_(self=<eslearn.base.BaseMachineLearning object>)
+   83 
+   84         with open(self.configuration_file, 'r', encoding='utf-8') as config:
+   85                     configuration = config.read()
+   86         self.configuration = json.loads(configuration)
+   87         return self
+configuration undefined
+config = <_io.TextIOWrapper name='D:/My_Codes/virtualenv_.../tests/demo_data.xlsx' mode='r' encoding='utf-8'>
+config.read = <built-in method read of _io.TextIOWrapper object>
+
+ f:\python378\lib\codecs.py in decode(self=<encodings.utf_8.IncrementalDecoder object>, input=b'PK\x03\x04\x14\x00\x06\x00\x08\x00\x00\x00!\x0...00\n\x00\n\x00\x80\x02\x00\x00p_\x0b\x00\x00\x00', final=True)
+  320         # decode input (taking the buffer into account)
+  321         data = self.buffer + input
+  322         (result, consumed) = self._buffer_decode(data, self.errors, final)
+  323         # keep undecoded input until the next call
+  324         self.buffer = data[consumed:]
+result undefined
+consumed undefined
+self = <encodings.utf_8.IncrementalDecoder object>
+self._buffer_decode = <built-in function utf_8_decode>
+data = b'PK\x03\x04\x14\x00\x06\x00\x08\x00\x00\x00!\x0...00\n\x00\n\x00\x80\x02\x00\x00p_\x0b\x00\x00\x00'
+self.errors = 'strict'
+final = True
+UnicodeDecodeError: 'utf-8' codec can't decode bytes in position 15-16: invalid continuation byte
+    __cause__ = None
+    __class__ = <class 'UnicodeDecodeError'>
+    __context__ = None
+    __delattr__ = <method-wrapper '__delattr__' of UnicodeDecodeError object>
+    __dict__ = {}
+    __dir__ = <built-in method __dir__ of UnicodeDecodeError object>
+    __doc__ = 'Unicode decoding error.'
+    __eq__ = <method-wrapper '__eq__' of UnicodeDecodeError object>
+    __format__ = <built-in method __format__ of UnicodeDecodeError object>
+    __ge__ = <method-wrapper '__ge__' of UnicodeDecodeError object>
+    __getattribute__ = <method-wrapper '__getattribute__' of UnicodeDecodeError object>
+    __gt__ = <method-wrapper '__gt__' of UnicodeDecodeError object>
+    __hash__ = <method-wrapper '__hash__' of UnicodeDecodeError object>
+    __init__ = <method-wrapper '__init__' of UnicodeDecodeError object>
+    __init_subclass__ = <built-in method __init_subclass__ of type object>
+    __le__ = <method-wrapper '__le__' of UnicodeDecodeError object>
+    __lt__ = <method-wrapper '__lt__' of UnicodeDecodeError object>
+    __ne__ = <method-wrapper '__ne__' of UnicodeDecodeError object>
+    __new__ = <built-in method __new__ of type object>
+    __reduce__ = <built-in method __reduce__ of UnicodeDecodeError object>
+    __reduce_ex__ = <built-in method __reduce_ex__ of UnicodeDecodeError object>
+    __repr__ = <method-wrapper '__repr__' of UnicodeDecodeError object>
+    __setattr__ = <method-wrapper '__setattr__' of UnicodeDecodeError object>
+    __setstate__ = <built-in method __setstate__ of UnicodeDecodeError object>
+    __sizeof__ = <built-in method __sizeof__ of UnicodeDecodeError object>
+    __str__ = <method-wrapper '__str__' of UnicodeDecodeError object>
+    __subclasshook__ = <built-in method __subclasshook__ of type object>
+    __suppress_context__ = False
+    __traceback__ = <traceback object>
+    args = ('utf-8', b'PK\x03\x04\x14\x00\x06\x00\x08\x00\x00\x00!\x0...00\n\x00\n\x00\x80\x02\x00\x00p_\x0b\x00\x00\x00', 15, 17, 'invalid continuation byte')
+    encoding = 'utf-8'
+    end = 17
+    object = b'PK\x03\x04\x14\x00\x06\x00\x08\x00\x00\x00!\x0...00\n\x00\n\x00\x80\x02\x00\x00p_\x0b\x00\x00\x00'
+    reason = 'invalid continuation byte'
+    start = 15
+    with_traceback = <built-in method with_traceback of UnicodeDecodeError object>
+
+The above is a description of an error in a Python program.  Here is
+the original traceback:
+
+Traceback (most recent call last):
+  File "D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\easylearn_main_run.py", line 272, in run_fun
+    baseml.get_all_inputs()
+  File "d:\my_codes\virtualenv_eslearn\lib\site-packages\eslearn\base.py", line 311, in get_all_inputs
+    self.get_configuration_()
+  File "d:\my_codes\virtualenv_eslearn\lib\site-packages\eslearn\base.py", line 85, in get_configuration_
+    configuration = config.read()
+  File "f:\python378\lib\codecs.py", line 322, in decode
+    (result, consumed) = self._buffer_decode(data, self.errors, final)
+UnicodeDecodeError: 'utf-8' codec can't decode bytes in position 15-16: invalid continuation byte
+
+
+[4;33mReloaded modules[24m: cgitb[0m
+Initializing easylearn_main_gui...
+<!--: spam
+Content-Type: text/html
+
+<body bgcolor="#f0f0f8"><font color="#f0f0f8" size="-5"> -->
+<body bgcolor="#f0f0f8"><font color="#f0f0f8" size="-5"> --> -->
+</font> </font> </font> </script> </object> </blockquote> </pre>
+</table> </table> </table> </table> </table> </font> </font> </font><body bgcolor="#f0f0f8">
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#6622aa">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>ValueError</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial">Python 3.7.8: d:\my_codes\virtualenv_eslearn\scripts\python.exe<br>Mon Nov 30 16:45:40 2020</font></td></tr></table>
+    
+<p>A problem occurred in a Python script.  Here is the sequence of
+function calls leading up to the error, in the order they occurred.</p>
+<table width="100%" cellspacing=0 cellpadding=0 border=0>
+<tr><td bgcolor="#d8bbff"><big>&nbsp;</big><a href="file://D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\easylearn_main_run.py">D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\easylearn_main_run.py</a> in <strong>run_fun</strong>(self=&lt;__main__.EasylearnMainGUI object&gt;)</td></tr>
+<tr><td><font color="#909090"><tt>&nbsp;&nbsp;<small>&nbsp;&nbsp;265</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;self.configuration_file&nbsp;==&nbsp;"":<br>
+</tt></font></td></tr>
+<tr><td><font color="#909090"><tt>&nbsp;&nbsp;<small>&nbsp;&nbsp;266</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.textBrowser.setText("You&nbsp;have&nbsp;to&nbsp;specify&nbsp;a&nbsp;configuration&nbsp;file&nbsp;by&nbsp;loading&nbsp;a&nbsp;configuration&nbsp;file&nbsp;at&nbsp;the&nbsp;upper&nbsp;left&nbsp;(Project&nbsp;Initialization)\n")<br>
+</tt></font></td></tr>
+<tr><td bgcolor="#ffccee"><tt>=&gt;<small>&nbsp;&nbsp;267</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;raise&nbsp;ValueError("You&nbsp;have&nbsp;to&nbsp;specify&nbsp;a&nbsp;configuration&nbsp;file\n")<br>
+</tt></td></tr>
+<tr><td><font color="#909090"><tt>&nbsp;&nbsp;<small>&nbsp;&nbsp;268</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else:<br>
+</tt></font></td></tr>
+<tr><td><font color="#909090"><tt>&nbsp;&nbsp;<small>&nbsp;&nbsp;269</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print('Running...\n')<br>
+</tt></font></td></tr>
+<tr><td><small><font color="#909090"><em>builtin</em> <strong>ValueError</strong>&nbsp;= &lt;class 'ValueError'&gt;</font></small></td></tr></table><p><strong>ValueError</strong>: You have to specify a configuration file
+
+<br><tt><small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</small>&nbsp;</tt>args&nbsp;=
+('You have to specify a configuration file<font color="#c040c0">\n</font>',)
+<br><tt><small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</small>&nbsp;</tt>with_traceback&nbsp;=
+&lt;built-in method with_traceback of ValueError object&gt;
+
+
+<!-- The above is a description of an error in a Python program, formatted
+     for a Web browser because the 'cgitb' module was enabled.  In case you
+     are not reading this in a Web browser, here is the original traceback:
+
+Traceback (most recent call last):
+  File "D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\easylearn_main_run.py", line 267, in run_fun
+    raise ValueError("You have to specify a configuration file\n")
+ValueError: You have to specify a configuration file
+
+
+-->
+

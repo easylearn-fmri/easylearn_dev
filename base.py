@@ -942,34 +942,4 @@ class DataLoader():
         subj_name.columns = ["__ID__"]
         return subj_name
 
-
-if __name__ == '__main__':
-    base = BaseMachineLearning(configuration_file=r'D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\tests\configuration_file_reg.json')
-    data_loader = DataLoader(configuration_file=r'D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\tests\szVShc.json')
-    data_loader.load_data()
-    
-    base.get_all_inputs()
-    
-
-    print(base.method_feature_preprocessing_)
-    print(base.param_feature_preprocessing_)
-    
-    print(base.method_dim_reduction_)
-    print(base.param_dim_reduction_)
-    
-    print(base.method_feature_selection_)
-    print(base.param_feature_selection_)
-    
-    print(base.method_unbalance_treatment_)
-    print(base.param_unbalance_treatment_)
-    
-    print(base.method_machine_learning_)
-    print(base.param_machine_learning_)
-
-    print(base.method_model_evaluation_)
-    print(base.param_model_evaluation_)
-
-    print(base.method_statistical_analysis_)
-    print(base.param_statistical_analysis_)
-
     

@@ -12,6 +12,7 @@ from collections import Counter
 from sklearn import datasets
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import make_scorer, mean_squared_error, mean_absolute_error, max_error
+from scipy.stats import pearsonr
 import pickle
 
 from eslearn.base import BaseMachineLearning, DataLoader
@@ -81,38 +82,37 @@ class Regression(BaseMachineLearning, DataLoader, BaseRegression):
         out_name_perf = os.path.join(self.out_dir, "regression_performances.pdf")
         all_score = ModelEvaluator().regression_evaluator(
             self.target_test_all, self.pred_prob, self.real_score, 
-            verbose=1, is_showfig=True, is_savefig=True, out_name=out_name_perf
+            is_showfig=True, is_savefig=True, out_name=out_name_perf
         )
 
         # Save weight
         self.save_weight(weights, self.out_dir)
-
-        # Statistical analysis
-        print("Statistical analysis...\n")
-        self.run_statistical_analysis()
         
         # Save outputs
-        outputs = { "subname": subname, "test_targets": self.target_test_all, "test_probability": self.pred_prob, 
-                    "score": self.real_score, "pvalue_spec": self.pvalue_score, 
+        self.outputs = { "subname": subname, "test_targets": self.target_test_all, 
+                    "test_probability": self.pred_prob, "score": self.real_score 
         }
 
-        pickle.dump(outputs, open(os.path.join(self.out_dir, "outputs.pickle"), "wb"))
+        pickle.dump(self.outputs, open(os.path.join(self.out_dir, "outputs.pickle"), "wb"))
         return self
     
     def run_statistical_analysis(self):
-        type_dict = {"Binomial test":self.binomial_test, "Permutation test":self.permutation_test}
+        """Statistical analysis"""
+
+        print("Statistical analysis...\n")
+        type_dict = {"Binomial test":self.pearson_test, "Permutation test":self.permutation_test}
         type_dict[self.method_statistical_analysis_]()
+
+        # Save outputs
+        self.outputs.update({ "pvalue_metric": self.pvalue_metric})
+        pickle.dump(self.outputs, open(os.path.join(self.out_dir, "outputs.pickle"), "wb"))
+        
         return self
 
     # TODO: change it to calculate P value of Pearson's correlation coefficient
-    def binomial_test(self):
-        k = np.sum(np.array(self.target_test_all) - np.array(self.pred_label)==0)
-        n = len(self.target_test_all)
-        self.pvalue_acc, sum_prob, prob, randk = el_binomialtest.binomialtest(n, k, 0.5, 0.5)
-        self.pvalue_auc = None
-        self.pvalue_sens = None
-        self.pvalue_spec = None
-        print(f"p value for acc = {self.pvalue_acc:.3f}")
+    def pearson_test(self):
+        r, self.pvalue_metric = pearsonr(np.array(self.target_test_all), np.array(self.pred_prob))
+        print(f"p value for metric = {self.pvalue_metric:.3f}")
         return self
 
     def permutation_test(self):
@@ -152,8 +152,8 @@ class Regression(BaseMachineLearning, DataLoader, BaseRegression):
             self.permuted_score.append(np.mean(permuted_score))
 
         # Get p values
-        self.pvalue_score = self.calc_pvalue(self.permuted_score, np.mean(self.real_score))
-        print(f"p value for score = {self.pvalue_score:.3f}")
+        self.pvalue_metric = self.calc_pvalue(self.permuted_score, np.mean(self.real_score))
+        # print(f"p value for metric = {self.pvalue_metric:.3f}")
         return self
 
     @staticmethod
