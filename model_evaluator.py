@@ -163,9 +163,15 @@ class ModelEvaluator():
                 performances = [np.mean(accuracy_kfold), np.mean(sensitivity_kfold), np.mean(specificity_kfold),np.mean(AUC_kfold)]
                 std = [np.std(accuracy_kfold), np.std(sensitivity_kfold), np.std(specificity_kfold), np.std(AUC_kfold)]
                 ax[0][1].bar(np.arange(0,len(performances)), performances, yerr = std, capsize=5, linewidth=2, color='darkturquoise')
+                
+                bid = np.arange(0,len(performances))
+                for (ibar, perf_, std_) in zip (bid, performances, std):
+                    ax[0][1].text(ibar, 0.2, f"{perf_:.2f}±{std_:.2f}", rotation=90) 
             else:
                 performances = [accuracy, sensitivity, specificity, auc]
                 ax[0][1].bar(np.arange(0, len(performances)), performances, linewidth=2, color='darkturquoise')
+                
+                [ax[0][1].text(ibar,0.2, f"{perf_:.2f}", rotation=0) for (ibar, perf_) in zip (performances, np.arange(0,len(performances)))]
     
             ax[0][1].tick_params(labelsize=12)
             ax[0][1].set_title('Classification performances', fontsize=12, fontweight='bold')
@@ -176,7 +182,7 @@ class ModelEvaluator():
             ax[0][1].spines['right'].set_linewidth(1)
             ax[0][1].spines['bottom'].set_linewidth(1)
             ax[0][1].spines['left'].set_linewidth(1)
-            ax[0][1].grid(axis='y', linestyle='-.')
+            # ax[0][1].grid(axis='y', linestyle='-.')
             y_major_locator=MultipleLocator(0.1)
             ax[0][1].yaxis.set_major_locator(y_major_locator)
             

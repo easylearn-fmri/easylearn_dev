@@ -29,7 +29,7 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
         self.load_data()
         self.get_all_inputs()
         # Make pipeline
-        self.make_pipeline_()
+        self.make_sklearn_search_model_()
 
     def main_run(self):
         self.preprocessing()
@@ -68,7 +68,7 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
                 print(f"After re-sampling, the sample size are: {sorted(Counter(target_train).items())}")
             
             # Fit
-            self.fit_(self.pipeline_, feature_train, target_train)
+            self.fit_sklearn_search_model(self.model_, feature_train, target_train)
             
             #weights
             self.get_weights_(feature_train, target_train)
@@ -178,7 +178,7 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
                     feature_train, permuted_target_train = imbalance_resample.fit_resample(feature_train, permuted_target_train)
 
                 # Fit
-                self.fit_(self.pipeline_, feature_train, permuted_target_train)
+                self.fit_sklearn_search_model(self.pipeline_, feature_train, permuted_target_train)
                 
                 # weights
                 self.get_weights_(feature_train, permuted_target_train)
@@ -223,8 +223,8 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
 
 if __name__ == "__main__":
     time_start = time.time()
-    clf = Classification(configuration_file=r'D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\tests\configuration_file.json', 
-                         out_dir=r"D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\GUI\tests") 
+    clf = Classification(configuration_file=r'D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\machine_learning\classification\tests\clf_configuration.json', 
+                         out_dir=r"D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\machine_learning\classification\tests") 
     clf.main_run()
     time_end = time.time()
     # print(clf.param_search_)
