@@ -61,27 +61,9 @@ class BaseClassification():
         self.weights_norm_ = None
 
     @timer 
-    def fit_(self, pipeline, x=None, y=None):
-        """Fit the pipeline_"""
-        
-        # TODO: Extending to other cross-validation methods
-        cv = StratifiedKFold(n_splits=self.gridcv_k, random_state=0, shuffle=True)  # Default is StratifiedKFold
-        if self.is_search:
-            if self.search_strategy == 'grid':
-                self.model_ = GridSearchCV(
-                    pipeline, n_jobs=self.n_jobs, param_grid=self.param_search_, cv=cv, 
-                    scoring = make_scorer(self.metric), refit=True
-                )
-            elif self.search_strategy == 'random':
-                self.model_ = RandomizedSearchCV(
-                    pipeline, n_jobs=self.n_jobs, param_distributions=self.param_search_, cv=cv, 
-                    scoring = make_scorer(self.metric), refit=True, n_iter=self.n_iter_of_randomedsearch,
-                )
-            else:
-                print("Please specify which search strategy!\n")
-                return
-        else:
-            self.model_ = pipeline
+    def fit_sklearn_search_model(self, pipeline, x=None, y=None):
+        """Fit the scikit-learn search or pipeline model
+        """
         
         self.model_.fit(x, y)
         # Delete the temporary cache before exiting

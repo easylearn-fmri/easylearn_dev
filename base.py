@@ -28,6 +28,7 @@ from imblearn.under_sampling import (RandomUnderSampler,
                                     OneSidedSelection)
 
 from imblearn.combine import SMOTEENN, SMOTETomek
+from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.decomposition import PCA, NMF
 from sklearn.feature_selection import SelectPercentile, SelectKBest, SelectFromModel, f_classif,f_regression, RFE,RFECV, VarianceThreshold, mutual_info_classif, SelectFromModel
@@ -69,13 +70,15 @@ class BaseMachineLearning(object):
     method_model_ast.evaluation_: list of sklearn object or None
     param_model_evaluation_: list of sklearn object or None
 
-    self.pipeline_: machine learning pipeline
-    self.param_search_: parameter for search of machine learning pipeline
+    model_: machine learning model, e.g., sklearn gridSearch model
+    param_search_: parameter for search of machine learning pipeline
     """
 
     def __init__(self, configuration_file):
         self.configuration_file = configuration_file
-        self.__random_state = 0
+        self._random_state = 0
+        self._gridcv_k = 3
+        self._search_strategy = "grid"
 
     def get_configuration_(self):
         """Get and parse the configuration file
@@ -108,7 +111,7 @@ class BaseMachineLearning(object):
 
         # Fix the random_state for replication of results
         if self.method_feature_preprocessing_ and ("random_state" in self.method_feature_preprocessing_[0].get_params().keys()):
-            self.param_feature_preprocessing_.update({"feature_preprocessing__"+'random_state': [self.__random_state]})
+            self.param_feature_preprocessing_.update({"feature_preprocessing__"+'random_state': [self._random_state]})
         self.param_feature_preprocessing_ = None if self.param_feature_preprocessing_ == {} else self.param_feature_preprocessing_
              
         return self
@@ -135,7 +138,7 @@ class BaseMachineLearning(object):
         
         # Fix the random_state for replication of results
         if self.method_dim_reduction_ and ("random_state" in self.method_dim_reduction_[0].get_params().keys()):
-            self.param_dim_reduction_.update({"dim_reduction__"+'random_state': [self.__random_state]})
+            self.param_dim_reduction_.update({"dim_reduction__"+'random_state': [self._random_state]})
         self.param_dim_reduction_ = None if self.param_dim_reduction_ == {} else self.param_dim_reduction_
         return self  
 
@@ -180,7 +183,7 @@ class BaseMachineLearning(object):
         
         # Fix the random_state for replication of results
         if self.method_feature_selection_ and "random_state" in self.method_feature_selection_[0].get_params().keys():
-            self.param_feature_selection_.update({"feature_selection__"+'random_state': [self.__random_state]})
+            self.param_feature_selection_.update({"feature_selection__"+'random_state': [self._random_state]})
         self.param_feature_selection_ = None if self.param_feature_selection_ == {} else self.param_feature_selection_
         return self
 
@@ -207,8 +210,8 @@ class BaseMachineLearning(object):
                      
         # Fix the random_state for replication of results
         if self.method_unbalance_treatment_ and "random_state" in self.method_unbalance_treatment_.get_params().keys():
-            self.method_unbalance_treatment_.set_params(**{"random_state": self.__random_state})
-            self.param_unbalance_treatment_.update({"unbalance_treatment__"+'random_state': [self.__random_state]})
+            self.method_unbalance_treatment_.set_params(**{"random_state": self._random_state})
+            self.param_unbalance_treatment_.update({"unbalance_treatment__"+'random_state': [self._random_state]})
         self.param_unbalance_treatment_ = None if self.param_unbalance_treatment_ == {} else self.param_unbalance_treatment_
         
         return self
@@ -249,7 +252,7 @@ class BaseMachineLearning(object):
          
         # Fix the random_state for replication of results
         if self.method_machine_learning_ and "random_state" in self.method_machine_learning_[0].get_params().keys():
-            self.param_machine_learning_.update({"estimator__"+'random_state': [self.__random_state]})
+            self.param_machine_learning_.update({"estimator__"+'random_state': [self._random_state]})
         self.param_machine_learning_ = None if self.param_machine_learning_ == {} else self.param_machine_learning_
         return self
 
@@ -350,13 +353,17 @@ class BaseMachineLearning(object):
 
         return evaluated_expression
 
-    def make_pipeline_(self):
+    def make_sklearn_search_model_(self):
         
         """Construct pipeline_
 
         Currently, the pipeline_ only supports one specific method for corresponding method, 
         e.g., only supports one dimension reduction method for dimension reduction.
         In the next version, the pipeline_ will support multiple methods for each corresponding method.
+
+        Returns:
+        -------
+        model_
         """
         
         self.memory = Memory(location=os.path.dirname(self.configuration_file), verbose=False)
@@ -370,7 +377,7 @@ class BaseMachineLearning(object):
             memory=self.memory
         )
 
-        # Set parameters of gridCV
+        # Set parameters of search CV
         self.param_search_ = {}
 
         if self.method_feature_preprocessing_:
@@ -393,9 +400,9 @@ class BaseMachineLearning(object):
         if self.param_machine_learning_:
             self.param_search_.update(self.param_machine_learning_)
         
+        # If no parameters' length greater than 1, using sklearn pipeline for speed up
         self.is_search = self.get_is_search(self.param_search_)
         if not self.is_search:
-            
             if self.method_feature_preprocessing_:
                 self.pipeline_.set_params(**{'feature_preprocessing':self.method_feature_preprocessing_[0]})
             if self.param_feature_preprocessing_:   
@@ -419,6 +426,25 @@ class BaseMachineLearning(object):
             if self.param_machine_learning_:
                 mapping = self.parse_search_params(self.param_machine_learning_)
                 self.pipeline_['estimator'].set_params(**mapping)
+
+        # Building model
+        cv = StratifiedKFold(n_splits=self._gridcv_k, random_state=self._random_state, shuffle=True)  # Default is StratifiedKFold
+        if self.is_search:
+            if self._search_strategy == 'grid':
+                self.model_ = GridSearchCV(
+                    pipeline, n_jobs=self.n_jobs, param_grid=self.param_search_, cv=cv, 
+                    scoring = make_scorer(self.metric), refit=True
+                )
+            elif self._search_strategy == 'random':
+                self.model_ = RandomizedSearchCV(
+                    pipeline, n_jobs=self.n_jobs, param_distributions=self.param_search_, cv=cv, 
+                    scoring = make_scorer(self.metric), refit=True, n_iter=self.n_iter_of_randomedsearch,
+                )
+            else:
+                print("Please specify which search strategy!\n")
+                return
+        else:
+            self.model_ = self.pipeline_
 
         return self
     
@@ -514,22 +540,49 @@ class DataLoader():
     data_format_: str, data format such as 'nii', 'mat'
     
     self.affine_: 4 by 4 matrix, image affine
+
+    Notes:
+    -----
+    1. Easylearn allows users to input multiple modalities for one group. 
+       Then, easylearn will feed features combined multiple modalities into machine learning model.
+    
+    2. If there is only one input file for one modality, 
+       then the file could be csv, xlsx, txt that allows pandas to read it, 
+       and data in this file musk have a column of "__ID__" (unique idenfity), 
+       otherwise easylearn will take the first column as "__ID__".
+       So that easylearn can match cases between modalities and match modalities with targets and covariates.
+       If this file
+    
+    3. If ther are multiple input files for one modality, then the files name must contain r'.*(sub.?[0-9].*).*' for 
+        extracting unique idenfity information to match like above. 
+        For example one file name contains strings of "sub-008.nii".
+    
+    4. Easylearn only allows users to input targets as one integer by type in the GUI (only for classification)
+       or a file path for one group. 
+       If the input targets is a file, then the file could be csv, xlsx, txt that allows pandas to read it, 
+       and data in the file must have a column of "__ID__", otherwise easylearn will take the first column as "__ID__".
+       In addition, it also must have a column of "__Targets__" in which the targets contained.
+       If the input targets is a integer(only for classification) , then easylearn will assign the integer as target for all case in the group.
+
+    5. Easylearn allows users to input covariates, such as age, gender. Now, only file can be input as the covariates.
+       If user given easylearn a covariates file, then the file could be csv, xlsx, txt that allows pandas to read it, 
+       and data in the file must have a column of "__ID__", otherwise easylearn will take the first column as "__ID__".
     """
     
     def __init__(self, configuration_file):
-        # super(DataLoader, self).__init__(configuration_file)
+        self.configuration_file = configuration_file
         
         # Generate type2fun dictionary
         # TODO: Extended to handle other formats
-        self.configuration_file = configuration_file
-        
         self.type2fun = {
                     ".nii": self.read_nii, 
+                    ".img": self.read_nii,
                     ".mat": self.read_mat, 
                     ".txt": self.read_csv,
                     ".csv": self.read_csv,
                     ".xlsx": self.read_excel,
                     ".xls": self.read_excel,
+                    ".npy": self.read_ndarray,
         }
     
     def get_configuration_(self):
@@ -545,7 +598,7 @@ class DataLoader():
         self.get_configuration_()
         load_data = self.configuration.get('data_loading', None)
         
-        # ======Check datasets======
+        #%% ==========================================Check datasets=================================
         # NOTE.: That check whether the feature dimensions of the same modalities in different groups are equal
         # is placed in the next section.
         targets = {}
@@ -563,10 +616,15 @@ class DataLoader():
                 
             # Get targets
             targets_input = load_data.get(gk).get("targets")
-            targets[gk] = self.read_targets(targets_input)            
+            targets[gk] = self.read_targets(targets_input)  
+
     
             # Get covariates
             covariates_input = load_data.get(gk).get("covariates")
+            if (isinstance(covariates_input, str) and
+                covariates_input.strip() != "" and
+                (not os.path.isfile(covariates_input))):  # Easylearn only supports file input for covariates
+                raise ValueError("Easylearn only supports file input for covariates, check your covariates for {gk}")
             self.covariates_[gk] = self.base_read(covariates_input)
             
             # Check the number of files in each modalities in the same group is equal
@@ -595,17 +653,20 @@ class DataLoader():
                     raise ValueError(f"The number of files in {mk} of {gk} is not equal to its' number of covariates, check your inputs")
                     return
                 
-        # ======Get selected datasets======
+        #%% ==========================================Get selected datasets =================================
         shape_of_data = {}
+        feature_applied_mask_all = {}
         feature_applied_mask_and_add_otherinfo = {}
         col_drop = {}
         self.mask_ = {}
         self.data_format_ = {}
         self.affine_ =  {}
-        for ig, gk in enumerate(load_data.keys()): 
+
+        for gi, gk in enumerate(load_data.keys()): 
             col_drop[gk] = ["__Targets__"]
             shape_of_data[gk] = {}
             feature_applied_mask_and_add_otherinfo[gk] = {}
+            feature_applied_mask_all[gk] = {}
             self.mask_[gk] = {}
             self.data_format_[gk] = {}
             self.affine_[gk] = {}
@@ -614,7 +675,8 @@ class DataLoader():
                 modality = load_data.get(gk).get("modalities").get(mk)
                
                 # Get files
-                # If only input one file for one modality in a given group, then I think the file contained multiple cases' data
+                # If only input one file for one modality, 
+                # then I think the file contained multiple cases' data
                 input_files = modality.get("file")
                 n_file = self.get_file_len(input_files)
                 if len(input_files) == 1:
@@ -632,62 +694,28 @@ class DataLoader():
                 all_features = self.read_file(input_files, False)
                 if one_file_per_modality:
                     all_features_ = list(all_features)[0]
-                    all_features = [all_features_]  # 
                 else:
-                    all_features_ = None
-                        
+                    all_features_ = False
+
                 # Get cases' name (unique ID) in this modality
                 # If one_file_per_modality = False, then each file name must contain r'.*(sub.?[0-9].*).*'
-                # If one_file_per_modality = True and all_features_ is DataFrame, then the DataFrame must have header of "__ID__" which contain the subj_name
+                # If one_file_per_modality = True and all_features_ is DataFrame, 
+                # then the DataFrame must have header of "__ID__" which contain the unique_identifier,
+                # otherwise easylearn will take the first column as "__ID__".
                 if isinstance(all_features_, pd.core.frame.DataFrame) and ("__ID__" not in all_features_.columns):
                     raise ValueError(f"The dataset of {input_files} did not have '__ID__' column, check your dataset")
                 elif isinstance(all_features_, pd.core.frame.DataFrame) and ("__ID__" in all_features_.columns):
-                    subj_name = pd.DataFrame(all_features_["__ID__"])
+                    unique_identifier = pd.DataFrame(all_features_["__ID__"])
+                    all_features_.drop("__ID__", axis=1, inplace=True)
+                elif isinstance(all_features_, np.ndarray):
+                    all_features_ = pd.DataFrame(all_features_)
+                    unique_identifier = pd.DataFrame(all_features_.iloc[:,0], dtype=np.str) # Take the first column as __ID__
+                    unique_identifier.columns = ["__ID__"]
+                    all_features = [all_features_.iloc[:,1:]]
                 else:
-                    subj_name = self.extract_id(input_files, n_file)
-                    
-                # Delete "__ID__" header of all_features if it have dataframe
-                all_features = self.del_id(all_features, input_files)
-                
-                # Sort targets and check
-                if (isinstance(targets[gk],int)):
-                    targets[gk] = [targets[gk] for ifile in range(n_file)]
-                    targets[gk] = pd.DataFrame(targets[gk])
-                    targets[gk]["__ID__"] = subj_name["__ID__"]
-                    targets[gk].rename(columns={0: "__Targets__"}, inplace=True)
-                elif not isinstance(targets[gk], pd.core.frame.DataFrame):
-                    targets[gk] = pd.DataFrame(targets[gk]) 
-                    targets[gk]["__ID__"] = subj_name["__ID__"]
-                    targets[gk].rename(columns={0: "__Targets__"}, inplace=True)
-                elif isinstance(targets[gk], pd.core.frame.DataFrame) and ("__ID__" not in targets[gk].columns):
-                    raise ValueError(f"The targets of {gk} did not have '__ID__' column, check your targets")
-                    return                      
-                targets[gk] = pd.merge(subj_name, targets[gk], left_on="__ID__", right_on="__ID__", how='inner')
-                if targets[gk].shape[0] != n_file:
-                        raise ValueError(f"The subjects' ID in targets is not totally matched with its' data file name in {mk} of {gk} , check your ID in targets or check your data file name")
-                        return
-
-                # Sort covariates and check                
-                if (not isinstance(self.covariates_[gk],int)):  # User have given covariates
-                    if not isinstance(self.covariates_[gk], pd.core.frame.DataFrame): 
-                            self.covariates_[gk] = pd.DataFrame(self.covariates_[gk])  
-                            self.covariates_[gk]["__ID__"] = subj_name["__ID__"]
-                    elif isinstance(self.covariates_[gk], pd.core.frame.DataFrame) and ("__ID__" not in self.covariates_[gk].columns):
-                        raise ValueError(f"The covariates of {gk} did not have 'ID' column, check your covariates")
-                        return 
-                    
-                    self.covariates_[gk] = pd.merge(subj_name, self.covariates_[gk], left_on="__ID__", right_on="__ID__") 
-                    if self.covariates_[gk].shape[0] != n_file:
-                        raise ValueError(f"The subjects' ID in covariates is not totally matched with its' data file name in {mk} of {gk} , check your ID in covariates or check your data file name")
-                        return 
-                    
-                    if jm == 0:
-                        # Get columns for drop (Remain 'ID' for matching)
-                        columns_of_covariates = list(set(self.covariates_[gk].columns) - set(["__ID__"]))
-                        [self.covariates_[gk].rename(columns={colname: f"__{colname}__"}, inplace=True) for colname in columns_of_covariates]
-                        col_drop[gk] = list((set(self.covariates_[gk].columns) | set(targets[gk].columns)) ^ set(["__ID__"]))
-                           
-                # Mask
+                    unique_identifier = self.extract_id(input_files)  # Multiple files
+                        
+                # Apply mask to feature
                 mask_input = modality.get("mask")
                 # Do not extract triangule matrix when read mask file
                 self.mask_[gk][mk] = self.base_read(mask_input)
@@ -703,49 +731,73 @@ class DataLoader():
                    feature_applied_mask = np.array(feature_applied_mask)
                    feature_applied_mask = feature_applied_mask.reshape(n_file,-1)
 
-                # Add subj_name, targets and covariates to features for matching datasets across modalities in the same group 
-                if (not isinstance(self.covariates_[gk],int)): 
-                    feature_applied_mask_and_add_otherinfo[gk][mk] = pd.concat([subj_name, targets[gk]["__Targets__"], self.covariates_[gk].drop(["__ID__"], axis=1,inplace=False), pd.DataFrame(feature_applied_mask)], axis=1)  
+                # Concat feature across different modalities and groups 
+                # In addition, the second and later modality are sorted according with the first one using pd.merge method
+                feature_applied_mask = pd.concat([unique_identifier, pd.DataFrame(feature_applied_mask)], axis=1) 
+                if jm == 0:
+                    feature_applied_mask_all[gk] = feature_applied_mask
                 else:
-                    feature_applied_mask_and_add_otherinfo[gk][mk] = pd.concat([subj_name, targets[gk]["__Targets__"], pd.DataFrame(feature_applied_mask)], axis=1)  
-                
-                # Check whether the feature dimensions of the same modalities in different groups are equal
-                shape_of_data[gk][mk] = feature_applied_mask.shape
-                if ig == 0:
-                   gk_pre = gk
-                else:
-                    if shape_of_data[gk_pre][mk][-1] != shape_of_data[gk][mk][-1]:
-                        raise ValueError(f"Feature dimension of {mk} in {gk_pre} is {shape_of_data[gk_pre][mk][-1]} which is not equal to {mk} in {gk}: {shape_of_data[gk][mk][-1]}, check your inputs")
-                        return 
-                
-            # Update gk_pre for check feature dimension
-            gk_pre = gk            
-        
-        # Concatenate all modalities and targets
-        # Modalities of one group must have the same ID so that to mach them.
-        for gi, gk in enumerate(feature_applied_mask_and_add_otherinfo):
-            for mi, mk in enumerate(feature_applied_mask_and_add_otherinfo[gk]):
-                # Concat feature across different modalities in the same group
-                # Sort with the first modality
-                if mi == 0:
-                    feature_sorted = feature_applied_mask_and_add_otherinfo[gk][mk]
-                if mi != 0:
-                    feature_for_concat = feature_applied_mask_and_add_otherinfo[gk][mk]
-                    feature_for_concat = feature_applied_mask_and_add_otherinfo[gk][mk].drop(col_drop[gk], axis=1)
-                    feature_sorted = pd.merge(feature_sorted, feature_for_concat, left_on="__ID__", right_on="__ID__", how="left")
-                    if (not isinstance(self.covariates_[gk],int)):
-                        feature_sorted.drop(self.covariates_[gk].columns, axis=1, inplace=True)
+                    feature_applied_mask_all[gk] = pd.merge(feature_applied_mask_all[gk], feature_applied_mask, left_on="__ID__", right_on="__ID__")  
+
+            # Dropout __ID__ from feature_applied_mask_all
+            unique_identifier_ = feature_applied_mask_all[gk]["__ID__"]  # Get the final unique_identifier
+            feature_applied_mask_all[gk].drop("__ID__", axis=1, inplace=True)
             
-            # Concat feature across different group
+            #%% =====================Match targets and covariates with unique_identifier_==============================
+            # NOTE. subj-name is come from the first modality due to the second and later modality are sorted 
+            # according with the first one using pd.merge method 
+
+            # Sort targets and check
+            if (isinstance(targets[gk],int)):
+                targets[gk] = [targets[gk] for ifile in range(n_file)]
+                targets[gk] = pd.DataFrame(targets[gk])
+                targets[gk]["__ID__"] = unique_identifier_
+                targets[gk].rename(columns={0: "__Targets__"}, inplace=True)
+            elif isinstance(targets[gk], pd.core.frame.DataFrame) and ("__ID__" not in targets[gk].columns):
+                raise ValueError(f"The targets of {gk} did not have '__ID__' column, check your targets")  
+            elif isinstance(targets[gk], np.ndarray):
+                targets[gk] = pd.DataFrame(targets[gk])
+                targets[gk].rename(columns={0:"__ID__", 1:"__Targets__"}, inplace=True) # Take the first column as __ID__
+
+            targets[gk] = pd.merge(unique_identifier_, targets[gk], left_on="__ID__", right_on="__ID__", how='inner')
+            if targets[gk].shape[0] != n_file:
+                    raise ValueError(f"The subjects' ID in targets is not totally matched with its' data file name in {mk} of {gk} , check your ID in targets or check your data file name")
+
+            # Sort covariates and check                
+            if (not isinstance(self.covariates_[gk],int)):  # User have given covariates
+                if isinstance(self.covariates_[gk], pd.core.frame.DataFrame) and ("__ID__" not in self.covariates_[gk].columns):
+                    raise ValueError(f"The covariates of {gk} did not have 'ID' column, check your covariates")
+                elif isinstance(self.covariates_[gk], np.ndarray): 
+                    self.covariates_[gk] = pd.DataFrame(self.covariates_[gk])
+                    self.covariates_[gk].rename(columns={0:"__ID__"}, inplace=True) # Take the first column as __ID__
+                
+                self.covariates_[gk] = pd.merge(unique_identifier_, self.covariates_[gk], left_on="__ID__", right_on="__ID__") 
+                if self.covariates_[gk].shape[0] != n_file:
+                    raise ValueError(f"The subjects' ID in covariates is not totally matched with its' data file name in {mk} of {gk} , check your ID in covariates or check your data file name")
+                        
+            # Check whether the feature dimensions of the same modalities in different groups are equal
+            shape_of_data[gk][mk] = feature_applied_mask_all[gk].shape
             if gi == 0:
-                self.features_ = feature_sorted 
+                gk_pre = gk
             else:
-                self.features_ = pd.concat([self.features_, feature_sorted], axis=0)
-        
-        self.id_ = self.features_["__ID__"].values
-        self.targets_ = self.features_["__Targets__"].values
-        self.features_.drop(["__Targets__", "__ID__"], axis=1, inplace=True)
-        self.features_ =  self.features_.values
+                if shape_of_data[gk_pre][mk][-1] != shape_of_data[gk][mk][-1]:
+                    raise ValueError(f"Feature dimension of {mk} in {gk_pre} is {shape_of_data[gk_pre][mk][-1]} which is not equal to {mk} in {gk}: {shape_of_data[gk][mk][-1]}, check your inputs")
+             
+
+            # Concat datasets across different group
+            unique_identifier_ = pd.DataFrame([f"{gk}_{ui}" for ui in unique_identifier_])
+            if gi == 0:
+                self.id_ = unique_identifier_
+                self.targets_ = targets[gk]["__Targets__"]
+                self.features_ = feature_applied_mask_all[gk]
+            else:
+                self.id_ = pd.concat([self.id_, unique_identifier_])
+                self.targets_ = pd.concat([self.targets_,  targets[gk]["__Targets__"]])
+                self.features_ = pd.concat([self.features_, feature_applied_mask_all[gk]], axis=0)
+
+        self.id_ = self.id_.values
+        self.targets_ = np.float64(self.targets_.values)
+        self.features_ = np.float64(self.features_.values)
         return self
        
     #%% ========================utilt functions========================
@@ -781,16 +833,21 @@ class DataLoader():
                 df.drop("__ID__", axis=1, inplace=True)
                 all_features_.append(df)
             else:
-                all_features_.append(df)
+                all_features_.append(df[:,1:])  # Take the first column as __ID__, and drop the first column.
                 
         return all_features_
 
     def read_targets(self, targets_input):
+        """Read targets from GUI
+
+        Easylearn only supports one integer input or a file input for targets
+        """
+
         if (targets_input == []) or (targets_input == ''):
-            return None
+            targets = None  # Clustering algorithm does not need targets
         
         elif os.path.isfile(targets_input):
-            return self.base_read(targets_input) 
+            targets = self.base_read(targets_input) 
         
         elif len(re.findall(r'[A-Za-z]', targets_input)):  # Contain alphabet
             raise ValueError(f"The targets(labels) must be an Arabic numbers or file, but it contain alphabet, check your targets: '{targets_input}'")
@@ -798,14 +855,21 @@ class DataLoader():
         
         elif ' ' in targets_input:
             targets = targets_input.split(' ')
-            return [int(targets_) for targets_ in targets]
+            targets = [int(targets_) for targets_ in targets]
+            if len(targets) > 1:
+              raise ValueError(f"The targets(labels) must be an integer or a file, check your targets: {targets_input}\n")
         
         elif ',' in targets_input:
             targets = targets_input.split(',')
-            return [int(targets_) for targets_ in targets]
-             
+            targets = [int(targets_) for targets_ in targets]
+            if len(targets) > 1:
+              raise ValueError(f"The targets(labels) must be an integer or a file, check your targets: {targets_input}\n")
         else:
-            return eval(targets_input)
+            targets = eval(targets_input)  
+            if not isinstance(targets, int):
+              raise ValueError(f"The targets(labels) must be an integer or a file for classification, check your targets: {targets_input}\n")      
+
+        return targets
 
     def read_file(self, input_files, to1d=False):  
         """Read all input files
@@ -886,6 +950,14 @@ class DataLoader():
         data = pd.read_excel(file)
         return data
     
+    @staticmethod
+    def read_ndarray(file):
+        try:
+            data = np.load(file,  allow_pickle=False)
+        except ValueError:
+            data = np.load(file,  allow_pickle=True)
+        return data
+
     @ staticmethod
     def get_upper_tri_mat(data, one_file_per_modality):
         """Get upper triangular matrix
@@ -928,18 +1000,23 @@ class DataLoader():
             
 
     @staticmethod
-    def extract_id(files, n_file):
+    def extract_id(files):
         """Extract subject unique ID from file names
+
+        Parameters:
+        ----------
+        files : list of file paths
+
+        Returns:
+        -------
+        unique_identifier: pd.DataFrame
+            Subjects' name or unique idenfity
         """
         
-        file_len = len(files)
-        if file_len > 1:
-            subj_name = [os.path.basename(file).split(".")[0] for file in files]
-            subj_name = [re.findall(r'.*(sub.?[0-9].*).*', name)[0] if re.findall(r'.*(sub.?[0-9].*).*', name) != [] else "" for name in subj_name]
-        else:
-            subj_name = [f"sub-{i}" for i in range(n_file)]
-        subj_name = pd.DataFrame(subj_name)
-        subj_name.columns = ["__ID__"]
-        return subj_name
+        unique_identifier = [os.path.basename(file).split(".")[0] for file in files]
+        unique_identifier = [re.findall(r'.*(sub.?[0-9].*).*', name)[0] if re.findall(r'.*(sub.?[0-9].*).*', name) != [] else "" for name in unique_identifier]
+        unique_identifier = pd.DataFrame(unique_identifier)
+        unique_identifier.columns = ["__ID__"]
+        return unique_identifier
 
     
