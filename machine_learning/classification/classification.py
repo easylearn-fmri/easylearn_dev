@@ -108,9 +108,11 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
 
         
         # Save outputs
-        self.outputs = { "subname": subname, "test_targets": self.target_test_all, "test_prediction": self.pred_label, 
-                    "test_probability": pred_prob, "accuracy": self.real_accuracy,
-                    "sensitivity": self.real_sensitivity, "specificity":self.real_specificity, "auc": self.real_auc
+        self.outputs = { 
+            "fill_value": fill_value, "model":self.model_, 
+            "subname": subname, "test_targets": self.target_test_all, "test_prediction": self.pred_label, 
+            "test_probability": pred_prob, "accuracy": self.real_accuracy,
+            "sensitivity": self.real_sensitivity, "specificity":self.real_specificity, "auc": self.real_auc
         }
 
         pickle.dump(self.outputs, open(os.path.join(self.out_dir, "outputs.pickle"), "wb"))

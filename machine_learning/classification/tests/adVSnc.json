@@ -44,7 +44,7 @@
         "dimreduction": {
             "PCA()": {
                 "n_components": {
-                    "value": "0.9"
+                    "value": "[0.8,0.9]"
                 }
             }
         },

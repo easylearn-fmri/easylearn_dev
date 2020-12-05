@@ -10,12 +10,12 @@ import time
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
 from sklearn.model_selection import StratifiedKFold, KFold
-from sklearn.metrics import make_scorer, accuracy_score, auc, f1_score
 from sklearn.pipeline import Pipeline
 from joblib import Memory
 from shutil import rmtree
 import warnings
 from sklearn.exceptions import ConvergenceWarning
+from sklearn.metrics import accuracy_score, auc, f1_score
 
 from eslearn.machine_learning.base import AbstractSupervisedMachineLearningBase
 from eslearn.utils.timer import  timer
@@ -61,11 +61,11 @@ class BaseClassification():
         self.weights_norm_ = None
 
     @timer 
-    def fit_sklearn_search_model(self, pipeline, x=None, y=None):
+    def fit_sklearn_search_model(self, model, x=None, y=None):
         """Fit the scikit-learn search or pipeline model
         """
         
-        self.model_.fit(x, y)
+        model.fit(x, y)
         # Delete the temporary cache before exiting
         self.memory.clear(warn=False)
         return self

@@ -1,0 +1,6 @@
+## Hyperopt(Distributed Hyperparameter Optimization): 
+- https://github.com/hyperopt/hyperopt and 
+- https://github.com/hyperopt/hyperopt-sklearn 
+
+## StackNet: 
+- https://github.com/kaz-Anova/StackNet
