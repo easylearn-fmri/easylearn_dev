@@ -12,6 +12,7 @@ from sklearn.model_selection import KFold
 from sklearn.metrics import make_scorer, mean_squared_error, mean_absolute_error
 import warnings
 from sklearn.exceptions import ConvergenceWarning
+from scipy.stats import pearsonr
 
 from eslearn.machine_learning.base import AbstractSupervisedMachineLearningBase
 from eslearn.utils.timer import timer
@@ -59,36 +60,12 @@ class BaseRegression():
         self.location = location
         self.verbose = verbose
         
-    @timer
-    def fit_(self, x=None, y=None):
-        """Fit the pipeline_"""
+    @timer 
+    def fit_sklearn_search_model(self, model, x=None, y=None):
+        """Fit the scikit-learn search or pipeline model
+        """
         
-        # TODO: Extending to other CV methods
-        cv = KFold(n_splits=self.k)  # Default is StratifiedKFold
-        if self.is_search:
-            if self.search_strategy == 'grid':
-                self.model_ = GridSearchCV(
-                    self.pipeline_, n_jobs=self.n_jobs, param_grid=self.param_search_, cv=cv, 
-                    scoring = make_scorer(self.metric), refit=True
-                )
-                # print(f"GridSearchCV fitting (about {iteration_num} times iteration)...\n")
-
-            elif self.search_strategy == 'random':
-                self.model_ = RandomizedSearchCV(
-                    self.pipeline_, n_jobs=self.n_jobs, param_distributions=self.param_search_, cv=cv, 
-                    scoring = make_scorer(self.metric), refit=True, n_iter=self.n_iter_of_randomedsearch,
-                )
-            
-                # print(f"RandomizedSearchCV fitting (about {iteration_num} times iteration)...\n")
-            else:
-                print("Please specify which search strategy!\n")
-                return
-        else:
-            self.model_ = self.pipeline_
-
-        # Fit
-        self.model_.fit(x, y)
-
+        model.fit(x, y)
         # Delete the temporary cache before exiting
         self.memory.clear(warn=False)
         return self
@@ -161,6 +138,67 @@ class BaseRegression():
         # Normalize weights using z-score method
         self.weights_norm_ = StandardScaler().fit_transform(self.weights_.T).T
     
+    #%% Statistical analysis
+    def run_statistical_analysis(self, method_statistical_analysis):
+        """Statistical analysis"""
+
+        print("Statistical analysis...\n")
+        type_dict = {"Binomial test":self.pearson_test, "Permutation test":self.permutation_test}
+        type_dict[method_statistical_analysis]()
+
+        # Save outputs
+        self.outputs.update({ "pvalue_metric": self.pvalue_metric})
+        pickle.dump(self.outputs, open(os.path.join(self.out_dir, "outputs.pickle"), "wb"))
+        return self
+
+    def pearson_test(self, real_targets, predict_targets):
+        r, self.pvalue_metric = pearsonr(np.array(real_targets), np.array(predict_targets))
+        print(f"p value for metric = {self.pvalue_metric:.3f}")
+        return self
+
+    def permutation_test(self, features, targets, time_permutation, method_model_evaluation, method_preprocess):
+        print(f"Permutation test: {time_permutation} times...\n")
+                
+        self.permuted_score = []
+
+        for i in range(time_permutation):
+            print(f"{i+1}/{time_permutation}...\n")      
+            permuted_score = []
+            for train_index, test_index in method_model_evaluation.split(features, targets):
+                feature_train = features[train_index, :]
+                feature_test = features[test_index, :]
+                
+                # Preprocessing
+                feature_train, fill_value = method_preprocess(feature_train, how='median')
+                if np.isnan(feature_test).any().sum() > 0:
+                    feature_test = pd.DataFrame(feature_test).fillna(fill_value)
+                
+                permuted_target_train = targets[train_index][np.random.permutation(len(train_index))]
+                target_train = targets[train_index]
+                target_test = targets[test_index]
+
+                # Fit
+                self.fit_sklearn_search_model(feature_train, permuted_target_train)
+
+                # Predict
+                y_prob = self.predict_(feature_test)
+                
+                # Eval performances
+                score = self.metric(target_test, y_prob)  
+                permuted_score.append(score)
+             
+            # Average performances of one permutation
+            self.permuted_score.append(np.mean(permuted_score))
+
+        # Get p values
+        self.pvalue_metric = self.calc_pvalue(self.permuted_score, np.mean(self.real_score))
+        # print(f"p value for metric = {self.pvalue_metric:.3f}")
+        return self
+
+    @staticmethod
+    def calc_pvalue(permuted_performance, real_performance):
+        return (np.sum(np.array(permuted_performance) <= np.array(real_performance)) + 1) / (len(permuted_performance) + 1)
+
 
 if __name__ == "__main__":
     basereg = BaseRegression()

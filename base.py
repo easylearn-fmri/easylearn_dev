@@ -714,8 +714,10 @@ class DataLoader():
                 elif isinstance(all_features_, pd.core.frame.DataFrame) and ("__ID__" in all_features_.columns):
                     unique_identifier = pd.DataFrame(all_features_["__ID__"])
                     all_features_.drop("__ID__", axis=1, inplace=True)
+                    all_features = [all_features_]
                 elif isinstance(all_features_, np.ndarray):
                     all_features_ = pd.DataFrame(all_features_)
+                    all_features = [all_features_]
                     unique_identifier = pd.DataFrame(all_features_.iloc[:,0], dtype=np.str) # Take the first column as __ID__
                     unique_identifier.columns = ["__ID__"]
                     all_features = [all_features_.iloc[:,1:]]

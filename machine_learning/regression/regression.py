@@ -29,13 +29,13 @@ class Regression(BaseMachineLearning, DataLoader, BaseRegression):
         BaseRegression.__init__(self)
         self.metric = mean_absolute_error
         self.out_dir = out_dir
-    
+        
     def preprocessing(self):
         # Get all inputs
         self.load_data()
         self.get_all_inputs()
         # Make pipeline
-        self.make_pipeline_()
+        self.make_sklearn_search_model_()
         
     def main_run(self):
         
@@ -64,7 +64,9 @@ class Regression(BaseMachineLearning, DataLoader, BaseRegression):
             subname.extend(subname_)
             
             # Fit
-            self.fit_(feature_train, target_train)
+            self.fit_sklearn_search_model(self.model_, feature_train, target_train)
+
+            # Get weights
             self.get_weights_(feature_train, target_train)
 
             # Predict
@@ -89,8 +91,10 @@ class Regression(BaseMachineLearning, DataLoader, BaseRegression):
         self.save_weight(weights, self.out_dir)
         
         # Save outputs
-        self.outputs = { "subname": subname, "test_targets": self.target_test_all, 
-                    "test_probability": self.pred_prob, "score": self.real_score 
+        self.outputs = { 
+            "fill_value": fill_value, "model":self.model_,
+            "subname": subname, "test_targets": self.target_test_all, 
+            "test_probability": self.pred_prob, "score": self.real_score 
         }
 
         pickle.dump(self.outputs, open(os.path.join(self.out_dir, "outputs.pickle"), "wb"))

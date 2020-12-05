@@ -2,6 +2,8 @@ import pandas as pd
 import numpy as np
 
 
+# class Preprocessing():
+    
 def denan(features, how="median"):
     """ Handle extreme values
     
