@@ -8,6 +8,10 @@ Created on Wed Nov  4 22:13:55 2020
 import pickle
 import numpy as np
 
-rs = pickle.load(open("./outputs.pickle", "rb"))
-print(rs.keys())
+md = pickle.load(open("./outputs.pickle", "rb"))
+stat = pickle.load(open("./stat.pickle", "rb"))
+
+print(md.keys())
+print(stat.keys())
+
 

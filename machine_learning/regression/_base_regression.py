@@ -6,6 +6,8 @@ Author: Mengshi dong <dongmengshi1990@163.com>
 """
 
 import numpy as np
+import os
+import pickle
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
 from sklearn.model_selection import KFold
@@ -50,8 +52,8 @@ class BaseRegression():
         
         self.metric = metric
         self.model_ = None
-        self.weights_ = None
-        self.weights_norm_ = None
+        weights_ = None
+        weights_norm_ = None
 
         self.search_strategy = search_strategy
         self.k = k
@@ -61,7 +63,7 @@ class BaseRegression():
         self.verbose = verbose
         
     @timer 
-    def fit_sklearn_search_model(self, model, x=None, y=None):
+    def fit_(self, model, x=None, y=None):
         """Fit the scikit-learn search or pipeline model
         """
         
@@ -95,12 +97,12 @@ class BaseRegression():
         if hasattr(estimator, "coef_"):
             coef =  estimator.coef_.reshape(1,-1)                
             if feature_selection and (feature_selection != "passthrough"):
-                self.weights_ = feature_selection.inverse_transform(coef)
+                weights_ = feature_selection.inverse_transform(coef)
             else:
-                self.weights_ = coef
+                weights_ = coef
 
             if dim_reduction and (dim_reduction != "passthrough"):
-                self.weights_ = dim_reduction.inverse_transform(self.weights_)
+                weights_ = dim_reduction.inverse_transform(weights_)
             
         else:  # Nonlinear model
         # TODO: Consider the problem of slow speed caused by a large number of features
@@ -120,65 +122,124 @@ class BaseRegression():
                  print("***There are {len_feature} features, it may take a long time to get the weight!***\n")
                  print("***I suggest that you reduce the dimension of features***\n")
             
-            self.weights_ = np.zeros([1,len_feature])
+            weights_ = np.zeros([1,len_feature])
             for ifeature in range(len_feature):
                 print(f"Getting weight for the {ifeature+1}th feature...\n")
                 x_ = np.array(x_reduced_selected).copy()
                 x_[:,ifeature] = 0
                 y_hat = estimator.predict(x_)
-                self.weights_[0, ifeature] = score_true - self.metric(y, y_hat)
+                weights_[0, ifeature] = score_true - self.metric(y, y_hat)
             
             # Back to original space
-            self.weights_ = np.reshape(self.weights_, [1, -1])
+            weights_ = np.reshape(weights_, [1, -1])
             if feature_selection and (feature_selection != "passthrough"):
-                self.weights_ = feature_selection.inverse_transform(self.weights_)
+                weights_ = feature_selection.inverse_transform(weights_)
             if dim_reduction and (dim_reduction != "passthrough"):
-                self.weights_  = dim_reduction.inverse_transform(self.weights_)            
+                weights_  = dim_reduction.inverse_transform(weights_)            
                 
         # Normalize weights using z-score method
-        self.weights_norm_ = StandardScaler().fit_transform(self.weights_.T).T
-    
-    #%% Statistical analysis
-    def run_statistical_analysis(self, method_statistical_analysis):
+        weights_norm_ = StandardScaler().fit_transform(weights_.T).T
+
+        return weights_, weights_norm_
+
+
+class StatisticalAnalysis(BaseRegression):
+    """Statistical analysis for regression results
+
+    Parameters:
+    ----------
+    method_statistical_analysis: str, "Binomial test" or "Permutation test"
+        Method of statistical analysis
+
+    sorted_targets: ndarray with shape of [n_samples,]
+        Sorted targets during cross-validation training, which is used to perform binomial test.
+
+    predict_targets: ndarray with shape of [n_samples,]
+       Predicted label of samples
+
+    model: object
+        Machine learning model with fit method, which is used to perform permutation test.
+
+    feature: ndarray with shape of [n_samples, n_features]
+        Features of samples.
+   
+    label: ndarray with shape of [n_samples]
+        Real label of samples with original order.
+
+    prep_: object
+        Preprocessing object with such fit_transform, transform methods. prep_ is derived from training stage.
+
+    time_permutation: int
+        How many times to permute training labels.
+
+    method_model_evaluation: sklearn object's instance
+        Method of model evaluation, e.g. StratifiedKFold()
+
+    out_dir: path str
+        Output directory used to save results.
+    """
+
+    def __init__(self, method_statistical_analysis,
+        sorted_targets=None, predict_targets=None,
+        model=None, features=None, targets=None, 
+        prep_=None, time_permutation=None, method_model_evaluation=None,
+        out_dir=None):
+
+        super().__init__()
+        self.method_statistical_analysis = method_statistical_analysis
+        self.sorted_targets = sorted_targets
+        self.predict_targets = predict_targets
+        self.model = model
+        self.features = features
+        self.targets = targets
+        self.prep_ = prep_
+        self.time_permutation = time_permutation
+        self.method_model_evaluation = method_model_evaluation
+        self.out_dir = out_dir
+
+    def fit(self):
         """Statistical analysis"""
 
         print("Statistical analysis...\n")
-        type_dict = {"Binomial test":self.pearson_test, "Permutation test":self.permutation_test}
-        type_dict[method_statistical_analysis]()
+        if self.method_statistical_analysis == "Binomial test":
+            pvalue_metric = self.pearson_test()
+            permuted_score = None
+        elif self.method_statistical_analysis == "Permutation test":
+            pvalue_metric, permuted_score = self.permutation_test()
 
         # Save outputs
-        self.outputs.update({ "pvalue_metric": self.pvalue_metric})
-        pickle.dump(self.outputs, open(os.path.join(self.out_dir, "outputs.pickle"), "wb"))
+        self.outputs = {}
+        self.outputs.update({"pvalue_metric": pvalue_metric, "permutated_score": permuted_score})
+        pickle.dump(self.outputs, open(os.path.join(self.out_dir, "stat.pickle"), "wb"))
         return self
 
-    def pearson_test(self, real_targets, predict_targets):
-        r, self.pvalue_metric = pearsonr(np.array(real_targets), np.array(predict_targets))
-        print(f"p value for metric = {self.pvalue_metric:.3f}")
-        return self
+    def pearson_test(self):
+        r, pvalue_metric = pearsonr(np.array(self.sorted_targets), np.array(self.predict_targets))
+        print(f"p value for metric = {pvalue_metric:.3f}")
+        return pvalue_metric
 
-    def permutation_test(self, features, targets, time_permutation, method_model_evaluation, method_preprocess):
-        print(f"Permutation test: {time_permutation} times...\n")
+    def permutation_test(self):
+        print(f"Permutation test: {self.time_permutation} times...\n")
                 
-        self.permuted_score = []
+        permuted_score = []
 
-        for i in range(time_permutation):
-            print(f"{i+1}/{time_permutation}...\n")      
+        for i in range(self.time_permutation):
+            print(f"{i+1}/{self.time_permutation}...\n")      
             permuted_score = []
-            for train_index, test_index in method_model_evaluation.split(features, targets):
-                feature_train = features[train_index, :]
-                feature_test = features[test_index, :]
+            for train_index, test_index in self.method_model_evaluation.split(self.features, self.targets):
+                feature_train = self.features[train_index, :]
+                feature_test = self.features[test_index, :]
                 
                 # Preprocessing
-                feature_train, fill_value = method_preprocess(feature_train, how='median')
-                if np.isnan(feature_test).any().sum() > 0:
-                    feature_test = pd.DataFrame(feature_test).fillna(fill_value)
+                feature_train = self.prep_.fit_transform(feature_train)
+                feature_test = self.prep_.transform(feature_test)
                 
-                permuted_target_train = targets[train_index][np.random.permutation(len(train_index))]
-                target_train = targets[train_index]
-                target_test = targets[test_index]
+                permuted_target_train = self.targets[train_index][np.random.permutation(len(train_index))]
+                # target_train = self.targets[train_index]
+                target_test = self.targets[test_index]
 
                 # Fit
-                self.fit_sklearn_search_model(feature_train, permuted_target_train)
+                self.fit_(self.model, feature_train, permuted_target_train)
 
                 # Predict
                 y_prob = self.predict_(feature_test)
@@ -188,12 +249,12 @@ class BaseRegression():
                 permuted_score.append(score)
              
             # Average performances of one permutation
-            self.permuted_score.append(np.mean(permuted_score))
+            permuted_score.append(np.mean(permuted_score))
 
         # Get p values
-        self.pvalue_metric = self.calc_pvalue(self.permuted_score, np.mean(self.real_score))
-        # print(f"p value for metric = {self.pvalue_metric:.3f}")
-        return self
+        pvalue_metric = self.calc_pvalue(permuted_score, np.mean(self.real_score))
+        print(f"p value for metric = {pvalue_metric:.3f}")
+        return pvalue_metric, permuted_score
 
     @staticmethod
     def calc_pvalue(permuted_performance, real_performance):
