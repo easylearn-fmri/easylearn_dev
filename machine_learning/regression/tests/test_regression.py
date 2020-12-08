@@ -29,12 +29,13 @@ from eslearn.machine_learning.regression.regression import Regression
 
 def test_regression():
     time_start = time.time()
-    clf = Regression(configuration_file="./regression_configuration.json",
+    reg = Regression(configuration_file="./regression_configuration.json",
                      out_dir="./")
-    clf.main_run()
-    clf.run_statistical_analysis()
+    reg.main_run()
+    reg.run_statistical_analysis()
+
     time_end = time.time()
-    assert isinstance(clf.pvalue_metric, np.float)
+    assert isinstance(reg.outputs, dict)
     print(f"Running time = {time_end-time_start}\n")
     print("="*50)
 

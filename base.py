@@ -28,6 +28,7 @@ from imblearn.under_sampling import (RandomUnderSampler,
                                     OneSidedSelection)
 
 from imblearn.combine import SMOTEENN, SMOTETomek
+from sklearn.metrics import make_scorer, accuracy_score, auc, f1_score
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.decomposition import PCA, NMF
@@ -319,6 +320,7 @@ class BaseMachineLearning(object):
         self.get_machine_learning_parameters()
         self.get_model_evaluation_parameters()
         self.get_statistical_analysis_parameters()
+        self.make_sklearn_search_model_()
         return self
 
 
@@ -353,13 +355,18 @@ class BaseMachineLearning(object):
 
         return evaluated_expression
 
-    def make_sklearn_search_model_(self):
+    def make_sklearn_search_model_(self, metric=accuracy_score):
         
         """Construct pipeline_
 
         Currently, the pipeline_ only supports one specific method for corresponding method, 
         e.g., only supports one dimension reduction method for dimension reduction.
         In the next version, the pipeline_ will support multiple methods for each corresponding method.
+        
+        Parameters:
+        ----------
+        metric: sklearn metric object, such as accuracy_score, auc, f1_score. Default is accuracy_score
+            Metric is used evaluate model using cross validation in search strategy.
 
         Returns:
         -------
@@ -432,13 +439,13 @@ class BaseMachineLearning(object):
         if self.is_search:
             if self._search_strategy == 'grid':
                 self.model_ = GridSearchCV(
-                    pipeline, n_jobs=self.n_jobs, param_grid=self.param_search_, cv=cv, 
-                    scoring = make_scorer(self.metric), refit=True
+                    self.pipeline_, n_jobs=self.n_jobs, param_grid=self.param_search_, cv=cv, 
+                    scoring = make_scorer(metric), refit=True
                 )
             elif self._search_strategy == 'random':
                 self.model_ = RandomizedSearchCV(
-                    pipeline, n_jobs=self.n_jobs, param_distributions=self.param_search_, cv=cv, 
-                    scoring = make_scorer(self.metric), refit=True, n_iter=self.n_iter_of_randomedsearch,
+                    self.pipeline_, n_jobs=self.n_jobs, param_distributions=self.param_search_, cv=cv, 
+                    scoring = make_scorer(metric), refit=True, n_iter=self.n_iter_of_randomedsearch,
                 )
             else:
                 print("Please specify which search strategy!\n")
@@ -707,8 +714,10 @@ class DataLoader():
                 elif isinstance(all_features_, pd.core.frame.DataFrame) and ("__ID__" in all_features_.columns):
                     unique_identifier = pd.DataFrame(all_features_["__ID__"])
                     all_features_.drop("__ID__", axis=1, inplace=True)
+                    all_features = [all_features_]
                 elif isinstance(all_features_, np.ndarray):
                     all_features_ = pd.DataFrame(all_features_)
+                    all_features = [all_features_]
                     unique_identifier = pd.DataFrame(all_features_.iloc[:,0], dtype=np.str) # Take the first column as __ID__
                     unique_identifier.columns = ["__ID__"]
                     all_features = [all_features_.iloc[:,1:]]

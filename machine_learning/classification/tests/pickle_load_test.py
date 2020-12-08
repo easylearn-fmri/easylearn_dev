@@ -11,3 +11,6 @@ import numpy as np
 rs = pickle.load(open("./outputs.pickle", "rb"))
 
 print(rs.keys())
+
+model = rs["model"]
+prep = rs["preprocessor"]

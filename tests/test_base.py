@@ -32,7 +32,7 @@ def test_base():
     assert str(base.method_feature_preprocessing_) == "[StandardScaler()]"
     assert str(base.param_feature_preprocessing_) == "None"
     assert str(base.method_dim_reduction_) == "[PCA()]"
-    assert str(base.param_dim_reduction_) == "{'dim_reduction__n_components': [0.9], 'dim_reduction__random_state': [0]}"
+    assert str(base.param_dim_reduction_) == "{'dim_reduction__n_components': [0.8, 0.9], 'dim_reduction__random_state': [0]}"
     assert str(base.method_feature_selection_) == "[RFECV(estimator=SVC(kernel='linear'))]"
     assert str(base.param_feature_selection_) == "{'feature_selection__step': [0.1], 'feature_selection__cv': [5], 'feature_selection__estimator': [SVC(kernel='linear')], 'feature_selection__n_jobs': [-1]}"
     assert str(base.method_unbalance_treatment_) == "RandomOverSampler(random_state=0)"
