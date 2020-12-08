@@ -51,7 +51,7 @@
     "model_evaluation": {
         "KFold()": {
             "n_splits": {
-                "value": "5"
+                "value": "3"
             },
             "shuffle": {
                 "value": "True"
@@ -61,7 +61,11 @@
             }
         },
         "Statistical_analysis": {
-            "Binomial test": {}
+            "Permutation test": {
+                "N": {
+                    "value": "5"
+                }
+            }
         }
     }
 }

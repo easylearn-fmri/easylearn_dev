@@ -42,7 +42,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
     """
     
     def __init__(self):
-        print("Initializing easylearn_main_gui...")
+        print("Opening GUI...")
         self.root_dir = os.path.dirname(eslearn.__file__)
 
         QMainWindow.__init__(self)

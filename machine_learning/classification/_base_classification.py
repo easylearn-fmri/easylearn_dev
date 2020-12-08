@@ -64,23 +64,23 @@ class BaseClassification():
         weights_norm_ = None
 
     @timer 
-    def fit_(self, model, x=None, y=None):
+    def fit_(self, model, x=None, y=None, memory=None):
         """Fit the scikit-learn search or pipeline model
         """
         
         model.fit(x, y)
         # Delete the temporary cache before exiting
-        self.memory.clear(warn=False)
+        if memory is not None: memory.clear(warn=False)
         return self
     
-    def predict_(self, x):
+    def predict_(self, model, x):
         # TODO: extend this to multiple-class classification
 
-        y_pred = self.model_.predict(x)
-        if hasattr(self.model_, 'predict_proba'):
-            y_prob = self.model_.predict_proba(x)
-        elif hasattr(self.model_, 'decision_function'):
-            y_prob = self.model_.decision_function(x)
+        y_pred = model.predict(x)
+        if hasattr(model, 'predict_proba'):
+            y_prob = model.predict_proba(x)
+        elif hasattr(model, 'decision_function'):
+            y_prob = model.decision_function(x)
         else:
             y_prob = y_pred
                 
@@ -208,10 +208,22 @@ class StatisticalAnalysis(BaseClassification):
         Output directory used to save results.
     """
 
-    def __init__(self, method_statistical_analysis=None,
-        sorted_label=None, predict_label=None,
-        model=None, feature=None, label=None, 
-        prep_=None, time_permutation=None, method_model_evaluation=None,
+    def __init__(self, 
+        method_statistical_analysis=None,
+        sorted_label=None, 
+        predict_label=None,
+        model=None, 
+        feature=None, 
+        label=None, 
+        prep_=None, 
+        time_permutation=None, 
+        method_unbalance_treatment_=None,
+        method_model_evaluation=None,
+        real_accuracy=None,
+        real_sensitivity=None,
+        real_specificity=None,
+        real_auc=None,
+        memory=None,
         out_dir=None):
 
         super().__init__()
@@ -223,14 +235,20 @@ class StatisticalAnalysis(BaseClassification):
         self.label = label
         self.prep_ = prep_
         self.time_permutation = time_permutation
+        self.method_unbalance_treatment_ = method_unbalance_treatment_
         self.method_model_evaluation = method_model_evaluation
+        self.real_accuracy = real_accuracy
+        self.real_sensitivity = real_sensitivity
+        self.real_specificity = real_specificity
+        self.real_auc = real_auc
+        self.memory = memory
         self.out_dir = out_dir
 
     def fit(self):
         """Statistical analysis"""
 
         print("Statistical analysis...\n")
-        if self.method_statistical_analysis == "Binomial test":
+        if self.method_statistical_analysis == "Binomial/Pearson-R test":
             pvalue_acc, pvalue_sens, pvalue_spec, pvalue_auc = self.binomial_test()
             permuted_score = None
         elif self.method_statistical_analysis == "Permutation test":
@@ -284,10 +302,10 @@ class StatisticalAnalysis(BaseClassification):
                     feature_train, permuted_target_train = imbalance_resample.fit_resample(feature_train, permuted_target_train)
 
                 # Fit
-                self.fit_(self.model, feature_train, permuted_target_train)
+                self.fit_(self.model, feature_train, permuted_target_train, self.memory)
                 
                 # Predict
-                y_pred, y_prob = self.predict_(feature_test)
+                y_pred, y_prob = self.predict_(self.model, feature_test)
                 
                 # Eval performances
                 acc, sens, spec, auc_, _ = ModelEvaluator().binary_evaluator(

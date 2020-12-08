@@ -83,7 +83,7 @@
     "model_evaluation": {
         "StratifiedKFold()": {
             "n_splits": {
-                "value": "2"
+                "value": "3"
             },
             "shuffle": {
                 "value": "True"
@@ -93,7 +93,11 @@
             }
         },
         "Statistical_analysis": {
-            "Binomial test": {}
+            "Permutation test": {
+                "N": {
+                    "value": "2"
+                }
+            }
         }
     }
 }

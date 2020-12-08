@@ -9,6 +9,5 @@ def test_classification():
     clf.main_run()
     clf.run_statistical_analysis()
 
-
 if __name__ == "__main__":
     test_classification()

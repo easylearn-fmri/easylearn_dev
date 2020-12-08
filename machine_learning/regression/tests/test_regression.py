@@ -32,6 +32,7 @@ def test_regression():
     reg = Regression(configuration_file="./regression_configuration.json",
                      out_dir="./")
     reg.main_run()
+    print(reg.method_model_evaluation_)
     reg.run_statistical_analysis()
 
     time_end = time.time()

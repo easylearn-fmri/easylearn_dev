@@ -68,7 +68,7 @@ class BaseMachineLearning(object):
     method_machine_learning_: list of sklearn object or None
     param_machine_learning_: list of sklearn object or None
 
-    method_model_ast.evaluation_: list of sklearn object or None
+    method_model_evaluation_: list of sklearn object or None
     param_model_evaluation_: list of sklearn object or None
 
     model_: machine learning model, e.g., sklearn gridSearch model
@@ -80,6 +80,7 @@ class BaseMachineLearning(object):
         self._random_state = 0
         self._gridcv_k = 3
         self._search_strategy = "grid"
+        self._n_jobs = 2
 
     def get_configuration_(self):
         """Get and parse the configuration file
@@ -439,12 +440,12 @@ class BaseMachineLearning(object):
         if self.is_search:
             if self._search_strategy == 'grid':
                 self.model_ = GridSearchCV(
-                    self.pipeline_, n_jobs=self.n_jobs, param_grid=self.param_search_, cv=cv, 
+                    self.pipeline_, n_jobs=self._n_jobs, param_grid=self.param_search_, cv=cv, 
                     scoring = make_scorer(metric), refit=True
                 )
             elif self._search_strategy == 'random':
                 self.model_ = RandomizedSearchCV(
-                    self.pipeline_, n_jobs=self.n_jobs, param_distributions=self.param_search_, cv=cv, 
+                    self.pipeline_, n_jobs=self._n_jobs, param_distributions=self.param_search_, cv=cv, 
                     scoring = make_scorer(metric), refit=True, n_iter=self.n_iter_of_randomedsearch,
                 )
             else:

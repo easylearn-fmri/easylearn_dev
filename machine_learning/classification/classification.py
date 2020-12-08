@@ -69,13 +69,13 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
                 print(f"After re-sampling, the sample size are: {sorted(Counter(target_train).items())}")
             
             # Fit
-            self.fit_(self.model_, feature_train, target_train)
+            self.fit_(self.model_, feature_train, target_train, self.memory)
             
-            #weights
+            # Weights
             weights_, _ = self.get_weights_(feature_train, target_train)
             
             # Predict
-            y_pred, y_prob = self.predict_(feature_test)
+            y_pred, y_prob = self.predict_(self.model_, feature_test)
             
             # Eval performances
             acc, sens, spec, auc_, _ = ModelEvaluator().binary_evaluator(
@@ -122,9 +122,20 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
 
     def run_statistical_analysis(self):
         stat = StatisticalAnalysis(self.method_statistical_analysis_,
-            self.target_test_all, self.pred_label,
-            self.model_, self.features_, self.targets_, 
-            self.prep_, self.param_statistical_analysis_, self.method_model_evaluation_,
+            self.target_test_all, 
+            self.pred_label,
+            self.model_, 
+            self.features_, 
+            self.targets_, 
+            self.prep_, 
+            self.param_statistical_analysis_, 
+            self.method_unbalance_treatment_, 
+            self.method_model_evaluation_,
+            self.real_accuracy,
+            self.real_sensitivity,
+            self.real_specificity ,
+            self.real_auc,
+            self.memory,
             self.out_dir
         )
 
