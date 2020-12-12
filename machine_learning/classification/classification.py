@@ -59,6 +59,7 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
             feature_train = self.prep_.fit_transform(feature_train)
             feature_test = self.prep_.transform(feature_test)
 
+            # Extend sorted real target of test data
             self.target_test_all.extend(target_test)
 
             # Resample

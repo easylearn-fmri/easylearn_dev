@@ -367,7 +367,7 @@ class BaseMachineLearning(object):
         Parameters:
         ----------
         metric: sklearn metric object, such as accuracy_score, auc, f1_score. Default is accuracy_score
-            Metric is used evaluate model using cross validation in search strategy.
+            Metric is used evaluate model using cross validation in search strategy, such as GridSearchCV.
 
         Returns:
         -------
@@ -376,6 +376,7 @@ class BaseMachineLearning(object):
         
         self.memory = Memory(location=os.path.dirname(self.configuration_file), verbose=False)
 
+        # Construct sklearn pipeline
         self.pipeline_ = Pipeline(steps=[
             ('feature_preprocessing','passthrough'),
             ('dim_reduction', 'passthrough'),
@@ -387,7 +388,6 @@ class BaseMachineLearning(object):
 
         # Set parameters of search CV
         self.param_search_ = {}
-
         if self.method_feature_preprocessing_:
             self.param_search_.update({'feature_preprocessing':self.method_feature_preprocessing_})
         if self.param_feature_preprocessing_:   
@@ -408,7 +408,7 @@ class BaseMachineLearning(object):
         if self.param_machine_learning_:
             self.param_search_.update(self.param_machine_learning_)
         
-        # If no parameters' length greater than 1, using sklearn pipeline for speed up
+        # If no parameters' length greater than 1, using sklearn pipeline for speed up, instead of GridSearchCV or RandomizedSearchCV.
         self.is_search = self.get_is_search(self.param_search_)
         if not self.is_search:
             if self.method_feature_preprocessing_:
@@ -522,11 +522,135 @@ class BaseMachineLearning(object):
                     else:
                         pd.Series(mean_weight).to_csv(out_name_wei, header=False)
                 
-                # Update loc
+                # Update make location index
                 loc_start += mask.sum()
                 loc_end += mask.sum()
                 
             break  # Assuming the size of the same modality in different group are matching for each other
+
+
+class MakeModel():
+    """Make a machine learning model
+
+    make_sklearn_search_model_ should be integrated into the this class
+
+    Parameters:
+    ----------
+    pass
+
+    Attributes:
+    ----------
+    fit:
+    predict:
+    
+    returns:
+    -------
+    pass
+    """
+
+    def __init__(self):
+        baseml = BaseMachineLearning()
+
+    def make_sklearn_search_model_(self, metric=accuracy_score):
+        
+        """Construct pipeline_
+
+        Currently, the pipeline_ only supports one specific method for corresponding method, 
+        e.g., only supports one dimension reduction method for dimension reduction.
+        In the next version, the pipeline_ will support multiple methods for each corresponding method.
+        
+        Parameters:
+        ----------
+        metric: sklearn metric object, such as accuracy_score, auc, f1_score. Default is accuracy_score
+            Metric is used evaluate model using cross validation in search strategy, such as GridSearchCV.
+
+        Returns:
+        -------
+        model_
+        """
+        
+        self.memory = Memory(location=os.path.dirname(self.configuration_file), verbose=False)
+
+        # Construct sklearn pipeline
+        self.pipeline_ = Pipeline(steps=[
+            ('feature_preprocessing','passthrough'),
+            ('dim_reduction', 'passthrough'),
+            ('feature_selection', 'passthrough'),
+            ('estimator', 'passthrough'),
+            ], 
+            memory=self.memory
+        )
+
+        # Set parameters of search CV
+        self.param_search_ = {}
+        if baseml.method_feature_preprocessing_:
+            self.param_search_.update({'feature_preprocessing':self.method_feature_preprocessing_})
+        if baseml.param_feature_preprocessing_:   
+            self.param_search_.update(self.param_feature_preprocessing_)
+            
+        if baseml.method_dim_reduction_:
+            self.param_search_.update({'dim_reduction':self.method_dim_reduction_})
+        if baseml.param_dim_reduction_:
+            self.param_search_.update(self.param_dim_reduction_)
+                
+        if baseml.method_feature_selection_:
+            self.param_search_.update({'feature_selection': self.method_feature_selection_})
+        if baseml.param_feature_selection_:
+            self.param_search_.update(self.param_feature_selection_)
+            
+        if baseml.method_machine_learning_:
+            self.param_search_.update({'estimator': self.method_machine_learning_})
+        if baseml.param_machine_learning_:
+            self.param_search_.update(self.param_machine_learning_)
+        
+        # If no parameters' length greater than 1, using sklearn pipeline for speed up, instead of GridSearchCV or RandomizedSearchCV.
+        self.is_search = self.get_is_search(self.param_search_)
+        if not self.is_search:
+            if self.method_feature_preprocessing_:
+                self.pipeline_.set_params(**{'feature_preprocessing':self.method_feature_preprocessing_[0]})
+            if self.param_feature_preprocessing_:   
+                mapping = self.parse_search_params(self.param_feature_preprocessing_)
+                self.pipeline_['feature_preprocessing'].set_params(**mapping)
+                
+            if self.method_dim_reduction_:
+                self.pipeline_.set_params(**{'dim_reduction':self.method_dim_reduction_[0]})
+            if self.param_dim_reduction_:
+                mapping = self.parse_search_params(self.param_dim_reduction_)
+                self.pipeline_['dim_reduction'].set_params(**mapping)   
+                
+            if self.method_feature_selection_:
+                self.pipeline_.set_params(**{'feature_selection': self.method_feature_selection_[0]})
+            if self.param_feature_selection_:
+                mapping = self.parse_search_params(self.param_feature_selection_)
+                self.pipeline_['feature_selection'].set_params(**mapping)
+
+            if self.method_machine_learning_:
+                self.pipeline_.set_params(**{'estimator': self.method_machine_learning_[0]})
+            if self.param_machine_learning_:
+                mapping = self.parse_search_params(self.param_machine_learning_)
+                self.pipeline_['estimator'].set_params(**mapping)
+
+        # Building model
+        cv = StratifiedKFold(n_splits=self._gridcv_k, random_state=self._random_state, shuffle=True)  # Default is StratifiedKFold
+        if self.is_search:
+            if self._search_strategy == 'grid':
+                self.model_ = GridSearchCV(
+                    self.pipeline_, n_jobs=self._n_jobs, param_grid=self.param_search_, cv=cv, 
+                    scoring = make_scorer(metric), refit=True
+                )
+            elif self._search_strategy == 'random':
+                self.model_ = RandomizedSearchCV(
+                    self.pipeline_, n_jobs=self._n_jobs, param_distributions=self.param_search_, cv=cv, 
+                    scoring = make_scorer(metric), refit=True, n_iter=self.n_iter_of_randomedsearch,
+                )
+            else:
+                print("Please specify which search strategy!\n")
+                return
+        else:
+            self.model_ = self.pipeline_
+
+        return self
+
 
 #%% ==========================================================================
 class DataLoader():
