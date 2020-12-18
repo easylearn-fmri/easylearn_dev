@@ -59,6 +59,7 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
             feature_train = self.prep_.fit_transform(feature_train)
             feature_test = self.prep_.transform(feature_test)
 
+            # Extend sorted real target of test data
             self.target_test_all.extend(target_test)
 
             # Resample
@@ -69,13 +70,13 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
                 print(f"After re-sampling, the sample size are: {sorted(Counter(target_train).items())}")
             
             # Fit
-            self.fit_(self.model_, feature_train, target_train)
+            self.fit_(self.model_, feature_train, target_train, self.memory)
             
-            #weights
+            # Weights
             weights_, _ = self.get_weights_(feature_train, target_train)
             
             # Predict
-            y_pred, y_prob = self.predict_(feature_test)
+            y_pred, y_prob = self.predict_(self.model_, feature_test)
             
             # Eval performances
             acc, sens, spec, auc_, _ = ModelEvaluator().binary_evaluator(
@@ -98,6 +99,10 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
         
         # Eval performances for all fold
         out_name_perf = os.path.join(self.out_dir, "classification_performances.pdf")
+        if os.path.exists(out_name_perf):
+            time_ = time.strftime('%Y%m%d%H%M%S')
+            out_name_perf = os.path.join(self.out_dir, f"classification_performances_{time_}.pdf")
+            
         acc, sens, spec, auc, _ = ModelEvaluator().binary_evaluator(
             self.target_test_all, self.pred_label, pred_prob,
             accuracy_kfold=self.real_accuracy, 
@@ -122,9 +127,20 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
 
     def run_statistical_analysis(self):
         stat = StatisticalAnalysis(self.method_statistical_analysis_,
-            self.target_test_all, self.pred_label,
-            self.model_, self.features_, self.targets_, 
-            self.prep_, self.param_statistical_analysis_, self.method_model_evaluation_,
+            self.target_test_all, 
+            self.pred_label,
+            self.model_, 
+            self.features_, 
+            self.targets_, 
+            self.prep_, 
+            self.param_statistical_analysis_, 
+            self.method_unbalance_treatment_, 
+            self.method_model_evaluation_,
+            self.real_accuracy,
+            self.real_sensitivity,
+            self.real_specificity ,
+            self.real_auc,
+            self.memory,
             self.out_dir
         )
 

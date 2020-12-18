@@ -65,13 +65,13 @@ class Regression(BaseMachineLearning, DataLoader, BaseRegression):
             subname.extend(subname_)
             
             # Fit
-            self.fit_(self.model_, feature_train, target_train)
+            self.fit_(self.model_, feature_train, target_train, self.memory)
 
             # Get weights
             weights_, _ = self.get_weights_(feature_train, target_train)
 
             # Predict
-            y_prob = self.predict_(feature_test)
+            y_prob = self.predict_(self.model_, feature_test)
             
             # Eval performances
             score = self.metric(target_test, y_prob)  
@@ -103,9 +103,16 @@ class Regression(BaseMachineLearning, DataLoader, BaseRegression):
     def run_statistical_analysis(self):
         # StatisticalAnalysis
         stat = StatisticalAnalysis(self.method_statistical_analysis_,
-            self.target_test_all, self.pred_prob,
-            self.model_, self.features_, self.targets_, 
-            self.prep_, self.param_statistical_analysis_, self.method_model_evaluation_,
+            self.target_test_all, 
+            self.pred_prob,
+            self.model_, 
+            self.features_, 
+            self.targets_, 
+            self.prep_, 
+            self.param_statistical_analysis_, 
+            self.method_model_evaluation_,
+            self.real_score,
+            self.memory,
             self.out_dir
         )
 

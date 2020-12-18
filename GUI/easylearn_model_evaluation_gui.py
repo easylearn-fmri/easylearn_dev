@@ -214,7 +214,7 @@ class Ui_MainWindow(object):
         self.groupBox.setTitle(_translate("MainWindow", "Setting"))
         self.label_4.setText(_translate("MainWindow", "N"))
         self.groupBox_2.setTitle(_translate("MainWindow", "Methods"))
-        self.radioButton_binomialtest.setText(_translate("MainWindow", "Binomial test"))
+        self.radioButton_binomialtest.setText(_translate("MainWindow", "Binomial/Pearson-R test"))
         self.radioButton_permutationtest.setText(_translate("MainWindow", "Permutation test"))
         self.groupBox_CV.setTitle(_translate("MainWindow", "Cross-validation"))
         self.label_8.setText(_translate("MainWindow", "random_state"))

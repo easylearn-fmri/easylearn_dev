@@ -5,6 +5,7 @@ from sklearn.metrics import classification_report
 from sklearn.metrics import roc_curve, roc_auc_score
 from sklearn.calibration import calibration_curve
 from sklearn.metrics import accuracy_score, confusion_matrix
+import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 from matplotlib.pyplot import MultipleLocator
@@ -72,13 +73,6 @@ class ModelEvaluator():
         true_label = np.reshape(true_label, [np.size(true_label), ])
         predict_label = np.reshape(predict_label, [np.size(predict_label), ])
         predict_score = np.array(predict_score)
-        # Identify the separation line located at the 0 or 0.5
-        if np.min(predict_score) >= 0:
-            separation_point = 0.5
-        else:
-            separation_point = 0
-        if np.ndim(predict_score) == 2:
-            predict_score = predict_score[:,-1]  # Retained the positive probability
 
         # accurcay, specificity(recall of negative) and
         # sensitivity(recall of positive)
@@ -110,110 +104,137 @@ class ModelEvaluator():
                 print('Multi-Classification or only one class can not calculate the AUC\n')
 
         #%% Plot
-        if is_showfig:
-            fig, ax = plt.subplots(nrows=2, ncols=2,figsize=(8,8))
-    
-            # Plot classification 2d scatter
-            decision_0 = predict_score[true_label == 0]
-            decision_1 = predict_score[true_label == 1]
-            ax[0][0].scatter(decision_0, np.arange(0, len(decision_0)), marker="o", linewidth=2, color='paleturquoise')
-            ax[0][0].scatter(decision_1, np.arange(len(decision_0), len(predict_score)), marker="*", linewidth=2, color='darkturquoise')
-            # Grid and spines
-            ax[0][0].grid(False)
-            ax[0][0].set_title('Classification scatter diagram', fontsize=12, fontweight='bold')
-            ax[0][0].spines['bottom'].set_position(('axes', 0))
-            ax[0][0].spines['left'].set_position(('axes', 0))
-            ax[0][0].spines['top'].set_linewidth(1)
-            ax[0][0].spines['right'].set_linewidth(1)
-            ax[0][0].spines['bottom'].set_linewidth(1)
-            ax[0][0].spines['left'].set_linewidth(1)
-            # TODO: Identify the separation line located at the 0 or 0.5
-            ax[0][0].plot(np.zeros(10) + separation_point, np.linspace(0, len(predict_score),10), '--', color='k', linewidth=1.5)
-            if separation_point == 0.5:
-                ax[0][0].axis([-0.05, 1.05, 0 - len(predict_score) / 20, len(predict_score) + len(predict_score) / 20]) # x and y lim
-            else:
-                ax[0][0].axis([-1.05, 1.05, 0 - len(predict_score) / 20, len(predict_score) + len(predict_score) / 20]) # x and y lim               
-            ax[0][0].set_xlabel('Decision values', fontsize=10)
-            ax[0][0].set_ylabel('Subjects', fontsize=10)
-            num1, num2, num3, num4 = 0, 1.2, 3, 0
-            ax[0][0].legend(['Discriminant line', legend1, legend2], bbox_to_anchor=(num1, num2), loc=num3, borderaxespad=num4)
-    
-            # Plot ROC
-            if auc is not None:
-                auc = '{:.2f}'.format(auc)
-                auc = eval(auc)
-                ax[1][0].set_title(f'ROC Curve (AUC = {auc})', fontsize=12, fontweight='bold')
-                ax[1][0].set_xlabel('False Positive Rate', fontsize=10)
-                ax[1][0].set_ylabel('True Positive Rate', fontsize=10)
-                ax[1][0].plot(fpr, tpr, marker=".", markersize=2, linewidth=1, color='k')
-                plt.tick_params(labelsize=12)
-                # Grid and spines
-                ax[1][0].grid(False)
-                ax[1][0].spines['top'].set_linewidth(1)
-                ax[1][0].spines['right'].set_linewidth(1)
-                ax[1][0].spines['bottom'].set_position(('axes', 0))
-                ax[1][0].spines['left'].set_position(('axes', 0))
-                ax[1][0].spines['bottom'].set_linewidth(1)
-                ax[1][0].spines['left'].set_linewidth(1)
-                # Plot random line
-                ax[1][0].plot(np.linspace(0, 1,10), np.linspace(0, 1,10), '--', color='k', linewidth=1)
-    
-            # Plot Bar
-            if (accuracy_kfold is not None) and (sensitivity_kfold is not None) and (specificity_kfold is not None) and (AUC_kfold is not None):
-                performances = [np.mean(accuracy_kfold), np.mean(sensitivity_kfold), np.mean(specificity_kfold),np.mean(AUC_kfold)]
-                std = [np.std(accuracy_kfold), np.std(sensitivity_kfold), np.std(specificity_kfold), np.std(AUC_kfold)]
-                ax[0][1].bar(np.arange(0,len(performances)), performances, yerr = std, capsize=5, linewidth=2, color='darkturquoise')
+        try:
+            matplotlib.use('Qt5Agg')
+        except Exception as e:
+            print(f'{e}')
                 
-                bid = np.arange(0,len(performances))
-                for (ibar, perf_, std_) in zip (bid, performances, std):
-                    ax[0][1].text(ibar, 0.2, f"{perf_:.2f}±{std_:.2f}", rotation=90) 
-            else:
-                performances = [accuracy, sensitivity, specificity, auc]
-                ax[0][1].bar(np.arange(0, len(performances)), performances, linewidth=2, color='darkturquoise')
-                
-                [ax[0][1].text(ibar,0.2, f"{perf_:.2f}", rotation=0) for (ibar, perf_) in zip (performances, np.arange(0,len(performances)))]
-    
-            ax[0][1].tick_params(labelsize=12)
-            ax[0][1].set_title('Classification performances', fontsize=12, fontweight='bold')
-            ax[0][1].set_xticks(np.arange(0,len(performances)))
-            ax[0][1].set_xticklabels(('Accuracy', 'Sensitivity', 'Specificity', 'AUC'), rotation=45, fontsize=10)
-            # Setting
-            ax[0][1].spines['top'].set_linewidth(1)
-            ax[0][1].spines['right'].set_linewidth(1)
-            ax[0][1].spines['bottom'].set_linewidth(1)
-            ax[0][1].spines['left'].set_linewidth(1)
-            # ax[0][1].grid(axis='y', linestyle='-.')
-            y_major_locator=MultipleLocator(0.1)
-            ax[0][1].yaxis.set_major_locator(y_major_locator)
+        if not is_showfig:
+            matplotlib.use('PDF')   # 指定后端渲染器
             
-            # Plot calibration curve
-            if auc is not None:
-                # predict_score = (predict_score - predict_score.min()) / (predict_score.max() - predict_score.min())
-                fraction_of_positives, mean_predicted_value = calibration_curve(true_label, predict_score, n_bins=10, normalize=True)
-                ax[1][1].plot([0, 1], [0, 1], "k:", label="Perfectly calibrated")
-                ax[1][1].plot(mean_predicted_value, fraction_of_positives, "-.", color="k")
-                # Setting
-                ax[1][1].spines['top'].set_linewidth(1)
-                ax[1][1].spines['right'].set_linewidth(1)
-                ax[1][1].spines['bottom'].set_linewidth(1)
-                ax[1][1].spines['left'].set_linewidth(1)
-                ax[1][1].set_xlabel("Predicted probability of positives", fontsize=10)
-                ax[1][1].set_ylabel("Fraction of positives", fontsize=10)
-                ax[1][1].set_title("Calibration curves", fontsize=12, fontweight='bold')
-                ax[1][1].set_ylim([-0.05, 1.05])
-    
-            # Save figure to PDF file
-            plt.tight_layout()
-            plt.subplots_adjust(wspace = 0.3, hspace = 0.4)
-            if is_savefig:
-                pdf = PdfPages(out_name)
-                pdf.savefig()
-                pdf.close()
-                
-                if is_showfig:
-                    plt.show()
-                    plt.pause(5)
-                    plt.close()
+        fig, ax = plt.subplots(nrows=1, ncols=3,figsize=(10,4))
+
+        # Plot classification 2d scatter
+        decision_0 = predict_score[true_label == 0]
+        decision_1 = predict_score[true_label == 1]
+        # Identify the separation line located at the 0 or 0.5
+        # if np.min(predict_score) >= 0:
+        #     separation_point = 0.5
+        # else:
+        #     separation_point = 0
+        # if np.ndim(predict_score) == 2:
+        # predict_score = predict_score[:,-1]  # Retained the positive probability
+        # ax[0].scatter(decision_0, np.arange(0, len(decision_0)), marker="o", linewidth=2, color='paleturquoise')
+        # ax[0].scatter(decision_1, np.arange(len(decision_0), len(predict_score)), marker="*", linewidth=2, color='darkturquoise')
+        # # TODO: Identify the separation line located at the 0 or 0.5
+        # ax[0].plot(np.zeros(10) + separation_point, np.linspace(0, len(predict_score),10), '--', color='k', linewidth=1.5)
+        # if separation_point == 0.5:
+        #     ax[0].axis([-0.05, 1.05, 0 - len(predict_score) / 20, len(predict_score) + len(predict_score) / 20]) # x and y lim
+        # else:
+        #     ax[0].axis([-1.05, 1.05, 0 - len(predict_score) / 20, len(predict_score) + len(predict_score) / 20]) # x and y lim               
+        # ax[0].set_xlabel('Decision values', fontsize=10)
+        # ax[0].set_ylabel('Subjects', fontsize=10)
+
+        # Plot distribution
+        sns.kdeplot(decision_0, shade=True, ax = ax[0])  
+        sns.kdeplot(decision_1, shade=True, ax = ax[0])
+        
+        # Grid and spines
+        ax[0].grid(False)
+        ax[0].set_title('Classification scatter diagram', fontsize=12, fontweight='bold')
+        ax[0].spines['bottom'].set_position(('axes', 0))
+        ax[0].spines['left'].set_position(('axes', 0))
+        ax[0].spines['top'].set_linewidth(1)
+        ax[0].spines['right'].set_linewidth(1)
+        ax[0].spines['top'].set_visible(False)
+        ax[0].spines['right'].set_visible(False)
+        ax[0].spines['bottom'].set_linewidth(1)
+        ax[0].spines['left'].set_linewidth(1)
+        ax[0].set_xlabel('Decision values', fontsize=10)
+        ax[0].set_ylabel('Density', fontsize=10)
+        num1, num2, num3, num4 = 0, 1.2, 3, 0
+        ax[0].legend([legend1, legend2], bbox_to_anchor=(num1, num2), loc=num3, borderaxespad=num4)
+
+        # Plot ROC
+        if auc is not None:
+            auc = '{:.2f}'.format(auc)
+            auc = eval(auc)
+            ax[1].set_title(f'ROC Curve (AUC = {auc})', fontsize=12, fontweight='bold')
+            ax[1].set_xlabel('False Positive Rate', fontsize=10)
+            ax[1].set_ylabel('True Positive Rate', fontsize=10)
+            ax[1].plot(fpr, tpr, marker=".", markersize=2, linewidth=1, color='k')
+            plt.tick_params(labelsize=12)
+            # Grid and spines
+            ax[1].grid(False)
+            ax[1].spines['top'].set_linewidth(1)
+            ax[1].spines['right'].set_linewidth(1)
+            ax[1].spines['top'].set_visible(False)
+            ax[1].spines['right'].set_visible(False)
+            ax[1].spines['bottom'].set_position(('axes', 0))
+            ax[1].spines['left'].set_position(('axes', 0))
+            ax[1].spines['bottom'].set_linewidth(1)
+            ax[1].spines['left'].set_linewidth(1)
+            # Plot random line
+            ax[1].plot(np.linspace(0, 1,10), np.linspace(0, 1,10), '--', color='k', linewidth=1)
+
+        # Plot Bar
+        if (accuracy_kfold is not None) and (sensitivity_kfold is not None) and (specificity_kfold is not None) and (AUC_kfold is not None):
+            performances = [np.mean(accuracy_kfold), np.mean(sensitivity_kfold), np.mean(specificity_kfold),np.mean(AUC_kfold)]
+            std = [np.std(accuracy_kfold), np.std(sensitivity_kfold), np.std(specificity_kfold), np.std(AUC_kfold)]
+            ax[2].bar(np.arange(0,len(performances)), performances, yerr = std, capsize=5, linewidth=2, color='darkturquoise')
+            
+            bid = np.arange(0,len(performances))
+            for (ibar, perf_, std_) in zip (bid, performances, std):
+                ax[2].text(ibar, 0.2, f"{perf_:.2f}±{std_:.2f}", rotation=90) 
+        else:
+            performances = [accuracy, sensitivity, specificity, auc]
+            ax[2].bar(np.arange(0, len(performances)), performances, linewidth=2, color='darkturquoise')
+            
+            [ax[2].text(ibar,0.2, f"{perf_:.2f}", rotation=0) for (ibar, perf_) in zip (performances, np.arange(0,len(performances)))]
+
+        ax[2].tick_params(labelsize=12)
+        ax[2].set_title('Classification performances', fontsize=12, fontweight='bold')
+        ax[2].set_xticks(np.arange(0,len(performances)))
+        ax[2].set_xticklabels(('Accuracy', 'Sensitivity', 'Specificity', 'AUC'), rotation=45, fontsize=10)
+        # Setting
+        ax[2].spines['top'].set_linewidth(1)
+        ax[2].spines['right'].set_linewidth(1)
+        ax[2].spines['top'].set_visible(False)
+        ax[2].spines['right'].set_visible(False)
+        ax[2].spines['bottom'].set_linewidth(1)
+        ax[2].spines['left'].set_linewidth(1)
+        # ax[2].grid(axis='y', linestyle='-.')
+        y_major_locator=MultipleLocator(0.1)
+        ax[2].yaxis.set_major_locator(y_major_locator)
+        
+        # # Plot calibration curve
+        # if auc is not None:
+        #     # predict_score = (predict_score - predict_score.min()) / (predict_score.max() - predict_score.min())
+        #     fraction_of_positives, mean_predicted_value = calibration_curve(true_label, predict_score, n_bins=10, normalize=True)
+        #     ax[1][1].plot([0, 1], [0, 1], "k:", label="Perfectly calibrated")
+        #     ax[1][1].plot(mean_predicted_value, fraction_of_positives, "-.", color="k")
+        #     # Setting
+        #     ax[1][1].spines['top'].set_linewidth(1)
+        #     ax[1][1].spines['right'].set_linewidth(1)
+        #     ax[1][1].spines['bottom'].set_linewidth(1)
+        #     ax[1][1].spines['left'].set_linewidth(1)
+        #     ax[1][1].set_xlabel("Predicted probability of positives", fontsize=10)
+        #     ax[1][1].set_ylabel("Fraction of positives", fontsize=10)
+        #     ax[1][1].set_title("Calibration curves", fontsize=12, fontweight='bold')
+        #     ax[1][1].set_ylim([-0.05, 1.05])
+
+        # Save figure to PDF file
+        plt.tight_layout()
+        plt.subplots_adjust(wspace = 0.3, hspace = 0.4)
+        if is_savefig:
+            pdf = PdfPages(out_name)
+            pdf.savefig()
+            pdf.close()
+            
+        if is_showfig:
+            plt.show()
+            plt.pause(5)
+            plt.close()
 
         return accuracy, sensitivity, specificity, auc, confusion_matrix_values
 

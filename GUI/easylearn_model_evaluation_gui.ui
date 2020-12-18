@@ -89,7 +89,7 @@
           <item row="0" column="0">
            <widget class="QRadioButton" name="radioButton_binomialtest">
             <property name="text">
-             <string>Binomial test</string>
+             <string>Binomial/Pearson-R test</string>
             </property>
             <property name="checked">
              <bool>true</bool>

@@ -22,7 +22,7 @@ from eslearn.utils.timer import timer
 warnings.filterwarnings("ignore", category=ConvergenceWarning, module="sklearn")
 
 
-class BaseRegression():
+class BaseRegression(AbstractSupervisedMachineLearningBase):
     """Base class for regression
 
     Parameters
@@ -63,17 +63,17 @@ class BaseRegression():
         self.verbose = verbose
         
     @timer 
-    def fit_(self, model, x=None, y=None):
+    def fit_(self, model, x=None, y=None, memory=None):
         """Fit the scikit-learn search or pipeline model
         """
         
         model.fit(x, y)
         # Delete the temporary cache before exiting
-        self.memory.clear(warn=False)
+        if memory is not None: self.memory.clear(warn=False)
         return self
 
-    def predict_(self, x):
-        y_hat = self.model_.predict(x)
+    def predict_(self, model, x):
+        y_hat = model.predict(x)
         return y_hat
 
     def get_weights_(self, x=None, y=None):
@@ -179,10 +179,18 @@ class StatisticalAnalysis(BaseRegression):
         Output directory used to save results.
     """
 
-    def __init__(self, method_statistical_analysis,
-        sorted_targets=None, predict_targets=None,
-        model=None, features=None, targets=None, 
-        prep_=None, time_permutation=None, method_model_evaluation=None,
+    def __init__(self, 
+        method_statistical_analysis=None,
+        sorted_targets=None, 
+        predict_targets=None,
+        model=None, 
+        features=None, 
+        targets=None, 
+        prep_=None, 
+        time_permutation=None, 
+        method_model_evaluation=None,
+        real_score=None,
+        memory=None,
         out_dir=None):
 
         super().__init__()
@@ -195,19 +203,22 @@ class StatisticalAnalysis(BaseRegression):
         self.prep_ = prep_
         self.time_permutation = time_permutation
         self.method_model_evaluation = method_model_evaluation
+        self.real_score = real_score
+        self.memory = memory
         self.out_dir = out_dir
 
     def fit(self):
         """Statistical analysis"""
 
         print("Statistical analysis...\n")
-        if self.method_statistical_analysis == "Binomial test":
+        if self.method_statistical_analysis == "Binomial/Pearson-R test":
             pvalue_metric = self.pearson_test()
             permuted_score = None
         elif self.method_statistical_analysis == "Permutation test":
             pvalue_metric, permuted_score = self.permutation_test()
 
         # Save outputs
+        print(self.method_statistical_analysis)
         self.outputs = {}
         self.outputs.update({"pvalue_metric": pvalue_metric, "permutated_score": permuted_score})
         pickle.dump(self.outputs, open(os.path.join(self.out_dir, "stat.pickle"), "wb"))
@@ -239,10 +250,10 @@ class StatisticalAnalysis(BaseRegression):
                 target_test = self.targets[test_index]
 
                 # Fit
-                self.fit_(self.model, feature_train, permuted_target_train)
+                self.fit_(self.model, feature_train, permuted_target_train, self.memory)
 
                 # Predict
-                y_prob = self.predict_(feature_test)
+                y_prob = self.predict_(self.model, feature_test)
                 
                 # Eval performances
                 score = self.metric(target_test, y_prob)  

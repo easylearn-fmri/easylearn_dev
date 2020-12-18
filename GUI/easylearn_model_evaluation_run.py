@@ -69,7 +69,7 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
         # self.listWidget_selected_datasets.itemChanged.connect(self.del_repeated_items)
 
         # connect to statistical_analysis 
-        self.statistical_analysis_method_stackedwedge_dict = {"Binomial test": 0, "Permutation test": 1}
+        self.statistical_analysis_method_stackedwedge_dict = {"Binomial/Pearson-R test": 0, "Permutation test": 1}
         self.radioButton_binomialtest.clicked.connect(self.statistical_analysis_setting)
         self.radioButton_permutationtest.clicked.connect(self.statistical_analysis_setting)
 
@@ -163,7 +163,7 @@ class EasylearnModelEvaluationRun(QMainWindow, Ui_MainWindow):
             },
 
             self.radioButton_binomialtest: {
-                "Binomial test":{}
+                "Binomial/Pearson-R test":{}
             },
 
             self.radioButton_permutationtest: {
