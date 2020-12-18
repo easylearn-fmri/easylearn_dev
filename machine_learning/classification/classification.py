@@ -99,6 +99,10 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
         
         # Eval performances for all fold
         out_name_perf = os.path.join(self.out_dir, "classification_performances.pdf")
+        if os.path.exists(out_name_perf):
+            time_ = time.strftime('%Y%m%d%H%M%S')
+            out_name_perf = os.path.join(self.out_dir, f"classification_performances_{time_}.pdf")
+            
         acc, sens, spec, auc, _ = ModelEvaluator().binary_evaluator(
             self.target_test_all, self.pred_label, pred_prob,
             accuracy_kfold=self.real_accuracy, 

@@ -4,6 +4,7 @@
 Base class for all modules
 """
 
+import time
 import json
 import re
 import copy
@@ -513,10 +514,17 @@ class BaseMachineLearning(object):
                 # Save
                 if self.data_format_[group][modality] in ["nii","gz"]:
                     out_name_wei = os.path.join(out_dir, f"weight_{modality}.nii.gz")
+                    if os.path.exists(out_name_wei):
+                        time_ = time.strftime('%Y%m%d%H%M%S')
+                        out_name_wei = os.path.join(out_dir, f"weight_{modality}_{time_}.nii.gz")
                     mean_weight2nii = nib.Nifti1Image(mean_weight, self.affine_[group][modality])
                     mean_weight2nii.to_filename(out_name_wei)
                 else:
                     out_name_wei = os.path.join(out_dir, f"weight_{modality}.csv")
+                    if os.path.exists(out_name_wei):
+                        time_ = time.strftime('%Y%m%d%H%M%S')
+                        out_name_wei = os.path.join(out_dir, f"weight_{modality}_{time_}.nii.gz")
+                        
                     if len(np.shape(mean_weight)) > 1:
                         np.savetxt(out_name_wei, mean_weight, delimiter=',')  
                     else:

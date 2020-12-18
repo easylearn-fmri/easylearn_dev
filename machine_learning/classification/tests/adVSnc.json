@@ -4,13 +4,13 @@
             "modalities": {
                 "dalff": {
                     "file": [
-                        "D:/悦影科技/数据处理业务1/data_variance_22_30_z/dFCD_var_22/zad.npy"
+                        "D:/yueyingkeji/数据处理业务1/data_variance_22_30_z/dFCD_var_22/zad.npy"
                     ],
                     "mask": ""
                 },
                 "dalff2": {
                     "file": [
-                        "D:/悦影科技/数据处理业务1/data_variance_22_30_z/dFCD_var_22/zad1.npy"
+                        "D:/yueyingkeji/数据处理业务1/data_variance_22_30_z/dFCD_var_22/zad1.npy"
                     ],
                     "mask": ""
                 }
@@ -22,13 +22,13 @@
             "modalities": {
                 "dalff": {
                     "file": [
-                        "D:/悦影科技/数据处理业务1/data_variance_22_30_z/dFCD_var_22/znc.npy"
+                        "D:/yueyingkeji/数据处理业务1/data_variance_22_30_z/dFCD_var_22/znc.npy"
                     ],
                     "mask": ""
                 },
                 "dalff2": {
                     "file": [
-                        "D:/悦影科技/数据处理业务1/data_variance_22_30_z/dFCD_var_22/znc1.npy"
+                        "D:/yueyingkeji/数据处理业务1/data_variance_22_30_z/dFCD_var_22/znc1.npy"
                     ],
                     "mask": ""
                 }
