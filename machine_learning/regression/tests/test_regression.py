@@ -14,7 +14,7 @@ from eslearn.base import BaseMachineLearning, DataLoader
 from eslearn.machine_learning.regression.regression import Regression
 
 
-# x, y = datasets.make_regression(n_samples=500, n_informative=50, n_features=500, random_state=1)
+# x, y = datasets.make_regression(n_samples=500, n_informative=3, n_features=5, random_state=1)
 # x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.30, random_state=42)
 
 # x1 = pd.DataFrame([])

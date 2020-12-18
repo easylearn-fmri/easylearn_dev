@@ -141,7 +141,7 @@ class ModelEvaluator():
         
         # Grid and spines
         ax[0].grid(False)
-        ax[0].set_title('Classification scatter diagram', fontsize=12, fontweight='bold')
+        ax[0].set_title('Distribution of prediction in each group', fontsize=12, fontweight='bold')
         ax[0].spines['bottom'].set_position(('axes', 0))
         ax[0].spines['left'].set_position(('axes', 0))
         ax[0].spines['top'].set_linewidth(1)
