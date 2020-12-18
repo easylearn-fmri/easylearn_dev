@@ -236,7 +236,7 @@ class StatisticalAnalysis(BaseRegression):
 
         for i in range(self.time_permutation):
             print(f"{i+1}/{self.time_permutation}...\n")      
-            permuted_score = []
+            permuted_score_ = []
             for train_index, test_index in self.method_model_evaluation.split(self.features, self.targets):
                 feature_train = self.features[train_index, :]
                 feature_test = self.features[test_index, :]
@@ -257,10 +257,10 @@ class StatisticalAnalysis(BaseRegression):
                 
                 # Eval performances
                 score = self.metric(target_test, y_prob)  
-                permuted_score.append(score)
+                permuted_score_.append(score)
              
             # Average performances of one permutation
-            permuted_score.append(np.mean(permuted_score))
+            permuted_score.append(np.mean(permuted_score_))
 
         # Get p values
         pvalue_metric = self.calc_pvalue(permuted_score, np.mean(self.real_score))
