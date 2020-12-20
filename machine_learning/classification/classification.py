@@ -109,7 +109,7 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
             sensitivity_kfold=self.real_sensitivity, 
             specificity_kfold=self.real_specificity, 
             AUC_kfold=self.real_auc,
-            verbose=1, is_showfig=True, is_savefig=True, legend1='Controls', legend2='Patients', out_name=out_name_perf
+            verbose=1, is_showfig=False, is_savefig=True, legend1='Controls', legend2='Patients', out_name=out_name_perf
         )
 
         
