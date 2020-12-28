@@ -29,7 +29,7 @@ from eslearn.machine_learning.regression.regression import Regression
 
 def test_regression():
     time_start = time.time()
-    reg = Regression(configuration_file="./regression_configuration.json",
+    reg = Regression(configuration_file=r"D:\My_Codes\lc_private_codes\The_first_ml_training\demo_data/regression.json",
                      out_dir="./")
     reg.main_run()
     print(reg.method_model_evaluation_)

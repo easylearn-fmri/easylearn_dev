@@ -29,7 +29,7 @@ from imblearn.under_sampling import (RandomUnderSampler,
                                     OneSidedSelection)
 
 from imblearn.combine import SMOTEENN, SMOTETomek
-from sklearn.metrics import make_scorer, accuracy_score, auc, f1_score
+from sklearn.metrics import make_scorer, accuracy_score, auc, f1_score, mean_absolute_error
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.decomposition import PCA, NMF
@@ -437,7 +437,11 @@ class BaseMachineLearning(object):
                 self.pipeline_['estimator'].set_params(**mapping)
 
         # Building model
-        cv = StratifiedKFold(n_splits=self._gridcv_k, random_state=self._random_state, shuffle=True)  # Default is StratifiedKFold
+        if "Classification" in self.machine_learning_type_:
+            cv = StratifiedKFold(n_splits=self._gridcv_k, random_state=self._random_state, shuffle=True)  # Default is StratifiedKFold
+        else:
+            cv = KFold(n_splits=self._gridcv_k, random_state=self._random_state, shuffle=True)
+        
         if self.is_search:
             if self._search_strategy == 'grid':
                 self.model_ = GridSearchCV(
@@ -638,7 +642,10 @@ class MakeModel():
                 self.pipeline_['estimator'].set_params(**mapping)
 
         # Building model
-        cv = StratifiedKFold(n_splits=self._gridcv_k, random_state=self._random_state, shuffle=True)  # Default is StratifiedKFold
+        if "Classification" in list(self.configuration.get("machine_learning").keys()):
+            cv = StratifiedKFold(n_splits=self._gridcv_k, random_state=self._random_state, shuffle=True)  # Default is StratifiedKFold
+        else:
+            cv = KFold(n_splits=self._gridcv_k, random_state=self._random_state, shuffle=True)  # Default is StratifiedKFold
         if self.is_search:
             if self._search_strategy == 'grid':
                 self.model_ = GridSearchCV(

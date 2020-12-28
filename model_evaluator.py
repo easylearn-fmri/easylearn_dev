@@ -73,6 +73,8 @@ class ModelEvaluator():
         true_label = np.reshape(true_label, [np.size(true_label), ])
         predict_label = np.reshape(predict_label, [np.size(predict_label), ])
         predict_score = np.array(predict_score)
+        if len(np.shape(predict_score)) > 1:
+            predict_score = predict_score[:,-1]
 
         # accurcay, specificity(recall of negative) and
         # sensitivity(recall of positive)

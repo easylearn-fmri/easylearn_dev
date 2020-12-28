@@ -66,7 +66,6 @@ class BaseRegression(AbstractSupervisedMachineLearningBase):
     def fit_(self, model, x=None, y=None, memory=None):
         """Fit the scikit-learn search or pipeline model
         """
-        
         model.fit(x, y)
         # Delete the temporary cache before exiting
         if memory is not None: self.memory.clear(warn=False)
