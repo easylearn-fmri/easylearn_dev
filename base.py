@@ -646,10 +646,7 @@ class MakeModel():
             cv = StratifiedKFold(n_splits=self._gridcv_k, random_state=self._random_state, shuffle=True)  # Default is StratifiedKFold
         else:
             cv = KFold(n_splits=self._gridcv_k, random_state=self._random_state, shuffle=True)  # Default is StratifiedKFold
-<<<<<<< HEAD
-        
-=======
->>>>>>> 79e6742... renew .git due to big file >100M
+
         if self.is_search:
             if self._search_strategy == 'grid':
                 self.model_ = GridSearchCV(
