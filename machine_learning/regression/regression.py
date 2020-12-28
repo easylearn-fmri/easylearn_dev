@@ -36,7 +36,7 @@ class Regression(BaseMachineLearning, DataLoader, BaseRegression):
         self.load_data()
         self.get_all_inputs()
         # Make pipeline
-        self.make_sklearn_search_model_()
+        self.make_sklearn_search_model_(metric=mean_absolute_error)
         
     def main_run(self):
         

@@ -198,7 +198,17 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
 
         # Read configuration_file if already selected
         if self.configuration_file != "": 
-            with open(self.configuration_file, 'r') as config:
+            with open(self.configuration_file, 'rb') as config:
+                # TODO: 
+                """<!-- The above is a description of an error in a Python program, formatted
+                     for a Web browser because the 'cgitb' module was enabled.  In case you
+                     are not reading this in a Web browser, here is the original traceback:
+
+                    Traceback (most recent call last):
+                    File "D:\python\lib\site-packages\eslearn\GUI\easylearn_main_run.py", line 202, in load_configuration_fun
+                    self.configuration = config.read()
+                    UnicodeDecodeError: 'gbk' codec can't decode byte 0xad in position 177: illegal multibyte sequence
+                """
                 self.configuration = config.read()
             # Check the configuration is valid JSON, then transform the configuration to dict
             # If the configuration is not valid JSON, then give configuration and configuration_file to ""
