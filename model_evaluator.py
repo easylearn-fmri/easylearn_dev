@@ -76,7 +76,7 @@ class ModelEvaluator():
 
         # accurcay, specificity(recall of negative) and
         # sensitivity(recall of positive)
-        accuracy = accuracy_score(true_label, predict_label)
+        accuracy = np.float64(f"{accuracy_score(true_label, predict_label):.2f}")
         report = classification_report(true_label, predict_label)
         report = report.split('\n')
         specificity = report[2].strip().split(' ')
@@ -110,7 +110,7 @@ class ModelEvaluator():
             print(f'{e}')
                 
         if not is_showfig:
-            matplotlib.use('PDF')   # 指定后端渲染器
+            matplotlib.use('PDF')
             
         fig, ax = plt.subplots(nrows=1, ncols=3,figsize=(10,4))
 
@@ -268,6 +268,15 @@ class ModelEvaluator():
         std_metrics = np.std(reg_metrics)
         coef = np.corrcoef(real_target, predict_score)[0,1]
         
+        # Set matplotlib backend
+        try:
+            matplotlib.use('Qt5Agg')
+        except Exception as e:
+            print(f'{e}')
+             
+        if not is_showfig:
+            matplotlib.use('PDF')
+
         sns.jointplot(x=predict_score, y=real_target, kind='reg', size=5)
 
         plt.xlabel("Predicted score", fontsize=15)
@@ -283,10 +292,10 @@ class ModelEvaluator():
             pdf.savefig()
             pdf.close()
             
-            if is_showfig:
-                plt.show()
-                plt.pause(5)
-                plt.close()
+        if is_showfig:
+            plt.show()
+            plt.pause(5)
+            plt.close()
 
 
 if __name__ == "__main__":

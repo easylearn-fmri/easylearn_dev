@@ -500,14 +500,14 @@ class BaseMachineLearning(object):
         mean_wei = np.reshape(np.mean(weights, axis=0), [-1,])
         
         for group in self.mask_:
-            loc_start = 0  # Initializing loc_start
+            loc_start = 0
             for im, modality in enumerate(self.mask_[group]):
                 mask = self.mask_[group][modality]
                 mean_weight = np.zeros(mask.shape)
 
-                # Initializing loc_end
-                if im == 0:
-                    loc_end = mask.sum()
+                # Updating mask location index
+                n_features = mask.sum()
+                loc_end = loc_start + n_features
 
                 mean_weight[mask] = mean_wei[loc_start:loc_end]
 
@@ -523,16 +523,15 @@ class BaseMachineLearning(object):
                     out_name_wei = os.path.join(out_dir, f"weight_{modality}.csv")
                     if os.path.exists(out_name_wei):
                         time_ = time.strftime('%Y%m%d%H%M%S')
-                        out_name_wei = os.path.join(out_dir, f"weight_{modality}_{time_}.nii.gz")
+                        out_name_wei = os.path.join(out_dir, f"weight_{modality}_{time_}.csv")
                         
                     if len(np.shape(mean_weight)) > 1:
                         np.savetxt(out_name_wei, mean_weight, delimiter=',')  
                     else:
                         pd.Series(mean_weight).to_csv(out_name_wei, header=False)
                 
-                # Update make location index
-                loc_start += mask.sum()
-                loc_end += mask.sum()
+                # Updating mask location index
+                loc_start += n_features  # n_features in this point is the value in previous iteration
                 
             break  # Assuming the size of the same modality in different group are matching for each other
 
@@ -687,26 +686,27 @@ class DataLoader():
        Then, easylearn will feed features combined multiple modalities into machine learning model.
     
     2. If there is only one input file for one modality, 
-       then the file could be csv, xlsx, txt that allows pandas to read it, 
-       and data in this file musk have a column of "__ID__" (unique idenfity), 
+       then data in this file should have a column of "__ID__" (unique idenfity), 
        otherwise easylearn will take the first column as "__ID__".
        So that easylearn can match cases between modalities and match modalities with targets and covariates.
        If this file
     
     3. If ther are multiple input files for one modality, then the files name must contain r'.*(sub.?[0-9].*).*' for 
-        extracting unique idenfity information to match like above. 
-        For example one file name contains strings of "sub-008.nii".
+       extracting unique idenfity information to match like above. 
+       For example one file name contains strings of "sub-008.nii".
     
-    4. Easylearn only allows users to input targets as one integer by type in the GUI (only for classification)
-       or a file path for one group. 
-       If the input targets is a file, then the file could be csv, xlsx, txt that allows pandas to read it, 
-       and data in the file must have a column of "__ID__", otherwise easylearn will take the first column as "__ID__".
-       In addition, it also must have a column of "__Targets__" in which the targets contained.
-       If the input targets is a integer(only for classification) , then easylearn will assign the integer as target for all case in the group.
+    4. Easylearn only allows users to input targets as one integer by type in the GUI 
+       (only for classification) or a file path for one group. 
+       If the input targets is a file, then data in the file should have a column of "__ID__" and a column of "__Targets__", 
+       otherwise easylearn will take the first column as "__ID__", and the second as "__Targets__".
+       
+       If the input targets is a integer(only for classification) , 
+       then easylearn will assign the integer as target for all case in the group.
 
     5. Easylearn allows users to input covariates, such as age, gender. Now, only file can be input as the covariates.
-       If user given easylearn a covariates file, then the file could be csv, xlsx, txt that allows pandas to read it, 
-       and data in the file must have a column of "__ID__", otherwise easylearn will take the first column as "__ID__".
+       If user given easylearn a covariates file, then data in the file should have a column of "__ID__", 
+       otherwise easylearn will take the first column as "__ID__".
+
     """
     
     def __init__(self, configuration_file):
@@ -843,7 +843,9 @@ class DataLoader():
                 # then the DataFrame must have header of "__ID__" which contain the unique_identifier,
                 # otherwise easylearn will take the first column as "__ID__".
                 if isinstance(all_features_, pd.core.frame.DataFrame) and ("__ID__" not in all_features_.columns):
-                    raise ValueError(f"The dataset of {input_files} did not have '__ID__' column, check your dataset")
+                    # raise ValueError(f"The dataset of {input_files} did not have '__ID__' column, check your dataset")
+                    unique_identifier = all_features_.iloc[:,0]  # Take the first column as __ID__
+                    print(f"The dataset of {input_files} did not have '__ID__' column, easylearn take the first column as ID\n")
                 elif isinstance(all_features_, pd.core.frame.DataFrame) and ("__ID__" in all_features_.columns):
                     unique_identifier = pd.DataFrame(all_features_["__ID__"])
                     all_features_.drop("__ID__", axis=1, inplace=True)
@@ -896,10 +898,14 @@ class DataLoader():
                 targets[gk]["__ID__"] = unique_identifier_
                 targets[gk].rename(columns={0: "__Targets__"}, inplace=True)
             elif isinstance(targets[gk], pd.core.frame.DataFrame) and ("__ID__" not in targets[gk].columns):
-                raise ValueError(f"The targets of {gk} did not have '__ID__' column, check your targets")  
+                # raise ValueError(f"The targets of {gk} did not have '__ID__' column, check your targets") 
+                print(f"The targets of {gk} did not have '__ID__' column, easylearn take the first column as ID\n") 
+                # Take the first column as __ID__, and the second column as __Targets__
+                targets[gk].columns = ["__ID__", "__Targets__"] 
             elif isinstance(targets[gk], np.ndarray):
                 targets[gk] = pd.DataFrame(targets[gk])
-                targets[gk].rename(columns={0:"__ID__", 1:"__Targets__"}, inplace=True) # Take the first column as __ID__
+                # Take the first column as __ID__, and the second as __Targets__
+                targets[gk].rename(columns={0:"__ID__", 1:"__Targets__"}, inplace=True)
 
             targets[gk] = pd.merge(unique_identifier_, targets[gk], left_on="__ID__", right_on="__ID__", how='inner')
             if targets[gk].shape[0] != n_file:
@@ -908,7 +914,11 @@ class DataLoader():
             # Sort covariates and check                
             if (not isinstance(self.covariates_[gk],int)):  # User have given covariates
                 if isinstance(self.covariates_[gk], pd.core.frame.DataFrame) and ("__ID__" not in self.covariates_[gk].columns):
-                    raise ValueError(f"The covariates of {gk} did not have 'ID' column, check your covariates")
+                    # raise ValueError(f"The covariates of {gk} did not have 'ID' column, check your covariates")
+                    print(f"The covariates of {gk} did not have 'ID' column, easylearn take the first column as ID\n")
+                    colname = list(self.covariates_[gk].columns)
+                    colname[0] = "__ID__"
+                    self.covariates_[gk].columns = colname
                 elif isinstance(self.covariates_[gk], np.ndarray): 
                     self.covariates_[gk] = pd.DataFrame(self.covariates_[gk])
                     self.covariates_[gk].rename(columns={0:"__ID__"}, inplace=True) # Take the first column as __ID__

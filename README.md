@@ -101,17 +101,14 @@ The current contributors are in [contributors_list.md](./developer/contributors_
 The current team members are in [current_team_members.md](./developer/current_team_members.md). If you contributed your code, please add yourself to the contributor list.
 
 
+# Results
+If the program runs successfully, some results file will be generated under the working directory, as follows:
+## <left> Classification performances </left>
+![Classification performances](./img/clf.png)  
 <br> <br />
-If the program runs successfully, some results file will be generated under the results folder (path_out), as follows:
-#### <center> Classification performances </center>
-![Classification performances](./img/classification_performances.png)  
-<br> <br />
-#### <center>Classification performances (text, each row are results of one fold of the 5-fold cross-validation)</center>
-![wei](./img/perf.png)  
-<br> <br />
-#### <center>Classfication weights (top 1%, BrainNet Viewer) </center>
+## <left>Regression performances</left>
+![Regression performances](./img/reg.png)  
+## <left>Classfication weights (top 1%, BrainNet Viewer) </left>
 ![Top classfication weights](./img/wei.jpg) 
 <br> <br />
-#### <center>Predicted decision, predicted label and real label</center>
-![Predicted decision, predicted label and real label](./img/dec_label.png)  
 

@@ -84,7 +84,7 @@ class Regression(BaseMachineLearning, DataLoader, BaseRegression):
         out_name_perf = os.path.join(self.out_dir, "regression_performances.pdf")
         all_score = ModelEvaluator().regression_evaluator(
             self.target_test_all, self.pred_prob, self.real_score, 
-            is_showfig=True, is_savefig=True, out_name=out_name_perf
+            is_showfig=False, is_savefig=True, out_name=out_name_perf
         )
 
         # Save weight
