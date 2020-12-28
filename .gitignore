@@ -3,9 +3,12 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+<<<<<<< HEAD
 # Test results
 *.pickle
 
+=======
+>>>>>>> 79e6742... renew .git due to big file >100M
 # C extensions
 *.so
 
