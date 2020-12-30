@@ -136,12 +136,19 @@
         "dimreduction": {
             "PCA()": {
                 "n_components": {
-                    "value": "[0.8,0.90]"
+                    "value": "0.9"
                 }
             }
         },
         "feature_selection": {
-            "None": {}
+            "RFE()": {
+                "step": {
+                    "value": "0.10"
+                },
+                "estimator": {
+                    "value": "SVC(kernel='linear')"
+                }
+            }
         },
         "unbalance_treatment": {
             "BorderlineSMOTE()": {}
@@ -149,12 +156,15 @@
     },
     "machine_learning": {
         "Classification": {
-            "LinearSVC()": {
+            "LogisticRegression(solver='saga')": {
+                "penalty": {
+                    "value": "elasticnet"
+                },
+                "l1_ratio": {
+                    "value": "0.5"
+                },
                 "C": {
                     "value": "1"
-                },
-                "multi_class": {
-                    "value": "ovr"
                 }
             }
         }
@@ -172,11 +182,7 @@
             }
         },
         "Statistical_analysis": {
-            "Permutation test": {
-                "N": {
-                    "value": "3"
-                }
-            }
+            "Binomial/Pearson-R test": {}
         }
     }
 }

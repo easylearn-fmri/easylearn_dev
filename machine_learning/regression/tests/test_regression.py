@@ -29,7 +29,7 @@ x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.30, random
 
 def test_regression():
     time_start = time.time()
-    reg = Regression(configuration_file=r"D:\My_Codes\lc_private_codes\The_first_ml_training\demo_data/regression.json",
+    reg = Regression(configuration_file="./test.json",
                      out_dir="./")
     reg.main_run()
     print(reg.method_model_evaluation_)

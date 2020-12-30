@@ -1,0 +1,76 @@
+{
+    "data_loading": {
+        "group_1": {
+            "modalities": {
+                "modality_1": {
+                    "file": [
+                        "D:/My_Codes/virtualenv_eslearn/Lib/site-packages/eslearn/machine_learning/regression/tests/features.csv"
+                    ],
+                    "mask": ""
+                }
+            },
+            "targets": "D:/My_Codes/virtualenv_eslearn/Lib/site-packages/eslearn/machine_learning/regression/tests/targets.csv",
+            "covariates": ""
+        }
+    },
+    "feature_engineering": {
+        "feature_preprocessing": {
+            "MinMaxScaler()": {
+                "feature_range": {
+                    "value": "(0,1)"
+                }
+            }
+        },
+        "dimreduction": {
+            "PCA()": {
+                "n_components": {
+                    "value": "0.80, 0.90"
+                }
+            }
+        },
+        "feature_selection": {
+            "RFE()": {
+                "step": {
+                    "value": "0.10"
+                },
+                "estimator": {
+                    "value": "LinearRegression()"
+                }
+            }
+        },
+        "unbalance_treatment": {
+            "RandomOverSampler()": {}
+        }
+    },
+    "machine_learning": {
+        "Regression": {
+            "SVR()": {
+                "kernel": {
+                    "value": "linear"
+                },
+                "C": {
+                    "value": "1"
+                },
+                "gamma": {
+                    "value": "scale"
+                }
+            }
+        }
+    },
+    "model_evaluation": {
+        "KFold()": {
+            "n_splits": {
+                "value": "10"
+            },
+            "shuffle": {
+                "value": "True"
+            },
+            "random_state": {
+                "value": "0"
+            }
+        },
+        "Statistical_analysis": {
+            "Binomial/Pearson-R test": {}
+        }
+    }
+}

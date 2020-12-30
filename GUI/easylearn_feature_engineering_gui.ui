@@ -365,7 +365,7 @@
            <item row="9" column="0">
             <widget class="QRadioButton" name="radioButton_rfe">
              <property name="text">
-              <string>RFECV()</string>
+              <string>RFE()</string>
              </property>
             </widget>
            </item>
@@ -469,7 +469,7 @@
            <item row="0" column="1">
             <widget class="QStackedWidget" name="stackedWidget_feature_selection">
              <property name="currentIndex">
-              <number>8</number>
+              <number>6</number>
              </property>
              <widget class="QWidget" name="to_variance_threshold">
               <layout class="QGridLayout" name="gridLayout_15">
@@ -483,7 +483,7 @@
                <item row="0" column="1">
                 <widget class="QLineEdit" name="lineEdit_variancethreshold_threshold">
                  <property name="text">
-                  <string>0.4, 0.6</string>
+                  <string>0.6, 0.8</string>
                  </property>
                 </widget>
                </item>
@@ -494,7 +494,7 @@
                <item row="0" column="2">
                 <widget class="QLineEdit" name="lineEdit_anova_topnum">
                  <property name="text">
-                  <string>0.4, 0.6</string>
+                  <string>0.6, 0.8</string>
                  </property>
                 </widget>
                </item>
@@ -519,7 +519,7 @@
                <item row="0" column="1">
                 <widget class="QLineEdit" name="lineEdit_correlation_percentile">
                  <property name="text">
-                  <string>0.2, 0.4</string>
+                  <string>0.6, 0.8</string>
                  </property>
                 </widget>
                </item>
@@ -551,7 +551,7 @@
                <item row="2" column="1">
                 <widget class="QLineEdit" name="lineEdit_mutualinfocls_topnum">
                  <property name="text">
-                  <string>0.4, 0.6</string>
+                  <string>0.6, 0.8</string>
                  </property>
                 </widget>
                </item>
@@ -583,7 +583,7 @@
                <item row="0" column="1">
                 <widget class="QLineEdit" name="lineEdit_mutualinforeg_topnum">
                  <property name="text">
-                  <string>0.4, 0.6</string>
+                  <string>0.6,0.8</string>
                  </property>
                 </widget>
                </item>
@@ -591,34 +591,14 @@
              </widget>
              <widget class="QWidget" name="to_rfecv">
               <layout class="QGridLayout" name="gridLayout_20">
-               <item row="3" column="0">
-                <widget class="QLabel" name="label_19">
-                 <property name="text">
-                  <string>N_jobs</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="2">
-                <widget class="QSpinBox" name="spinBox_rfe_nfold">
-                 <property name="minimum">
-                  <number>2</number>
-                 </property>
-                 <property name="maximum">
-                  <number>1000</number>
-                 </property>
-                 <property name="value">
-                  <number>5</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="0">
+               <item row="1" column="0">
                 <widget class="QLabel" name="label_16">
                  <property name="text">
                   <string>Estimator</string>
                  </property>
                 </widget>
                </item>
-               <item row="2" column="2">
+               <item row="1" column="2">
                 <widget class="QComboBox" name="comboBox_rfe_estimator">
                  <item>
                   <property name="text">
@@ -632,38 +612,19 @@
                  </item>
                  <item>
                   <property name="text">
-                   <string>Lasso()</string>
+                   <string>SVR(kernel='linear')</string>
                   </property>
                  </item>
                  <item>
                   <property name="text">
-                   <string>BayesianRidge()</string>
+                   <string>LinearRegression()</string>
                   </property>
                  </item>
-                </widget>
-               </item>
-               <item row="3" column="2">
-                <widget class="QSpinBox" name="spinBox_rfe_njobs">
-                 <property name="minimum">
-                  <number>-1</number>
-                 </property>
-                 <property name="value">
-                  <number>-1</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="0">
-                <widget class="QLabel" name="label_15">
-                 <property name="text">
-                  <string>N-fold</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="0">
-                <widget class="QLabel" name="label_14">
-                 <property name="text">
-                  <string>Step</string>
-                 </property>
+                 <item>
+                  <property name="text">
+                   <string>Ridge()</string>
+                  </property>
+                 </item>
                 </widget>
                </item>
                <item row="0" column="2">
@@ -676,6 +637,13 @@
                  </property>
                  <property name="value">
                   <double>0.100000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_14">
+                 <property name="text">
+                  <string>Step</string>
                  </property>
                 </widget>
                </item>
@@ -740,61 +708,6 @@
           </property>
           <layout class="QGridLayout" name="gridLayout_7">
            <item row="3" column="0">
-            <widget class="QRadioButton" name="radioButton_smotencover">
-             <property name="text">
-              <string>SMOTENC</string>
-             </property>
-            </widget>
-           </item>
-           <item row="9" column="0">
-            <widget class="QRadioButton" name="radioButton_nearmissunder">
-             <property name="text">
-              <string>NearMiss</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="0">
-            <widget class="QLabel" name="label_12">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>Over-sampling the minority class</string>
-             </property>
-            </widget>
-           </item>
-           <item row="7" column="0">
-            <widget class="QRadioButton" name="radioButton_randunder">
-             <property name="text">
-              <string>RandomUnderSampler</string>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="0">
-            <widget class="Line" name="line_3">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="8" column="0">
-            <widget class="QRadioButton" name="radioButton_cludterunder">
-             <property name="text">
-              <string>ClusterCentroids</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <widget class="QRadioButton" name="radioButton_smoteover">
-             <property name="text">
-              <string>SMOTE</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="0">
             <widget class="QRadioButton" name="radioButton_bsmoteover">
              <property name="text">
               <string>BorderlineSMOTE</string>
@@ -802,15 +715,9 @@
             </widget>
            </item>
            <item row="6" column="0">
-            <widget class="QLabel" name="label_13">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
+            <widget class="QRadioButton" name="radioButton_randunder">
              <property name="text">
-              <string>Under-sampling the majority class(es)</string>
+              <string>RandomUnderSampler</string>
              </property>
             </widget>
            </item>
@@ -824,6 +731,60 @@
              </property>
              <property name="checked">
               <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="0">
+            <widget class="QRadioButton" name="radioButton_nearmissunder">
+             <property name="text">
+              <string>NearMiss</string>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="0">
+            <widget class="QRadioButton" name="radioButton_cludterunder">
+             <property name="text">
+              <string>ClusterCentroids</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QRadioButton" name="radioButton_smoteover">
+             <property name="text">
+              <string>SMOTE</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="0">
+            <widget class="QLabel" name="label_13">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Under-sampling the majority class(es)</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="Line" name="line_3">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_12">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Over-sampling the minority class</string>
              </property>
             </widget>
            </item>

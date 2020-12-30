@@ -73,7 +73,7 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
         self.feature_selection_stackedwedge_dict = {
             "VarianceThreshold()": 0, "SelectPercentile(f_classif)": 1, "SelectPercentile(f_regression)": 2, 
             "SelectPercentile(mutual_info_classif)": 3, "SelectPercentile(mutual_info_regression)": 4,  
-            "RFECV()": 5, 
+            "RFE()": 5, 
             "SelectFromModel(LassoCV())": 6, "SelectFromModel(ElasticNetCV())": 7, 
             "None": 8
         }
@@ -213,11 +213,11 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
                 }, 
 
                 self.radioButton_rfe: {
-                    "RFECV()": {
+                    "RFE()": {
                         "step": {"value": self.doubleSpinBox_rfe_step.text(), "wedget": self.doubleSpinBox_rfe_step}, 
-                        "cv": {"value": self.spinBox_rfe_nfold.text(), "wedget":  self.spinBox_rfe_nfold}, 
+                        # "cv": {"value": self.spinBox_rfe_nfold.text(), "wedget":  self.spinBox_rfe_nfold}, 
                         "estimator": {"value": self.comboBox_rfe_estimator.currentText(), "wedget": self.comboBox_rfe_estimator}, 
-                        "n_jobs": {"value": self.spinBox_rfe_njobs.text(), "wedget": self.spinBox_rfe_njobs}
+                        # "n_jobs": {"value": self.spinBox_rfe_njobs.text(), "wedget": self.spinBox_rfe_njobs}
                     }
                 },
 
@@ -241,7 +241,7 @@ class EasylearnFeatureEngineeringRun(QMainWindow, Ui_MainWindow):
             "unbalance_treatment": {
                 self.radioButton_randover: {"RandomOverSampler()": {}},
                 self.radioButton_smoteover: {"SMOTE()": {}},
-                self.radioButton_smotencover: {"SMOTENC()": {}}, 
+                # self.radioButton_smotencover: {"SMOTENC()": {}}, 
                 self.radioButton_bsmoteover: {"BorderlineSMOTE()": {}},
                 self.radioButton_randunder: {"RandomUnderSampler()": {}}, 
                 self.radioButton_cludterunder: {"ClusterCentroids()": {}}, 

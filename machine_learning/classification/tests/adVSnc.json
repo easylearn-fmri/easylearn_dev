@@ -49,18 +49,12 @@
             }
         },
         "feature_selection": {
-            "RFECV()": {
+            "RFE()": {
                 "step": {
-                    "value": "0.20"
-                },
-                "cv": {
-                    "value": "5"
+                    "value": "0.10"
                 },
                 "estimator": {
                     "value": "SVC(kernel='linear')"
-                },
-                "n_jobs": {
-                    "value": "-1"
                 }
             }
         },
@@ -83,7 +77,7 @@
     "model_evaluation": {
         "StratifiedKFold()": {
             "n_splits": {
-                "value": "3"
+                "value": "10"
             },
             "shuffle": {
                 "value": "True"
@@ -93,11 +87,7 @@
             }
         },
         "Statistical_analysis": {
-            "Permutation test": {
-                "N": {
-                    "value": "2"
-                }
-            }
+            "Binomial/Pearson-R test": {}
         }
     }
 }
