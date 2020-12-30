@@ -5,8 +5,7 @@ from eslearn.machine_learning.classification.classification import Classificatio
 from eslearn.machine_learning.classification._base_classification import StatisticalAnalysis
 
 def test_classification():
-    clf = Classification(configuration_file="./adVSnc.json", out_dir="./") 
-    clf = Classification(configuration_file=r"F:\workshop\demo_data\piVShc_FCS\piVShc.json", out_dir="./") 
+    clf = Classification(configuration_file=r"F:\workshop\demo_data\tumor_radiomics/radiomics.json", out_dir="./") 
     clf.main_run()
     clf.run_statistical_analysis()
 
