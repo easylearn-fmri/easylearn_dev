@@ -6,6 +6,7 @@ __pycache__/
 # Test results
 *.pickle
 
+
 # C extensions
 *.so
 

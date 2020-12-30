@@ -35,7 +35,11 @@ from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.decomposition import PCA, NMF
 from sklearn.feature_selection import SelectPercentile, SelectKBest, SelectFromModel, f_classif,f_regression, RFE,RFECV, VarianceThreshold, mutual_info_classif, SelectFromModel
 from sklearn.svm import LinearSVC, SVC, SVR
-from sklearn.linear_model import LinearRegression, LogisticRegression, Lasso, LassoCV, RidgeCV, RidgeClassifier, BayesianRidge, ElasticNetCV
+from sklearn.linear_model import (LinearRegression, LogisticRegression, Lasso, 
+                                  LassoCV, RidgeCV, Ridge,
+                                  RidgeClassifier, BayesianRidge, ElasticNetCV
+)
+
 from sklearn.gaussian_process import  GaussianProcessClassifier, GaussianProcessRegressor
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor, AdaBoostClassifier
@@ -166,11 +170,10 @@ class BaseMachineLearning(object):
             # Methods
             self.method_feature_selection_ = list(feature_selection.keys())[0] if list(feature_selection.keys())[0] != 'None' else None
             # Update point
-            if self.method_feature_selection_ == 'RFECV()':
-                self.method_feature_selection_ = "RFECV(estimator=SVC(kernel='linear'))"
+            if "RFE" in self.method_feature_selection_:
+                self.method_feature_selection_ = "RFE(estimator=SVC(kernel='linear'))"
             
             if self.method_feature_selection_ == 'SelectFromModel(LassoCV())':
-                self.method_feature_selection_ = 'SelectFromModel(LassoCV())'
                 self.param_feature_selection_ = None
             
             if self.method_feature_selection_ == 'SelectFromModel(ElasticNetCV())':
@@ -185,7 +188,7 @@ class BaseMachineLearning(object):
             self.method_feature_selection_ = [self.security_eval(self.method_feature_selection_)]
         
         # Fix the random_state for replication of results
-        if self.method_feature_selection_ and "random_state" in self.method_feature_selection_[0].get_params().keys():
+        if self.method_feature_selection_ and ("random_state" in self.method_feature_selection_[0].get_params().keys()):
             self.param_feature_selection_.update({"feature_selection__"+'random_state': [self._random_state]})
         self.param_feature_selection_ = None if self.param_feature_selection_ == {} else self.param_feature_selection_
         return self
