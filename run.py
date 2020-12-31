@@ -4,7 +4,6 @@
 """Application of easylearn
 """
 
-from eslearn.GUI.easylearn_main_run import main
-
 def run():
-    main()# Build
+    from eslearn.GUI.easylearn_main_run import main
+    main()

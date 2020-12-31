@@ -10,13 +10,13 @@ Citing link: https://github.com/easylearn-fmri/easylearn
 
 # Install  
 ```
-pip install eslearn
+pip install -U eslearn
 ```
 
 # Usage
 ```
-from eslearn import app
-app.run()
+import eslearn as el
+el.run()
 ```
 
 # GUI preview

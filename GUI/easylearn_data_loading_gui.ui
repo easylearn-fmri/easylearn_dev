@@ -530,7 +530,7 @@
       <item row="0" column="1">
        <widget class="QLabel" name="label_file">
         <property name="text">
-         <string>Files</string>
+         <string>Features</string>
         </property>
        </widget>
       </item>

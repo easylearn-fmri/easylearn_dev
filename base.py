@@ -649,7 +649,7 @@ class MakeModel():
             cv = StratifiedKFold(n_splits=self._gridcv_k, random_state=self._random_state, shuffle=True)  # Default is StratifiedKFold
         else:
             cv = KFold(n_splits=self._gridcv_k, random_state=self._random_state, shuffle=True)  # Default is StratifiedKFold
-
+        
         if self.is_search:
             if self._search_strategy == 'grid':
                 self.model_ = GridSearchCV(
@@ -917,7 +917,8 @@ class DataLoader():
                 targets[gk] = pd.DataFrame(targets[gk])
                 # Take the first column as __ID__, and the second as __Targets__
                 targets[gk].rename(columns={0:"__ID__", 1:"__Targets__"}, inplace=True)
-
+            
+            unique_identifier_ = pd.DataFrame(unique_identifier_)
             targets[gk] = pd.merge(unique_identifier_, targets[gk], left_on="__ID__", right_on="__ID__", how='inner')
             if targets[gk].shape[0] != n_file:
                     raise ValueError(f"The subjects' ID in targets is not totally matched with its' data file name in {mk} of {gk} , check your ID in targets or check your data file name")
@@ -1011,6 +1012,9 @@ class DataLoader():
         
         elif os.path.isfile(targets_input):
             targets = self.base_read(targets_input) 
+        
+        elif not os.path.isfile(targets_input):
+            raise ValueError(f"The '{targets_input}' is not exist")
         
         elif len(re.findall(r'[A-Za-z]', targets_input)):  # Contain alphabet
             raise ValueError(f"The targets(labels) must be an Arabic numbers or file, but it contain alphabet, check your targets: '{targets_input}'")
