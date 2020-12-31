@@ -30,7 +30,7 @@
                     "value": "0.10"
                 },
                 "estimator": {
-                    "value": "SVR(kernel='linear')"
+                    "value": "LinearRegression()"
                 }
             }
         },

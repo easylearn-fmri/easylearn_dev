@@ -2,13 +2,11 @@
 
 # Form implementation generated from reading ui file './easylearn_feature_engineering_gui.ui'
 #
-# Created by: PyQt5 UI code generator 5.12.3
+# Created by: PyQt5 UI code generator 5.11.3
 #
 # WARNING! All changes made in this file will be lost!
 
-
 from PyQt5 import QtCore, QtGui, QtWidgets
-
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -497,7 +495,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuSkin.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.tabWidget_items.setCurrentIndex(3)
+        self.tabWidget_items.setCurrentIndex(0)
         self.stackedWidget_preprocessing_methods.setCurrentIndex(2)
         self.stackedWidget_dimreduction.setCurrentIndex(2)
         self.stackedWidget_feature_selection.setCurrentIndex(6)
@@ -586,3 +584,4 @@ class Ui_MainWindow(object):
         self.actionNavy.setText(_translate("MainWindow", "Navy"))
         self.actionClassic.setText(_translate("MainWindow", "Classic"))
         self.actionGet_all_available_configuraton.setText(_translate("MainWindow", "Get all available configuraton"))
+
