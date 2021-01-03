@@ -689,7 +689,9 @@ class DataLoader():
     
     data_format_: str, data format such as 'nii', 'mat'
     
-    self.affine_: 4 by 4 matrix, image affine
+    affine_: 4 by 4 matrix, image affine
+
+    id_: subject id
 
     Notes:
     -----
@@ -918,7 +920,6 @@ class DataLoader():
                 # Take the first column as __ID__, and the second as __Targets__
                 targets[gk].rename(columns={0:"__ID__", 1:"__Targets__"}, inplace=True)
             
-            unique_identifier_ = pd.DataFrame(unique_identifier_)
             targets[gk] = pd.merge(unique_identifier_, targets[gk], left_on="__ID__", right_on="__ID__", how='inner')
             if targets[gk].shape[0] != n_file:
                     raise ValueError(f"The subjects' ID in targets is not totally matched with its' data file name in {mk} of {gk} , check your ID in targets or check your data file name")
@@ -1010,22 +1011,16 @@ class DataLoader():
         if (targets_input == []) or (targets_input == ''):
             targets = None  # Clustering algorithm does not need targets
         
-        elif os.path.isfile(targets_input):
+        if os.path.isfile(targets_input):
             targets = self.base_read(targets_input) 
-        
-        elif not os.path.isfile(targets_input):
-            raise ValueError(f"The '{targets_input}' is not exist")
-        
         elif len(re.findall(r'[A-Za-z]', targets_input)):  # Contain alphabet
-            raise ValueError(f"The targets(labels) must be an Arabic numbers or file, but it contain alphabet, check your targets: '{targets_input}'")
+            raise ValueError(f"The '{targets_input}' is not exist OR The targets(labels) must be an Arabic numbers or file, but it contain alphabet, check your targets: '{targets_input}'")
             return
-        
         elif ' ' in targets_input:
             targets = targets_input.split(' ')
             targets = [int(targets_) for targets_ in targets]
             if len(targets) > 1:
               raise ValueError(f"The targets(labels) must be an integer or a file, check your targets: {targets_input}\n")
-        
         elif ',' in targets_input:
             targets = targets_input.split(',')
             targets = [int(targets_) for targets_ in targets]
