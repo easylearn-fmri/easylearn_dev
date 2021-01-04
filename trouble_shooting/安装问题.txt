@@ -1,0 +1,9 @@
+# 问题1
+### 导入模块时，提示numpy的问题，具体问题如下：
+>RuntimeError: The current Numpy installation ('D:\\Develop\\anaconda\\lib\\site-packages\\numpy\\__init__.py') fails to pass a sanity check due to a bug in the windows runtime. See this issue for more information:   
+
+### 解决方法为安装1.19.3版本的numpy(pip install numpy==1.19.3)。具体参考以下链接：
+https://www.weixiuzhan.cn/news/show-30424.html
+
+### 问题发现和提供解决方案者
+陈帅禹， 杭州师范大学
