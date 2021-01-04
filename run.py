@@ -5,5 +5,6 @@
 """
 
 def run():
+    print("Initializing...")
     from eslearn.GUI.easylearn_main_run import main
     main()

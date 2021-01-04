@@ -14,7 +14,6 @@ from eslearn.preprocessing.preprocessing import Denan
 from eslearn.machine_learning.classification._base_classification import BaseClassification
 from eslearn.machine_learning.classification._base_classification import StatisticalAnalysis
 from eslearn.model_evaluator import ModelEvaluator
-from eslearn.statistical_analysis import el_binomialtest
 
 
 class Classification(BaseMachineLearning, DataLoader, BaseClassification):

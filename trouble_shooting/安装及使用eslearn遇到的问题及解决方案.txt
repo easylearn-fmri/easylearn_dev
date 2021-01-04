@@ -1,0 +1,37 @@
+# 问题1
+#### 导入模块时，提示numpy的问题，具体问题如下：
+>RuntimeError: The current Numpy installation ('D:\\Develop\\anaconda\\lib\\site-packages\\numpy\\__init__.py') fails to pass a sanity check due to a bug in the windows runtime. See this issue for more information:   
+
+#### 解决方法
+安装1.19.3版本的numpy(pip install numpy==1.19.3)。具体参考以下链接：
+https://www.weixiuzhan.cn/news/show-30424.html
+
+#### 问题发现和提供解决方案者
+陈帅禹， 杭州师范大学
+  
+============================================================================ 
+# 问题2
+#### 如果您已经进入了python环境，当执行"pip install eslearn"时会报以下错误：
+> File "<stdin>", line 1  
+    pip install eslearn  
+              ^  
+SyntaxError: invalid syntax    
+
+#### 解决方法
+退出python环境("exit()")，到系统环境中去执行安装命令
+
+============================================================================ 
+
+# 问题3
+#### PyQt5版本问题
+ERROR: Could not find a version that satisfies the requirment PyQt5==5.12 (from eslearn)
+ERROR: No matching distribution found for PyQt5==5.12  
+
+#### 解决方法
+从https://pypi.org/search/?q=eslearn下载相应版本的eslearn，然后下载("Download files")eslearn的Wheel到本地。然后将终端切换到wheel所在目录，执行"pip install ***.whl"。  
+
+或者下载("Download files")eslearn的source到本地，并解压。然后将终端切换到source所在目录，执行"python setup.py install"。
+最后执行"pip install -r requirements.txt"
+
+#### 问题发现和提供解决方案者
+群友：落日余晖
