@@ -1055,68 +1055,7 @@ body .markdown-body
 .codehilite .vi{color:teal}
 .codehilite .il{color:#009999}
 .codehilite .gc{color:#999;background-color:#EAF2F5}
-</style><title>安装及使用eslearn遇到的问题及解决方案</title></head><body><article class="markdown-body"><h1 id="1">问题1<a class="headerlink" href="#1" title="Permanent link"></a></h1>
-<p>导入模块时，提示numpy的问题，具体问题如下： 
-RuntimeError: The current Numpy installation (‘D:\Develop\anaconda\lib\site-packages\numpy\init.py’) fails to pass a sanity check due to a bug in the windows runtime. See this issue for more information: </p>
-<h4 id="_1">解决方法<a class="headerlink" href="#_1" title="Permanent link"></a></h4>
-<p>安装1.19.3版本的numpy(pip install numpy==1.19.3)。具体参考以下链接： <a href="https://www.weixiuzhan.cn/news/show-30424.html">https://www.weixiuzhan.cn/news/show-30424.html</a></p>
-<h4 id="_2">问题发现和提供解决方案者<a class="headerlink" href="#_2" title="Permanent link"></a></h4>
-<p>陈帅禹， 杭州师范大学</p>
-<hr />
-<h1 id="2">问题2<a class="headerlink" href="#2" title="Permanent link"></a></h1>
-<p>如果您已经进入了python环境，当执行”pip install eslearn”时会报以下错误：
-File ““, line 1
-pip install eslearn
-^
-SyntaxError: invalid syntax </p>
-<h4 id="_3">解决方法<a class="headerlink" href="#_3" title="Permanent link"></a></h4>
-<p>退出python环境(“exit()”)，到系统环境中去执行安装命令</p>
-<hr />
-<h1 id="3">问题3<a class="headerlink" href="#3" title="Permanent link"></a></h1>
-<p>PyQt5版本问题
-ERROR: Could not find a version that satisfies the requirment PyQt5==5.12 (from eslearn) ERROR: No matching distribution found for PyQt5==5.12 </p>
-<h4 id="_4">解决方法<a class="headerlink" href="#_4" title="Permanent link"></a></h4>
-<p>从https://pypi.org/search/?q=eslearn下载相应版本的eslearn，然后下载(“Download files”)eslearn的Wheel到本地。然后将终端切换到wheel所在目录，执行”pip install ***.whl”。 
-或者下载(“Download files”)eslearn的source到本地，并解压。然后将终端切换到source所在目录，执行”python setup.py install”。 最后执行”pip install -r requirements.txt”</p>
-<hr />
-<h1 id="4">问题4<a class="headerlink" href="#4" title="Permanent link"></a></h1>
-<p>使用pip安装eslearn时报SSL错误：
-<img alt="" src="///D://My_Codes/virtualenv_eslearn/Lib/site-packages/eslearn/trouble_shooting/q4.png" />  </p>
-<h4 id="_5">解决方法<a class="headerlink" href="#_5" title="Permanent link"></a></h4>
-<p>pip install eslearn -i <a href="http://pypi.douban.com/simple/">http://pypi.douban.com/simple/</a> &ndash;trusted-host pypi.douban.com</p>
-<h4 id="_6">问题发现和提供解决方案者<a class="headerlink" href="#_6" title="Permanent link"></a></h4>
-<p>群友Sherry</p>
-<hr />
-<h1 id="5">问题5<a class="headerlink" href="#5" title="Permanent link"></a></h1>
-<p>使用pip安装eslearn时报如下错（网络连接）：
-<img alt="" src="///D://My_Codes/virtualenv_eslearn/Lib/site-packages/eslearn/trouble_shooting/q5.png" /> </p>
-<h4 id="_7">解决方法<a class="headerlink" href="#_7" title="Permanent link"></a></h4>
-<p>检查网络连接，关闭翻墙软件</p>
-<h4 id="_8">问题发现和提供解决方案者<a class="headerlink" href="#_8" title="Permanent link"></a></h4>
-<p>赵晓曦-上外-心理语言学和杭师大陈帅禹</p>
-<hr />
-<h1 id="6">问题6<a class="headerlink" href="#6" title="Permanent link"></a></h1>
-<p>安装eslearn时报如下错误：
-ModuleNotFoundError: No module named &ldquo;sklearn.neighbors._base&rdquo;
-<img alt="" src="///D://My_Codes/virtualenv_eslearn/Lib/site-packages/eslearn/trouble_shooting/q6.png" /> </p>
-<h4 id="_9">解决方法<a class="headerlink" href="#_9" title="Permanent link"></a></h4>
-<p>pip install &ndash;upgrade scikit-learn或conda update scikit-learn
-具体查看链接：<a href="https://blog.csdn.net/weixin_44357285/article/details/108216583">https://blog.csdn.net/weixin_44357285/article/details/108216583</a></p>
-<h4 id="_10">问题发现和提供解决方案者<a class="headerlink" href="#_10" title="Permanent link"></a></h4>
-<p>赵晓曦-上外-心理语言学</p>
-<hr />
-<h1 id="7">问题7<a class="headerlink" href="#7" title="Permanent link"></a></h1>
-<p>当执行”import eslearn as el”和”el.run()”后出现This application failed to start because it could not find or load the Qt platform plugin &ldquo;windows&rdquo;：</p>
-<h4 id="_11">解决方法<a class="headerlink" href="#_11" title="Permanent link"></a></h4>
-<p>右击“我的电脑”&mdash;左击“属性”&mdash;左击“高级系统设置”&mdash;左击“环境变量（N）”&mdash;在用户环境变量中添加一个新的变量名“QT_QPA_PLATFORM_PLUGIN_PATH”，其变量值为“YourPythonPath\Lib\site-packages\PyQt5\plugins”
-具体参考链接https://blog.csdn.net/a359680405/article/details/45077187</p>
-<h4 id="_12">问题发现和提供解决方案者<a class="headerlink" href="#_12" title="Permanent link"></a></h4>
-<p>盐”</p>
-<hr />
-<h1 id="8">问题8<a class="headerlink" href="#8" title="Permanent link"></a></h1>
-<p>当执行”import eslearn as el”和”el.run()”后出现DLL load failed while importing QtCore：找不到指定模块
-<img alt="" src="///D://My_Codes/virtualenv_eslearn/Lib/site-packages/eslearn/trouble_shooting/q8.png" /> </p>
-<h4 id="_13">解决方法<a class="headerlink" href="#_13" title="Permanent link"></a></h4>
-<p>执行pip uninstall PyQt5卸载PyQt5，然后执行pip install PyQt5安装PyQt5</p>
-<h4 id="_14">问题发现和提供解决方案者<a class="headerlink" href="#_14" title="Permanent link"></a></h4>
-<p>这家伙很懒</p></article></body></html>
+</style><title>README</title></head><body><article class="markdown-body"><h1 id="_1">此文件夹内的文件是为开发者准备的<a class="headerlink" href="#_1" title="Permanent link"></a></h1>
+<h3 id="how_to_update_your_folked_rep_with_originalmd">how_to_update_your_folked_rep_with_original.md<a class="headerlink" href="#how_to_update_your_folked_rep_with_originalmd" title="Permanent link"></a></h3>
+<div class="codehilite"><pre>- 如何保持与easylearn母仓库同步，及如何将自己的贡献加入到easylearn母项目仓库
+</pre></div></article></body></html>

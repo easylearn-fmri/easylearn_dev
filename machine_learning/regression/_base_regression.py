@@ -127,7 +127,8 @@ class BaseRegression(AbstractSupervisedMachineLearningBase):
                 x_ = np.array(x_reduced_selected).copy()
                 x_[:,ifeature] = 0
                 y_hat = estimator.predict(x_)
-                weights_[0, ifeature] = score_true - self.metric(y, y_hat)
+                # Be careful, in regression task, the assumed random metrics are greater than the real ones.
+                weights_[0, ifeature] = self.metric(y, y_hat) - score_true  
             
             # Back to original space
             weights_ = np.reshape(weights_, [1, -1])

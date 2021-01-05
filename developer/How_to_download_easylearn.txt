@@ -1,1 +1,1 @@
-pip3 install easylearn -i https://pypi.org/project/
+pip3 install eslearn -i https://pypi.org/project/
