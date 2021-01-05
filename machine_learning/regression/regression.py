@@ -68,7 +68,7 @@ class Regression(BaseMachineLearning, DataLoader, BaseRegression):
             self.fit_(self.model_, feature_train, target_train, self.memory)
 
             # Get weights
-            weights_, _ = self.get_weights_(feature_train, target_train)
+            _, weights_ = self.get_weights_(feature_train, target_train)
 
             # Predict
             y_prob = self.predict_(self.model_, feature_test)

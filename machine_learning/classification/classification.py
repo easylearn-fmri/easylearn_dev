@@ -14,6 +14,7 @@ from eslearn.preprocessing.preprocessing import Denan
 from eslearn.machine_learning.classification._base_classification import BaseClassification
 from eslearn.machine_learning.classification._base_classification import StatisticalAnalysis
 from eslearn.model_evaluator import ModelEvaluator
+from eslearn.statistical_analysis import el_binomialtest
 
 
 class Classification(BaseMachineLearning, DataLoader, BaseClassification):
@@ -72,7 +73,7 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
             self.fit_(self.model_, feature_train, target_train, self.memory)
             
             # Weights
-            weights_, _ = self.get_weights_(feature_train, target_train)
+            _, weights_ = self.get_weights_(feature_train, target_train)
             
             # Predict
             y_pred, y_prob = self.predict_(self.model_, feature_test)
