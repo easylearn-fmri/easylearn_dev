@@ -1,23 +1,13 @@
-# Set virtual environment
-method1: virtualenv  virtualenv_eslearn1
+# Set virtual environment (windows 10 system)
+method1: virtualenv  virtualenv_eslearn
 method2: mkvirtualenv virtualenv_eslearn
-virtualenv -p F:\Python3.6.5_V2\python.exe virtualenv_eslearn1
+method3: virtualenv -p F:\Python3.6.5_V2\python.exe virtualenv_eslearn
 
-# Check current environment 
+# Check current environment (PowerShell)
 $old_path = [environment]::GetEnvironmentvariable("Path", "User")
 
-# Configure dnnbrain
-$old_path = [environment]::GetEnvironmentvariable("DNNBRAIN_DATA", "User")
-$path_to_dnnbrain_data = 'F:\Python3.6.5\Lib\site-packages\dnnbrain\data'
-$new_path=$old_path,$path_to_dnnbrain_data -Join ";"
-[environment]::SetEnvironmentvariable("DNNBRAIN_DATA", $new_path, "User")
-
+# Add new_added_path to environment PATH (PowerShell)
 $old_path = [environment]::GetEnvironmentvariable("PATH", "User")
-$path_to_dnnbrain_data_bin = 'F:\Python3.6.5\Lib\site-packages\dnnbrain\data\bin1'
-$new_path=$old_path,$path_to_dnnbrain_data_bin -Join ";"
+$new_added_path = 'YourPath'
+$new_path = $old_path, $new_added_path -Join ";"
 [environment]::SetEnvironmentvariable("PATH", $new_path, "User")
-
-$old_path = [environment]::GetEnvironmentvariable("PYTHONPATH", "User")
-$path_to_dnnbrain = 'F:\Python3.6.5\Lib\site-packages\dnnbrain'
-$new_path=$old_path,$path_to_dnnbrain -Join ";"
-[environment]::SetEnvironmentvariable("PYTHONPATH", $new_path, "User")

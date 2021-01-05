@@ -250,25 +250,14 @@ class StatisticalAnalysis(BaseClassification):
         print("Statistical analysis...\n")
         if self.method_statistical_analysis == "Binomial/Pearson-R test":
             pvalue_acc, pvalue_sens, pvalue_spec, pvalue_auc = self.binomial_test()
-            permuted_accuracy, permuted_sensitivity, permuted_specificity, permuted_auc = None, None, None, None
+            permuted_score = None
         elif self.method_statistical_analysis == "Permutation test":
-            pvalue_acc, pvalue_sens, pvalue_spec, pvalue_auc,\
-                permuted_accuracy, permuted_sensitivity, permuted_specificity, permuted_auc = self.permutation_test()
+            pvalue_acc, pvalue_sens, pvalue_spec, pvalue_auc = self.permutation_test()
 
         # Save outputs
         self.outputs = {}
-        self.outputs.update({
-                                "pvalue_acc": pvalue_acc, 
-                                "pvalue_sens": pvalue_sens, 
-                                "pvalue_spec": pvalue_spec, 
-                                "pvalue_auc": pvalue_auc,
-                                "permuted_accuracy": permuted_accuracy,
-                                "permuted_sensitivity": permuted_sensitivity,
-                                "permuted_specificity": permuted_specificity,
-                                "permuted_auc": permuted_auc
-                            }
-        )
-
+        self.outputs.update({"pvalue_acc": pvalue_acc, "pvalue_sens": pvalue_sens, 
+                            "pvalue_spec": pvalue_spec, "pvalue_auc": pvalue_auc})
         pickle.dump(self.outputs, open(os.path.join(self.out_dir, "stat.pickle"), "wb"))
         return self
 
@@ -285,12 +274,12 @@ class StatisticalAnalysis(BaseClassification):
     def permutation_test(self):
         print(f"Permutation test: {self.time_permutation} times...\n")
                 
-        permuted_accuracy = []
-        permuted_sensitivity = []
-        permuted_specificity = []
-        permuted_auc = []
+        self.permuted_accuracy = []
+        self.permuted_sensitivity = []
+        self.permuted_specificity = []
+        self.permuted_auc = []
         for i in range(self.time_permutation):
-            print(f"{i+1}/{self.time_permutation}...")
+            print(f"{i+1}/{self.time_permutation}...\n")
             # Get training and test datasets         
             accuracy = []
             sensitivity = []
@@ -331,20 +320,19 @@ class StatisticalAnalysis(BaseClassification):
                 AUC.append(auc_)
              
             # Average performances of one permutation
-            permuted_accuracy.append(np.mean(accuracy))
-            permuted_sensitivity.append(np.mean(sensitivity))
-            permuted_specificity.append(np.mean(specificity))
-            permuted_auc.append(np.mean(AUC))
+            self.permuted_accuracy.append(np.mean(accuracy))
+            self.permuted_sensitivity.append(np.mean(sensitivity))
+            self.permuted_specificity.append(np.mean(specificity))
+            self.permuted_auc.append(np.mean(AUC))
 
         # Get p values
-        pvalue_acc = self.calc_pvalue(permuted_accuracy, np.mean(self.real_accuracy))
-        pvalue_sens = self.calc_pvalue(permuted_sensitivity, np.mean(self.real_sensitivity))
-        pvalue_spec = self.calc_pvalue(permuted_specificity, np.mean(self.real_specificity))
-        pvalue_auc = self.calc_pvalue(permuted_auc, np.mean(self.real_auc))
+        pvalue_acc = self.calc_pvalue(self.permuted_accuracy, np.mean(self.real_accuracy))
+        pvalue_sens = self.calc_pvalue(self.permuted_sensitivity, np.mean(self.real_sensitivity))
+        pvalue_spec = self.calc_pvalue(self.permuted_specificity, np.mean(self.real_specificity))
+        pvalue_auc = self.calc_pvalue(self.permuted_auc, np.mean(self.real_auc))
         
         print(f"p value for acc = {pvalue_acc:.3f}")
-        return (pvalue_acc, pvalue_sens, pvalue_spec, pvalue_auc,
-                permuted_accuracy, permuted_sensitivity, permuted_specificity, permuted_auc)
+        return pvalue_acc, pvalue_sens, pvalue_spec, pvalue_auc
 
     @staticmethod
     def calc_pvalue(permuted_performance, real_performance):
