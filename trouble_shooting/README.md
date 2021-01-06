@@ -78,3 +78,13 @@ pip install --upgrade scikit-learn或conda update scikit-learn
 #### 问题发现和提供解决方案者  
 这家伙很懒
 
+-----
+# 问题9
+MacOS Big Sur 11.0.1版本不能开启eslearn GUI的问题
+![](./q9.jpg) 
+#### 解决方法  
+安装低版本的PyQt5（5.12版本测试通过）
+执行pip install PyQt5==5.12 -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+#### 问题发现和提供解决方案者  
+中国医科大学精神医学科/脑功能研究室 赵文晖
