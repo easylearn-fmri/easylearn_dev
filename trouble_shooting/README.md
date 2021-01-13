@@ -101,3 +101,26 @@ MacOS Big Sur 11.0.1版本不能开启eslearn GUI的问题
 
 #### 问题发现和提供解决方案者  
 王龙伦
+
+-----
+# 问题11
+安装python库出现权限问题
+![](./q11.jpg) 
+
+#### 解决方法  
+pip install --user Package
+注：把Package 替换成你想要安装的库就行 
+
+#### 问题发现和提供解决方案者  
+旷野的神
+
+-----
+# 问题12
+ImportError: C extension: No module named 'pandas._libs.interval' not built. If you want to import pandas from the source directory, you may need to run 'python setup.py build_ext --inplace --force' to build the C extensions first.
+
+#### 解决方法  
+pip uninstall pandas  
+pip install pandas
+
+#### 问题发现和提供解决方案者  
+旷野的神

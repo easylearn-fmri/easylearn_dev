@@ -116,3 +116,4 @@ If the program runs successfully, some results file will be generated under the 
 - Add evaluation method in the model_evaluation module for multiple-class classification
 - Add user-defined cross-validation in the model_evaluation module.
 - Add Decision Curve Analysis plot in the model_evaluation module.
+- Support vertex data

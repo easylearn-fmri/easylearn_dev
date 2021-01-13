@@ -2,10 +2,9 @@
 
 # Form implementation generated from reading ui file '.\easylearn_data_loading_gui.ui'
 #
-# Created by: PyQt5 UI code generator 5.12.3
+# Created by: PyQt5 UI code generator 5.12
 #
 # WARNING! All changes made in this file will be lost!
-
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
@@ -291,7 +290,7 @@ class Ui_MainWindow(object):
         self.pushButton_removefiles.setText(_translate("MainWindow", "Remove"))
         self.pushButton_addfiles.setWhatsThis(_translate("MainWindow", "<html><head/><body><p>push the button then close program</p></body></html>"))
         self.pushButton_addfiles.setText(_translate("MainWindow", "Add"))
-        self.label_file.setText(_translate("MainWindow", "Files"))
+        self.label_file.setText(_translate("MainWindow", "Features"))
         self.pushButton_clearfiles.setText(_translate("MainWindow", "Clear"))
         self.menuConfiguration_file.setTitle(_translate("MainWindow", "Configuration file(&F)"))
         self.menuHelp_H.setTitle(_translate("MainWindow", "Help(&H)"))
@@ -308,3 +307,5 @@ class Ui_MainWindow(object):
         self.actionNavy.setText(_translate("MainWindow", "Navy"))
         self.actionClassic.setText(_translate("MainWindow", "Classic"))
         self.actionLight.setText(_translate("MainWindow", "Light"))
+
+

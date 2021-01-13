@@ -187,12 +187,12 @@ class ModelEvaluator():
             
             bid = np.arange(0,len(performances))
             for (ibar, perf_, std_) in zip (bid, performances, std):
-                ax[2].text(ibar, 0.2, f"{perf_:.2f}±{std_:.2f}", rotation=90) 
+                ax[2].text(ibar, 0.1, f"{perf_:.2f}±{std_:.2f}", rotation=90) 
         else:
             performances = [accuracy, sensitivity, specificity, auc]
             ax[2].bar(np.arange(0, len(performances)), performances, linewidth=2, color='darkturquoise')
             
-            [ax[2].text(ibar,0.2, f"{perf_:.2f}", rotation=0) for (ibar, perf_) in zip (performances, np.arange(0,len(performances)))]
+            [ax[2].text(ibar,0.1, f"{perf_:.2f}", rotation=0) for (ibar, perf_) in zip (performances, np.arange(0,len(performances)))]
 
         ax[2].tick_params(labelsize=12)
         ax[2].set_title('Classification performances', fontsize=12, fontweight='bold')
