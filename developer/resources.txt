@@ -10,3 +10,6 @@
 - Count encoding
 - Target encoding       
 - one-hot encoding
+
+# Hummingbird: Hummingbird is a library for compiling trained traditional ML models into tensor computations.
+# DESlib: dynamic classifier and ensemble selection
