@@ -137,20 +137,17 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
             s_news = "__news__ = (None)##endLabel##"
             pattern = re.compile(s_news)
             news = pattern.findall(text)[0]
-            if news != "None":
+            if news == "None":
                 webbrowser.open("https://github.com/easylearn-fmri/easylearn_dev/blob/dev/news.md", new=0, autoraise=True) 
     
             if eval(new_version.split(".")[0]) > eval(old_version.split(".")[0]):
-                QMessageBox.information(self, "Version information", f"You are using eslearn version {old_version}, however version {new_version} is available")
-                QMessageBox.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
-
+                self.textBrowser.setText(f"You are using eslearn version {old_version}, however version {new_version} is available")
+            
             elif eval(new_version.split(".")[1]) > eval(old_version.split(".")[1]):
-                QMessageBox.information(self, "Version information", f"You are using eslearn version {old_version}, however version {new_version}is available")
-                QMessageBox.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+                self.textBrowser.setText(f"You are using eslearn version {old_version}, however version {new_version} is available")
 
             elif eval(new_version.split(".")[2]) > eval(old_version.split(".")[2]):
-                QMessageBox.information(self, "Version information", f"You are using eslearn version {old_version}, however version {new_version} is available")
-                QMessageBox.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+                self.textBrowser.setText(f"You are using eslearn version {old_version}, however version {new_version} is available")
 
     def set_run_appearance(self):
         winsep = "\\"
