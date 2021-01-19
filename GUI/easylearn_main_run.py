@@ -117,11 +117,17 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         
         try:
             ss=time.time()
-            r = requests.get('https://github.com/easylearn-fmri/easylearn_dev/blob/dev/eslearn_news.txt')
+            r = requests.get('https://github.com/easylearn-fmri/easylearn_dev/blob/dev/eslearn_news.txt', timeout=10)
             text = r.text
             ee = time.time()
             print(ee-ss)
+        
+        except Exception as e:
+            print("Time out (10 sec) when detecting new version!\nPlease check your network connection")
+            text = ""
+            
         except ConnectionError: 
+            print("Time out (10 sec) when detecting new version!\nPlease check your network connection")
             text = ""
         
         # Version
@@ -130,14 +136,13 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
             pattern = re.compile(s_version)
             new_version = pattern.findall(text)[0]
             old_version = eslearn.__version__
-            old_version = '1.0.2'
             
             # News
             ss=time.time()
             s_news = "__news__ = (None)##endLabel##"
             pattern = re.compile(s_news)
             news = pattern.findall(text)[0]
-            if news == "None":
+            if news != "None":
                 webbrowser.open("https://github.com/easylearn-fmri/easylearn_dev/blob/dev/news.md", new=0, autoraise=True) 
     
             if eval(new_version.split(".")[0]) > eval(old_version.split(".")[0]):
