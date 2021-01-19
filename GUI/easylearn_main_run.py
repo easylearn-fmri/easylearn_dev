@@ -20,6 +20,7 @@ import time
 import os
 import json
 import cgitb
+import webbrowser
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, qApp, QMainWindow, QMessageBox, QFileDialog, QInputDialog, QLineEdit, QSplashScreen
 from PyQt5.QtGui import QIcon, QPixmap
@@ -90,40 +91,10 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
 
         # Set initial skin
         self.setStyleSheet(pyqt5_loader.load_stylesheet_pyqt5(style="style_Dark"))
-
-        # Easylearn news
-        ss=time.time()
-        r = requests.get('https://github.com/easylearn-fmri/easylearn_dev/blob/dev/eslearn_news.txt')
-        text = r.text
-        ee = time.time()
-        print(ee-ss)
-        s_version = "__version__ = (\d+.\d+.\d+)##endLabel##"
-        s_news = "__news__ = (None)##endLabel##"
         
-        
-        pattern = re.compile(s_version)
-        new_version = pattern.findall(text)[0]
-        old_version = eslearn.__version__
-        old_version = '1.0.2'
-        
-        pattern = re.compile(s_news)
-        news = pattern.findall(text)[0]
-        if news != "None":
-            webbrowser.open(url, new=0, autoraise=True) 
-        
-        
-        if eval(new_version.split(".")[0]) > eval(old_version.split(".")[0]):
-            QMessageBox.about(self, "Version information", f"You are using eslearn version {old_version}, however version {new_version} is available")
-        
-        elif eval(new_version.split(".")[1]) > eval(old_version.split(".")[1]):
-            QMessageBox.about(self, "Version information", f"You are using eslearn version {old_version}, however version {new_version}is available")
-            
-        elif eval(new_version.split(".")[2]) > eval(old_version.split(".")[2]):
-            QMessageBox.about(self, "Version information", f"You are using eslearn version {old_version}, however version {new_version} is available")
-        
-        ee = time.time()
-        print(ee-ss)
-        
+        # Dectecting versionn and news
+        self.detect_version()
+      
     def start_process(self):
         splash = QSplashScreen(QtGui.QPixmap(os.path.join(self.root_dir,"logo/logo-upper.ico")))
         splash.showMessage("... 0%", QtCore.Qt.AlignHCenter | QtCore.Qt.AlignBottom, QtCore.Qt.black)
@@ -133,12 +104,53 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         self.progress(splash)
         splash.show()
         splash.finish(self)
-
+    
     def progress(self, sp):
         for i in range(1, 10):
             time.sleep(0.2)
             sp.showMessage(f"Initializing... {(i+1)*10}%", QtCore.Qt.AlignHCenter |QtCore.Qt.AlignBottom, QtCore.Qt.black)
             QtWidgets.qApp.processEvents()
+            
+    def detect_version(self):
+        print("Detecting new version...")
+        # Easylearn version and news
+        
+        try:
+            ss=time.time()
+            r = requests.get('https://github.com/easylearn-fmri/easylearn_dev/blob/dev/eslearn_news.txt')
+            text = r.text
+            ee = time.time()
+            print(ee-ss)
+        except ConnectionError: 
+            text = ""
+        
+        # Version
+        if text != "":
+            s_version = "__version__ = (\d+.\d+.\d+)##endLabel##"
+            pattern = re.compile(s_version)
+            new_version = pattern.findall(text)[0]
+            old_version = eslearn.__version__
+            old_version = '1.0.2'
+            
+            # News
+            ss=time.time()
+            s_news = "__news__ = (None)##endLabel##"
+            pattern = re.compile(s_news)
+            news = pattern.findall(text)[0]
+            if news != "None":
+                webbrowser.open("https://github.com/easylearn-fmri/easylearn_dev/blob/dev/news.md", new=0, autoraise=True) 
+    
+            if eval(new_version.split(".")[0]) > eval(old_version.split(".")[0]):
+                QMessageBox.information(self, "Version information", f"You are using eslearn version {old_version}, however version {new_version} is available")
+                QMessageBox.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+
+            elif eval(new_version.split(".")[1]) > eval(old_version.split(".")[1]):
+                QMessageBox.information(self, "Version information", f"You are using eslearn version {old_version}, however version {new_version}is available")
+                QMessageBox.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+
+            elif eval(new_version.split(".")[2]) > eval(old_version.split(".")[2]):
+                QMessageBox.information(self, "Version information", f"You are using eslearn version {old_version}, however version {new_version} is available")
+                QMessageBox.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
 
     def set_run_appearance(self):
         winsep = "\\"
