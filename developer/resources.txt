@@ -4,3 +4,12 @@
 
 ## StackNet: 
 - https://github.com/kaz-Anova/StackNet
+
+## Feature engineering
+- https://www.cnblogs.com/tangxiaobo199181/p/12203808.html
+- Count encoding
+- Target encoding       
+- one-hot encoding
+
+# Hummingbird: Hummingbird is a library for compiling trained traditional ML models into tensor computations.
+# DESlib: dynamic classifier and ensemble selection

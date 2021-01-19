@@ -41,6 +41,8 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
         self.real_specificity = []
         self.real_auc = []
         self.pred_label = []
+        preprocessor = []
+        models = []
         pred_prob = []
         weights = []
         self.target_test_all = []
@@ -58,6 +60,7 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
             self.prep_ = Denan(how='median')
             feature_train = self.prep_.fit_transform(feature_train)
             feature_test = self.prep_.transform(feature_test)
+            preprocessor.append(self.prep_)
 
             # Extend sorted real target of test data
             self.target_test_all.extend(target_test)
@@ -71,7 +74,8 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
             
             # Fit
             self.fit_(self.model_, feature_train, target_train, self.memory)
-            
+            models.append(self.model_)
+
             # Weights
             _, weights_ = self.get_weights_(feature_train, target_train)
             
@@ -115,7 +119,7 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
         
         # Save outputs
         self.outputs = { 
-            "preprocessor": self.prep_, "model":self.model_, 
+            "preprocessor": preprocessor, "model":models, 
             "subname": subname, "test_targets": self.target_test_all, "test_prediction": self.pred_label, 
             "test_probability": pred_prob, "accuracy": self.real_accuracy,
             "sensitivity": self.real_sensitivity, "specificity":self.real_specificity, "auc": self.real_auc

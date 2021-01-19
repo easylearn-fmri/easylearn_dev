@@ -46,6 +46,7 @@ class Regression(BaseMachineLearning, DataLoader, BaseRegression):
         self.target_test_all = []
         self.pred_prob = []
         self.real_score = []
+        models = []
         weights = []
         subname = []
         for train_index, test_index in self.method_model_evaluation_.split(self.features_, self.targets_):
@@ -58,6 +59,7 @@ class Regression(BaseMachineLearning, DataLoader, BaseRegression):
             self.prep_ = Denan(how='median')
             feature_train = self.prep_.fit_transform(feature_train)
             feature_test = self.prep_.transform(feature_test)
+            preprocessor.append(self.prep_)
                 
             self.target_test_all.extend(target_test)
 
@@ -66,7 +68,8 @@ class Regression(BaseMachineLearning, DataLoader, BaseRegression):
             
             # Fit
             self.fit_(self.model_, feature_train, target_train, self.memory)
-
+            models.append(self.model_)
+            
             # Get weights
             _, weights_ = self.get_weights_(feature_train, target_train)
 
@@ -92,7 +95,7 @@ class Regression(BaseMachineLearning, DataLoader, BaseRegression):
         
         # Save outputs
         self.outputs = { 
-            "preprocessor": self.prep_, "model":self.model_,
+            "preprocessor": preprocessor, "model":models,
             "subname": subname, "test_targets": self.target_test_all, 
             "test_probability": self.pred_prob, "score": self.real_score 
         }

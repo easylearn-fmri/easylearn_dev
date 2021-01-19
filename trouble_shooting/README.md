@@ -78,3 +78,49 @@ pip install --upgrade scikit-learn或conda update scikit-learn
 #### 问题发现和提供解决方案者  
 这家伙很懒
 
+-----
+# 问题9
+MacOS Big Sur 11.0.1版本不能开启eslearn GUI的问题
+![](./q9.jpg) 
+#### 解决方法  
+安装低版本的PyQt5（5.12版本测试通过）
+执行pip install PyQt5==5.12 -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+#### 问题发现和提供解决方案者  
+中国医科大学精神医学科/脑功能研究室 赵文晖
+
+-----
+# 问题10
+如果安装了Python，但是在终端用pip安装包提示没有pip这个命令或者模块时
+一般都是没有把python和相关路径设置到系统环境，如何设置windows的环境变量
+
+#### 解决方法  
+右击“我的电脑”---左击“属性”---左击“高级系统设置”---左击“环境变量（N）出现如下图片：  
+![](./q10.png)   
+进入PATH中，把Python根目录和Python\Scripts加入到PATH中
+
+#### 问题发现和提供解决方案者  
+王龙伦
+
+-----
+# 问题11
+安装python库出现权限问题
+![](./q11.jpg) 
+
+#### 解决方法  
+pip install --user Package
+注：把Package 替换成你想要安装的库就行 
+
+#### 问题发现和提供解决方案者  
+旷野的神
+
+-----
+# 问题12
+ImportError: C extension: No module named 'pandas._libs.interval' not built. If you want to import pandas from the source directory, you may need to run 'python setup.py build_ext --inplace --force' to build the C extensions first.
+
+#### 解决方法  
+pip uninstall pandas  
+pip install pandas
+
+#### 问题发现和提供解决方案者  
+旷野的神
