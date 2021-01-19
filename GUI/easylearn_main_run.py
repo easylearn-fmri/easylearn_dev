@@ -14,6 +14,8 @@ License: MIT
 
 
 import sys
+import re
+import requests
 import time
 import os
 import json
@@ -88,6 +90,32 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
 
         # Set initial skin
         self.setStyleSheet(pyqt5_loader.load_stylesheet_pyqt5(style="style_Dark"))
+
+        # Easylearn news
+        ss=time.time()
+        r = requests.get('https://github.com/easylearn-fmri/easylearn_dev/blob/dev/eslearn_news.txt')
+        text = r.text
+        s_version = "__version__ = (\d+.\d+.\d+)##endLabel##"
+        s_news = "__news__ = (None)##endLabel##"
+        
+        pattern = re.compile(s_version)
+        new_version = pattern.findall(text)[0]
+        old_version = eslearn.__version__
+        old_version = '1.0.2'
+        
+        
+        
+        if eval(new_version.split(".")[0]) > eval(old_version.split(".")[0]):
+            QMessageBox.about(self, "Version information", f"You are using eslearn version {old_version}, however version {new_version} is available")
+        
+        elif eval(new_version.split(".")[1]) > eval(old_version.split(".")[1]):
+            QMessageBox.about(self, "Version information", f"You are using eslearn version {old_version}, however version {new_version}is available")
+            
+        elif eval(new_version.split(".")[2]) > eval(old_version.split(".")[2]):
+            QMessageBox.about(self, "Version information", f"You are using eslearn version {old_version}, however version {new_version} is available")
+        
+        ee = time.time()
+        print(ee-ss)
         
     def start_process(self):
         splash = QSplashScreen(QtGui.QPixmap(os.path.join(self.root_dir,"logo/logo-upper.ico")))
