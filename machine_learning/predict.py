@@ -10,6 +10,7 @@ import numpy as np
 import pandas as pd
 import pickle
 from eslearn.base import BaseMachineLearning, DataLoader
+from eslearn.model_evaluator import ModelEvaluator
 
 
 class Predict():
@@ -41,7 +42,6 @@ class Predict():
         """
 
         # Load model
-        self.model_file = r"F:\线上讲座\demo_data\szVShc_fc\outputs.pickle"
         output = pickle.load(open(self.model_file, "rb"))
         preprocessor = output["preprocessor"]
         best_model = output["model"]
@@ -49,7 +49,6 @@ class Predict():
             best_model = best_model.best_estimator_
 
         # Get data
-        self.data_file = './dataLoadingTest.json'
         data_loader = DataLoader(configuration_file=self.data_file)
         data_loader.load_data()
         feature = data_loader.features_  
@@ -80,39 +79,45 @@ class Predict():
                 pred_prob = predict_label
         
         # Get voted predict label
-        
-        
+        final_label = self.vote(predict_label)
+        final_prob = np.mean(pred_prob,0)
         
         # Evaluation
-        # acc, auc, f1, confmat, report = model.evaluate(predict_label, predict_proba, predict_label)
-        # print(f"Test dataset:\nacc = {acc}\nf1score = {f1}\nauc = {auc}\n")
+        acc, sens, spec, _, _ = ModelEvaluator().binary_evaluator(
+            target, final_label, final_prob,
+            verbose=1, is_showfig=False, is_savefig=False
+        )
 
-        return predict_proba, predict_label
+        return acc, sens, spec
+
+    @staticmethod
+    def vote(labels):
+        labels = np.array(labels)
+        [n_models, n_cases] = np.shape(labels)
+        final_label = []
+        for i in range(n_cases):
+            num = labels[:,i]
+            result = {}
+            for j in range(n_models):
+                if result.get(labels[j,i]) == None:
+                    result[labels[j,i]] = 1
+                else:
+                    result[labels[j,i]] += 1
+            
+            ct = -np.inf
+            for k in result.keys():
+                if result[k] > ct:
+                    ct = result[k]
+                    fl = k
+            final_label.append(fl)
+        
+        return np.array(final_label)
+                    
 
 
-if __name__ == "__main__":
-    # Predict
-    predict_proba, predict_label = app(data_file=data_file, metric="all", include_diagnoses=include_diagnoses, 
-        num_sub=num_sub, feature_name=feature_name, label_name=label_name, model_file=model_file
-    )
-    
-   
-   
-# Inputs
-model_file = "./outputs.pickle"
-
-# Load
-output = pickle.load(open(model_file, "rb"))
-
-#%% Print features after each step (search)
-best_model = output["model"]
-if hasattr(best_model, "best_estimator_"):
-    best_model = best_model.best_estimator_
-
-print("#"*30, "\n")
-dr = best_model['dim_reduction']
-print(f"Dimension reduction: feature number from {dr.n_features_} to {dr.n_components_}\n")
-
-fs = best_model['feature_selection']
-print(f"Feature selection: feature number from {fs.n_features_in_} to {fs.n_features_}\n")
-print("#"*30, "\n")
+if __name__ == "__main__":   
+  model_file = r"F:\线上讲座\demo_data\szVShc_fc\outputs.pickle"
+  data_file = r'D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\machine_learning\tests/dataLoadingTest.json'
+     
+  pred = Predict(data_file, model_file)
+  acc, sens, spec = pred.run()
