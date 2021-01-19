@@ -95,14 +95,21 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         ss=time.time()
         r = requests.get('https://github.com/easylearn-fmri/easylearn_dev/blob/dev/eslearn_news.txt')
         text = r.text
+        ee = time.time()
+        print(ee-ss)
         s_version = "__version__ = (\d+.\d+.\d+)##endLabel##"
         s_news = "__news__ = (None)##endLabel##"
+        
         
         pattern = re.compile(s_version)
         new_version = pattern.findall(text)[0]
         old_version = eslearn.__version__
         old_version = '1.0.2'
         
+        pattern = re.compile(s_news)
+        news = pattern.findall(text)[0]
+        if news != "None":
+            webbrowser.open(url, new=0, autoraise=True) 
         
         
         if eval(new_version.split(".")[0]) > eval(old_version.split(".")[0]):
