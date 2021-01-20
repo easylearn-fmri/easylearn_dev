@@ -8,6 +8,7 @@ import pandas as pd
 from collections import Counter
 import pickle
 import nibabel as nib
+from progressbar import Percentage, ProgressBar, Bar, Timer, ETA
 
 from eslearn.base import BaseMachineLearning, DataLoader
 from eslearn.preprocessing.preprocessing import Denan
@@ -47,6 +48,12 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
         weights = []
         self.target_test_all = []
         subname = []
+        kfold = self.method_model_evaluation_.n_splits
+        # print("\n")
+        count = 0
+        widgets = ['Machine learning', Percentage(), ' ', Bar('='),' ', Timer(),  ' ', ETA()]
+        pbar = ProgressBar(widgets=widgets, maxval=kfold).start()
+    
         for train_index, test_index in self.method_model_evaluation_.split(self.features_, self.targets_):
             feature_train = self.features_[train_index, :]
             feature_test = self.features_[test_index, :]
@@ -68,9 +75,10 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
             # Resample
             imbalance_resample = self.method_unbalance_treatment_
             if imbalance_resample:
-                print(f"Before re-sampling, the sample size are: {sorted(Counter(target_train).items())}")
+                # print(f"Before re-sampling, the sample size are: {sorted(Counter(target_train).items())}")
                 feature_train, target_train = imbalance_resample.fit_resample(feature_train, target_train)
-                print(f"After re-sampling, the sample size are: {sorted(Counter(target_train).items())}")
+                # print(f"After re-sampling, the sample size are: {sorted(Counter(target_train).items())}")
+                # print("\n")
             
             # Fit
             self.fit_(self.model_, feature_train, target_train, self.memory)
@@ -96,7 +104,13 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
             self.pred_label.extend(y_pred)
             pred_prob.extend(y_prob)
             weights.append(weights_)
+            
+            # Progress bar
+            count += 1
+            pbar.update(count)
+            # print("\n")
         
+        pbar.finish()
         
         # Save weight
         self.save_weight(weights, self.out_dir)
@@ -127,6 +141,7 @@ class Classification(BaseMachineLearning, DataLoader, BaseClassification):
 
         pickle.dump(self.outputs, open(os.path.join(self.out_dir, "outputs.pickle"), "wb"))
         
+        print("\n")
         return self
 
     def run_statistical_analysis(self):
@@ -155,12 +170,7 @@ if __name__ == "__main__":
     clf = Classification(configuration_file=r'D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\machine_learning\classification\tests\clf_configuration.json', 
                          out_dir=r"D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\machine_learning\classification\tests") 
     clf.main_run()
-    time_end = time.time()
-    # print(clf.param_search_)
-    # print(clf.pipeline_)
-    print(f"Running time = {time_end-time_start}\n")
-    print("="*50)
-    
+
     clf.run_statistical_analysis()
     
     
