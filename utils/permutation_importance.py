@@ -6,7 +6,9 @@ from eli5.permutation_importance import get_score_importances
 
 class PermutationImportance_(object):
     """
-    see https://www.kaggle.com/dansbecker/permutation-importance for details
+    see https://eli5.readthedocs.io/en/latest/blackbox/permutation_importance.html
+    and see https://www.kaggle.com/dansbecker/permutation-importance 
+    for details
 
     Parameters:
     -----------
