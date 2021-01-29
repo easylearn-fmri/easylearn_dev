@@ -11,5 +11,12 @@
 - Target encoding       
 - one-hot encoding
 
-# Hummingbird: Hummingbird is a library for compiling trained traditional ML models into tensor computations.
-# DESlib: dynamic classifier and ensemble selection
+## Hummingbird: Hummingbird is a library for compiling trained traditional ML models into tensor computations.
+
+## DESlib: dynamic classifier and ensemble selection
+
+## http://rasbt.github.io/mlxtend/
+- from mlxtend.plotting import plot_decision_regions
+
+## Kaggle learn
+- Machine Learning Explainablility notebook.

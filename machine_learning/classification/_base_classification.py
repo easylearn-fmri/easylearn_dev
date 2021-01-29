@@ -323,8 +323,6 @@ class StatisticalAnalysis(BaseClassification):
                 specificity.append(spec)
                 AUC.append(auc_)
             
-            
-            
             # Average performances of one permutation
             self.permuted_accuracy.append(np.mean(accuracy))
             self.permuted_sensitivity.append(np.mean(sensitivity))
