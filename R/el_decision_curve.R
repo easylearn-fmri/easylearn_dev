@@ -5,8 +5,6 @@ library(rms)
 #### Load data ####
 data <- read_excel('D:/My_Codes/lc_private_codes/R/demo_data1.xlsx', sheet = 1)
 data <- data.frame(data)
-format_str = "label ~ Sex + Age"
-# nomo(data, format_str)
 
 #### Classification ####
 model1 <- lrm(label ~ Sex + Age, data)
