@@ -8,6 +8,7 @@ import numpy as np
 import os
 import pickle
 import time
+from progressbar import Percentage, ProgressBar, Bar, Timer, ETA
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
 from sklearn.model_selection import StratifiedKFold, KFold
@@ -63,7 +64,7 @@ class BaseClassification():
         weights_ = None
         weights_norm_ = None
 
-    @timer 
+    # @timer 
     def fit_(self, model, x=None, y=None, memory=None):
         """Fit the scikit-learn search or pipeline model
         """
@@ -278,8 +279,11 @@ class StatisticalAnalysis(BaseClassification):
         self.permuted_sensitivity = []
         self.permuted_specificity = []
         self.permuted_auc = []
+        count = 0
+        widgets = ['Permutation testing', Percentage(), ' ', Bar('='),' ', Timer(),  ' ', ETA()]
+        pbar = ProgressBar(widgets=widgets, maxval=self.time_permutation).start()
+        
         for i in range(self.time_permutation):
-            print(f"{i+1}/{self.time_permutation}...\n")
             # Get training and test datasets         
             accuracy = []
             sensitivity = []
@@ -318,12 +322,18 @@ class StatisticalAnalysis(BaseClassification):
                 sensitivity.append(sens)
                 specificity.append(spec)
                 AUC.append(auc_)
-             
+            
             # Average performances of one permutation
             self.permuted_accuracy.append(np.mean(accuracy))
             self.permuted_sensitivity.append(np.mean(sensitivity))
             self.permuted_specificity.append(np.mean(specificity))
             self.permuted_auc.append(np.mean(AUC))
+            
+            # Progress bar
+            pbar.update(count)
+            count += 1
+        
+        pbar.finish()
 
         # Get p values
         pvalue_acc = self.calc_pvalue(self.permuted_accuracy, np.mean(self.real_accuracy))
