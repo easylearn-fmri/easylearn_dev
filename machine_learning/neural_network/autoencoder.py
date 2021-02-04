@@ -14,10 +14,9 @@ from mpl_toolkits.mplot3d import Axes3D
 import time
 
 starttime = time.time()
-torch.manual_seed(1)
 
 #%% Super-parameters
-EPOCH = 10
+EPOCH = 1
 BATCH_SIZE = 200
 LEARNINGRATE = 0.005
 
@@ -36,6 +35,8 @@ loader = Data.DataLoader(dataset=train_data, batch_size=BATCH_SIZE, shuffle=True
 # plt.imshow(train_data.train_data[2].numpy(),cmap='Greys')
 # plt.title('%i'%train_data.train_labels[2])
 # plt.show()
+
+torch.manual_seed(1)
 
 #%% Building AutoEncoder network
 class AutoEncoder(nn.Module):
@@ -86,6 +87,13 @@ class AutoEncoder(nn.Module):
 #%% Training the network
 Coder = AutoEncoder()
 print(Coder)
+
+# Using xavier_uniform to initialize the nn.Linear weights and bias
+def init_weights(m):
+    if type(m) == nn.Linear:
+        torch.nn.init.xavier_uniform(m.weight)
+        m.bias.data.fill_(0.01)
+Coder.apply(init_weights)
 
 optimizer = torch.optim.Adam(Coder.parameters(), lr=LEARNINGRATE)
 loss_func = nn.MSELoss()
