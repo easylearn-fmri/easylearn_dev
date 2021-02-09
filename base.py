@@ -1176,7 +1176,7 @@ class DataLoader():
         """
         
         unique_identifier = [os.path.basename(file).split(".")[0] for file in files]
-        unique_identifier = [re.findall(r'.*(sub.?[0-9].*).*', name)[0] if re.findall(r'.*(sub.?[0-9].*).*', name) != [] else "" for name in unique_identifier]
+        unique_identifier = [re.findall(r'.*(sub.?[0-9]+).*', name)[0] if re.findall(r'.*(sub.?[0-9]+).*', name) != [] else "" for name in unique_identifier]
         unique_identifier = pd.DataFrame(unique_identifier)
         unique_identifier.columns = ["__ID__"]
         return unique_identifier

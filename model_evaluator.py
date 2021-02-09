@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 from sklearn.preprocessing import LabelEncoder
-from sklearn.metrics import classification_report
 from sklearn.metrics import roc_curve, roc_auc_score
 from sklearn.calibration import calibration_curve
-from sklearn.metrics import accuracy_score, confusion_matrix
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
@@ -62,6 +61,14 @@ class ModelEvaluator():
 
         out_name: str
             output name of the figure
+            
+        Returns:
+        -------
+        accuracy:
+        sensitivity:
+        specificity: 
+        auc:
+        confusion_matrix_values:
         """
         
         # One Hot encode

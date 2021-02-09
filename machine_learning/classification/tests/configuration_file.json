@@ -1,0 +1,112 @@
+{
+    "data_loading": {
+        "BD": {
+            "modalities": {
+                "DTI": {
+                    "file": [
+                        "D:/workstation_b/xiaowei/多模态尝试1/DTI/BD/DTI_sub00221_FA_4normalize_to_target_2mm_s6mm.nii",
+                        "D:/workstation_b/xiaowei/多模态尝试1/DTI/BD/DTI_sub00222_FA_4normalize_to_target_2mm_s6mm.nii",
+                        "D:/workstation_b/xiaowei/多模态尝试1/DTI/BD/DTI_sub00223_FA_4normalize_to_target_2mm_s6mm.nii",
+                        "D:/workstation_b/xiaowei/多模态尝试1/DTI/BD/DTI_sub00224_FA_4normalize_to_target_2mm_s6mm.nii",
+                        "D:/workstation_b/xiaowei/多模态尝试1/DTI/BD/DTI_sub00227_FA_4normalize_to_target_2mm_s6mm.nii"
+                    ],
+                    "mask": ""
+                },
+                "DC": {
+                    "file": [
+                        "D:/workstation_b/xiaowei/多模态尝试1/dALFF/BD/MeanALFF_sub00221_resting.nii",
+                        "D:/workstation_b/xiaowei/多模态尝试1/dALFF/BD/MeanALFF_sub00222_resting.nii",
+                        "D:/workstation_b/xiaowei/多模态尝试1/dALFF/BD/MeanALFF_sub00223_resting.nii",
+                        "D:/workstation_b/xiaowei/多模态尝试1/dALFF/BD/MeanALFF_sub00224_resting.nii",
+                        "D:/workstation_b/xiaowei/多模态尝试1/dALFF/BD/MeanALFF_sub00227_resting.nii"
+                    ],
+                    "mask": ""
+                }
+            },
+            "targets": "1",
+            "covariates": ""
+        },
+        "MDD": {
+            "modalities": {
+                "DTI": {
+                    "file": [
+                        "D:/workstation_b/xiaowei/多模态尝试1/DTI/MDD/DTI_sub00088_FA_4normalize_to_target_2mm_s6mm.nii",
+                        "D:/workstation_b/xiaowei/多模态尝试1/DTI/MDD/DTI_sub00090_FA_4normalize_to_target_2mm_s6mm.nii",
+                        "D:/workstation_b/xiaowei/多模态尝试1/DTI/MDD/DTI_sub00572_FA_4normalize_to_target_2mm_s6mm.nii",
+                        "D:/workstation_b/xiaowei/多模态尝试1/DTI/MDD/DTI_sub00577_FA_4normalize_to_target_2mm_s6mm.nii",
+                        "D:/workstation_b/xiaowei/多模态尝试1/DTI/MDD/DTI_sub00594_FA_4normalize_to_target_2mm_s6mm.nii"
+                    ],
+                    "mask": ""
+                },
+                "DC": {
+                    "file": [
+                        "D:/workstation_b/xiaowei/多模态尝试1/dALFF/MDD/MeanALFF_sub00088_resting.nii",
+                        "D:/workstation_b/xiaowei/多模态尝试1/dALFF/MDD/MeanALFF_sub00090_resting.nii",
+                        "D:/workstation_b/xiaowei/多模态尝试1/dALFF/MDD/MeanALFF_sub00572_resting.nii",
+                        "D:/workstation_b/xiaowei/多模态尝试1/dALFF/MDD/MeanALFF_sub00577_resting.nii",
+                        "D:/workstation_b/xiaowei/多模态尝试1/dALFF/MDD/MeanALFF_sub00594_resting.nii"
+                    ],
+                    "mask": ""
+                }
+            },
+            "targets": "0",
+            "covariates": ""
+        }
+    },
+    "feature_engineering": {
+        "feature_preprocessing": {
+            "StandardScaler()": {}
+        },
+        "dimreduction": {
+            "PCA()": {
+                "n_components": {
+                    "value": "0.80"
+                }
+            }
+        },
+        "feature_selection": {
+            "RFE()": {
+                "step": {
+                    "value": "0.40"
+                },
+                "estimator": {
+                    "value": "SVC(kernel='linear')"
+                }
+            }
+        },
+        "unbalance_treatment": {
+            "RandomOverSampler()": {}
+        }
+    },
+    "machine_learning": {
+        "Classification": {
+            "LogisticRegression(solver='saga')": {
+                "penalty": {
+                    "value": "elasticnet"
+                },
+                "l1_ratio": {
+                    "value": "0.5"
+                },
+                "C": {
+                    "value": "1"
+                }
+            }
+        }
+    },
+    "model_evaluation": {
+        "StratifiedKFold()": {
+            "n_splits": {
+                "value": "2"
+            },
+            "shuffle": {
+                "value": "True"
+            },
+            "random_state": {
+                "value": "0"
+            }
+        },
+        "Statistical_analysis": {
+            "Binomial/Pearson-R test": {}
+        }
+    }
+}
