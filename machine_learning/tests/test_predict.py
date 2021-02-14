@@ -18,3 +18,4 @@ data_file = r'D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\machine_l
 # 
 pred = Predict(data_file, model_file)
 accuracy, sensitivity, specificity = pred.run()
+print(f"accuracy={accuracy} sensitivity={sensitivity}, specificity={specificity}")

@@ -121,7 +121,7 @@ class ModelEvaluator():
         if not is_showfig:
             matplotlib.use('PDF')
             
-        fig, ax = plt.subplots(nrows=1, ncols=3,figsize=(10,4))
+        fig, ax = plt.subplots(nrows=1, ncols=3,figsize=(9,4))
 
         # Plot classification 2d scatter
         decision_0 = predict_score[true_label == 0]
@@ -150,7 +150,7 @@ class ModelEvaluator():
         
         # Grid and spines
         ax[0].grid(False)
-        ax[0].set_title('Distribution of prediction in each group', fontsize=12, fontweight='bold')
+        ax[0].set_title('Distribution of prediction in each group', fontsize=10, fontweight='bold')
         ax[0].spines['bottom'].set_position(('axes', 0))
         ax[0].spines['left'].set_position(('axes', 0))
         ax[0].spines['top'].set_linewidth(1)
@@ -159,8 +159,8 @@ class ModelEvaluator():
         ax[0].spines['right'].set_visible(False)
         ax[0].spines['bottom'].set_linewidth(1)
         ax[0].spines['left'].set_linewidth(1)
-        ax[0].set_xlabel('Decision values', fontsize=10)
-        ax[0].set_ylabel('Density', fontsize=10)
+        ax[0].set_xlabel('Decision values', fontsize=8)
+        ax[0].set_ylabel('Density', fontsize=8)
         num1, num2, num3, num4 = 0, 1.2, 3, 0
         ax[0].legend([legend1, legend2], bbox_to_anchor=(num1, num2), loc=num3, borderaxespad=num4)
 
@@ -168,9 +168,9 @@ class ModelEvaluator():
         if auc is not None:
             auc = '{:.2f}'.format(auc)
             auc = eval(auc)
-            ax[1].set_title(f'ROC Curve (AUC = {auc})', fontsize=12, fontweight='bold')
-            ax[1].set_xlabel('False Positive Rate', fontsize=10)
-            ax[1].set_ylabel('True Positive Rate', fontsize=10)
+            ax[1].set_title(f'ROC Curve (AUC = {auc})', fontsize=10, fontweight='bold')
+            ax[1].set_xlabel('False Positive Rate', fontsize=8)
+            ax[1].set_ylabel('True Positive Rate', fontsize=8)
             ax[1].plot(fpr, tpr, marker=".", markersize=2, linewidth=1, color='k')
             plt.tick_params(labelsize=12)
             # Grid and spines
@@ -187,26 +187,26 @@ class ModelEvaluator():
             ax[1].plot(np.linspace(0, 1,10), np.linspace(0, 1,10), '--', color='k', linewidth=1)
 
         # Plot Bar
-        if (accuracy_kfold is not None) and (sensitivity_kfold is not None) and (specificity_kfold is not None) and (AUC_kfold is not None):
-            performances = [np.mean(accuracy_kfold), np.mean(sensitivity_kfold), np.mean(specificity_kfold),np.mean(AUC_kfold)]
-            std = [np.std(accuracy_kfold), np.std(sensitivity_kfold), np.std(specificity_kfold), np.std(AUC_kfold)]
+        if (accuracy_kfold is not None) and (sensitivity_kfold is not None) and (specificity_kfold is not None):
+            performances = [np.mean(accuracy_kfold), np.mean(sensitivity_kfold), np.mean(specificity_kfold)]
+            std = [np.std(accuracy_kfold), np.std(sensitivity_kfold), np.std(specificity_kfold)]
             ax[2].bar(np.arange(0,len(performances)), performances, yerr = std, capsize=5, linewidth=2, color='darkturquoise')
             
             bid = np.arange(0,len(performances))
             for (ibar, perf_, std_) in zip (bid, performances, std):
-                ax[2].text(ibar, 0.1, f"{perf_:.2f}±{std_:.2f}", rotation=90) 
+                ax[2].text(ibar, 0.05, f"{perf_:.2f}±{std_:.2f}", rotation=90) 
         else:
-            performances = [accuracy, sensitivity, specificity, auc]
+            performances = [accuracy, sensitivity, specificity]
             ax[2].bar(np.arange(0, len(performances)), performances, linewidth=2, color='darkturquoise')
             
             bid = np.arange(0,len(performances))
             for (ibar, perf_) in zip (bid, performances):
-                ax[2].text(ibar, 0.1, f"{perf_:.2f}", rotation=90) 
+                ax[2].text(ibar, 0.05, f"{perf_:.2f}", rotation=90) 
 
         ax[2].tick_params(labelsize=12)
-        ax[2].set_title('Classification performances', fontsize=12, fontweight='bold')
+        ax[2].set_title('Classification performances', fontsize=10, fontweight='bold')
         ax[2].set_xticks(np.arange(0,len(performances)))
-        ax[2].set_xticklabels(('Accuracy', 'Sensitivity', 'Specificity', 'AUC'), rotation=45, fontsize=10)
+        ax[2].set_xticklabels(('Accuracy', 'Sensitivity', 'Specificity'), rotation=45, fontsize=8)
         # Setting
         ax[2].spines['top'].set_linewidth(1)
         ax[2].spines['right'].set_linewidth(1)

@@ -56,14 +56,14 @@ class Predict():
         
         # Predict
         if not isinstance(best_model, list):  # Force the model and preprocessor is a list
-            best_model_ = [best_model, best_model]
+            best_model = [best_model, best_model]
             
         if not isinstance(preprocessor, list):  # Force the model and preprocessor is a list
-            preprocessor_ = [preprocessor, preprocessor]
+            preprocessor = [preprocessor, preprocessor]
         
         predict_label = []
         pred_prob = []
-        for prep, model_ in zip(preprocessor_, best_model_):
+        for prep, model_ in zip(preprocessor, best_model):
             
             # Feature Preprocessing
             feature = prep.transform(feature)
