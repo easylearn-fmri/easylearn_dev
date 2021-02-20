@@ -83,17 +83,13 @@ class ModelEvaluator():
         if len(np.shape(predict_score)) > 1:
             predict_score = predict_score[:,-1]
 
-        # accurcay, specificity(recall of negative) and
-        # sensitivity(recall of positive)
+        # accurcay, specificity and sensitivity 
         accuracy = np.float64(f"{accuracy_score(true_label, predict_label):.2f}")
-        report = classification_report(true_label, predict_label)
-        report = report.split('\n')
-        specificity = report[2].strip().split(' ')
-        sensitivity = report[3].strip().split(' ')
-        specificity = float([spe for spe in specificity if spe != ''][2]) 
-        sensitivity = float([sen for sen in sensitivity if sen != ''][2])
         # confusion_matrix matrix
         confusion_matrix_values = confusion_matrix(true_label, predict_label)
+        tn,fp,fn,tp = confusion_matrix_values.ravel()
+        sensitivity = float(f"{tp/(tp+fn):.2f}")
+        specificity = float(f"{tn/(tn+fp):.2f}")
 
         # roc and auc
         if len(np.unique(true_label)) == 2:
