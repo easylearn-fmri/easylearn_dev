@@ -139,3 +139,21 @@ pip install pandas
 #### NOTE
 其他权限问题也可以如此解决
 
+-----
+# 问题14
+ERROR: Could not install packages due to an OSError: [Errno 2] No such file or directory: ...
+![](./q14.jpg) 
+
+#### 解决方法  
+因为Python Page模块文件的文件路径太长，如果超过了260个字符这文件不能被创建成功。所以需要解决Windows中对长文件名的限制问题。通过修改注册表中 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem 的LongPathsEnabled 值由0改为1
+
+第一步打开注册表(也可以通过"win+R"组合键调出对话框输入regedit)    
+![第一步打开注册表](./q14_1.png)   
+
+第二步修改  
+![第二步修改](./q14_2.png)   
+  
+第三步重启  
+#### 问题发现和提供解决方案者  
+郭梁存
+

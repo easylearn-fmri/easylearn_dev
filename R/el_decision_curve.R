@@ -1,6 +1,7 @@
 library(readxl)
 library(ggDCA)
 library(rms)
+library(deLong)
 
 #### Load data ####
 data <- read_excel('D:/My_Codes/lc_private_codes/R/demo_data1.xlsx', sheet = 1)
