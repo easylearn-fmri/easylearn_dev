@@ -1163,4 +1163,19 @@ pip install pandas</p>
 <h4 id="_23">解决方法<a class="headerlink" href="#_23" title="Permanent link"></a></h4>
 <p>pip install &ndash;user eslearn</p>
 <h4 id="_24">问题发现和提供解决方案者<a class="headerlink" href="#_24" title="Permanent link"></a></h4>
-<p>杜思瑶</p></article></body></html>
+<p>杜思瑶</p>
+<h4 id="note">NOTE<a class="headerlink" href="#note" title="Permanent link"></a></h4>
+<p>其他权限问题也可以如此解决</p>
+<hr />
+<h1 id="14">问题14<a class="headerlink" href="#14" title="Permanent link"></a></h1>
+<p>ERROR: Could not install packages due to an OSError: [Errno 2] No such file or directory: &hellip;
+<img alt="" src="///D://My_Codes/virtualenv_eslearn/Lib/site-packages/eslearn/trouble_shooting/q14.jpg" /> </p>
+<h4 id="_25">解决方法<a class="headerlink" href="#_25" title="Permanent link"></a></h4>
+<p>因为Python Page模块文件的文件路径太长，如果超过了260个字符这文件不能被创建成功。所以需要解决Windows中对长文件名的限制问题。通过修改注册表中 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem 的LongPathsEnabled 值由0改为1</p>
+<p>第一步打开注册表(也可以通过&rdquo;win+R&rdquo;组合键调出对话框输入regedit)  <br />
+<img alt="第一步打开注册表" src="///D://My_Codes/virtualenv_eslearn/Lib/site-packages/eslearn/trouble_shooting/q14_1.png" />   </p>
+<p>第二步修改<br />
+<img alt="第二步修改" src="///D://My_Codes/virtualenv_eslearn/Lib/site-packages/eslearn/trouble_shooting/q14_2.png" />   </p>
+<p>第三步重启  </p>
+<h4 id="_26">问题发现和提供解决方案者<a class="headerlink" href="#_26" title="Permanent link"></a></h4>
+<p>郭梁存</p></article></body></html>
