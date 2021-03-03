@@ -123,11 +123,11 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
             print(ee-ss)
         
         except Exception as e:
-            print("Time out (10 sec) when detecting new version!\nPlease check your network connection")
+            print(f"{e}\nwhen detecting new version!\nPlease check your network connection")
             text = ""
             
         except ConnectionError: 
-            print("Time out (10 sec) when detecting new version!\nPlease check your network connection")
+            print(f"{e}\nTime out (10 sec) when detecting new version!\nPlease check your network connection")
             text = ""
         
         # Version
@@ -136,6 +136,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
             pattern = re.compile(s_version)
             new_version = pattern.findall(text)[0]
             old_version = eslearn.__version__
+            print(new_version)
             
             # News
             ss=time.time()

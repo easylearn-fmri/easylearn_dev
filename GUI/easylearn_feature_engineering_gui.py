@@ -2,11 +2,13 @@
 
 # Form implementation generated from reading ui file './easylearn_feature_engineering_gui.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.3
+# Created by: PyQt5 UI code generator 5.12.3
 #
 # WARNING! All changes made in this file will be lost!
 
+
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -498,7 +500,7 @@ class Ui_MainWindow(object):
         self.tabWidget_items.setCurrentIndex(0)
         self.stackedWidget_preprocessing_methods.setCurrentIndex(2)
         self.stackedWidget_dimreduction.setCurrentIndex(2)
-        self.stackedWidget_feature_selection.setCurrentIndex(6)
+        self.stackedWidget_feature_selection.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -540,16 +542,16 @@ class Ui_MainWindow(object):
         self.groupBox_feature_selection_setting.setTitle(_translate("MainWindow", "Setting"))
         self.label_variancethreshold_threshold.setText(_translate("MainWindow", "Threshold"))
         self.lineEdit_variancethreshold_threshold.setText(_translate("MainWindow", "0.6, 0.8"))
-        self.lineEdit_anova_topnum.setText(_translate("MainWindow", "0.6, 0.8"))
+        self.lineEdit_anova_topnum.setText(_translate("MainWindow", "10"))
         self.label_17.setText(_translate("MainWindow", "percentile"))
         self.label_correlation_percentile.setText(_translate("MainWindow", "percentile"))
-        self.lineEdit_correlation_percentile.setText(_translate("MainWindow", "0.6, 0.8"))
+        self.lineEdit_correlation_percentile.setText(_translate("MainWindow", "10"))
         self.label_mutualinfocls_topnum.setText(_translate("MainWindow", "percentile"))
         self.label_mutualinfo_cls.setText(_translate("MainWindow", "N_neighbors"))
-        self.lineEdit_mutualinfocls_topnum.setText(_translate("MainWindow", "0.6, 0.8"))
+        self.lineEdit_mutualinfocls_topnum.setText(_translate("MainWindow", "10"))
         self.label_mutualinforeg_topnum.setText(_translate("MainWindow", "N_neighbors"))
         self.label_32.setText(_translate("MainWindow", "percentile"))
-        self.lineEdit_mutualinforeg_topnum.setText(_translate("MainWindow", "0.6,0.8"))
+        self.lineEdit_mutualinforeg_topnum.setText(_translate("MainWindow", "10"))
         self.label_16.setText(_translate("MainWindow", "Estimator"))
         self.comboBox_rfe_estimator.setItemText(0, _translate("MainWindow", "SVC(kernel=\'linear\')"))
         self.comboBox_rfe_estimator.setItemText(1, _translate("MainWindow", "LogisticRegression()"))
@@ -584,4 +586,3 @@ class Ui_MainWindow(object):
         self.actionNavy.setText(_translate("MainWindow", "Navy"))
         self.actionClassic.setText(_translate("MainWindow", "Classic"))
         self.actionGet_all_available_configuraton.setText(_translate("MainWindow", "Get all available configuraton"))
-
