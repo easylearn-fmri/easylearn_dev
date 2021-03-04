@@ -127,7 +127,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
             text = ""
             
         except ConnectionError: 
-            print(f"{e}\nTime out (10 sec) when detecting new version!\nPlease check your network connection")
+            print(f"Time out (10 sec) when detecting new version!\nPlease check your network connection")
             text = ""
         
         # Version
