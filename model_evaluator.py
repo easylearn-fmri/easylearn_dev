@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 from matplotlib.pyplot import MultipleLocator
 import seaborn as sns
+import scipy as sci
 
 from eslearn.utils.timer import  timer
 
@@ -72,9 +73,9 @@ class ModelEvaluator():
         """
         
         # One Hot encode
-        lcode=LabelEncoder()
-        true_label=lcode.fit_transform(true_label)
-        predict_label = lcode.transform(predict_label)
+        # lcode=LabelEncoder()
+        # true_label=lcode.fit_transform(true_label)
+        # predict_label = lcode.transform(predict_label)
         
         # reshape to one column
         true_label = np.reshape(true_label, [np.size(true_label), ])
@@ -167,7 +168,7 @@ class ModelEvaluator():
             ax[1].set_title(f'ROC Curve (AUC = {auc})', fontsize=10, fontweight='bold')
             ax[1].set_xlabel('False Positive Rate', fontsize=8)
             ax[1].set_ylabel('True Positive Rate', fontsize=8)
-            ax[1].plot(fpr, tpr, marker=".", markersize=2, linewidth=1, color='k')
+            ax[1].plot(fpr, tpr, marker=".", markersize=2, linewidth=1, color=[0, 84/255, 95/255])
             plt.tick_params(labelsize=12)
             # Grid and spines
             ax[1].grid(False)
@@ -242,11 +243,17 @@ class ModelEvaluator():
             plt.show()
             # plt.pause(5)
             # plt.close()
-
+            
+        #%% Plot
+        try:
+            matplotlib.use('Qt5Agg')
+        except Exception as e:
+            print(f'{e}')
+            
         return accuracy, sensitivity, specificity, auc, confusion_matrix_values
 
     def regression_evaluator(self, real_target, predict_score, reg_metrics, 
-                             is_showfig=True, is_savefig=True, out_name=None):
+                             is_showfig=True, is_savefig=False, out_name=None):
 
         """Evaluation of regression
 
@@ -283,16 +290,32 @@ class ModelEvaluator():
              
         if not is_showfig:
             matplotlib.use('PDF')
-
-        sns.jointplot(x=predict_score, y=real_target, kind='reg', size=5)
-
-        plt.xlabel("Predicted score", fontsize=15)
-        plt.ylabel("Real score", fontsize=15)
-        plt.tight_layout()
         
-        xmargin = (np.max(predict_score)-np.min(predict_score))/100
-        ymargin = (np.max(real_target)-np.min(real_target))/100
-        plt.text(np.min(predict_score)+xmargin, np.max(real_target)-ymargin, f"MAE={mean_metrics :.2f}±{std_metrics:.2f}\nR={coef:.2f}")
+        ax = sns.jointplot(x=predict_score, 
+                           y=real_target, 
+                           kind='reg', 
+                           size=5)
+        
+        # Setting
+        # ax=plt.gca()
+        # ax.xaxis.set_major_locator(x_major_locator)
+        # ax.yaxis.set_major_locator(x_major_locator)
+        # ax.set_ylim(-0.05,1.05)
+        # ax.set_xlim(-0.05,1.05)
+
+        # plt.rcParams["font.family"] = "arial"
+        # plt.rcParams["font.weight"] = "bold"
+        # plt.rcParams["xtick.major.width"] = 2
+        # plt.rcParams["ytick.major.width"] = 2
+        # plt.rcParams['xtick.direction'] = 'out'
+        # plt.rcParams['ytick.direction'] = 'out'
+        
+        ax.set_axis_labels("Predicted score", "Real score", fontsize=15)
+        plt.tight_layout()
+        xmargin = (np.max(predict_score)-np.min(predict_score))/50
+        ymargin = (np.max(real_target)-np.min(real_target))/50
+        ax.ax_joint.text(np.min(predict_score)+xmargin, np.max(real_target)-ymargin, f"MAE={mean_metrics :.2f}±{std_metrics:.2f}\nR={coef:.2f}",
+                         fontweight="normal", fontsize=10)
         
         if is_savefig:
             pdf = PdfPages(out_name)

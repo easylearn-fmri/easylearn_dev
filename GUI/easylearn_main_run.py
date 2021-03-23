@@ -139,9 +139,10 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
             
             # News
             ss=time.time()
-            s_news = "__news__ = (None)##endLabel##"
-            pattern = re.compile(s_news)
-            news = pattern.findall(text)[0]
+            # s_news = "__news__ = (news)##endLabel##"
+            # pattern = re.compile(s_news)
+            # news = pattern.findall(text)[0]
+            news = "None"
             if news != "None":
                 webbrowser.open("https://github.com/easylearn-fmri/easylearn_dev/blob/dev/news.md", new=0, autoraise=True) 
     
