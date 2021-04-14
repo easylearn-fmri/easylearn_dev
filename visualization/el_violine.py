@@ -322,16 +322,16 @@ class ViolinPlotMatplotlib(object):
 if __name__ == "__main__":
     np.random.seed(666)
     data = [np.random.randn(110,), np.random.randn(100,), np.random.randn(100,)]
-    # violin = ViolinPlot()
-    # violin.plot(data, xticklabel=['1111','',''])
-    # plt.show()
-    # ViolinPlotMatplotlib().plot(data, 
-    #                             positions=np.arange(0,len(data)), 
-    #                             facecolor=['r', 'g', 'b'],
-    #                             edgecolor=['r', 'g', 'b'],
-    #                             alpha=[.5,.5,.5])
-    # plt.show()
-    
-    #
-    ViolinPlot().plot(data)
+    violin = ViolinPlot()
+    f1 = violin.plot(data, xticklabel=['1111','',''])
+    plt.title("ViolinPlotSeaborn", color="w")
     plt.show()
+    
+    ViolinPlotMatplotlib().plot(data, 
+                                positions=np.arange(0,len(data)), 
+                                facecolor=['r', 'g', 'b'],
+                                edgecolor=['r', 'g', 'b'],
+                                alpha=[.5,.5,.5])
+    plt.title("ViolinPlotMatplotlib", color="w")
+    plt.show()
+
