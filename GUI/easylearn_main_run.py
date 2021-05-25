@@ -117,7 +117,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         
         try:
             ss=time.time()
-            r = requests.get('https://github.com/easylearn-fmri/easylearn_dev/blob/dev/eslearn_news.txt', timeout=5)
+            r = requests.get('https://github.com/lichao312214129/easylearn/blob/master/setup.py', timeout=5)
             text = r.text
             ee = time.time()
             print(ee-ss)
@@ -132,10 +132,13 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         
         # Version
         if text != "":
-            s_version = "__version__ = (\d+.\d+.\d+)##endLabel##"
+            # s_version = "__version__ = (\d+.\d+.\d+)##endLabel##"
+            s_version = "version.*?(\d+.\d+.\d+)&#39;</span>"
             pattern = re.compile(s_version)
             new_version = pattern.findall(text)[0]
             old_version = eslearn.__version__
+
+            print(new_version, old_version)
             
             # News
             ss=time.time()
@@ -147,13 +150,13 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
                 webbrowser.open("https://github.com/easylearn-fmri/easylearn_dev/blob/dev/news.md", new=0, autoraise=True) 
     
             if eval(new_version.split(".")[0]) > eval(old_version.split(".")[0]):
-                self.textBrowser.setText(f"You are using eslearn version {old_version}, however version {new_version} is available")
+                self.textBrowser.setText(f"You are using eslearn version {old_version}, however version {new_version} is available, use 'pip install -U eslearn' to upgrade")
             
             elif eval(new_version.split(".")[1]) > eval(old_version.split(".")[1]):
-                self.textBrowser.setText(f"You are using eslearn version {old_version}, however version {new_version} is available")
+                self.textBrowser.setText(f"You are using eslearn version {old_version}, however version {new_version} is available, use 'pip install -U eslearn' to upgrade")
 
             elif eval(new_version.split(".")[2]) > eval(old_version.split(".")[2]):
-                self.textBrowser.setText(f"You are using eslearn version {old_version}, however version {new_version} is available")
+                self.textBrowser.setText(f"You are using eslearn version {old_version}, however version {new_version} is available, use 'pip install -U eslearn' to upgrade")
 
     def set_run_appearance(self):
         winsep = "\\"
