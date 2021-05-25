@@ -345,7 +345,7 @@ if __name__ == "__main__":
      return aucs,ci
 
   #pvalue
-  pvalue = delong_roc_test(y_true,y_pred_1,y_pred_2)
+  pvalue = delong_roc_test(y_true,y_pred_2,y_pred_1)
   #  aucs, auc_cov = delong_roc_variance(y_true, y_pred)
   auc_1, auc_cov_1 = delong_roc_variance(y_true, y_pred_1)
   auc_2, auc_cov_2 = delong_roc_variance(y_true, y_pred_2)
