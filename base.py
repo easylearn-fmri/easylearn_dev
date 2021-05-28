@@ -871,7 +871,8 @@ class DataLoader():
                     unique_identifier.columns = ["__ID__"]
                     all_features = [all_features_.iloc[:,1:]]
                 else:
-                    unique_identifier = self.extract_id(input_files)  # Multiple files
+                    autogen = True if (isinstance(targets[gk],int)) else False
+                    unique_identifier = self.extract_id(input_files, autogen)  # Multiple files
                         
                 # Apply mask to feature
                 mask_input = modality.get("mask")
@@ -1163,7 +1164,7 @@ class DataLoader():
             
 
     @staticmethod
-    def extract_id(files):
+    def extract_id(files, autogen=False):
         """Extract subject unique ID from file names
 
         Parameters:
@@ -1175,11 +1176,17 @@ class DataLoader():
         unique_identifier: pd.DataFrame
             Subjects' name or unique idenfity
         """
-        
-        unique_identifier = [os.path.basename(file).split(".")[0] for file in files]
-        unique_identifier = [re.findall(r'.*(sub.?[0-9]+).*', name)[0] if re.findall(r'.*(sub.?[0-9]+).*', name) != [] else "" for name in unique_identifier]
-        unique_identifier = pd.DataFrame(unique_identifier)
-        unique_identifier.columns = ["__ID__"]
+        if not autogen:
+            unique_identifier = [os.path.basename(file).split(".")[0] for file in files]
+            unique_identifier = [re.findall(r'.*(sub.?[0-9]+).*', name)[0] 
+                                 if re.findall(r'.*(sub.?[0-9]+).*', name) != [] 
+                                 else "" for name in unique_identifier]
+            unique_identifier = pd.DataFrame(unique_identifier)
+            unique_identifier.columns = ["__ID__"]
+        else:
+            unique_identifier = [i for i, file in enumerate(files)]
+            unique_identifier = pd.DataFrame(unique_identifier)
+            unique_identifier.columns = ["__ID__"]
         return unique_identifier
 
     
