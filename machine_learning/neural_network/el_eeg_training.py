@@ -197,7 +197,7 @@ class Training():
 
 if __name__ == "__main__":
     trainer = Training()
-    data = np.load(r"D:\software\miniconda\conda\Lib\site-packages\eslearn\machine_learning\neural_network/eegData1.npz")
+    data = np.load(r"D:\software\miniconda\conda\Lib\site-packages\eslearn\machine_learning\neural_network/eegData.npz")
     x, y = data['x'],  data['y']
     trainer.prep_data(x, y)
     model, history = trainer.train(batch_size=128, 
