@@ -1,0 +1,72 @@
+{
+    "data_loading": {
+        "g0": {
+            "modalities": {
+                "eeg": {
+                    "file": [
+                        "D:/work/lichao/nanjingshifandaxue/code/EEG-Classification-master/data1/0/ML101_US.csv",
+                        "D:/work/lichao/nanjingshifandaxue/code/EEG-Classification-master/data1/0/ML102_US.csv",
+                        "D:/work/lichao/nanjingshifandaxue/code/EEG-Classification-master/data1/0/ML103_US.csv",
+                        "D:/work/lichao/nanjingshifandaxue/code/EEG-Classification-master/data1/0/ML104_US.csv"
+                    ],
+                    "mask": ""
+                }
+            },
+            "targets": "0",
+            "covariates": ""
+        },
+        "g1": {
+            "modalities": {
+                "eeg": {
+                    "file": [
+                        "D:/work/lichao/nanjingshifandaxue/code/EEG-Classification-master/data1/1/ML101_KS.csv",
+                        "D:/work/lichao/nanjingshifandaxue/code/EEG-Classification-master/data1/1/ML102_KS.csv",
+                        "D:/work/lichao/nanjingshifandaxue/code/EEG-Classification-master/data1/1/ML103_KS.csv",
+                        "D:/work/lichao/nanjingshifandaxue/code/EEG-Classification-master/data1/1/ML104_KS.csv"
+                    ],
+                    "mask": ""
+                }
+            },
+            "targets": "1",
+            "covariates": ""
+        }
+    },
+    "feature_engineering": {},
+    "machine_learning": {
+        "Deep learning": {
+            "EEGClassifier": {
+                "coordinate": {
+                    "value": "D:\\software\\miniconda\\conda\\Lib\\site-packages\\eslearn\\machine_learning\\neural_network\\eeg/coordinate.csv"
+                },
+                "frequency": {
+                    "value": "128"
+                },
+                "image_size": {
+                    "value": "28"
+                },
+                "frame_duration": {
+                    "value": "0.2"
+                },
+                "overlap": {
+                    "value": "0.5"
+                },
+                "num_classes": {
+                    "value": "2"
+                },
+                "batch_size": {
+                    "value": "128"
+                },
+                "epochs": {
+                    "value": "2"
+                },
+                "learning_rate": {
+                    "value": "0.001"
+                },
+                "decay": {
+                    "value": "1e-6"
+                }
+            }
+        }
+    },
+    "model_evaluation": {}
+}

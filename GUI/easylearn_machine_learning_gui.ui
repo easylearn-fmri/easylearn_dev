@@ -62,7 +62,7 @@
        <enum>Qt::LeftToRight</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="stackedWidgetPage_classification">
        <layout class="QGridLayout" name="gridLayout_12">
@@ -169,7 +169,7 @@
               </size>
              </property>
              <property name="currentIndex">
-              <number>7</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="to_lr">
               <layout class="QGridLayout" name="gridLayout_11">
@@ -532,7 +532,7 @@
               </size>
              </property>
              <property name="currentIndex">
-              <number>2</number>
+              <number>1</number>
              </property>
              <widget class="QWidget" name="to_linearregression"/>
              <widget class="QWidget" name="to_lassoregression">
@@ -1118,29 +1118,36 @@
       <widget class="QWidget" name="stackedWidgetPage_deeplearning">
        <layout class="QGridLayout" name="gridLayout_4">
         <item row="0" column="0">
-         <widget class="QGroupBox" name="groupBox_7">
+         <widget class="QGroupBox" name="groupBox_deeplearning_methods">
           <property name="title">
            <string>Methods</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_8">
-           <item row="2" column="0">
+           <item row="0" column="0">
+            <widget class="QRadioButton" name="radioButton_EEGClassifier">
+             <property name="text">
+              <string>EEGClassifier</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QRadioButton" name="radioButton_CNN">
+             <property name="text">
+              <string>CNN</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
             <widget class="QRadioButton" name="radioButton_RNN">
              <property name="text">
               <string>RNN</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="0">
+           <item row="2" column="0">
             <widget class="QRadioButton" name="radioButton_GCN">
              <property name="text">
               <string>GCN</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="0">
-            <widget class="QRadioButton" name="radioButton_CNN">
-             <property name="text">
-              <string>CNN</string>
              </property>
             </widget>
            </item>
@@ -1148,10 +1155,277 @@
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="QGroupBox" name="groupBox_8">
+         <spacer name="horizontalSpacer_4">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="0" column="2">
+         <widget class="QGroupBox" name="groupBox_deeplearning_setting">
           <property name="title">
            <string>Setting</string>
           </property>
+          <layout class="QGridLayout" name="gridLayout_31">
+           <item row="0" column="1">
+            <widget class="QStackedWidget" name="stackedWidget_deeplearning_setting">
+             <property name="currentIndex">
+              <number>0</number>
+             </property>
+             <widget class="QWidget" name="to_eegclf">
+              <layout class="QGridLayout" name="gridLayout_32">
+               <item row="0" column="0">
+                <widget class="QGroupBox" name="groupBox">
+                 <layout class="QGridLayout" name="gridLayout_36">
+                  <item row="2" column="2">
+                   <widget class="QLineEdit" name="lineEdit_eegclf_image_size">
+                    <property name="text">
+                     <string>28</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="6" column="2">
+                   <widget class="QLineEdit" name="lineEdit_eegclf_batch_size">
+                    <property name="text">
+                     <string>128</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="7" column="2">
+                   <widget class="QLineEdit" name="lineEdit_eegclf_epochs">
+                    <property name="text">
+                     <string>100</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="5" column="2">
+                   <widget class="QLineEdit" name="lineEdit_eegclf_num_classes">
+                    <property name="text">
+                     <string>2</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="0">
+                   <widget class="QLabel" name="label_38">
+                    <property name="text">
+                     <string>frequency</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="9" column="0">
+                   <widget class="QLabel" name="label_46">
+                    <property name="text">
+                     <string>decay</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="0">
+                   <widget class="QLabel" name="label_15">
+                    <property name="text">
+                     <string>coordinate</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="8" column="0">
+                   <widget class="QLabel" name="label_44">
+                    <property name="text">
+                     <string>learning_rate</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="0">
+                   <widget class="QLabel" name="label_39">
+                    <property name="text">
+                     <string>image_size</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="4" column="2">
+                   <widget class="QLineEdit" name="lineEdit_eegclf_overlap">
+                    <property name="text">
+                     <string>0.5</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="6" column="0">
+                   <widget class="QLabel" name="label_45">
+                    <property name="text">
+                     <string>batch_size</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="2">
+                   <widget class="QLineEdit" name="lineEdit_eegclf_coordinate">
+                    <property name="text">
+                     <string>./coordinate.csv</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="4" column="0">
+                   <widget class="QLabel" name="label_40">
+                    <property name="text">
+                     <string>overlap</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="2">
+                   <widget class="QLineEdit" name="lineEdit_eegclf_frame_duration">
+                    <property name="text">
+                     <string>0.2</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="7" column="0" colspan="2">
+                   <widget class="QLabel" name="label_43">
+                    <property name="text">
+                     <string>epochs</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="5" column="0">
+                   <widget class="QLabel" name="label_41">
+                    <property name="text">
+                     <string>num_classes</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="2">
+                   <widget class="QLineEdit" name="lineEdit_eegclf_frequency">
+                    <property name="text">
+                     <string>128</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="8" column="2">
+                   <widget class="QLineEdit" name="lineEdit_eegclf_learning_rate">
+                    <property name="text">
+                     <string>0.0005</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="0">
+                   <widget class="QLabel" name="label_42">
+                    <property name="text">
+                     <string>frame_duration</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="9" column="2">
+                   <widget class="QLineEdit" name="lineEdit_eegclf_decay">
+                    <property name="text">
+                     <string>1e-6</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item row="11" column="0">
+                <widget class="QPushButton" name="eegclf_train_with_pretrained_model">
+                 <property name="text">
+                  <string>Train_with_pretrained_model</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="9" column="0">
+                <widget class="QPushButton" name="eegclf_test">
+                 <property name="text">
+                  <string>Test</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <spacer name="verticalSpacer">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeType">
+                  <enum>QSizePolicy::Fixed</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item row="2" column="0">
+                <widget class="QPushButton" name="pushButton_eegclf_prepare_data">
+                 <property name="text">
+                  <string>Prepare_data</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="0">
+                <widget class="QPushButton" name="eegclf_train">
+                 <property name="text">
+                  <string>Train</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="0">
+                <widget class="QPushButton" name="pushButton_eegclf_eval">
+                 <property name="text">
+                  <string>Evaluation</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="10" column="0">
+                <widget class="QPushButton" name="pushButton_eegclf_save">
+                 <property name="text">
+                  <string>Save</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="page"/>
+             <widget class="QWidget" name="to_CNN">
+              <layout class="QGridLayout" name="gridLayout_33">
+               <item row="0" column="0">
+                <widget class="QPushButton" name="pushButton">
+                 <property name="text">
+                  <string>PushButton</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="to_GCN">
+              <layout class="QGridLayout" name="gridLayout_34">
+               <item row="0" column="0">
+                <widget class="QPushButton" name="pushButton_2">
+                 <property name="text">
+                  <string>PushButton</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="to_RNN">
+              <layout class="QGridLayout" name="gridLayout_35">
+               <item row="0" column="0">
+                <widget class="QPushButton" name="pushButton_3">
+                 <property name="text">
+                  <string>PushButton</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </item>
        </layout>

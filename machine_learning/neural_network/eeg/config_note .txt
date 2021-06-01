@@ -1,0 +1,19 @@
+{
+"save_path":"./",  # 结果保持路径
+"data_file": "./eeg.json",  # 用eslearn加载数据后的json文件
+"coordinate": "./coordinate.csv",  # eeg电极的二维坐标位置，（x，y）
+
+"frequency": 128,  # 采样率
+"theta": [4,8],  # theta频段的下限和上限
+"alpha": [8,12],
+"beta": [12,40],
+"image_size": 28,  # 转换为2D map后图像的大小
+"frame_duration": 0.2,  # 划分eeg信号时的窗宽
+"overlap": 0.50,  # 相邻eeg信号片段的重叠度，越大重叠越多，扩增的数据会越多
+
+"num_classes": 2,  # 分类的类别数目
+"batch_size":200,  # 机器学习时每一批送入多少数据训练
+"epochs":10,  # 总共训练多少轮
+"lr":0.0005,  # 学习率
+"decay":1e-6  # 学习率衰减因子
+}

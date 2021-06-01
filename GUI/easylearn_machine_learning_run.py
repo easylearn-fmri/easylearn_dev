@@ -23,6 +23,7 @@ from eslearn.stylesheets.PyQt5_stylesheets import pyqt5_loader
 
 import eslearn
 from eslearn.GUI.easylearn_machine_learning_gui import Ui_MainWindow
+from eslearn.machine_learning.neural_network.eeg.run import EEGClassifier
 
 
 class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
@@ -104,6 +105,23 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
         self.radioButton_spectral_clustering.clicked.connect(self.switche_stacked_wedge_for_clustering)
         self.radioButton_hierarchical_clustering.clicked.connect(self.switche_stacked_wedge_for_clustering)
         self.radioButton_DBSCAN.clicked.connect(self.switche_stacked_wedge_for_clustering)
+
+        # Connect clustering setting signal to slot: switche to corresponding deep learning method
+        self.deep_learning_stackedwedge_dict = {
+            "EEGClassifier": 0, "CNN": 1, "GCN": 2,"RNN": 3
+        }
+        self.radioButton_EEGClassifier.clicked.connect(self.switche_stacked_wedge_for_deep_learning)
+        self.radioButton_CNN.clicked.connect(self.switche_stacked_wedge_for_deep_learning)
+        self.radioButton_GCN.clicked.connect(self.switche_stacked_wedge_for_deep_learning)
+        self.radioButton_RNN.clicked.connect(self.switche_stacked_wedge_for_deep_learning)
+
+        self.pushButton_eegclf_prepare_data.clicked.connect(self.eegclf_prepare_data)
+        self.eegclf_train.clicked.connect(self.eegclf_train_fun)
+        self.pushButton_eegclf_eval.clicked.connect(self.eegclf_eval_fun)
+        self.pushButton_eegclf_save.clicked.connect(self.eegclf_save_fun)
+        self.eegclf_test.clicked.connect(self.eegclf_test_fun)
+        self.eegclf_train_with_pretrained_model.clicked.connect(self.eegclf_train_with_pretrained_model_fun)
+
 
         # Skin
         self.skins = {"Dark": "style_Dark", "Black": "style_black", "DarkOrange": "style_DarkOrange", 
@@ -301,11 +319,20 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
 
 
             "Deep learning": {
-                self.radioButton_regression_linearregression:{
-                    "Linear regression": {
-                        
+                self.radioButton_EEGClassifier:{
+                    "EEGClassifier": {
+                        "coordinate": {"value": self.lineEdit_eegclf_coordinate.text(), "wedget": self.lineEdit_eegclf_coordinate},
+                        "frequency": {"value": self.lineEdit_eegclf_frequency.text(), "wedget": self.lineEdit_eegclf_frequency},
+                        "image_size": {"value": self.lineEdit_eegclf_image_size.text(), "wedget": self.lineEdit_eegclf_image_size},
+                        "frame_duration": {"value": self.lineEdit_eegclf_frame_duration.text(), "wedget": self.lineEdit_eegclf_frame_duration},
+                        "overlap": {"value": self.lineEdit_eegclf_overlap.text(), "wedget": self.lineEdit_eegclf_overlap},
+                        "num_classes": {"value": self.lineEdit_eegclf_num_classes.text(), "wedget": self.lineEdit_eegclf_num_classes},
+                        "batch_size": {"value": self.lineEdit_eegclf_batch_size.text(), "wedget": self.lineEdit_eegclf_batch_size},
+                        "epochs": {"value": self.lineEdit_eegclf_epochs.text(), "wedget": self.lineEdit_eegclf_epochs},
+                        "learning_rate": {"value": self.lineEdit_eegclf_learning_rate.text(), "wedget": self.lineEdit_eegclf_learning_rate},
+                        "decay": {"value": self.lineEdit_eegclf_decay.text(), "wedget": self.lineEdit_eegclf_decay},
                     },
-                }, 
+                },  
             },
 
         }
@@ -563,11 +590,36 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
 
         if self.sender():
             if not method:
-                self.stackedWidget_classification_setting.setCurrentIndex(self.deep_learning_stackedwedge_dict[self.sender().text()])
+                self.stackedWidget_deeplearning_setting.setCurrentIndex(self.deep_learning_stackedwedge_dict[self.sender().text()])
             else:
                 self.stackedWidget_classification_setting.setCurrentIndex(self.deep_learning_stackedwedge_dict[method])
         else:
             self.stackedWidget_classification_setting.setCurrentIndex(-1)
+
+    def eegclf_prepare_data(self):
+        self.eegclf = EEGClassifier(configuration_file=self.configuration_file)
+        self.eegclf.prepare_data()
+        return self
+
+    def eegclf_train_fun(self):
+        self.eegclf.train()
+        return self
+
+    def eegclf_eval_fun(self):
+        self.eegclf.eval()
+        return self
+
+    def eegclf_save_fun(self):
+        self.eegclf.save_model_and_loss()
+        return self
+
+    def eegclf_train_with_pretrained_model_fun(self):
+        self.eegclf.train_with_pretrained_model()
+        return self
+
+    def eegclf_test_fun(self):
+        self.eegclf.test()
+        return self
 
     def closeEvent(self, event):
         """This function is called when exit icon of the window is clicked.
