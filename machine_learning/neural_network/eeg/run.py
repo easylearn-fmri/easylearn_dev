@@ -16,6 +16,7 @@ class EEGClassifier():
 
   def __init__(self, configuration_file=None):
     self.configuration_file = configuration_file
+    self.data_path = os.path.join(self.save_path, "eegclfData.npz")
 
   def prepare_data(self):
     #%% Prepare data
@@ -25,15 +26,15 @@ class EEGClassifier():
 
     data_loader = DataLoader_(self.configuration_file)
     data_loader.load_data()
-    # x, y = make_data_pipeline(data_loader.input_files,
-    #                 data_loader.targets_,
-    #                 self.image_size,
-    #                 self.frame_duration,
-    #                 overlap,
-    #                 locs_2d,
-    #                 frequency)
+    x, y = make_data_pipeline(data_loader.input_files,
+                    data_loader.targets_,
+                    self.image_size,
+                    self.frame_duration,
+                    overlap,
+                    locs_2d,
+                    frequency)
 
-    # np.savez(os.path.join(self.save_path, "eegclfData.npz"), x=x, y=y)
+    np.savez(self.data_path, x=x, y=y)
     print("=="*30)
     return self
 
@@ -45,7 +46,7 @@ class EEGClassifier():
     input_shape = (self.image_size, self.image_size, 3)
 
     self.trainer = Trainer(save_path=self.save_path)
-    data = np.load(os.path.join(self.save_path, "eegclfData.npz"))
+    data = np.load(self.data_path)
     x, y = data['x'],  data['y']
     self.trainer.prep_data(x, y, self.num_classes)
     self.trainer.train(num_classes=self.num_classes,
