@@ -18,6 +18,7 @@ class EEGClassifier():
     self.configuration_file = configuration_file
     self.out_dir = out_dir
     self.data_path = os.path.join(out_dir, "eegclfData.npz")
+    
 
   def prepare_data(self):
     #%% Prepare data
