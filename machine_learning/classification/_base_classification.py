@@ -265,11 +265,12 @@ class StatisticalAnalysis(BaseClassification):
     def binomial_test(self):
         k = np.sum(np.array(self.sorted_label) - np.array(self.predict_label)==0)
         n = len(self.sorted_label)
-        pvalue_acc, sum_prob, prob, randk = el_binomialtest.binomialtest(n, k, 0.5, 0.5)
+        pvalue_acc = el_binomialtest.binomialtest(n, k, 0.5)
         pvalue_sens = None
         pvalue_spec = None
         pvalue_auc = None
         print(f"p value for acc = {pvalue_acc:.3f}")
+        el_binomialtest.lc_plot(n, k, 0.5, "Binomial test", os.path.join(self.out_dir, "binomial_test.pdf"))
         return pvalue_acc, pvalue_sens, pvalue_spec, pvalue_auc
 
     def permutation_test(self):

@@ -5,7 +5,7 @@ from eslearn.machine_learning.classification.classification import Classificatio
 from eslearn.machine_learning.classification._base_classification import StatisticalAnalysis
 
 def test_classification():
-    clf = Classification(configuration_file=r"./configuration_file.json", out_dir="./") 
+    clf = Classification(configuration_file=r"D:\work\lichao\赵文晖\configuration_file.json", out_dir="./") 
     clf.main_run()
     clf.run_statistical_analysis()
 

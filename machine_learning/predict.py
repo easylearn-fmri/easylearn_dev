@@ -74,7 +74,15 @@ class Predict():
             if hasattr(model_, 'predict_proba'):
                 pred_prob.append(model_.predict_proba(feature))
             elif hasattr(model_, 'decision_function'):
-                pred_prob.append(model_.decision_function(feature))
+                prob_pos = model_.decision_function(feature)
+                prob_pos = \
+                    (prob_pos - prob_pos.min()) / (prob_pos.max() - prob_pos.min())
+                    
+                pred_prob.append(prob_pos)
+                
+                
+            
+            
             else:
                 pred_prob = predict_label
         
