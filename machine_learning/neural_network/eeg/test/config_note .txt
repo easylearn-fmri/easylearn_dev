@@ -1,6 +1,4 @@
 {
-"save_path":"./",  # 结果保持路径
-"data_file": "./eeg.json",  # 用eslearn加载数据后的json文件
 "coordinate": "./coordinate.csv",  # eeg电极的二维坐标位置，（x，y）
 
 "frequency": 128,  # 采样率

@@ -1,0 +1,49 @@
+# Exceed 100M
+- git filter-branch -f --index-filter "git rm -rf --cached --ignore-unmatch FOLDERNAME" -- --all
+- git filter-branch --force --index-filter 'git rm -rf --cached --ignore-unmatch  $FILTERNAME' --prune-empty --tag-name-filter cat -- --all
+- git stash
+
+## 清理和回收空间
+rm -rf .git/refs/dev/
+git reflog expire --expire=now --all
+git gc --prune=now
+# socks5
+
+git config --global http.proxy socks5://127.0.0.1:1080
+
+git config --global https.proxy socks5://127.0.0.1:1080
+
+
+git config --global https.proxy http://127.0.0.1:1080
+
+git config --global https.proxy https://127.0.0.1:1080
+
+
+# 
+
+git config --global --unset http.proxy
+
+git config --global --unset https.proxy
+
+
+#
+如果上述方法不管用
+
+可以按照以下方法：
+1、移除错误缓存
+首先应该移除所有错误的 cache，对于文件：
+git rm --cached path_of_a_giant_file
+对于文件夹：
+git rm --cached -r path_of_a_giant_dir
+
+例如对于我的例子就是这样的：
+git rm --cached resultDataset/resultDataset/gplus_combined.csv
+
+
+2、重新提交：
+编辑最后提交信息：
+git commit --amend
+
+修改 log 信息后保存返回。
+重新提交
+git push

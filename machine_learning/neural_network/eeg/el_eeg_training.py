@@ -30,10 +30,10 @@ meval = ModelEvaluator()
 
 
 class Trainer():
-    def __init__(self, save_path="./"):
-        self.save_path = save_path
-        self.model_file = "eegModel.h5"
-        self.modelSaveName = os.path.join(self.save_path, self.model_file)
+    def __init__(self, out_dir=None):
+        self.out_dir = out_dir
+        self._model_file = "eegModel.h5"
+        self._modelSaveName = os.path.join(out_dir, self._model_file)
 
     def prep_data(self, x, y, num_classes):
         x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.4,
@@ -118,7 +118,7 @@ class Trainer():
         tensorflow.random.set_seed(666)
 
         # Load pre-trained model
-        self.model = load_model(self.modelSaveName, compile=False)
+        self.model = load_model(self._modelSaveName, compile=False)
         
         # Comp
         self.model.compile(loss='categorical_crossentropy',
@@ -139,10 +139,10 @@ class Trainer():
              lossSaveName = "loss.pdf"):
         
         # Save and Vis loss
-        historySaveName = os.path.join(self.save_path, historySaveName)
-        lossSaveName = os.path.join(self.save_path, lossSaveName)
+        historySaveName = os.path.join(self.out_dir, historySaveName)
+        lossSaveName = os.path.join(self.out_dir, lossSaveName)
 
-        self.model.save(self.modelSaveName)
+        self.model.save(self._modelSaveName)
         with open(historySaveName, 'wb') as file_pi:
             pickle.dump(self.history.history, file_pi)
 
@@ -167,34 +167,34 @@ class Trainer():
     
     def vis_net(self):
         # Vis model
-        netron.start(self.modelSaveName, address=None, browse=True)
+        netron.start(self._modelSaveName, address=None, browse=True)
         return self
 
     #%% Eval
     def eval(self):
-        # self.model = load_model(self.modelSaveName, compile=False)
+        # self.model = load_model(self._modelSaveName, compile=False)
         all_predict_label = np.argmax(self.model.predict(self.x_train), axis=-1)
         all_predict_prob = self.model.predict_proba(self.x_train)[:,1]
         meval.binary_evaluator(self.y_train[:,1], all_predict_label, all_predict_prob, 
-                            is_savefig=True, out_name=os.path.join(self.save_path, "performancesOfTraining.pdf"),
+                            is_savefig=True, out_name=os.path.join(self.out_dir, "performancesOfTraining.pdf"),
                             legend1="Negative", legend2="Positive")
         plt.suptitle("Training data")
         
         all_predict_label = np.argmax(self.model.predict(self.x_val), axis=-1)
         all_predict_prob = self.model.predict_proba(self.x_val)[:,1]
         meval.binary_evaluator(self.y_val[:,1], all_predict_label, all_predict_prob, 
-                            is_savefig=True, out_name=os.path.join(self.save_path, "performancesOfVal.pdf"),
+                            is_savefig=True, out_name=os.path.join(self.out_dir, "performancesOfVal.pdf"),
                             legend1="Negative", legend2="Positive")
         plt.suptitle("Validation data")
         
     def test(self):
-        # self.model = load_model(self.modelSaveName, compile=False)
+        # self.model = load_model(self._modelSaveName, compile=False)
 
         all_predict_label = np.argmax(self.model.predict(self.x_test), axis=-1)
         all_predict_prob = self.model.predict_proba(self.x_test)[:,1]
         (accuracy, sensitivity, specificity, auc, confusion_matrix_values) = \
             meval.binary_evaluator(self.y_test[:,1], all_predict_label, all_predict_prob, 
-                            is_savefig=True, out_name=os.path.join(self.save_path, "performancesOfTest.pdf"),
+                            is_savefig=True, out_name=os.path.join(self.out_dir, "performancesOfTest.pdf"),
                             legend1="Negative", legend2="Positive")
     
         plt.suptitle("Test data")
@@ -234,12 +234,12 @@ def f1(y_true, y_pred):
 
 if __name__ == "__main__":
     (data_file, frequency, theta, alpha, beta,image_size, frame_duration, overlap, locs_2d,
-    save_path, num_classes, batch_size, epochs, lr, decay) =\
+    out_dir, num_classes, batch_size, epochs, lr, decay) =\
              parse_configuration("./config.json")
 
     input_shape = (image_size, image_size, 3)
 
-    trainer = Trainer(save_path=save_path)
+    trainer = Trainer(out_dir=out_dir)
     data = np.load(r"D:\software\miniconda\conda\Lib\site-packages\eslearn\machine_learning\neural_network\eeg/eegData.npz")
     x, y = data['x'],  data['y']
     trainer.prep_data(x, y, num_classes)

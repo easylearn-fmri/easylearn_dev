@@ -597,7 +597,8 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
             self.stackedWidget_classification_setting.setCurrentIndex(-1)
 
     def eegclf_prepare_data(self):
-        self.eegclf = EEGClassifier(configuration_file=self.configuration_file)
+        out_dir = self.working_directory if self.working_directory else os.path.dirname(self.configuration_file)
+        self.eegclf = EEGClassifier(configuration_file=self.configuration_file, out_dir=out_dir)
         self.eegclf.prepare_data()
         return self
 

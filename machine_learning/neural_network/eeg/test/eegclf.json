@@ -4,10 +4,10 @@
             "modalities": {
                 "eeg": {
                     "file": [
-                        "D:/work/lichao/nanjingshifandaxue/code/EEG-Classification-master/data1/0/ML101_US.csv",
-                        "D:/work/lichao/nanjingshifandaxue/code/EEG-Classification-master/data1/0/ML102_US.csv",
-                        "D:/work/lichao/nanjingshifandaxue/code/EEG-Classification-master/data1/0/ML103_US.csv",
-                        "D:/work/lichao/nanjingshifandaxue/code/EEG-Classification-master/data1/0/ML104_US.csv"
+                        "D:/software/miniconda/conda/Lib/site-packages/eslearn/machine_learning/neural_network/eeg/test/g0/ML101_US.csv",
+                        "D:/software/miniconda/conda/Lib/site-packages/eslearn/machine_learning/neural_network/eeg/test/g0/ML102_US.csv",
+                        "D:/software/miniconda/conda/Lib/site-packages/eslearn/machine_learning/neural_network/eeg/test/g0/ML103_US.csv",
+                        "D:/software/miniconda/conda/Lib/site-packages/eslearn/machine_learning/neural_network/eeg/test/g0/ML104_US.csv"
                     ],
                     "mask": ""
                 }
@@ -19,10 +19,10 @@
             "modalities": {
                 "eeg": {
                     "file": [
-                        "D:/work/lichao/nanjingshifandaxue/code/EEG-Classification-master/data1/1/ML101_KS.csv",
-                        "D:/work/lichao/nanjingshifandaxue/code/EEG-Classification-master/data1/1/ML102_KS.csv",
-                        "D:/work/lichao/nanjingshifandaxue/code/EEG-Classification-master/data1/1/ML103_KS.csv",
-                        "D:/work/lichao/nanjingshifandaxue/code/EEG-Classification-master/data1/1/ML104_KS.csv"
+                        "D:/software/miniconda/conda/Lib/site-packages/eslearn/machine_learning/neural_network/eeg/test/g1/ML101_KS.csv",
+                        "D:/software/miniconda/conda/Lib/site-packages/eslearn/machine_learning/neural_network/eeg/test/g1/ML102_KS.csv",
+                        "D:/software/miniconda/conda/Lib/site-packages/eslearn/machine_learning/neural_network/eeg/test/g1/ML103_KS.csv",
+                        "D:/software/miniconda/conda/Lib/site-packages/eslearn/machine_learning/neural_network/eeg/test/g1/ML104_KS.csv"
                     ],
                     "mask": ""
                 }
@@ -36,7 +36,7 @@
         "Deep learning": {
             "EEGClassifier": {
                 "coordinate": {
-                    "value": "D:\\software\\miniconda\\conda\\Lib\\site-packages\\eslearn\\machine_learning\\neural_network\\eeg/coordinate.csv"
+                    "value": "D:\\software\\miniconda\\conda\\Lib\\site-packages\\eslearn\\machine_learning\\neural_network\\eeg\\test/coordinate.csv"
                 },
                 "frequency": {
                     "value": "128"
@@ -57,7 +57,7 @@
                     "value": "128"
                 },
                 "epochs": {
-                    "value": "2"
+                    "value": "100"
                 },
                 "learning_rate": {
                     "value": "0.001"

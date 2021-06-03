@@ -27,7 +27,6 @@ def parse_configuration(config_file=None):
     
     config_eegclf = configuration.get("machine_learning", None).get("Deep learning", None).get("EEGClassifier")
     
-    save_path = os.path.dirname(config_file)
     coordinate = config_eegclf.get("coordinate", None).get("value", None)
     frequency = np.float32(config_eegclf.get("frequency", None).get("value", None))
     image_size = np.int32(config_eegclf.get("image_size", None).get("value", None))
@@ -50,7 +49,7 @@ def parse_configuration(config_file=None):
     
 
     return (frequency,image_size, frame_duration, overlap, locs_2d,
-            save_path, num_classes, batch_size, epochs, lr, decay)
+            num_classes, batch_size, epochs, lr, decay)
 
 class DataLoader_(DataLoader):
     def __init__(self, data_file):
