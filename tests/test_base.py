@@ -8,8 +8,8 @@ from eslearn.base import BaseMachineLearning, DataLoader
 
 
 def test_base():
-    base = BaseMachineLearning(configuration_file=r'D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\machine_learning\classification\tests/clf_configuration.json')
-    data_loader = DataLoader(configuration_file=r'D:\My_Codes\virtualenv_eslearn\Lib\site-packages\eslearn\machine_learning\classification\tests/clf_configuration.json')
+    base = BaseMachineLearning(configuration_file=r'D:\work\lichao\nanjingshifandaxue\code\EEG-Classification-master\data1\eeg.json')
+    data_loader = DataLoader(configuration_file=r'D:\work\lichao\nanjingshifandaxue\code\EEG-Classification-master\data1\eeg.json')
     data_loader.load_data()
     
     base.get_all_inputs()

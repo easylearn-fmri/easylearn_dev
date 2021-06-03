@@ -117,7 +117,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         
         try:
             ss=time.time()
-            r = requests.get('https://github.com/lichao312214129/easylearn/blob/master/setup.py', timeout=5)
+            r = requests.get('https://github.com/lichao312214129/easylearn/blob/1.0.x.beta/setup.py', timeout=5)
             text = r.text
             ee = time.time()
             print(ee-ss)
@@ -137,8 +137,6 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
             pattern = re.compile(s_version)
             new_version = pattern.findall(text)[0]
             old_version = eslearn.__version__
-
-            print(new_version, old_version)
             
             # News
             ss=time.time()
