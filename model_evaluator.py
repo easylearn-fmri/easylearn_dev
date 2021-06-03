@@ -168,7 +168,7 @@ class ModelEvaluator():
             ax[1].set_title(f'ROC Curve (AUC = {auc})', fontsize=10, fontweight='bold')
             ax[1].set_xlabel('False Positive Rate', fontsize=8)
             ax[1].set_ylabel('True Positive Rate', fontsize=8)
-            ax[1].plot(fpr, tpr, marker=None, markersize=2, linewidth=1.5, color='darkcyan')
+            ax[1].plot(fpr, tpr, markersize=2, linewidth=1, color=[0, 84/255, 95/255])
             plt.tick_params(labelsize=12)
             # Grid and spines
             ax[1].grid(False)
@@ -186,11 +186,7 @@ class ModelEvaluator():
         # Plot Bar
         if (accuracy_kfold is not None) and (sensitivity_kfold is not None) and (specificity_kfold is not None):
             performances = [np.mean(accuracy_kfold), np.mean(sensitivity_kfold), np.mean(specificity_kfold)]
-            std = [np.std(accuracy_kfold)/np.power(len(accuracy_kfold), 0.5), 
-                   np.std(sensitivity_kfold)/np.power(len(accuracy_kfold), 0.5), 
-                   np.std(specificity_kfold)/np.power(len(accuracy_kfold), 0.5)
-            ]
-            
+            std = [np.std(accuracy_kfold), np.std(sensitivity_kfold), np.std(specificity_kfold)]
             ax[2].bar(np.arange(0,len(performances)), performances, yerr = std, capsize=5, linewidth=2, color='darkturquoise')
             
             bid = np.arange(0,len(performances))
