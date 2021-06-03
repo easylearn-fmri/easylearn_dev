@@ -13,7 +13,6 @@ License: MIT
 
 
 import sys
-import numpy as np
 import os
 import json
 import cgitb
@@ -443,6 +442,8 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
                      # Then assign self.configuration["machine_learning"] with self.machine_learning
                     else:
                         self.configuration["machine_learning"] = self.machine_learning
+                        print("not input")
+                        self.display_loaded_inputs_in_gui()
                 else:
                     self.machine_learning = self.configuration["machine_learning"]
                     self.display_loaded_inputs_in_gui()
@@ -592,33 +593,44 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
             if not method:
                 self.stackedWidget_deeplearning_setting.setCurrentIndex(self.deep_learning_stackedwedge_dict[self.sender().text()])
             else:
-                self.stackedWidget_classification_setting.setCurrentIndex(self.deep_learning_stackedwedge_dict[method])
+                self.stackedWidget_deeplearning_setting.setCurrentIndex(self.deep_learning_stackedwedge_dict[method])
         else:
             self.stackedWidget_classification_setting.setCurrentIndex(-1)
 
     def eegclf_prepare_data(self):
         out_dir = self.working_directory if self.working_directory else os.path.dirname(self.configuration_file)
         self.eegclf = EEGClassifier(configuration_file=self.configuration_file, out_dir=out_dir)
+        self.save_configuration()
         self.eegclf.prepare_data()
         return self
 
     def eegclf_train_fun(self):
+        self.save_configuration()
+        self.eegclf.parse_configuration()
         self.eegclf.train()
         return self
 
     def eegclf_eval_fun(self):
+        self.save_configuration()
+        self.eegclf.parse_configuration()
         self.eegclf.eval()
         return self
 
     def eegclf_save_fun(self):
+        self.save_configuration()
+        self.eegclf.parse_configuration()
         self.eegclf.save_model_and_loss()
         return self
 
     def eegclf_train_with_pretrained_model_fun(self):
+        self.save_configuration()
+        self.eegclf.parse_configuration()
         self.eegclf.train_with_pretrained_model()
         return self
 
     def eegclf_test_fun(self):
+        self.save_configuration()
+        self.eegclf.parse_configuration()
         self.eegclf.test()
         return self
 
