@@ -7,6 +7,8 @@ Email: lichao19870617@163.com
 """
 
 import os
+import time
+import json
 import numpy as np
 import netron
 import keras
@@ -21,7 +23,6 @@ import pickle
 from sklearn.metrics import accuracy_score
 from eslearn.model_evaluator import ModelEvaluator
 import matplotlib.pyplot as plt
-import json
 from eslearn.machine_learning.neural_network.eeg.el_eeg_prep_data import parse_configuration
 from keras import backend as K
 from keras.models import load_model
@@ -34,6 +35,8 @@ class Trainer():
         self.out_dir = out_dir
         self._model_file = "eegModel.h5"
         self._modelSaveName = os.path.join(out_dir, self._model_file)
+        self._historySaveName = os.path.join(self.out_dir, "trainHistoryDict.json")
+        self._lossSaveName = os.path.join(self.out_dir, "loss.pdf")
 
     def prep_data(self, x, y, num_classes):
         x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.4,
@@ -131,29 +134,23 @@ class Trainer():
                   epochs=epochs,
                   validation_data=(self.x_val, self.y_val),
                   shuffle=False)
+        
+        # Load old history
+        with open(self._historySaveName) as file_obj:
+            old_history = json.load(file_obj)
+            for key in self.history.history:
+                old_history[key].extend(self.history.history[key])
+            self.history.history = old_history
 
+        
         return self
 
-    def save_model_and_loss(self, 
-             historySaveName="trainHistoryDict.txt",
-             lossSaveName = "loss.pdf"):
-        
-        # Save and Vis loss
-        historySaveName = os.path.join(self.out_dir, historySaveName)
-        lossSaveName = os.path.join(self.out_dir, lossSaveName)
-
-        self.model.save(self._modelSaveName)
-        with open(historySaveName, 'wb') as file_pi:
-            pickle.dump(self.history.history, file_pi)
-
-        # with open(historySaveName,'rb') as file_pi:
-        #     history=pickle.load(file_pi)
+    def save_model_and_loss(self):
         
         # Visualize loss
-        history = self.history.history
-        epochs = len(history['loss'])
-        plt.plot(range(epochs), history['loss'], label='Training loss')
-        plt.plot(range(epochs), history['val_loss'], label='Validation loss')
+        epochs = len(self.history.history['loss'])
+        plt.plot(range(epochs), self.history.history['loss'], label='Training loss')
+        plt.plot(range(epochs), self.history.history['val_loss'], label='Validation loss')
         plt.legend()
         ax = plt.gca()
         ax.set_ylabel("Loss", fontsize=15)
@@ -163,8 +160,19 @@ class Trainer():
         ax.spines['bottom'].set_linewidth(2)
         ax.spines['left'].set_linewidth(2)
         plt.show()
-        plt.savefig(lossSaveName)
+        plt.savefig(self._lossSaveName)
     
+        # np.save(self._historySaveName, self.history.history)
+        with open(self._historySaveName, 'w') as file_obj:
+            history = json.dumps(self.history.history, indent=4)
+            file_obj.write(history)
+            
+        # with open(self._historySaveName,'rb') as file_pi:
+        #     history=pickle.dump(file_pi)
+
+        self.model.save(self._modelSaveName)
+
+
     def vis_net(self):
         # Vis model
         netron.start(self._modelSaveName, address=None, browse=True)
@@ -250,9 +258,6 @@ if __name__ == "__main__":
                                     lr=lr,
                                     decay=decay)
 
-    trainer.save_model_and_loss( 
-                 modelSaveName="eegModel.h5", 
-                 historySaveName="trainHistoryDict.txt",
-                 lossSaveName = "loss.pdf")
+    trainer.save_model_and_loss()
     
     trainer.eval()

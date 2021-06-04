@@ -77,9 +77,7 @@ class EEGClassifier():
     return self
 
   def save_model_and_loss(self):
-    self.trainer.save_model_and_loss(  
-                 historySaveName="trainHistoryDict.txt",
-                 lossSaveName = "loss.pdf")
+    self.trainer.save_model_and_loss()
 
     self.trainer.vis_net()
     print("=="*30)
@@ -103,8 +101,12 @@ class EEGClassifier():
 
 
 if __name__ == "__main__":
-  eegclf = EEGClassifier(configuration_file="./eegclf.json")
-  eegclf.prepare_data()
+  eegclf = EEGClassifier(configuration_file=r"D:\work\lichao\test_eegclf/eegclf.json",
+                         out_dir=r"D:\work\lichao\test_eegclf")
+  eegclf.parse_configuration()
+  # eegclf.prepare_data()
   eegclf.train()
+  eegclf.save_model_and_loss()
+  eegclf.train_with_pretrained_model()
   eegclf.test()
 
