@@ -11,12 +11,12 @@ import time
 import json
 import numpy as np
 import netron
-import keras
 import tensorflow
-from keras.models import Sequential
-from keras.layers import Dense, Dropout, Activation, Flatten
-from keras.layers import Conv2D, MaxPooling2D
-from keras.utils import np_utils
+from tensorflow import keras
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten
+from tensorflow.keras.layers import Conv2D, MaxPooling2D
+from tensorflow.python.keras.utils import np_utils
 from sklearn.model_selection import train_test_split
 import numpy as np
 import pickle
@@ -24,8 +24,8 @@ from sklearn.metrics import accuracy_score
 from eslearn.model_evaluator import ModelEvaluator
 import matplotlib.pyplot as plt
 from eslearn.machine_learning.neural_network.eeg.el_eeg_prep_data import parse_configuration
-from keras import backend as K
-from keras.models import load_model
+from tensorflow.keras import backend as K
+from tensorflow.keras.models import load_model
 meval = ModelEvaluator()
 
 

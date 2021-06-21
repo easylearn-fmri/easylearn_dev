@@ -65,11 +65,11 @@ def lc_plot(n, k, p, titlename, outname=None):
 
 
 if __name__ ==  "__main__":
-    n = 174
-    acc = 0.86
+    n = 1072
+    acc = 0.97
     k = np.int32(n * acc)
     print(k)
     p = binomialtest(n, k, 0.5)
     print(p)
     lc_plot( n, k, 0.5, titlename = f'Testing data\n (Sample size = {n}, Accuracy = {acc})')
-    # plt.savefig("./binomialDistribution.pdf")
+    plt.savefig("./binomialDistribution.pdf")
