@@ -293,10 +293,10 @@ class ModelEvaluator():
         
         ax = sns.jointplot(x=predict_score, 
                            y=real_target, 
-                           kind='reg', 
-                           size=5)
-        
-        # Setting
+                            kind='reg', 
+                            size=5)
+                            # scatter_kws={'s': 20})
+                # Setting
         # ax=plt.gca()
         # ax.xaxis.set_major_locator(x_major_locator)
         # ax.yaxis.set_major_locator(x_major_locator)

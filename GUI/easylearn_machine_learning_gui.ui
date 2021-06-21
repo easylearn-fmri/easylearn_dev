@@ -62,7 +62,7 @@
        <enum>Qt::LeftToRight</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="stackedWidgetPage_classification">
        <layout class="QGridLayout" name="gridLayout_12">
@@ -1179,7 +1179,7 @@
            <item row="0" column="1">
             <widget class="QStackedWidget" name="stackedWidget_deeplearning_setting">
              <property name="currentIndex">
-              <number>1</number>
+              <number>4</number>
              </property>
              <widget class="QWidget" name="to_eegclf">
               <layout class="QGridLayout" name="gridLayout_32">
@@ -1389,7 +1389,6 @@
                </item>
               </layout>
              </widget>
-             <widget class="QWidget" name="page"/>
              <widget class="QWidget" name="to_CNN">
               <layout class="QGridLayout" name="gridLayout_33">
                <item row="0" column="0">
@@ -1423,6 +1422,7 @@
                </item>
               </layout>
              </widget>
+             <widget class="QWidget" name="page"/>
             </widget>
            </item>
           </layout>

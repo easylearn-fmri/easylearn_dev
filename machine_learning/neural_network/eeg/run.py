@@ -19,22 +19,27 @@ class EEGClassifier():
     self.out_dir = out_dir
     self.data_path = os.path.join(out_dir, "eegclfData.npz")
     
+  def parse_configuration(self):
+    """parse configuration"""
 
-  def prepare_data(self):
-    #%% Prepare data
-    (frequency, self.image_size, self.frame_duration, overlap, locs_2d,
+    (self.frequency, self.image_size, self.frame_duration, self.overlap, self.locs_2d,
         self.num_classes, self.batch_size, self.epochs, self.lr, self.decay) =\
                  parse_configuration(self.configuration_file)
 
+    return self
+
+  def prepare_data(self):
+    """ Prepare data"""
+    self.parse_configuration()
     data_loader = DataLoader_(self.configuration_file)
     data_loader.load_data()
     x, y = make_data_pipeline(data_loader.input_files,
                     data_loader.targets_,
                     self.image_size,
                     self.frame_duration,
-                    overlap,
-                    locs_2d,
-                    frequency)
+                    self.overlap,
+                    self.locs_2d,
+                    self.frequency)
 
     np.savez(self.data_path, x=x, y=y)
     print("=="*30)
@@ -72,9 +77,7 @@ class EEGClassifier():
     return self
 
   def save_model_and_loss(self):
-    self.trainer.save_model_and_loss(  
-                 historySaveName="trainHistoryDict.txt",
-                 lossSaveName = "loss.pdf")
+    self.trainer.save_model_and_loss()
 
     self.trainer.vis_net()
     print("=="*30)
@@ -98,8 +101,12 @@ class EEGClassifier():
 
 
 if __name__ == "__main__":
-  eegclf = EEGClassifier(configuration_file="./eegclf.json")
-  eegclf.prepare_data()
+  eegclf = EEGClassifier(configuration_file=r"D:\work\lichao\test_eegclf/eegclf.json",
+                         out_dir=r"D:\work\lichao\test_eegclf")
+  eegclf.parse_configuration()
+  # eegclf.prepare_data()
   eegclf.train()
+  eegclf.save_model_and_loss()
+  eegclf.train_with_pretrained_model()
   eegclf.test()
 
