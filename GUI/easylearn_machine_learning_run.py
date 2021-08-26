@@ -22,7 +22,6 @@ from eslearn.stylesheets.PyQt5_stylesheets import pyqt5_loader
 
 import eslearn
 from eslearn.GUI.easylearn_machine_learning_gui import Ui_MainWindow
-from eslearn.machine_learning.neural_network.eeg.run import EEGClassifier
 
 
 class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
@@ -598,6 +597,7 @@ class EasylearnMachineLearningRun(QMainWindow, Ui_MainWindow):
             self.stackedWidget_classification_setting.setCurrentIndex(-1)
 
     def eegclf_prepare_data(self):
+        from eslearn.machine_learning.neural_network.eeg.run import EEGClassifier
         out_dir = self.working_directory if self.working_directory else os.path.dirname(self.configuration_file)
         self.eegclf = EEGClassifier(configuration_file=self.configuration_file, out_dir=out_dir)
         self.save_configuration()

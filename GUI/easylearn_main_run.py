@@ -12,7 +12,6 @@ Mengshi Dong <dongmengshi1990@163.com>
 License: MIT
 """
 
-
 import sys
 import re
 import requests
@@ -93,7 +92,7 @@ class EasylearnMainGUI(QMainWindow, Ui_MainWindow):
         self.setStyleSheet(pyqt5_loader.load_stylesheet_pyqt5(style="style_Dark"))
         
         # Dectecting versionn and news
-        self.detect_version()
+        # self.detect_version()
       
     def start_process(self):
         splash = QSplashScreen(QtGui.QPixmap(os.path.join(self.root_dir,"logo/logo-upper.ico")))

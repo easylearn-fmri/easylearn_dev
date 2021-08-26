@@ -2,14 +2,82 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6d95a296-cbac-4526-89cc-190ca69201f0" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/GUI/test/classification_performances.pdf" afterPath="$PROJECT_DIR$/GUI/test/classification_performances.pdf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base.py" afterPath="$PROJECT_DIR$/base.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/machine_learning/classification/classification.py" afterPath="$PROJECT_DIR$/machine_learning/classification/classification.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model_evaluator.py" afterPath="$PROJECT_DIR$/model_evaluator.py" />
+      <change beforePath="$PROJECT_DIR$/.idea/eslearn.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/eslearn.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/easylearn_machine_learning_run.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/easylearn_machine_learning_run.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/easylearn_main_run.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/easylearn_main_run.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/loss.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/performancesOfTest.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/performancesOfTraining.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/performancesOfVal.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/test/classification_performances.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/tests/classification_performances.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/tests/regression_performances.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/tests/weight.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/tests/weight.nii.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/tests/weight_modality_1.nii.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/tests/weight_modality_2.nii.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/trainHistoryDict.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20201231171019.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120114602.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120114825.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120114914.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120115009.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120115049.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120115227.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120115322.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120115454.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120120048.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120120317.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120121705.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120121859.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120122533.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120122559.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120122707.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120122738.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120122756.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120122814.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120122827.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120122915.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120122933.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120123014.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120123108.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120123132.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_m1_20201218224210.nii.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1.nii.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20201231171019.nii.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120114602.nii.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120114824.nii.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120114914.nii.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120115009.nii.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120115049.nii.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120115227.nii.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120115322.nii.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120115454.nii.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120120048.nii.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120120317.nii.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120121705.nii.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120121859.nii.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120122533.nii.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120122559.nii.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120122707.nii.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120122738.nii.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120122756.nii.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120122814.nii.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120122827.nii.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120122915.nii.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120122933.nii.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120123014.nii.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120123108.nii.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120123132.nii.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/regression/tests/regression_performances.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/regression/tests/weight_modality_1.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/run.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/statistical_analysis/el_binomialtest.py" beforeDir="false" afterPath="$PROJECT_DIR$/statistical_analysis/el_binomialtest.py" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
-    <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -19,64 +87,6 @@
     <SUITE FILE_PATH="coverage/eslearn$base.coverage" NAME="base Coverage Results" MODIFIED="1606312495314" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/eslearn$Rtest.coverage" NAME="Rtest Coverage Results" MODIFIED="1606311037288" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/GUI/test" />
     <SUITE FILE_PATH="coverage/eslearn$app.coverage" NAME="app Coverage Results" MODIFIED="1606311455461" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-  </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
-  <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="app.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="290">
-              <caret line="10" column="17" lean-forward="false" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="classification.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/machine_learning/classification/classification.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2840">
-              <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-              <folding>
-                <marker date="1606315372596" expanded="true" signature="1802:3212" ph="..." />
-                <marker date="1606315372596" expanded="true" signature="1802:4574" ph="..." />
-                <marker date="1606315372596" expanded="true" signature="1802:8654" ph="..." />
-                <marker date="1606315372596" expanded="true" signature="2061:2274" ph="..." />
-                <marker date="1606315372596" expanded="true" signature="3943:4456" ph="..." />
-                <marker date="1606315372596" expanded="true" signature="4615:4769" ph="..." />
-                <marker date="1606315372596" expanded="true" signature="4799:5186" ph="..." />
-                <marker date="1606315372596" expanded="true" signature="5219:8450" ph="..." />
-                <marker date="1606315372596" expanded="true" signature="5551:7951" ph="..." />
-                <marker date="1606315372596" expanded="true" signature="6012:7637" ph="..." />
-                <marker date="1606315372596" expanded="true" signature="8530:8654" ph="..." />
-                <marker date="1606315372596" expanded="true" signature="8912:8965" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="base.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/base.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="145">
-              <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="model_evaluator.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/model_evaluator.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="145">
-              <caret line="186" column="78" lean-forward="false" selection-start-line="186" selection-start-column="78" selection-end-line="186" selection-end-column="78" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -103,6 +113,7 @@
     <option name="width" value="1938" />
     <option name="height" value="1048" />
   </component>
+  <component name="ProjectId" id="1uQHtY7drOjIyLkCjHN9VzRWNmJ" />
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
       <flattenPackages />
@@ -136,111 +147,18 @@
       </pane>
     </panes>
   </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../../../../../work/workstation_b/EEG-revise/EEG" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
-  </component>
-  <component name="RunManager" selected="Python.base">
-    <configuration default="false" name="app" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="eslearn" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/app.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="base" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="eslearn" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/base.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <method />
-    </configuration>
-    <configuration default="true" type="DjangoTestsConfigurationType" factoryName="Django tests">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="eslearn" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="TARGET" value="" />
-      <option name="SETTINGS_FILE" value="" />
-      <option name="CUSTOM_SETTINGS" value="false" />
-      <option name="USE_OPTIONS" value="false" />
-      <option name="OPTIONS" value="" />
-      <method />
-    </configuration>
-    <configuration default="true" type="JavaScriptTestRunnerJest" factoryName="Jest">
-      <node-interpreter value="project" />
-      <working-dir value="" />
-      <envs />
-      <scope-kind value="ALL" />
-      <method />
-    </configuration>
-    <configuration default="true" type="JavaScriptTestRunnerProtractor" factoryName="Protractor">
-      <config-file value="" />
-      <node-interpreter value="project" />
-      <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
-      <method />
-    </configuration>
-    <configuration default="true" type="PyBehaveRunConfigurationType" factoryName="Behave">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="eslearn" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="ADDITIONAL_ARGS" value="" />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="Python.easylearn_machine_learning_run">
     <configuration default="true" type="PyLettuceRunConfigurationType" factoryName="Lettuce">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -255,91 +173,21 @@
       <option name="ADDITIONAL_ARGS" value="" />
       <method />
     </configuration>
-    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+    <configuration default="true" type="PyBehaveRunConfigurationType" factoryName="Behave">
+      <module name="eslearn" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="ADDITIONAL_ARGS" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Rtest" type="PythonConfigurationType" factoryName="Python">
       <module name="eslearn" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <method />
-    </configuration>
-    <configuration default="true" type="Tox" factoryName="Tox">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <module name="eslearn" />
-      <method />
-    </configuration>
-    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
-      <node-interpreter>project</node-interpreter>
-      <node-options />
-      <gulpfile />
-      <tasks />
-      <arguments />
-      <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="js.build_tools.npm" factoryName="npm">
-      <command value="run" />
-      <scripts />
-      <node-interpreter value="project" />
-      <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="tests" factoryName="Doctests">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="eslearn" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <method />
-    </configuration>
-    <configuration default="true" type="tests" factoryName="Unittests">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="eslearn" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;.&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method />
-    </configuration>
-    <configuration default="false" name="Rtest" type="PythonConfigurationType" factoryName="Python">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -350,29 +198,191 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="eslearn" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/GUI/test/Rtest.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
-      <method />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
     </configuration>
-    <list size="3">
-      <item index="0" class="java.lang.String" itemvalue="Python.Rtest" />
-      <item index="1" class="java.lang.String" itemvalue="Python.app" />
-      <item index="2" class="java.lang.String" itemvalue="Python.base" />
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <module name="eslearn" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="app" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="eslearn" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/app.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="easylearn_machine_learning_run" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="eslearn" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/GUI" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/GUI/easylearn_machine_learning_run.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="easylearn_main_run" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="eslearn" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/GUI" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/GUI/easylearn_main_run.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="run" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="eslearn" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/run.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="tt" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="eslearn" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/statistical_analysis" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/statistical_analysis/tt.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="js.build_tools.gulp">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Unittests">
+      <module name="eslearn" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;.&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.Rtest" />
+      <item itemvalue="Python.app" />
+      <item itemvalue="Python.easylearn_main_run" />
+      <item itemvalue="Python.tt" />
+      <item itemvalue="Python.run" />
+      <item itemvalue="Python.easylearn_machine_learning_run" />
     </list>
     <recent_temporary>
-      <list size="2">
-        <item index="0" class="java.lang.String" itemvalue="Python.base" />
-        <item index="1" class="java.lang.String" itemvalue="Python.app" />
+      <list>
+        <item itemvalue="Python.easylearn_machine_learning_run" />
+        <item itemvalue="Python.run" />
+        <item itemvalue="Python.app" />
+        <item itemvalue="Python.easylearn_main_run" />
+        <item itemvalue="Python.tt" />
       </list>
     </recent_temporary>
   </component>
-  <component name="ShelveChangesManager" show_recycled="false">
-    <option name="remove_strategy" value="false" />
-  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="6d95a296-cbac-4526-89cc-190ca69201f0" name="Default" comment="" />
@@ -380,6 +390,15 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1604371605010</updated>
+      <workItem from="1624591113212" duration="140000" />
+      <workItem from="1624591278622" duration="7000" />
+      <workItem from="1624591300473" duration="1639000" />
+      <workItem from="1624592958826" duration="340000" />
+      <workItem from="1624614010217" duration="938000" />
+      <workItem from="1624667005848" duration="515000" />
+      <workItem from="1624667545923" duration="125000" />
+      <workItem from="1624668511132" duration="420000" />
+      <workItem from="1625227720038" duration="60000" />
     </task>
     <servers />
   </component>
@@ -408,20 +427,46 @@
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="processedProjectFiles" value="true" />
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/run.py</url>
+          <line>8</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
         <watch expression="data_loader.targets_" />
       </configuration>
     </watches-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/easylearn_main_run_py$app.coverage" NAME="app Coverage Results" MODIFIED="1624593129775" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/easylearn_main_run_py$easylearn_main_run.coverage" NAME="easylearn_main_run Coverage Results" MODIFIED="1624591818400" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/GUI" />
+    <SUITE FILE_PATH="coverage/easylearn_main_run_py$tt.coverage" NAME="tt Coverage Results" MODIFIED="1624592472446" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/statistical_analysis" />
+    <SUITE FILE_PATH="coverage/easylearn_main_run_py$base.coverage" NAME="base Coverage Results" MODIFIED="1624591538482" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/easylearn_main_run_py$el_binomialtest.coverage" NAME="el_binomialtest Coverage Results" MODIFIED="1624592145623" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/statistical_analysis" />
+    <SUITE FILE_PATH="coverage/easylearn_main_run_py$run.coverage" NAME="run Coverage Results" MODIFIED="1624593110123" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/GUI/test/Rtest.py">

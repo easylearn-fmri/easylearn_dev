@@ -70,6 +70,8 @@ if __name__ ==  "__main__":
     k = np.int32(n * acc)
     print(k)
     p = binomialtest(n, k, 0.5)
-    print(p)
+    import pandas as pd
+    dd = pd.DataFrame(np.random.randn(10,10))
+    print(dd)
     lc_plot( n, k, 0.5, titlename = f'Testing data\n (Sample size = {n}, Accuracy = {acc})')
     plt.savefig("./binomialDistribution.pdf")
