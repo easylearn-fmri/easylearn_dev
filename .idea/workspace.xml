@@ -2,81 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6d95a296-cbac-4526-89cc-190ca69201f0" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/eslearn.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/eslearn.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GUI/easylearn_machine_learning_run.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/easylearn_machine_learning_run.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GUI/easylearn_main_run.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/easylearn_main_run.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GUI/loss.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/GUI/performancesOfTest.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/GUI/performancesOfTraining.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/GUI/performancesOfVal.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/GUI/test/classification_performances.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/GUI/tests/classification_performances.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/GUI/tests/regression_performances.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/GUI/tests/weight.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/GUI/tests/weight.nii.gz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/GUI/tests/weight_modality_1.nii.gz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/GUI/tests/weight_modality_2.nii.gz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/GUI/trainHistoryDict.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20201231171019.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120114602.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120114825.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120114914.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120115009.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120115049.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120115227.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120115322.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120115454.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120120048.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120120317.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120121705.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120121859.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120122533.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120122559.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120122707.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120122738.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120122756.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120122814.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120122827.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120122915.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120122933.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120123014.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120123108.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/classification_performances_20210120123132.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_m1_20201218224210.nii.gz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1.nii.gz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20201231171019.nii.gz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120114602.nii.gz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120114824.nii.gz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120114914.nii.gz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120115009.nii.gz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120115049.nii.gz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120115227.nii.gz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120115322.nii.gz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120115454.nii.gz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120120048.nii.gz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120120317.nii.gz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120121705.nii.gz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120121859.nii.gz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120122533.nii.gz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120122559.nii.gz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120122707.nii.gz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120122738.nii.gz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120122756.nii.gz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120122814.nii.gz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120122827.nii.gz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120122915.nii.gz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120122933.nii.gz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120123014.nii.gz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120123108.nii.gz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/weight_modality_1_20210120123132.nii.gz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/regression/tests/regression_performances.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine_learning/regression/tests/weight_modality_1.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/run.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/statistical_analysis/el_binomialtest.py" beforeDir="false" afterPath="$PROJECT_DIR$/statistical_analysis/el_binomialtest.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/test_classification.py" beforeDir="false" afterPath="$PROJECT_DIR$/machine_learning/classification/tests/test_classification.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -155,7 +83,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../../../../../work/workstation_b/EEG-revise/EEG" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunManager" selected="Python.easylearn_machine_learning_run">
@@ -399,6 +327,7 @@
       <workItem from="1624667545923" duration="125000" />
       <workItem from="1624668511132" duration="420000" />
       <workItem from="1625227720038" duration="60000" />
+      <workItem from="1631354413210" duration="201000" />
     </task>
     <servers />
   </component>
@@ -440,9 +369,6 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
-  </component>
-  <component name="VcsContentAnnotationSettings">
-    <option name="myLimit" value="2678400000" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

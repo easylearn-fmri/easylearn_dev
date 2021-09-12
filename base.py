@@ -887,7 +887,7 @@ class DataLoader():
                 else:
                    feature_applied_mask = [fa for fa in all_features]
                    feature_applied_mask, self.mask_[gk][mk] = self.get_upper_tri_mat(feature_applied_mask, one_file_per_modality)
-                   feature_applied_mask = np.array(feature_applied_mask)
+                   feature_applied_mask = np.array(feature_applied_mask) if len(feature_applied_mask) > 1 else np.array(feature_applied_mask[0])
                    feature_applied_mask = feature_applied_mask.reshape(n_file,-1)
 
                 # Concat feature across different modalities and groups 
