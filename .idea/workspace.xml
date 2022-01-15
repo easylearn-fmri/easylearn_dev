@@ -2,9 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6d95a296-cbac-4526-89cc-190ca69201f0" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/other.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/other.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/base.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/machine_learning/classification/tests/test_classification.py" beforeDir="false" afterPath="$PROJECT_DIR$/machine_learning/classification/tests/test_classification.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualization/el_violine.py" beforeDir="false" afterPath="$PROJECT_DIR$/visualization/el_violine.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualization/tests/test_el_violine.py" beforeDir="false" afterPath="$PROJECT_DIR$/visualization/tests/test_el_violine.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualization/tests/violin.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/visualization/tests/violin.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualization/tests/新建 Microsoft Word 文档.docx" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,10 +87,15 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../../../../../work/workstation_b/李明凯" />
+    <property name="settings.editor.selected.configurable" value="PyScientificConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.easylearn_machine_learning_run">
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\software\conda\miniconda\envs\eslearn_env\Lib\site-packages\eslearn\machine_learning\classification\tests" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.test_el_violine">
     <configuration default="true" type="PyLettuceRunConfigurationType" factoryName="Lettuce">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -202,28 +211,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="easylearn_main_run" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="eslearn" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/GUI" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/GUI/easylearn_main_run.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="true" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="run" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="eslearn" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -246,7 +233,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="tt" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="test_classification" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="eslearn" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -254,12 +241,34 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/statistical_analysis" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/machine_learning/classification/tests" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/statistical_analysis/tt.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/machine_learning/classification/tests/test_classification.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="test_el_violine" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="eslearn" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/visualization/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/visualization/tests/test_el_violine.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -295,18 +304,18 @@
     <list>
       <item itemvalue="Python.Rtest" />
       <item itemvalue="Python.app" />
-      <item itemvalue="Python.easylearn_main_run" />
-      <item itemvalue="Python.tt" />
       <item itemvalue="Python.run" />
       <item itemvalue="Python.easylearn_machine_learning_run" />
+      <item itemvalue="Python.test_classification" />
+      <item itemvalue="Python.test_el_violine" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.test_el_violine" />
+        <item itemvalue="Python.test_classification" />
         <item itemvalue="Python.easylearn_machine_learning_run" />
         <item itemvalue="Python.run" />
         <item itemvalue="Python.app" />
-        <item itemvalue="Python.easylearn_main_run" />
-        <item itemvalue="Python.tt" />
       </list>
     </recent_temporary>
   </component>
@@ -328,6 +337,12 @@
       <workItem from="1624668511132" duration="420000" />
       <workItem from="1625227720038" duration="60000" />
       <workItem from="1631354413210" duration="201000" />
+      <workItem from="1634356017605" duration="934000" />
+      <workItem from="1635301569566" duration="17000" />
+      <workItem from="1636259155125" duration="353000" />
+      <workItem from="1636260395627" duration="73000" />
+      <workItem from="1636260492443" duration="1212000" />
+      <workItem from="1636530986029" duration="16000" />
     </task>
     <servers />
   </component>
@@ -378,6 +393,21 @@
           <line>8</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/model_evaluator.py</url>
+          <line>90</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/visualization/tests/test_el_violine.py</url>
+          <line>26</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/visualization/el_violine.py</url>
+          <line>315</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <watches-manager>
@@ -388,6 +418,8 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/easylearn_main_run_py$app.coverage" NAME="app Coverage Results" MODIFIED="1624593129775" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/easylearn_main_run_py$test_el_violine.coverage" NAME="test_el_violine 覆盖结果" MODIFIED="1636261569701" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/visualization/tests" />
+    <SUITE FILE_PATH="coverage/easylearn_main_run_py$test_classification.coverage" NAME="test_classification 覆盖结果" MODIFIED="1634356435865" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/machine_learning/classification/tests" />
     <SUITE FILE_PATH="coverage/easylearn_main_run_py$easylearn_main_run.coverage" NAME="easylearn_main_run Coverage Results" MODIFIED="1624591818400" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/GUI" />
     <SUITE FILE_PATH="coverage/easylearn_main_run_py$tt.coverage" NAME="tt Coverage Results" MODIFIED="1624592472446" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/statistical_analysis" />
     <SUITE FILE_PATH="coverage/easylearn_main_run_py$base.coverage" NAME="base Coverage Results" MODIFIED="1624591538482" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

@@ -153,6 +153,11 @@ cnames = {
 'yellow':               '#FFFF00',
 'yellowgreen':          '#9ACD32'}
 
+cnames = {
+    'whitesmoke':           'r',
+    'yellow':               'g',
+    'yellowgreen':          'b'
+}
 
 class ViolinPlot(object):
     """This class is used to plot violin
