@@ -101,8 +101,8 @@ class EEGClassifier():
 
 
 if __name__ == "__main__":
-  eegclf = EEGClassifier(configuration_file=r"D:\work\lichao\test_eegclf/eegclf.json",
-                         out_dir=r"D:\work\lichao\test_eegclf")
+  eegclf = EEGClassifier(configuration_file=r"test/eegclf.json",
+                         out_dir=r"./")
   eegclf.parse_configuration()
   # eegclf.prepare_data()
   eegclf.train()

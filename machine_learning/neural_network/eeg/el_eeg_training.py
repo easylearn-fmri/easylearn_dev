@@ -241,9 +241,10 @@ def f1(y_true, y_pred):
     return 2*((precision*recall)/(precision+recall+K.epsilon()))
 
 if __name__ == "__main__":
-    (data_file, frequency, theta, alpha, beta,image_size, frame_duration, overlap, locs_2d,
-    out_dir, num_classes, batch_size, epochs, lr, decay) =\
-             parse_configuration("./config.json")
+    out_dir = "./"
+    (frequency, image_size, frame_duration, overlap, locs_2d,
+    num_classes, batch_size, epochs, lr, decay) =\
+             parse_configuration("test/eegclf.json")
 
     input_shape = (image_size, image_size, 3)
 
