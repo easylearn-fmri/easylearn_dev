@@ -240,7 +240,7 @@ class ModelEvaluator():
             pdf.close()
             
         if is_showfig:
-            plt.show()
+            plt.show(block=True)
             # plt.pause(5)
             # plt.close()
             
@@ -323,7 +323,7 @@ class ModelEvaluator():
             pdf.close()
             
         if is_showfig:
-            plt.show()
+            plt.show(block=True)
             plt.pause(5)
             plt.close()
 
