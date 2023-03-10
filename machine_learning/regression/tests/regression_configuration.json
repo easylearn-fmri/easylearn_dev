@@ -4,12 +4,12 @@
             "modalities": {
                 "csv": {
                     "file": [
-                        "D:/My_Codes/virtualenv_eslearn/Lib/site-packages/eslearn/machine_learning/regression/tests/features.csv"
+                        "E:/conda/mconda/envs/eslearn/Lib/site-packages/eslearn/machine_learning/regression/tests/features.csv"
                     ],
                     "mask": ""
                 }
             },
-            "targets": "D:/My_Codes/virtualenv_eslearn/Lib/site-packages/eslearn/machine_learning/regression/tests/targets.csv",
+            "targets": "E:/conda/mconda/envs/eslearn/Lib/site-packages/eslearn/machine_learning/regression/tests/targets.csv",
             "covariates": ""
         }
     },
@@ -22,30 +22,18 @@
             }
         },
         "dimreduction": {
-            "PCA()": {
-                "n_components": {
-                    "value": "0.9"
-                }
-            }
+            "None": {}
         },
         "feature_selection": {
-            "SelectPercentile(f_regression)": {
-                "percentile": {
-                    "value": "0.8"
-                }
-            }
+            "None": {}
         },
         "unbalance_treatment": {
-            "SMOTE()": {}
+            "RandomOverSampler()": {}
         }
     },
     "machine_learning": {
         "Regression": {
-            "LassoCV()": {
-                "alphas": {
-                    "value": "None"
-                }
-            }
+            "LinearRegression()": {}
         }
     },
     "model_evaluation": {
@@ -61,11 +49,7 @@
             }
         },
         "Statistical_analysis": {
-            "Permutation test": {
-                "N": {
-                    "value": "30"
-                }
-            }
+            "Binomial/Pearson-R test": {}
         }
     }
 }

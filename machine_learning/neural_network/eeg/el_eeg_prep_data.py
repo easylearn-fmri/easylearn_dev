@@ -48,8 +48,7 @@ def parse_configuration(config_file=None):
     locs_2d = pd.read_csv(coordinate)
     
 
-    return (frequency,image_size, frame_duration, overlap, locs_2d,
-            num_classes, batch_size, epochs, lr, decay)
+    return (frequency,image_size, frame_duration, overlap, locs_2d, num_classes, batch_size, epochs, lr, decay)
 
 class DataLoader_(DataLoader):
     def __init__(self, data_file):
@@ -364,7 +363,7 @@ if __name__ == "__main__":
 
     (frequency,image_size, frame_duration, overlap, locs_2d,
             save_path, num_classes, batch_size, epochs, lr, decay) = \
-        parse_configuration(config_file="eeg.json")
+        parse_configuration(config_file="./test/eegclf.json")
 
     data_loader = DataLoader_(data_file="eeg.json")
     data_loader.load_data()

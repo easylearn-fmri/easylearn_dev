@@ -46,6 +46,7 @@ class Regression(BaseMachineLearning, DataLoader, BaseRegression):
         self.target_test_all = []
         self.pred_prob = []
         self.real_score = []
+        preprocessor = []
         models = []
         weights = []
         subname = []

@@ -159,9 +159,9 @@ class Trainer():
         ax.spines['right'].set_visible(False)
         ax.spines['bottom'].set_linewidth(2)
         ax.spines['left'].set_linewidth(2)
-        plt.show()
         plt.savefig(self._lossSaveName)
-    
+        plt.show(block=True)
+
         # np.save(self._historySaveName, self.history.history)
         with open(self._historySaveName, 'w') as file_obj:
             history = json.dumps(self.history.history, indent=4)
@@ -240,15 +240,18 @@ def f1(y_true, y_pred):
     recall = recall(y_true, y_pred)
     return 2*((precision*recall)/(precision+recall+K.epsilon()))
 
-if __name__ == "__main__":
-    (data_file, frequency, theta, alpha, beta,image_size, frame_duration, overlap, locs_2d,
-    out_dir, num_classes, batch_size, epochs, lr, decay) =\
-             parse_configuration("./config.json")
 
+if __name__ == "__main__":
+    out_dir = "./"
+    (frequency, image_size, frame_duration, overlap, locs_2d,
+    num_classes, batch_size, epochs, lr, decay) =\
+             parse_configuration("test/eegclf.json")
+
+    epochs = 2
     input_shape = (image_size, image_size, 3)
 
     trainer = Trainer(out_dir=out_dir)
-    data = np.load(r"D:\software\miniconda\conda\Lib\site-packages\eslearn\machine_learning\neural_network\eeg/eegData.npz")
+    data = np.load(r"./eegclfData.npz")
     x, y = data['x'],  data['y']
     trainer.prep_data(x, y, num_classes)
     trainer.train(num_classes=num_classes,
@@ -261,3 +264,4 @@ if __name__ == "__main__":
     trainer.save_model_and_loss()
     
     trainer.eval()
+    plt.show(block=True)
