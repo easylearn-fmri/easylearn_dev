@@ -142,8 +142,10 @@ class ModelEvaluator():
         # ax[0].set_ylabel('Subjects', fontsize=10)
 
         # Plot distribution
-        sns.kdeplot(decision_0, shade=True, ax = ax[0])  
+        sns.kdeplot(decision_0, shade=True, ax = ax[0])
         sns.kdeplot(decision_1, shade=True, ax = ax[0])
+        # ax[0].set_xlim([0.1, 0.9])
+        # plt.show(block=True)
         
         # Grid and spines
         ax[0].grid(False)
